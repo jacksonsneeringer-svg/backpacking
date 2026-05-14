@@ -698,7 +698,9 @@
 
     /* Footer */
     footer { background: var(--brown-dark); color: var(--brown-light); text-align: center; padding: 24px 20px; font-size: 12px; line-height: 1.8; }
-    footer strong { color: var(--tan); }
+    footer a { color: var(--tan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-divider { margin: 0 10px; opacity: 0.5; }
 
     /* ══════════════════════════════════════
        GROCERY PLANNER
@@ -1006,7 +1008,7 @@
     </svg>
     <div>
       <div class="logo-wordmark">Trail<em>Pack</em></div>
-      <div class="logo-sub">Backcountry Planner</div>
+      <div class="logo-sub">Built for backcountry.</div>
     </div>
   </a>
 
@@ -1151,9 +1153,7 @@
   </section>
 
   <footer>
-    <strong>TrailPack</strong> — Your backcountry planning companion.<br>
-    Amazon links open product search results. Always verify gear is right for your specific conditions.<br>
-    <em>Leave No Trace. Stay safe. Enjoy the wilderness.</em>
+    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1191,7 +1191,6 @@
         <div class="option-card" onclick="selectSingle(this,'terrain','mixed')"><span class="card-icon">🗺️</span><span class="card-label">Mixed / Multi-terrain</span><span class="card-desc">Varied landscape, point-to-point routes</span></div>
       </div>
       <div class="error-msg" id="err1">Please select a terrain type to continue.</div>
-      <div class="step-nav"><button class="btn-next" onclick="nextStep(1)">Next →</button></div>
     </div>
 
     <!-- STEP 2 -->
@@ -1220,7 +1219,7 @@
         <div class="option-card" onclick="selectSingle(this,'days','10+')"><span class="card-icon">🗓️</span><span class="card-label">10+ Days</span><span class="card-desc">Long-distance or thru-hike section</span></div>
       </div>
       <div class="error-msg" id="err3">Please select trip duration to continue.</div>
-      <div class="step-nav"><button class="btn-back" onclick="prevStep(3)">← Back</button><button class="btn-next" onclick="nextStep(3)">Next →</button></div>
+      <div class="step-nav"><button class="btn-back" onclick="prevStep(3)">← Back</button></div>
     </div>
 
     <!-- STEP 4 -->
@@ -1234,7 +1233,7 @@
         <div class="option-card" onclick="selectSingle(this,'difficulty','expert')"><span class="card-icon">🔴</span><span class="card-label">Expert / Technical</span><span class="card-desc">Off-trail navigation, glacier travel, class 3–4 scrambling</span></div>
       </div>
       <div class="error-msg" id="err4">Please select a difficulty level.</div>
-      <div class="step-nav"><button class="btn-back" onclick="prevStep(4)">← Back</button><button class="btn-generate" onclick="generateList()">🎒 Generate My Pack List</button></div>
+      <div class="step-nav"><button class="btn-back" onclick="prevStep(4)">← Back</button></div>
     </div>
 
     <!-- Results -->
@@ -1464,8 +1463,8 @@
 
   </div><!-- /container -->
 
-  <footer style="background:var(--brown-dark); color:var(--brown-light); text-align:center; padding:24px 20px; font-size:12px; line-height:1.8;">
-    <strong>TrailPack</strong> — Your backcountry planning companion. <em>Leave No Trace.</em>
+  <footer>
+    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1480,8 +1479,25 @@
   <div class="saved-container">
     <div id="savedListsContent"></div>
   </div>
-  <footer style="background:var(--brown-dark); color:var(--brown-light); text-align:center; padding:24px 20px; font-size:12px; line-height:1.8;">
-    <strong>TrailPack</strong> — Your backcountry planning companion. <em>Leave No Trace.</em>
+  <footer>
+    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════════════════ -->
+<div class="page" id="pg-contact">
+  <div class="page-header">
+    <h1>Contact Us</h1>
+    <p>Have a question or feedback? We'd love to hear from you.</p>
+  </div>
+  <div class="container" style="max-width:560px; padding: 40px 20px;">
+    <p style="color:var(--brown-mid); font-size:14px; margin-bottom:32px;">Contact form coming soon.</p>
+    <button class="btn-back" onclick="showPage('home')" style="font-size:14px;">← Back to Home</button>
+  </div>
+  <footer>
+    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1497,6 +1513,8 @@
       document.getElementById('pg-'+p).classList.toggle('active', p === name);
       document.getElementById('nav-'+p).classList.toggle('active', p === name);
     });
+    const contactEl = document.getElementById('pg-contact');
+    if (contactEl) contactEl.classList.toggle('active', name === 'contact');
     activePage = name;
     if (name === 'saved') renderSavedLists();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1553,6 +1571,11 @@
     el.closest('.cards-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     inputs[field] = val;
+    const stepNum = parseInt(el.closest('.step-panel').id.replace('step', ''));
+    setTimeout(() => {
+      if (stepNum < 4) nextStep(stepNum);
+      else generateList();
+    }, 220);
   }
 
   function selectMulti(el, field, val) {
