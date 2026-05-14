@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailPack — Backcountry Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-dark:  #2e1d0e;
+      --brown-mid:   #6b4c3b;
+      --brown-light: #a07850;
+      --tan:         #c8a96e;
+      --cream:       #f5f0e8;
+      --cream-dark:  #ede5d5;
+      --green-dark:  #1e4a22;
+      --green-mid:   #2d6a34;
+      --green-light: #4a8c52;
+      --green-pale:  #dff0df;
+      --orange:      #c45c1a;
+      --amz-orange:  #ff9900;
+      --amz-dark:    #232f3e;
+      --text-dark:   #1a1208;
+      --text-mid:    #4a3520;
+      --text-light:  #7a6045;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.12);
+      --shadow-md:   0 4px 16px rgba(0,0,0,0.16);
+      --shadow-lg:   0 8px 32px rgba(0,0,0,0.2);
+      --radius:      10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; }
+
+    /* ══════════════════════════════════════
+       HEADER / NAV
+    ══════════════════════════════════════ */
+    header {
+      background: var(--brown-dark);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 62px;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 8px 0;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .logo-wrap:hover { opacity: 0.85; }
+    .logo-svg { width: 38px; height: 41px; flex-shrink: 0; }
+    .logo-wordmark {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 21px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--tan);
+      line-height: 1;
+    }
+    .logo-wordmark em { color: #fff; font-style: normal; }
+    .logo-sub {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--brown-light);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+    .nav-link {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #a09080;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-link:hover { color: var(--tan); background: rgba(255,255,255,0.06); }
+    .nav-link.active { color: #fff; background: rgba(255,255,255,0.1); }
+    .nav-badge {
+      background: var(--orange);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 1px 6px;
+      display: none;
+    }
+    .nav-badge.show { display: inline-block; }
+
+    /* ══════════════════════════════════════
+       PAGES WRAPPER
+    ══════════════════════════════════════ */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ══════════════════════════════════════
+       HOME PAGE
+    ══════════════════════════════════════ */
+
+    /* — Hero — */
+    .home-hero {
+      background: linear-gradient(165deg, #1a0e06 0%, #1e3212 50%, #0e2810 100%);
+      padding: 80px 40px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--tan);
+      opacity: 0.8;
+      margin-bottom: 18px;
+    }
+    .hero-headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(34px, 6vw, 64px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: 0.5px;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+    }
+    .hero-headline span { color: var(--tan); }
+    .hero-sub {
+      font-size: 16px;
+      color: #b0c4a8;
+      max-width: 480px;
+      margin: 0 auto 48px;
+      line-height: 1.75;
+    }
+
+    /* Tool cards on hero */
+    .tool-cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .tool-card {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(200,169,110,0.25);
+      border-radius: 16px;
+      padding: 32px 28px 28px;
+      width: 240px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04), transparent);
+      pointer-events: none;
+    }
+    .tool-card:hover {
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(200,169,110,0.6);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .tool-card.soon { cursor: default; opacity: 0.7; }
+    .tool-card.soon:hover { transform: none; box-shadow: none; }
+    .tool-card-icon { font-size: 40px; margin-bottom: 14px; display: block; }
+    .tool-card-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .tool-card-desc { font-size: 13px; color: #8aab82; line-height: 1.5; margin-bottom: 20px; }
+    .tool-card-btn {
+      display: inline-block;
+      background: var(--green-mid);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 9px 22px;
+      border-radius: 50px;
+      transition: background 0.2s;
+    }
+    .tool-card:hover .tool-card-btn { background: var(--green-light); }
+    .tool-card.soon .tool-card-btn {
+      background: rgba(255,255,255,0.12);
+      color: #8aab82;
+      cursor: default;
+    }
+    .coming-soon-tag {
+      position: absolute;
+      top: 14px;
+      right: -22px;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 30px;
+      transform: rotate(35deg);
+    }
+
+    /* SVG mountain landscape */
+    .landscape-svg {
+      display: block;
+      width: 100%;
+      margin-top: 44px;
+      max-height: 220px;
+    }
+
+    /* — Trail Truths — */
+    .trail-truths {
+      background: var(--brown-dark);
+      padding: 56px 40px;
+      text-align: center;
+    }
+    .section-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--tan);
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .truth-quote {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(20px, 4vw, 30px);
+      font-weight: 400;
+      color: #fff;
+      max-width: 680px;
+      margin: 0 auto 20px;
+      line-height: 1.4;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s;
+    }
+    .truth-quote::before { content: '\201C'; color: var(--tan); font-size: 1.4em; margin-right: 6px; }
+    .truth-quote::after  { content: '\201D'; color: var(--tan); font-size: 1.4em; margin-left:  6px; }
+    .truth-dots { display: flex; gap: 8px; justify-content: center; margin-top: 4px; }
+    .truth-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(200,169,110,0.3);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .truth-dot.active { background: var(--tan); }
+
+    /* — How It Works — */
+    .how-it-works {
+      background: var(--cream);
+      padding: 72px 40px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+    .section-desc { font-size: 15px; color: var(--text-light); margin-bottom: 48px; }
+    .steps-row {
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .how-step {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px;
+      padding: 0 20px;
+      position: relative;
+    }
+    .how-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -14px;
+      top: 28px;
+      font-size: 22px;
+      color: var(--tan);
+      font-weight: 300;
+    }
+    .step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      color: var(--tan);
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .how-step h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+    .how-step p { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+    /* — Feature strip — */
+    .feature-strip {
+      background: var(--green-dark);
+      padding: 48px 40px;
+    }
+    .feature-grid {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      max-width: 260px;
+    }
+    .feat-icon {
+      font-size: 26px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .feat-text h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--tan);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .feat-text p { font-size: 13px; color: #8aab82; line-height: 1.5; }
+
+    /* ══════════════════════════════════════
+       PACK LIST PAGE
+    ══════════════════════════════════════ */
+    .page-header {
+      background: linear-gradient(135deg, var(--brown-dark), var(--green-dark));
+      padding: 36px 40px 30px;
+    }
+    .page-header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .page-header p { font-size: 14px; color: #8aab82; }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+    .step-dot { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .step-circle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--cream-dark); border: 3px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
+      color: #999; transition: all 0.3s;
+    }
+    .step-dot.active .step-circle { background: var(--green-mid); border-color: var(--green-mid); color: #fff; box-shadow: 0 0 0 4px rgba(45,106,52,0.2); }
+    .step-dot.done  .step-circle  { background: var(--green-dark); border-color: var(--green-dark); color: #fff; }
+    .step-label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; white-space: nowrap; }
+    .step-dot.active .step-label { color: var(--green-mid); }
+    .step-dot.done   .step-label { color: var(--green-dark); }
+    .step-line { flex: 1; height: 3px; background: #ccc; margin-bottom: 20px; min-width: 30px; transition: background 0.3s; }
+    .step-line.done { background: var(--green-dark); }
+
+    /* Step panels */
+    .step-panel { display: none; animation: fadeIn 0.35s ease; }
+    .step-panel.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    .step-question { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 600; color: var(--brown-dark); margin-bottom: 6px; }
+    .step-sub { font-size: 13px; color: var(--text-light); margin-bottom: 28px; }
+
+    /* Option cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 14px; margin-bottom: 32px; }
+    .option-card {
+      background: #fff; border: 2.5px solid var(--cream-dark); border-radius: var(--radius);
+      padding: 20px 14px 16px; text-align: center; cursor: pointer;
+      transition: all 0.2s; user-select: none; box-shadow: var(--shadow-sm);
+    }
+    .option-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .option-card.selected { border-color: var(--green-mid); background: var(--green-pale); box-shadow: 0 0 0 3px rgba(45,106,52,0.15), var(--shadow-sm); }
+    .card-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+    .card-label { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-dark); display: block; }
+    .card-desc { font-size: 11px; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
+    .option-card.selected .card-label { color: var(--green-dark); }
+
+    /* Buttons */
+    .step-nav { display: flex; gap: 14px; justify-content: flex-end; margin-top: 8px; }
+    .btn-back {
+      background: transparent; border: 2px solid var(--brown-light); color: var(--brown-mid);
+      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; padding: 11px 26px; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-back:hover { background: var(--cream-dark); }
+    .btn-next {
+      background: var(--green-mid); border: none; color: #fff;
+      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; padding: 13px 32px; border-radius: 50px; cursor: pointer;
+      transition: all 0.2s; box-shadow: var(--shadow-sm);
+    }
+    .btn-next:hover { background: var(--green-light); transform: translateY(-1px); }
+    .btn-next:disabled { background: #aaa; cursor: not-allowed; transform: none; }
+    .btn-generate {
+      background: var(--orange); border: none; color: #fff;
+      font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 16px 40px; border-radius: 50px; cursor: pointer;
+      transition: all 0.2s; box-shadow: var(--shadow-md);
+    }
+    .btn-generate:hover { background: #d96a24; transform: translateY(-2px); }
+    .error-msg { color: #c0392b; font-size: 13px; margin-top: 6px; display: none; }
+    .error-msg.show { display: block; }
+
+    /* Results */
+    #results { display: none; animation: fadeIn 0.4s ease; }
+    .trip-summary {
+      background: var(--brown-dark); color: #fff; border-radius: var(--radius);
+      padding: 24px 28px; margin-bottom: 32px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
+    }
+    .trip-summary h2 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--tan); width: 100%; margin-bottom: 4px; }
+    .trip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: #e8e0d0; display: flex; align-items: center; gap: 6px; }
+
+    .results-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
+    .item-count { font-family: 'Oswald', sans-serif; font-size: 18px; color: var(--brown-mid); margin-right: auto; }
+    .item-count span { color: var(--green-dark); font-size: 22px; }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--green-mid); color: var(--green-dark);
+      font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; padding: 9px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--green-pale); }
+    .btn-muted {
+      background: var(--cream-dark); border: 2px solid var(--brown-light); color: var(--brown-mid);
+      font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; padding: 9px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-muted:hover { background: #e0d5c0; }
+
+    /* Category sections */
+    .category-section { margin-bottom: 28px; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer; user-select: none; }
+    .cat-icon { font-size: 22px; }
+    .cat-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; flex: 1; }
+    .cat-count { font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 2px 10px; }
+    .cat-chevron { font-size: 12px; transition: transform 0.25s; color: rgba(255,255,255,0.7); }
+    .category-section.collapsed .cat-chevron { transform: rotate(-90deg); }
+    .category-body { padding: 0 8px 8px; }
+    .category-section.collapsed .category-body { display: none; }
+    .cat-shelter  .category-header { background: #4a5c3a; color: #fff; }
+    .cat-pack     .category-header { background: #5c4a3a; color: #fff; }
+    .cat-nav      .category-header { background: #3a4a5c; color: #fff; }
+    .cat-food     .category-header { background: #5c4a1a; color: #fff; }
+    .cat-water    .category-header { background: #2a5060; color: #fff; }
+    .cat-bear     .category-header { background: #4a3050; color: #fff; }
+    .cat-clothing .category-header { background: #5c3a3a; color: #fff; }
+    .cat-firstaid .category-header { background: #5c2a2a; color: #fff; }
+    .cat-tools    .category-header { background: #3a3a4a; color: #fff; }
+    .cat-hygiene  .category-header { background: #2a4a3a; color: #fff; }
+    .cat-extras   .category-header { background: #4a4020; color: #fff; }
+
+    /* Gear items */
+    .gear-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 12px; border-radius: 8px; transition: background 0.15s; }
+    .gear-item:hover { background: var(--cream); }
+    .gear-item.checked { opacity: 0.55; }
+    .gear-item.checked .item-name { text-decoration: line-through; color: #999; }
+    .gear-checkbox {
+      width: 20px; height: 20px; border-radius: 4px; border: 2px solid #bbb; background: #fff;
+      cursor: pointer; flex-shrink: 0; margin-top: 3px; display: flex; align-items: center;
+      justify-content: center; transition: all 0.15s;
+    }
+    .gear-checkbox:hover { border-color: var(--green-mid); }
+    .gear-checkbox.checked { background: var(--green-mid); border-color: var(--green-mid); color: #fff; }
+    .gear-checkbox.checked::after { content: '✓'; font-size: 13px; font-weight: 700; }
+    .gear-info { flex: 1; min-width: 0; }
+    .item-name { font-weight: 600; font-size: 14px; color: var(--text-dark); transition: all 0.2s; }
+    .item-note { font-size: 12px; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
+    .item-essential { display: inline-block; background: #fff3e0; color: #c45c1a; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
+    .btn-amazon { display: inline-flex; align-items: center; gap: 5px; background: var(--amz-orange); color: var(--amz-dark); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 20px; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.15); margin-top: 2px; }
+    .btn-amazon:hover { background: #f5a623; transform: scale(1.04); }
+
+    /* ══════════════════════════════════════
+       GROCERY PAGE (placeholder)
+    ══════════════════════════════════════ */
+    .grocery-hero {
+      background: linear-gradient(135deg, #1a2e0e 0%, #2a4a1a 100%);
+      padding: 80px 40px;
+      text-align: center;
+    }
+    .grocery-hero h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .grocery-hero h1 span { color: #a8d88a; }
+    .grocery-hero p { font-size: 16px; color: #8aab72; max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
+    .coming-soon-card {
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(168,216,138,0.2);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 520px;
+      margin: 0 auto;
+      backdrop-filter: blur(4px);
+    }
+    .cs-icon { font-size: 64px; margin-bottom: 20px; display: block; }
+    .cs-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .cs-features {
+      list-style: none;
+      text-align: left;
+      margin: 20px auto 32px;
+      max-width: 320px;
+    }
+    .cs-features li {
+      font-size: 14px;
+      color: #8aab72;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cs-features li::before { content: '→'; color: #a8d88a; font-weight: 700; flex-shrink: 0; }
+    .cs-notify {
+      display: flex;
+      gap: 0;
+      max-width: 340px;
+      margin: 0 auto;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .cs-notify input {
+      flex: 1;
+      border: none;
+      padding: 13px 20px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      outline: none;
+    }
+    .cs-notify input::placeholder { color: rgba(255,255,255,0.4); }
+    .cs-notify button {
+      background: #6ab04c;
+      border: none;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 13px 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .cs-notify button:hover { background: #7dc65c; }
+    .notify-thanks { display: none; font-size: 14px; color: #a8d88a; margin-top: 12px; }
+    .notify-thanks.show { display: block; }
+
+    /* ══════════════════════════════════════
+       SAVED LISTS PAGE
+    ══════════════════════════════════════ */
+    .saved-page-header {
+      background: linear-gradient(135deg, var(--brown-dark), #3a2a1a);
+      padding: 36px 40px 30px;
+    }
+    .saved-page-header h1 { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .saved-page-header p { font-size: 14px; color: var(--brown-light); }
+
+    .saved-container { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+    .saved-empty { text-align: center; padding: 60px 20px; color: var(--text-light); }
+    .saved-empty .empty-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+    .saved-empty p { font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+    .saved-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .saved-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, transform 0.15s; border: 2px solid transparent; }
+    .saved-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--green-light); }
+    .saved-card-top { background: linear-gradient(135deg, var(--brown-dark), var(--green-dark)); padding: 18px 18px 14px; }
+    .saved-card-top .card-date { font-size: 11px; color: var(--brown-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .saved-card-top h3 { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; color: #fff; }
+    .saved-card-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .saved-badge { background: rgba(255,255,255,0.15); color: #e8e0d0; font-size: 11px; border-radius: 12px; padding: 3px 10px; }
+    .saved-card-body { padding: 14px 18px 18px; }
+    .saved-item-count { font-size: 13px; color: var(--text-light); margin-bottom: 14px; }
+    .saved-item-count strong { color: var(--green-dark); }
+    .saved-card-actions { display: flex; gap: 10px; }
+    .btn-view-list { flex: 1; background: var(--green-mid); border: none; color: #fff; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px 14px; border-radius: 8px; cursor: pointer; transition: background 0.2s; text-align: center; }
+    .btn-view-list:hover { background: var(--green-light); }
+    .btn-delete-list { background: transparent; border: 1.5px solid #ddd; color: #999; font-size: 16px; padding: 9px 13px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .btn-delete-list:hover { background: #ffeaea; border-color: #e88; color: #c33; }
+
+    /* ══════════════════════════════════════
+       SAVE MODAL
+    ══════════════════════════════════════ */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal-box { background: var(--cream); border-radius: 14px; padding: 32px 28px; max-width: 420px; width: 90%; box-shadow: var(--shadow-lg); animation: fadeIn 0.2s ease; }
+    .modal-box h3 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--brown-dark); margin-bottom: 8px; }
+    .modal-box p { font-size: 13px; color: var(--text-light); margin-bottom: 18px; }
+    .modal-input { width: 100%; border: 2px solid var(--cream-dark); border-radius: 8px; padding: 11px 14px; font-family: 'Open Sans', sans-serif; font-size: 15px; color: var(--text-dark); background: #fff; outline: none; transition: border-color 0.2s; margin-bottom: 20px; }
+    .modal-input:focus { border-color: var(--green-mid); }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+    .btn-modal-cancel { background: transparent; border: 2px solid #ccc; color: var(--text-mid); font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+    .btn-modal-cancel:hover { background: var(--cream-dark); }
+    .btn-modal-save { background: var(--green-mid); border: none; color: #fff; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 11px 24px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+    .btn-modal-save:hover { background: var(--green-light); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--green-dark); color: #fff; font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 1px; padding: 13px 28px; border-radius: 50px; box-shadow: var(--shadow-lg); z-index: 300; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Footer */
+    footer { background: var(--brown-dark); color: var(--brown-light); text-align: center; padding: 24px 20px; font-size: 12px; line-height: 1.8; }
+    footer strong { color: var(--tan); }
+
+    /* ══════════════════════════════════════
+       GROCERY PLANNER
+    ══════════════════════════════════════ */
+    .g-page-header {
+      background: linear-gradient(135deg, #0e2810 0%, #1a3a10 100%);
+      padding: 36px 40px 30px;
+    }
+    .g-page-header h1 { font-family:'Oswald',sans-serif; font-size:32px; font-weight:700; color:#fff; margin-bottom:4px; }
+    .g-page-header p { font-size:14px; color:#6aaa52; }
+
+    /* Step progress (reuse existing .progress-wrap, .step-dot etc.) */
+
+    /* Import options */
+    .import-row { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:28px; }
+    .import-opt {
+      flex:1; min-width:220px; background:#fff; border:2.5px solid var(--cream-dark);
+      border-radius:var(--radius); padding:24px 20px; cursor:pointer; transition:all 0.2s;
+      text-align:center; box-shadow:var(--shadow-sm);
+    }
+    .import-opt:hover { border-color:var(--green-light); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+    .import-opt.selected { border-color:var(--green-mid); background:var(--green-pale); }
+    .import-opt-icon { font-size:36px; margin-bottom:10px; display:block; }
+    .import-opt-title { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--brown-dark); }
+    .import-opt-desc  { font-size:12px; color:var(--text-light); margin-top:5px; line-height:1.4; }
+    .import-opt.selected .import-opt-title { color:var(--green-dark); }
+
+    .import-select-wrap { display:none; background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); margin-bottom:20px; }
+    .import-select-wrap.show { display:block; }
+    .g-label { font-size:12px; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; display:block; }
+    .g-select, .g-input {
+      width:100%; border:2px solid var(--cream-dark); border-radius:8px; padding:10px 14px;
+      font-family:'Open Sans',sans-serif; font-size:14px; color:var(--text-dark); background:#fff;
+      outline:none; transition:border-color 0.2s; appearance:none;
+    }
+    .g-select:focus, .g-input:focus { border-color:var(--green-mid); }
+    .g-row { display:flex; gap:14px; flex-wrap:wrap; }
+    .g-field { flex:1; min-width:120px; margin-bottom:16px; }
+    .g-field-sm { width:100px; flex:0 0 100px; margin-bottom:16px; }
+    .g-note { font-size:12px; color:var(--text-light); margin-top:4px; font-style:italic; }
+
+    .manual-entry { display:none; background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); margin-bottom:20px; }
+    .manual-entry.show { display:block; }
+
+    .imported-preview {
+      display:none; background:var(--green-dark); color:#fff; border-radius:var(--radius);
+      padding:18px 20px; margin-bottom:20px;
+    }
+    .imported-preview.show { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .imported-preview h4 { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:var(--tan); width:100%; margin-bottom:4px; }
+    .imp-badge { background:rgba(255,255,255,0.15); border-radius:12px; padding:4px 12px; font-size:12px; color:#e0f0d8; }
+
+    /* Personal info */
+    .gender-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-bottom:20px; }
+    .gender-card {
+      background:#fff; border:2.5px solid var(--cream-dark); border-radius:var(--radius);
+      padding:16px 12px; text-align:center; cursor:pointer; transition:all 0.2s;
+      box-shadow:var(--shadow-sm);
+    }
+    .gender-card:hover { border-color:var(--green-light); transform:translateY(-1px); }
+    .gender-card.selected { border-color:var(--green-mid); background:var(--green-pale); }
+    .gender-card-icon { font-size:26px; margin-bottom:8px; display:block; }
+    .gender-card-label { font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; color:var(--text-dark); }
+    .gender-card.selected .gender-card-label { color:var(--green-dark); }
+    .skip-link { font-size:13px; color:var(--green-mid); text-decoration:underline; cursor:pointer; text-align:right; display:block; margin-top:8px; }
+    .skip-link:hover { color:var(--green-dark); }
+    .asterisk-note { font-size:12px; color:var(--text-light); font-style:italic; background:var(--cream-dark); border-radius:6px; padding:8px 12px; margin-top:8px; display:none; }
+    .asterisk-note.show { display:block; }
+
+    /* Dietary restriction cards */
+    .restrict-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(145px,1fr)); gap:12px; margin-bottom:28px; }
+    .restrict-card {
+      background:#fff; border:2.5px solid var(--cream-dark); border-radius:var(--radius);
+      padding:14px 12px; text-align:center; cursor:pointer; transition:all 0.2s;
+      box-shadow:var(--shadow-sm); user-select:none;
+    }
+    .restrict-card:hover { border-color:var(--green-light); }
+    .restrict-card.selected { border-color:var(--green-mid); background:var(--green-pale); }
+    .restrict-icon  { font-size:26px; margin-bottom:6px; display:block; }
+    .restrict-label { font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; color:var(--text-dark); }
+    .restrict-card.selected .restrict-label { color:var(--green-dark); }
+
+    /* Nutrition summary */
+    .nutrition-card {
+      background:linear-gradient(135deg, var(--green-dark), #1a3a10);
+      border-radius:var(--radius); padding:24px 28px; margin-bottom:28px; color:#fff;
+    }
+    .nutrition-card h3 { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--tan); margin-bottom:16px; }
+    .cal-row { display:flex; gap:24px; flex-wrap:wrap; margin-bottom:20px; }
+    .cal-stat { text-align:center; }
+    .cal-big   { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:#fff; line-height:1; }
+    .cal-label { font-size:11px; color:#8aaa82; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+    .macro-bars { display:flex; flex-direction:column; gap:8px; }
+    .macro-row { display:flex; align-items:center; gap:12px; }
+    .macro-name  { font-size:12px; color:#c0d8b8; width:60px; flex-shrink:0; }
+    .macro-track { flex:1; background:rgba(255,255,255,0.12); border-radius:6px; height:10px; overflow:hidden; }
+    .macro-fill  { height:100%; border-radius:6px; transition:width 0.6s ease; }
+    .macro-fill.carb { background:#7dc65c; }
+    .macro-fill.prot { background:#f5a623; }
+    .macro-fill.fat  { background:#e07855; }
+    .macro-val { font-size:12px; color:#c0d8b8; width:60px; text-align:right; flex-shrink:0; }
+    .default-note { font-size:11px; color:rgba(255,255,255,0.5); margin-top:12px; font-style:italic; }
+
+    /* Day plan accordion */
+    .day-section { background:#fff; border-radius:var(--radius); margin-bottom:16px; box-shadow:var(--shadow-sm); overflow:hidden; }
+    .day-header {
+      display:flex; align-items:center; gap:14px; padding:14px 20px;
+      cursor:pointer; background:linear-gradient(90deg, #2a4a1a, #1e3a10);
+      color:#fff; user-select:none;
+    }
+    .day-num  { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--tan); min-width:24px; }
+    .day-name { font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; flex:1; }
+    .day-cal  { font-size:12px; color:#8aaa72; }
+    .day-chev { font-size:11px; color:rgba(255,255,255,0.5); transition:transform 0.25s; }
+    .day-section.collapsed .day-chev { transform:rotate(-90deg); }
+    .day-body { padding:0; }
+    .day-section.collapsed .day-body { display:none; }
+
+    .meal-block { border-bottom:1px solid var(--cream-dark); padding:14px 20px; }
+    .meal-block:last-child { border-bottom:none; }
+    .meal-type {
+      font-family:'Oswald',sans-serif; font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase; color:var(--brown-light);
+      margin-bottom:4px;
+    }
+    .meal-name { font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; color:var(--brown-dark); margin-bottom:4px; }
+    .meal-ings { font-size:12px; color:var(--text-light); line-height:1.6; margin-bottom:4px; }
+    .meal-prep { font-size:12px; color:var(--text-mid); font-style:italic; }
+    .meal-cal  { font-size:12px; font-weight:700; color:var(--green-mid); float:right; }
+
+    .snacks-block { background:var(--cream); border-bottom:1px solid var(--cream-dark); padding:14px 20px; }
+    .snack-items  { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .snack-chip   { background:#fff; border:1px solid var(--cream-dark); border-radius:20px; padding:5px 12px; font-size:12px; color:var(--text-mid); display:flex; align-items:center; gap:6px; }
+
+    /* Shopping list */
+    .shop-section { background:#fff; border-radius:var(--radius); margin-bottom:28px; box-shadow:var(--shadow-sm); overflow:hidden; }
+    .shop-header  { background:var(--brown-dark); color:#fff; padding:16px 20px; display:flex; align-items:center; gap:12px; }
+    .shop-header h3 { font-family:'Oswald',sans-serif; font-size:18px; font-weight:700; flex:1; color:#fff; }
+    .shop-total { font-size:13px; color:var(--tan); }
+    .shop-body  { padding:8px; }
+    .shop-cat   { margin-bottom:4px; }
+    .shop-cat-title { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--brown-light); padding:10px 12px 4px; }
+    .shop-item  { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:6px; transition:background 0.15s; }
+    .shop-item:hover { background:var(--cream); }
+    .shop-item.checked { opacity:0.5; }
+    .shop-item.checked .shop-item-name { text-decoration:line-through; color:#999; }
+    .shop-cb  { width:18px; height:18px; border:2px solid #bbb; border-radius:4px; flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+    .shop-cb:hover { border-color:var(--green-mid); }
+    .shop-cb.checked { background:var(--green-mid); border-color:var(--green-mid); color:#fff; }
+    .shop-cb.checked::after { content:'✓'; font-size:11px; font-weight:700; }
+    .shop-item-name { flex:1; font-size:13px; color:var(--text-dark); }
+    .shop-item-qty  { font-size:12px; font-weight:700; color:var(--green-mid); min-width:60px; text-align:right; }
+
+    /* G-results toolbar */
+    .g-results-toolbar { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:28px; }
+    .g-item-count { font-family:'Oswald',sans-serif; font-size:18px; color:var(--brown-mid); margin-right:auto; }
+    .g-item-count span { color:var(--green-dark); font-size:22px; }
+
+    /* Save grocery modal */
+    #saveGroceryModal .modal-box { background:var(--cream); }
+
+    /* Print */
+    @media print {
+      header, nav, .page-header, .results-toolbar, .btn-amazon, footer { display: none !important; }
+      .category-section.collapsed .category-body { display: block !important; }
+      body { background: #fff; }
+      .trip-summary { background: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .category-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <a class="logo-wrap" onclick="showPage('home')" href="#">
+    <!-- Custom SVG Logo -->
+    <svg class="logo-svg" viewBox="0 0 52 56" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shield shape -->
+      <path d="M26,2 L50,13 L50,35 C50,47 26,54 26,54 C26,54 2,47 2,35 L2,13 Z" fill="#1e4a22" stroke="#c8a96e" stroke-width="1.8"/>
+      <!-- Background peak (left, dimmer) -->
+      <polygon points="11,36 20,18 29,36" fill="#4a6040" opacity="0.6"/>
+      <!-- Main mountain peak -->
+      <polygon points="29,36 38,36 29.5,13" fill="#c8a96e"/>
+      <!-- Snow cap -->
+      <polygon points="29.5,13 33,22 26,22" fill="#fff" opacity="0.88"/>
+      <!-- Pine tree left -->
+      <polygon points="7,42 11,33 15,42" fill="#4a8c52"/>
+      <rect x="10" y="42" width="2" height="3" fill="#3a6a3a"/>
+      <!-- Pine tree right -->
+      <polygon points="37,42 41,33 45,42" fill="#4a8c52"/>
+      <rect x="40" y="42" width="2" height="3" fill="#3a6a3a"/>
+      <!-- Stars -->
+      <circle cx="14" cy="11" r="1.1" fill="#c8a96e" opacity="0.75"/>
+      <circle cx="42" cy="9"  r="0.9" fill="#c8a96e" opacity="0.6"/>
+      <circle cx="22" cy="7"  r="0.7" fill="#c8a96e" opacity="0.5"/>
+      <!-- Ground line -->
+      <line x1="4" y1="42" x2="48" y2="42" stroke="#c8a96e" stroke-width="1" opacity="0.35"/>
+    </svg>
+    <div>
+      <div class="logo-wordmark">Trail<em>Pack</em></div>
+      <div class="logo-sub">Backcountry Planner</div>
+    </div>
+  </a>
+
+  <nav>
+    <button class="nav-link active" id="nav-home"    onclick="showPage('home')">Home</button>
+    <button class="nav-link"        id="nav-pack"    onclick="showPage('pack')">🎒 Pack List</button>
+    <button class="nav-link"        id="nav-grocery" onclick="showPage('grocery')">🍲 Meal Planner</button>
+    <button class="nav-link"        id="nav-saved"   onclick="showPage('saved')">
+      📂 My Lists <span class="nav-badge" id="listBadge">0</span>
+    </button>
+  </nav>
+</header>
+
+<!-- ═══════════ SAVE MODAL ═══════════ -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal-box">
+    <h3>💾 Save This Pack List</h3>
+    <p>Give this list a name so you can find it later — like "JMT 2026" or "Cascade Loop".</p>
+    <input class="modal-input" id="listNameInput" type="text" placeholder="Trip name…" maxlength="60"
+      onkeydown="if(event.key==='Enter') confirmSave()">
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-save"   onclick="confirmSave()">Save List</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════ -->
+<div class="page active" id="pg-home">
+
+  <!-- Hero -->
+  <section class="home-hero">
+    <div class="hero-eyebrow">Built for the backcountry</div>
+    <h1 class="hero-headline">The Trail Doesn't Wait.<br><span>Neither Should Your Gear.</span></h1>
+    <p class="hero-sub">Answer a few questions about your adventure and TrailPack builds your perfect gear list — complete with Amazon links for everything you need.</p>
+
+    <div class="tool-cards">
+      <div class="tool-card" onclick="showPage('pack')">
+        <span class="tool-card-icon">🎒</span>
+        <div class="tool-card-name">Pack List</div>
+        <div class="tool-card-desc">Get a personalized gear list based on terrain, weather, duration, and difficulty.</div>
+        <span class="tool-card-btn">Build My List →</span>
+      </div>
+      <div class="tool-card" onclick="showPage('grocery')">
+        <span class="tool-card-icon">🍲</span>
+        <div class="tool-card-name">Meal Planner</div>
+        <div class="tool-card-desc">Calculate calories, macros, and a full resupply shopping list for your trip.</div>
+        <span class="tool-card-btn">Plan My Meals →</span>
+      </div>
+    </div>
+
+    <!-- Mountain landscape -->
+    <svg class="landscape-svg" viewBox="0 0 1400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- Sky stars -->
+      <circle cx="100" cy="20" r="1.5" fill="white" opacity="0.4"/>
+      <circle cx="320" cy="35" r="1"   fill="white" opacity="0.3"/>
+      <circle cx="550" cy="15" r="1.5" fill="white" opacity="0.35"/>
+      <circle cx="780" cy="28" r="1"   fill="white" opacity="0.3"/>
+      <circle cx="1050" cy="18" r="1.5" fill="white" opacity="0.4"/>
+      <circle cx="1280" cy="30" r="1"  fill="white" opacity="0.3"/>
+      <!-- Far mountains -->
+      <polygon points="0,220 150,70 300,160 480,40 640,130 800,20 960,110 1120,55 1280,100 1400,60 1400,220" fill="#1a3a18" opacity="0.7"/>
+      <!-- Mid mountains -->
+      <polygon points="0,220 100,120 220,175 360,90 500,155 620,75 740,130 860,85 1000,150 1140,80 1260,125 1400,95 1400,220" fill="#122810" opacity="0.85"/>
+      <!-- Snow caps -->
+      <polygon points="480,40 510,70 450,70"  fill="white" opacity="0.6"/>
+      <polygon points="800,20 828,55 772,55"  fill="white" opacity="0.7"/>
+      <polygon points="1120,55 1145,85 1095,85" fill="white" opacity="0.55"/>
+      <!-- Treeline foreground -->
+      <polygon points="0,220 60,155 85,175 110,150 135,170 165,140 190,165 220,145 250,168 280,148 310,175 350,145 380,170 420,155 460,175 500,150 540,165 580,148 620,172 660,155 700,170 740,152 780,168 820,150 860,175 900,155 940,170 980,148 1020,175 1060,158 1100,170 1140,150 1180,168 1220,155 1260,175 1300,158 1340,172 1400,152 1400,220" fill="#0a2008"/>
+    </svg>
+  </section>
+
+  <!-- Trail Truths -->
+  <section class="trail-truths">
+    <div class="section-eyebrow">Trail Wisdom</div>
+    <div class="truth-quote" id="truthText">Every ounce you pack, you'll carry twice — once up, once down.</div>
+    <div class="truth-dots" id="truthDots"></div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title">Three Steps to a Perfect Pack</h2>
+    <p class="section-desc">No spreadsheets. No guessing. Just answers.</p>
+    <div class="steps-row">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Tell us about your trip</h3>
+        <p>Terrain, weather conditions, trip length, and trail difficulty.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Get your custom list</h3>
+        <p>We filter ~80 gear items down to exactly what you need for your specific conditions.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Buy and save</h3>
+        <p>Every item links directly to Amazon. Save your lists and reuse them for future trips.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature strip -->
+  <section class="feature-strip">
+    <div class="feature-grid">
+      <div class="feature-item">
+        <span class="feat-icon">🐻</span>
+        <div class="feat-text">
+          <h4>Wildlife Safety Built In</h4>
+          <p>Bear canisters, bear spray, and hang kits are auto-included for bear country terrain.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feat-icon">☁️</span>
+        <div class="feat-text">
+          <h4>Weather-Smart Layering</h4>
+          <p>Mix cold, wet, snow, and heat conditions. Your clothing list adapts accordingly.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feat-icon">💾</span>
+        <div class="feat-text">
+          <h4>Save Multiple Trips</h4>
+          <p>Planning a JMT section and a desert loop? Save both and come back anytime.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feat-icon">♻️</span>
+        <div class="feat-text">
+          <h4>Leave No Trace First</h4>
+          <p>Every list includes trowels, waste bags, and biodegradable essentials by default.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>TrailPack</strong> — Your backcountry planning companion.<br>
+    Amazon links open product search results. Always verify gear is right for your specific conditions.<br>
+    <em>Leave No Trace. Stay safe. Enjoy the wilderness.</em>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PACK LIST
+════════════════════════════════════════════ -->
+<div class="page" id="pg-pack">
+  <div class="page-header">
+    <h1>🎒 Pack List Builder</h1>
+    <p>Answer four questions — get a gear list built for your exact conditions.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- Progress -->
+    <div class="progress-wrap" id="progressBar">
+      <div class="step-dot active" id="dot1"><div class="step-circle">1</div><div class="step-label">Terrain</div></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot" id="dot2"><div class="step-circle">2</div><div class="step-label">Weather</div></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot" id="dot3"><div class="step-circle">3</div><div class="step-label">Duration</div></div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot" id="dot4"><div class="step-circle">4</div><div class="step-label">Difficulty</div></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-panel visible" id="step1">
+      <div class="step-question">Where are you headed?</div>
+      <div class="step-sub">Choose the terrain that best matches your destination.</div>
+      <div class="cards-grid">
+        <div class="option-card" onclick="selectSingle(this,'terrain','mountain')"><span class="card-icon">🏔️</span><span class="card-label">Mountain / Alpine</span><span class="card-desc">High elevation, rocky peaks, exposed ridgelines</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','desert')"><span class="card-icon">🏜️</span><span class="card-label">Desert / Canyon</span><span class="card-desc">Arid terrain, sandstone, minimal shade</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','forest')"><span class="card-icon">🌲</span><span class="card-label">Forest / Woodland</span><span class="card-desc">Dense trees, streams, wildlife corridors</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','coastal')"><span class="card-icon">🌊</span><span class="card-label">Coastal / Rainforest</span><span class="card-desc">Humid, lush, variable conditions</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','mixed')"><span class="card-icon">🗺️</span><span class="card-label">Mixed / Multi-terrain</span><span class="card-desc">Varied landscape, point-to-point routes</span></div>
+      </div>
+      <div class="error-msg" id="err1">Please select a terrain type to continue.</div>
+      <div class="step-nav"><button class="btn-next" onclick="nextStep(1)">Next →</button></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-panel" id="step2">
+      <div class="step-question">What's the forecast?</div>
+      <div class="step-sub">Select all conditions that apply — you can pick more than one.</div>
+      <div class="cards-grid">
+        <div class="option-card" onclick="selectMulti(this,'weather','hot')"><span class="card-icon">☀️</span><span class="card-label">Hot &amp; Sunny</span><span class="card-desc">High UV, intense heat, low humidity</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','mild')"><span class="card-icon">🌤️</span><span class="card-label">Mild &amp; Pleasant</span><span class="card-desc">Comfortable temps, some clouds</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','cold')"><span class="card-icon">🌬️</span><span class="card-label">Cold &amp; Windy</span><span class="card-desc">Below 45°F, wind chill possible</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','wet')"><span class="card-icon">🌧️</span><span class="card-label">Wet &amp; Rainy</span><span class="card-desc">Frequent rain, muddy trails</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','snow')"><span class="card-icon">❄️</span><span class="card-label">Snow or Ice</span><span class="card-desc">Sub-freezing, snowpack, icy terrain</span></div>
+      </div>
+      <div class="error-msg" id="err2">Please select at least one weather condition.</div>
+      <div class="step-nav"><button class="btn-back" onclick="prevStep(2)">← Back</button><button class="btn-next" onclick="nextStep(2)">Next →</button></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel" id="step3">
+      <div class="step-question">How many days?</div>
+      <div class="step-sub">This affects food, fuel, and resupply gear recommendations.</div>
+      <div class="cards-grid">
+        <div class="option-card" onclick="selectSingle(this,'days','1-2')"><span class="card-icon">⚡</span><span class="card-label">1–2 Days</span><span class="card-desc">Overnight or quick weekend trip</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','3-5')"><span class="card-icon">🌄</span><span class="card-label">3–5 Days</span><span class="card-desc">Classic long weekend expedition</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','6-10')"><span class="card-icon">🏕️</span><span class="card-label">6–10 Days</span><span class="card-desc">Full week in the backcountry</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','10+')"><span class="card-icon">🗓️</span><span class="card-label">10+ Days</span><span class="card-desc">Long-distance or thru-hike section</span></div>
+      </div>
+      <div class="error-msg" id="err3">Please select trip duration to continue.</div>
+      <div class="step-nav"><button class="btn-back" onclick="prevStep(3)">← Back</button><button class="btn-next" onclick="nextStep(3)">Next →</button></div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-panel" id="step4">
+      <div class="step-question">How tough is the trail?</div>
+      <div class="step-sub">Difficulty determines safety gear and technical equipment.</div>
+      <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));">
+        <div class="option-card" onclick="selectSingle(this,'difficulty','easy')"><span class="card-icon">🟢</span><span class="card-label">Easy</span><span class="card-desc">Well-marked trails, minimal elevation gain, manageable footing</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','moderate')"><span class="card-icon">🟡</span><span class="card-label">Moderate</span><span class="card-desc">Steeper sections, some scrambling, possible off-trail segments</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','strenuous')"><span class="card-icon">🟠</span><span class="card-label">Strenuous</span><span class="card-desc">Significant elevation, rugged terrain, demanding day mileage</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','expert')"><span class="card-icon">🔴</span><span class="card-label">Expert / Technical</span><span class="card-desc">Off-trail navigation, glacier travel, class 3–4 scrambling</span></div>
+      </div>
+      <div class="error-msg" id="err4">Please select a difficulty level.</div>
+      <div class="step-nav"><button class="btn-back" onclick="prevStep(4)">← Back</button><button class="btn-generate" onclick="generateList()">🎒 Generate My Pack List</button></div>
+    </div>
+
+    <!-- Results -->
+    <div id="results">
+      <div class="trip-summary" id="tripSummary"></div>
+      <div class="results-toolbar">
+        <div class="item-count" id="itemCount"></div>
+        <button class="btn-muted"    onclick="window.print()">🖨️ Print</button>
+        <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
+        <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
+      </div>
+      <div id="packList"></div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /pg-pack -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: GROCERY PLANNER
+════════════════════════════════════════════ -->
+<div class="page" id="pg-grocery">
+  <div class="g-page-header">
+    <h1>🍲 Meal Planner</h1>
+    <p>Calorie-calculated, macro-balanced meal plan with a complete shopping list for your trip.</p>
+  </div>
+
+  <!-- Save Grocery Modal -->
+  <div class="modal-overlay" id="saveGroceryModal">
+    <div class="modal-box">
+      <h3>💾 Save This Meal Plan</h3>
+      <p>Give it a name — like "JMT 2026 Food" or "Desert Loop Meals".</p>
+      <input class="modal-input" id="groceryListNameInput" type="text" placeholder="Plan name…" maxlength="60"
+        onkeydown="if(event.key==='Enter') confirmSaveGrocery()">
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="closeGroceryModal()">Cancel</button>
+        <button class="btn-modal-save"   onclick="confirmSaveGrocery()">Save Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- STEP G1 — Trip Data -->
+    <div class="step-panel visible" id="gstep1">
+      <div class="step-question">Tell us about your trip</div>
+      <div class="step-sub">Import from a saved pack list or enter your trip details manually.</div>
+
+      <div class="import-row">
+        <div class="import-opt" id="importOpt" onclick="selectImportMode('import')">
+          <span class="import-opt-icon">📂</span>
+          <div class="import-opt-title">Import from Saved Pack List</div>
+          <div class="import-opt-desc">Automatically pulls terrain, weather, days, and difficulty from a saved list.</div>
+        </div>
+        <div class="import-opt" id="manualOpt" onclick="selectImportMode('manual')">
+          <span class="import-opt-icon">✏️</span>
+          <div class="import-opt-title">Enter Manually</div>
+          <div class="import-opt-desc">Specify trip duration, difficulty, and estimated pack weight yourself.</div>
+        </div>
+      </div>
+
+      <!-- Import selector -->
+      <div class="import-select-wrap" id="importSelectWrap">
+        <label class="g-label">Select a saved pack list</label>
+        <select class="g-select" id="gImportSelect" onchange="previewImport()">
+          <option value="">— Choose a list —</option>
+        </select>
+        <div class="imported-preview" id="importedPreview">
+          <h4 id="impName"></h4>
+          <span class="imp-badge" id="impTerrain"></span>
+          <span class="imp-badge" id="impWeather"></span>
+          <span class="imp-badge" id="impDays"></span>
+          <span class="imp-badge" id="impDiff"></span>
+        </div>
+        <div class="g-row" style="margin-top:16px;">
+          <div class="g-field">
+            <label class="g-label">Estimated pack weight (lbs) <span style="color:#c33">*</span></label>
+            <input class="g-input" type="number" id="gPackWeightImport" min="5" max="100" placeholder="e.g. 35">
+            <div class="g-note">Auto-estimated from your list. Feel free to adjust.</div>
+          </div>
+          <div class="g-field">
+            <label class="g-label">Exact number of days</label>
+            <input class="g-input" type="number" id="gDaysImport" min="1" max="30" placeholder="e.g. 5">
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual entry -->
+      <div class="manual-entry" id="manualEntryWrap">
+        <div class="g-row">
+          <div class="g-field">
+            <label class="g-label">Number of days <span style="color:#c33">*</span></label>
+            <input class="g-input" type="number" id="gDaysManual" min="1" max="30" placeholder="e.g. 5">
+          </div>
+          <div class="g-field">
+            <label class="g-label">Trail difficulty</label>
+            <select class="g-select" id="gDiffManual">
+              <option value="">— Select —</option>
+              <option value="easy">Easy</option>
+              <option value="moderate">Moderate</option>
+              <option value="strenuous">Strenuous</option>
+              <option value="expert">Expert / Technical</option>
+            </select>
+          </div>
+          <div class="g-field">
+            <label class="g-label">Estimated pack weight (lbs) <span style="color:#c33">*</span></label>
+            <input class="g-input" type="number" id="gPackWeightManual" min="5" max="100" placeholder="e.g. 30">
+          </div>
+        </div>
+      </div>
+
+      <div class="error-msg" id="gerr1">Please select an option and fill in the required fields.</div>
+      <div class="step-nav"><button class="btn-next" onclick="gNextStep(1)">Next →</button></div>
+    </div>
+
+    <!-- STEP G2 — Personal Info -->
+    <div class="step-panel" id="gstep2">
+      <div class="step-question">About you <span style="font-size:16px; font-weight:400; color:var(--text-light)">(optional)</span></div>
+      <div class="step-sub">Helps us calculate your personal calorie needs. All fields optional — <a class="skip-link" style="display:inline;" onclick="skipPersonalInfo()">skip this step →</a></div>
+
+      <label class="g-label" style="margin-bottom:10px;">Gender</label>
+      <div class="gender-grid">
+        <div class="gender-card" onclick="gSelectGender(this,'man')"><span class="gender-card-icon">👨</span><div class="gender-card-label">Man</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'woman')"><span class="gender-card-icon">👩</span><div class="gender-card-label">Woman</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'nonbinary')"><span class="gender-card-icon">🧑</span><div class="gender-card-label">Non-binary</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'prefer_not')"><span class="gender-card-icon">🤐</span><div class="gender-card-label">Prefer not to say</div></div>
+      </div>
+
+      <div class="g-row">
+        <div class="g-field">
+          <label class="g-label">Height</label>
+          <div style="display:flex; gap:8px;">
+            <select class="g-select" id="gHeightFt" style="flex:1;">
+              <option value="">ft</option>
+              <option value="4">4 ft</option><option value="5">5 ft</option><option value="6">6 ft</option><option value="7">7 ft</option>
+            </select>
+            <select class="g-select" id="gHeightIn" style="flex:1;">
+              <option value="0">0 in</option><option value="1">1 in</option><option value="2">2 in</option><option value="3">3 in</option>
+              <option value="4">4 in</option><option value="5">5 in</option><option value="6">6 in</option><option value="7">7 in</option>
+              <option value="8">8 in</option><option value="9">9 in</option><option value="10">10 in</option><option value="11">11 in</option>
+            </select>
+          </div>
+        </div>
+        <div class="g-field">
+          <label class="g-label">Age (years)</label>
+          <input class="g-input" type="number" id="gAge" min="12" max="100" placeholder="e.g. 32">
+        </div>
+        <div class="g-field">
+          <label class="g-label">Weight (lbs)</label>
+          <input class="g-input" type="number" id="gBodyWeight" min="80" max="400" placeholder="e.g. 150">
+        </div>
+      </div>
+
+      <div class="asterisk-note" id="gDefaultNote">
+        * No personal info provided — calories calculated for an average adult woman (5'4", 140 lbs, 35 years).
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="gPrevStep(2)">← Back</button>
+        <button class="btn-next" onclick="gNextStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP G3 — Dietary Restrictions -->
+    <div class="step-panel" id="gstep3">
+      <div class="step-question">Dietary needs</div>
+      <div class="step-sub">Select any that apply — we'll filter your meal plan accordingly. Select none to see all options.</div>
+
+      <div class="restrict-grid">
+        <div class="restrict-card" onclick="gToggleRestriction(this,'vegetarian')"><span class="restrict-icon">🥦</span><div class="restrict-label">Vegetarian</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'vegan')"><span class="restrict-icon">🌱</span><div class="restrict-label">Vegan</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'gf')"><span class="restrict-icon">🌾</span><div class="restrict-label">Gluten-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'df')"><span class="restrict-icon">🥛</span><div class="restrict-label">Dairy-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'nutfree')"><span class="restrict-icon">🥜</span><div class="restrict-label">Nut Allergy</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'porkfree')"><span class="restrict-icon">🐷</span><div class="restrict-label">No Pork</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'soyfree')"><span class="restrict-icon">🫘</span><div class="restrict-label">Soy-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'eggfree')"><span class="restrict-icon">🥚</span><div class="restrict-label">No Eggs</div></div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="gPrevStep(3)">← Back</button>
+        <button class="btn-generate" onclick="buildGroceryPlan()">🍲 Build My Meal Plan</button>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="groceryResults" style="display:none; animation:fadeIn 0.4s ease;">
+
+      <div class="g-results-toolbar">
+        <div class="g-item-count" id="gItemCount"></div>
+        <button class="btn-muted"   onclick="window.print()">🖨️ Print</button>
+        <button class="btn-outline" onclick="openGroceryModal()">💾 Save Plan</button>
+        <button class="btn-muted"   onclick="resetGroceryWizard()">↺ Start Over</button>
+      </div>
+
+      <!-- Nutrition summary -->
+      <div class="nutrition-card" id="nutritionCard"></div>
+
+      <!-- Day-by-day meal plan -->
+      <div style="margin-bottom:8px;">
+        <div class="step-question" style="margin-bottom:4px;">📅 Day-by-Day Meal Plan</div>
+        <div class="step-sub">Tap any day to expand. All meals use ingredients from a regular grocery store.</div>
+      </div>
+      <div id="dayPlanContainer"></div>
+
+      <!-- Shopping list -->
+      <div style="margin:32px 0 8px;">
+        <div class="step-question" style="margin-bottom:4px;">🛒 Master Shopping List</div>
+        <div class="step-sub">Everything you need for the whole trip, grouped by section. Check items off as you shop.</div>
+      </div>
+      <div class="shop-section">
+        <div class="shop-header">
+          <h3>Shopping List</h3>
+          <span class="shop-total" id="shopTotal"></span>
+        </div>
+        <div class="shop-body" id="shopListContainer"></div>
+      </div>
+
+    </div><!-- /groceryResults -->
+
+    <!-- SAVED GROCERY LISTS -->
+    <div id="savedGrocerySection" style="display:none;">
+      <div class="saved-header" style="margin-top:32px; border-top:2px solid var(--cream-dark); padding-top:32px;">
+        <h2 style="font-family:'Oswald',sans-serif; font-size:22px; color:var(--brown-dark);">📂 Saved Meal Plans</h2>
+      </div>
+      <div id="savedGroceryContent"></div>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer style="background:var(--brown-dark); color:var(--brown-light); text-align:center; padding:24px 20px; font-size:12px; line-height:1.8;">
+    <strong>TrailPack</strong> — Your backcountry planning companion. <em>Leave No Trace.</em>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: SAVED LISTS
+════════════════════════════════════════════ -->
+<div class="page" id="pg-saved">
+  <div class="saved-page-header">
+    <h1>📂 My Saved Lists</h1>
+    <p>All your saved pack lists in one place.</p>
+  </div>
+  <div class="saved-container">
+    <div id="savedListsContent"></div>
+  </div>
+  <footer style="background:var(--brown-dark); color:var(--brown-light); text-align:center; padding:24px 20px; font-size:12px; line-height:1.8;">
+    <strong>TrailPack</strong> — Your backcountry planning companion. <em>Leave No Trace.</em>
+  </footer>
+</div>
+
+<script>
+  // ══════════════════════════════════════
+  // NAVIGATION
+  // ══════════════════════════════════════
+  const PAGES = ['home','pack','grocery','saved'];
+  let activePage = 'home';
+
+  function showPage(name) {
+    PAGES.forEach(p => {
+      document.getElementById('pg-'+p).classList.toggle('active', p === name);
+      document.getElementById('nav-'+p).classList.toggle('active', p === name);
+    });
+    activePage = name;
+    if (name === 'saved') renderSavedLists();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ══════════════════════════════════════
+  // TRAIL TRUTHS CAROUSEL
+  // ══════════════════════════════════════
+  const TRUTHS = [
+    "Every ounce you pack, you'll carry twice — once up, once down.",
+    "The weight you leave behind is as important as the gear you bring.",
+    "Cotton kills. Wool wills. Synthetics thrill.",
+    "The wilderness has no cell service. It also has no bad meetings.",
+    "Type 1 fun: fun while it happens. Type 2 fun: funny afterward. Backpacking is mostly Type 2.",
+    "Pack for who you are, not who you wish you were.",
+    "Blisters are just your feet's way of telling you they're getting stronger.",
+    "A bad day on the trail still beats a good day in the office.",
+    "The best view always comes after the hardest climb.",
+    "Your pack weight is a referendum on how much you've been backpacking lately.",
+  ];
+  let truthIdx = 0;
+  let truthTimer;
+
+  function initTruths() {
+    const dotsEl = document.getElementById('truthDots');
+    TRUTHS.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'truth-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => setTruth(i, true);
+      dotsEl.appendChild(d);
+    });
+    truthTimer = setInterval(() => setTruth((truthIdx + 1) % TRUTHS.length, false), 5000);
+  }
+
+  function setTruth(idx, stopTimer) {
+    if (stopTimer) { clearInterval(truthTimer); }
+    truthIdx = idx;
+    const el = document.getElementById('truthText');
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.textContent = TRUTHS[idx];
+      el.style.opacity = '1';
+    }, 300);
+    document.querySelectorAll('.truth-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  // ══════════════════════════════════════
+  // PACK LIST WIZARD STATE
+  // ══════════════════════════════════════
+  const inputs = { terrain: null, weather: [], days: null, difficulty: null };
+  let currentStep = 1;
+
+  function selectSingle(el, field, val) {
+    el.closest('.cards-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    inputs[field] = val;
+  }
+
+  function selectMulti(el, field, val) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) { if (!inputs[field].includes(val)) inputs[field].push(val); }
+    else { inputs[field] = inputs[field].filter(v => v !== val); }
+  }
+
+  const validators = {
+    1: () => inputs.terrain !== null,
+    2: () => inputs.weather.length > 0,
+    3: () => inputs.days !== null,
+    4: () => inputs.difficulty !== null
+  };
+
+  function nextStep(from) {
+    document.getElementById('err'+from).classList.remove('show');
+    if (!validators[from]()) { document.getElementById('err'+from).classList.add('show'); return; }
+    document.getElementById('dot'+from).classList.replace('active','done');
+    document.getElementById('line'+from).classList.add('done');
+    currentStep = from + 1;
+    document.getElementById('step'+from).classList.remove('visible');
+    document.getElementById('step'+currentStep).classList.add('visible');
+    document.getElementById('dot'+currentStep).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function prevStep(from) {
+    document.getElementById('dot'+from).classList.remove('active');
+    currentStep = from - 1;
+    document.getElementById('step'+from).classList.remove('visible');
+    document.getElementById('step'+currentStep).classList.add('visible');
+    const prevDot = document.getElementById('dot'+currentStep);
+    prevDot.classList.remove('done'); prevDot.classList.add('active');
+    document.getElementById('line'+(from-1)).classList.remove('done');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetWizard() {
+    inputs.terrain = null; inputs.weather = []; inputs.days = null; inputs.difficulty = null;
+    currentStep = 1;
+    document.getElementById('results').style.display = 'none';
+    [1,2,3,4].forEach(s => {
+      const panel = document.getElementById('step'+s);
+      panel.classList.remove('visible');
+      panel.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      if (s < 4) document.getElementById('line'+s).classList.remove('done');
+      const dot = document.getElementById('dot'+s);
+      dot.classList.remove('active','done');
+    });
+    document.getElementById('step1').classList.add('visible');
+    document.getElementById('dot1').classList.add('active');
+    document.getElementById('progressBar').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ══════════════════════════════════════
+  // PACKING ITEMS
+  // ══════════════════════════════════════
+  const ITEMS = [
+    { id:'backpack',       cat:'pack',     name:'Backpacking Pack',                    note:'Size up based on trip length (35–45L for short, 55–70L for long trips).',            amazon:'backpacking+pack+lightweight', essential:true },
+    { id:'rain_cover',     cat:'pack',     name:'Pack Rain Cover',                     note:'Keeps your gear dry in wet conditions — fits most pack sizes.',                       amazon:'backpack+rain+cover+waterproof', cond: i => i.weather.includes('wet') || i.weather.includes('snow') },
+    { id:'dry_bags',       cat:'pack',     name:'Dry Bags / Stuff Sacks',              note:'Organizes gear and protects electronics, clothes, and sleeping bag from moisture.',  amazon:'dry+bags+set+backpacking', essential:true },
+    { id:'compression',    cat:'pack',     name:'Compression Sacks',                   note:'Compresses sleeping bag and puffy layers to save space.',                            amazon:'compression+sack+sleeping+bag' },
+    { id:'hip_belt',       cat:'pack',     name:'Hip Belt Pockets',                    note:'Quick-access storage for snacks, sunscreen, and small essentials.',                  amazon:'hip+belt+pockets+backpack' },
+    { id:'tent',           cat:'shelter',  name:'Backpacking Tent',                    note:'A 3-season tent works for most conditions; go 4-season for snow.',                   amazon:'backpacking+tent+lightweight', essential:true },
+    { id:'bivy',           cat:'shelter',  name:'Emergency Bivy Sack',                 note:'Lightweight backup shelter for unexpected weather or emergencies.',                  amazon:'emergency+bivy+sack+backpacking', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' },
+    { id:'tarp',           cat:'shelter',  name:'Silnylon Tarp / Shelter',             note:'Ultralight shelter option or extra weather protection.',                             amazon:'backpacking+tarp+ultralight+shelter', cond: i => i.difficulty === 'expert' || i.days === '6-10' || i.days === '10+' },
+    { id:'footprint',      cat:'shelter',  name:'Tent Footprint / Ground Cloth',       note:'Extends tent floor life and adds moisture barrier below.',                           amazon:'tent+footprint+ground+cloth' },
+    { id:'sleep_bag',      cat:'shelter',  name:'Sleeping Bag (temp-rated)',            note: () => { if (inputs.weather.includes('snow')) return '15°F or lower rated bag for freezing conditions.'; if (inputs.weather.includes('cold')) return '20–30°F rated bag for cold nights.'; return '30–45°F rated bag is sufficient for mild conditions.'; }, amazon:'backpacking+sleeping+bag+mummy', essential:true },
+    { id:'sleep_pad',      cat:'shelter',  name:'Sleeping Pad',                        note:'Insulates from ground — inflatable pads are lighter, foam pads more durable.',      amazon:'backpacking+sleeping+pad+inflatable', essential:true },
+    { id:'pillow',         cat:'shelter',  name:'Inflatable Camp Pillow',              note:'Ultralight and compressible for a better night\'s sleep.',                          amazon:'inflatable+camp+pillow+backpacking' },
+    { id:'topo_map',       cat:'nav',      name:'Topographic Map (printed)',            note:'Always carry a paper map — never rely solely on your phone or GPS.',                amazon:'topographic+map+waterproof+hiking', essential:true },
+    { id:'compass',        cat:'nav',      name:'Baseplate Compass',                   note:'Learn to use it with your topo map before you go.',                                  amazon:'baseplate+compass+backpacking', essential:true },
+    { id:'gps_device',     cat:'nav',      name:'Handheld GPS Device',                 note:'Useful for off-trail navigation and recording waypoints.',                           amazon:'handheld+GPS+hiking+device', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.terrain === 'mixed' },
+    { id:'sat_comm',       cat:'nav',      name:'Satellite Communicator (e.g. Garmin inReach)', note:'Two-way messaging and SOS capability when out of cell range.',            amazon:'garmin+inReach+satellite+communicator', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.days === '6-10' || i.days === '10+' },
+    { id:'trail_app',      cat:'nav',      name:'Offline Maps Downloaded (AllTrails / Gaia)', note:'Download offline before you leave — no signal needed in the field.',         amazon:'waterproof+phone+case+hiking' },
+    { id:'stove',          cat:'food',     name:'Backpacking Stove',                   note:'Canister stoves are simplest; alcohol stoves are ultralight.',                      amazon:'backpacking+canister+stove', essential:true },
+    { id:'fuel',           cat:'food',     name:'Fuel Canisters',                      note: () => { if (inputs.days === '1-2') return 'One 100g canister is usually enough for 1-2 days.'; if (inputs.days === '3-5') return 'Bring 1-2 canisters (100–230g) for a 3-5 day trip.'; return 'Pack 2+ canisters; fuel consumption increases in cold weather.'; }, amazon:'backpacking+stove+fuel+canister', essential:true },
+    { id:'pot',            cat:'food',     name:'Lightweight Cooking Pot',             note:'Titanium or hard-anodized aluminum — 750mL–1.5L depending on group size.',          amazon:'backpacking+cooking+pot+titanium', essential:true },
+    { id:'spork',          cat:'food',     name:'Titanium Spork / Utensils',           note:'Long-handled sporks are great for eating from freeze-dried meal pouches.',          amazon:'titanium+spork+backpacking' },
+    { id:'meals',          cat:'food',     name:'Freeze-Dried Backpacking Meals',      note:'Lightweight, calorie-dense — just add boiling water. Pack 1.5–2 per day.',          amazon:'freeze+dried+backpacking+meals', essential:true },
+    { id:'snacks',         cat:'food',     name:'Trail Mix / Energy Bars / Snacks',    note:'Aim for ~200 cal/oz — pack enough for 2,500–3,500 cal/day.',                        amazon:'backpacking+trail+snacks+energy+bars', essential:true },
+    { id:'electrolytes',   cat:'food',     name:'Electrolyte Drink Packets',           note:'Critical for replacing salt and minerals lost during hot, sweaty miles.',           amazon:'electrolyte+packets+hiking', cond: i => i.weather.includes('hot') || i.difficulty === 'strenuous' || i.difficulty === 'expert' },
+    { id:'camp_soap',      cat:'food',     name:'Biodegradable Camp Soap',             note:'Use 200+ feet from any water source. Works for dishes, hands, and body.',           amazon:'biodegradable+camp+soap' },
+    { id:'filter',         cat:'water',    name:'Water Filter / Purifier',             note:'Sawyer Squeeze or BeFree are top picks — filter from streams and lakes.',           amazon:'backpacking+water+filter+sawyer', essential:true },
+    { id:'bottles',        cat:'water',    name:'Water Bottles (2x)',                  note:'Carry at least 2 liters of capacity — more in desert terrain.',                     amazon:'backpacking+water+bottle+wide+mouth', essential:true },
+    { id:'hydration',      cat:'water',    name:'Hydration Bladder / Reservoir',       note:'Hands-free drinking while hiking — great for high-mileage days.',                  amazon:'hydration+bladder+backpacking+2L', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.weather.includes('hot') },
+    { id:'tablets',        cat:'water',    name:'Water Purification Tablets',          note:'Backup method in case your filter fails — lightweight insurance.',                  amazon:'water+purification+tablets+backpacking', essential:true },
+    { id:'collapsible',    cat:'water',    name:'Collapsible Water Container',         note:'For dry camp — carry extra capacity from last water source.',                       amazon:'collapsible+water+container+backpacking', cond: i => i.terrain === 'desert' || i.days === '6-10' || i.days === '10+' },
+    { id:'bear_can',       cat:'bear',     name:'Bear Canister',                       note:'Required in many wilderness areas — rigid canisters keep your food safe.',          amazon:'bear+canister+backpacking', essential:true },
+    { id:'bear_spray',     cat:'bear',     name:'Bear Spray',                          note:'Carry on your hip strap, not in your pack — EPA-registered spray is most effective.', amazon:'bear+spray+counter+assault', cond: i => i.terrain === 'mountain' || i.terrain === 'forest' || i.terrain === 'mixed' },
+    { id:'bear_hang',      cat:'bear',     name:'Bear Hang Kit (rope + bag)',          note:'Alternative to canister — requires a suitable tree and proper hanging technique.',   amazon:'bear+bag+hang+kit+rope' },
+    { id:'odor_bags',      cat:'bear',     name:'Odor-Proof Storage Bags',            note:'Extra layer of protection for food and scented items in bear country.',             amazon:'odor+proof+bags+bear+backpacking' },
+    { id:'base_top',       cat:'clothing', name:'Moisture-Wicking Base Layer (top)',   note:'Wool or synthetic — wicks sweat and dries fast. Bring 1–2.',                        amazon:'merino+wool+base+layer+hiking', essential:true },
+    { id:'base_bot',       cat:'clothing', name:'Moisture-Wicking Underwear',          note:'Merino wool prevents chafing and odor on multi-day trips.',                         amazon:'merino+wool+hiking+underwear' },
+    { id:'hiking_pants',   cat:'clothing', name:'Hiking Pants / Shorts',               note:'Lightweight, quick-dry pants with zip-off option is versatile.',                   amazon:'convertible+hiking+pants', essential:true },
+    { id:'fleece',         cat:'clothing', name:'Fleece Mid-Layer',                    note:'Insulating layer for cool mornings and evenings — wear under rain shell.',          amazon:'fleece+jacket+backpacking+lightweight', cond: i => i.weather.includes('cold') || i.weather.includes('mild') || i.weather.includes('snow') },
+    { id:'puffy',          cat:'clothing', name:'Down / Insulated Puffy Jacket',       note:'Essential for sub-freezing conditions and cold camps.',                             amazon:'down+jacket+backpacking+lightweight', cond: i => i.weather.includes('cold') || i.weather.includes('snow') },
+    { id:'rain_jacket',    cat:'clothing', name:'Waterproof Rain Jacket',              note:'Gore-Tex or similar — protects against rain and wind.',                             amazon:'waterproof+rain+jacket+hiking', essential:true },
+    { id:'rain_pants',     cat:'clothing', name:'Waterproof Rain Pants',               note:'Keep legs dry during sustained rain and wet brush.',                                amazon:'rain+pants+hiking+waterproof', cond: i => i.weather.includes('wet') || i.weather.includes('snow') },
+    { id:'boots',          cat:'clothing', name:'Backpacking Boots (broken in!)',       note:'Waterproof boots with ankle support — break in before your trip.',                 amazon:'backpacking+boots+waterproof+ankle', essential:true },
+    { id:'socks',          cat:'clothing', name:'Merino Wool Hiking Socks (3+ pairs)', note:'Pack at least one pair per 2 days — wool resists odor and blisters.',               amazon:'merino+wool+hiking+socks+thick', essential:true },
+    { id:'gaiters',        cat:'clothing', name:'Trail Gaiters',                       note:'Keep debris, mud, and snow out of boots.',                                          amazon:'trail+gaiters+hiking+waterproof', cond: i => i.weather.includes('snow') || i.weather.includes('wet') || i.difficulty === 'strenuous' || i.difficulty === 'expert' },
+    { id:'camp_shoes',     cat:'clothing', name:'Camp Shoes / Sandals',                note:'Give your feet relief at camp — lightweight Crocs or sandals work great.',          amazon:'camp+shoes+backpacking+lightweight', cond: i => i.days !== '1-2' },
+    { id:'sun_hat',        cat:'clothing', name:'Sun Hat / Brim Hat',                  note:'Essential UV protection — exposed terrain needs wide-brim coverage.',               amazon:'sun+hat+hiking+wide+brim', cond: i => i.weather.includes('hot') || i.terrain === 'desert' || i.terrain === 'mountain' },
+    { id:'warm_hat',       cat:'clothing', name:'Wool / Fleece Beanie',                note:'80% of body heat escapes through your head — carry even in mild conditions.',       amazon:'merino+wool+beanie+hiking', cond: i => i.weather.includes('cold') || i.weather.includes('snow') || i.terrain === 'mountain' },
+    { id:'gloves',         cat:'clothing', name:'Waterproof Hiking Gloves',            note:'Lightweight gloves for cold temps and wet conditions.',                             amazon:'waterproof+hiking+gloves+lightweight', cond: i => i.weather.includes('cold') || i.weather.includes('snow') },
+    { id:'buff',           cat:'clothing', name:'Neck Gaiter / Buff',                  note:'Multi-use — sun protection, dust mask, face warmer, or bandana.',                  amazon:'neck+gaiter+buff+hiking' },
+    { id:'sunglasses',     cat:'clothing', name:'UV-Protective Sunglasses',            note:'Polarized lens protects eyes from glare on snow, water, and exposed terrain.',      amazon:'polarized+sunglasses+hiking+UV' },
+    { id:'first_aid',      cat:'firstaid', name:'Backpacking First Aid Kit',           note:'Wilderness-specific kit — includes blister care, wound closure, SAM splint.',       amazon:'backpacking+wilderness+first+aid+kit', essential:true },
+    { id:'moleskin',       cat:'firstaid', name:'Moleskin / Blister Cushions',         note:'Address hot spots before they become blisters. Carry Leukotape too.',              amazon:'moleskin+blister+prevention+hiking', essential:true },
+    { id:'pain_med',       cat:'firstaid', name:'Ibuprofen / Pain Reliever',           note:'Anti-inflammatory reduces pain and swelling from long miles.',                      amazon:'ibuprofen+200mg+travel+pack', essential:true },
+    { id:'antihistamine',  cat:'firstaid', name:'Antihistamine (Benadryl)',            note:'For allergic reactions, insect stings, and hay fever.',                            amazon:'antihistamine+allergy+travel+pack' },
+    { id:'emrg_blanket',   cat:'firstaid', name:'Emergency Mylar Blanket',            note:'Ultralight, retains 90% body heat — pack 2 on solo trips.',                         amazon:'emergency+mylar+blanket+survival', essential:true },
+    { id:'whistle',        cat:'firstaid', name:'Emergency Whistle',                  note:'Louder than your voice and carries farther — attach to shoulder strap.',             amazon:'emergency+whistle+loud+hiking', essential:true },
+    { id:'fire_start',     cat:'firstaid', name:'Fire Starter + Lighter',             note:'BIC lighter plus ferrocerium rod for wet conditions.',                               amazon:'fire+starter+backpacking+survival', essential:true },
+    { id:'sam_splint',     cat:'firstaid', name:'SAM Splint',                         note:'Moldable splint for sprains and fractures in remote locations.',                     amazon:'SAM+splint+first+aid+wilderness', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.days === '6-10' || i.days === '10+' },
+    { id:'altitude_med',   cat:'firstaid', name:'Altitude Sickness Medication (consult your doctor)', note:'Acetazolamide (Diamox) is commonly prescribed — ask your doctor before alpine trips above 8,000 ft.', amazon:'altitude+sickness+support+supplement', cond: i => i.terrain === 'mountain' },
+    { id:'snake_kit',      cat:'firstaid', name:'Snake Bite / Venom Reference Card',  note:'Know the protocol — immobilize, stay calm, get to emergency care. Do NOT use suction kits.', amazon:'wilderness+first+aid+reference+card', cond: i => i.terrain === 'desert' || i.terrain === 'forest' },
+    { id:'headlamp',       cat:'tools',    name:'Headlamp + Backup Batteries',         note:'300+ lumens with red-light mode. Always pack fresh batteries.',                    amazon:'headlamp+backpacking+bright+rechargeable', essential:true },
+    { id:'knife',          cat:'tools',    name:'Multi-Tool or Folding Knife',         note:'Handle camp repairs, food prep, and gear fixes.',                                  amazon:'multi+tool+backpacking+lightweight', essential:true },
+    { id:'trekking_poles', cat:'tools',    name:'Trekking Poles',                      note:'Reduces knee stress on descents and improves balance on rough terrain.',            amazon:'trekking+poles+backpacking+lightweight', cond: i => i.difficulty !== 'easy' || i.terrain === 'mountain' },
+    { id:'duct_tape',      cat:'tools',    name:'Duct Tape (small roll)',               note:'Wrap a few feet around a trekking pole — fixes tents, boots, and gear.',           amazon:'duct+tape+mini+roll+camping', essential:true },
+    { id:'repair_kit',     cat:'tools',    name:'Gear Repair Kit',                     note:'Seam sealer, patch kit, pole repair sleeve, safety pins.',                          amazon:'tent+gear+repair+kit+backpacking', cond: i => i.days === '3-5' || i.days === '6-10' || i.days === '10+' },
+    { id:'sunscreen',      cat:'tools',    name:'Sunscreen SPF 50+',                   note:'Reapply every 2 hours — high elevation UV is intense even on cloudy days.',         amazon:'sunscreen+SPF+50+sport+backpacking', essential:true },
+    { id:'bug_spray',      cat:'tools',    name:'Insect Repellent (DEET or Picaridin)',note:'Essential in forested and coastal terrain — prevents Lyme disease.',               amazon:'DEET+insect+repellent+hiking', cond: i => i.terrain === 'forest' || i.terrain === 'coastal' || i.terrain === 'mixed' },
+    { id:'solar_charger',  cat:'tools',    name:'Solar Charger / Battery Bank',        note:'Keep GPS, headlamp, and phone charged on extended trips.',                          amazon:'solar+charger+backpacking+USB', cond: i => i.days === '6-10' || i.days === '10+' },
+    { id:'microspikes',    cat:'tools',    name:'Microspikes / Traction Devices',      note:'Attach to boots for traction on icy trails and hard snow.',                        amazon:'microspikes+traction+ice+hiking', cond: i => i.weather.includes('snow') || (i.terrain === 'mountain' && i.weather.includes('cold')) },
+    { id:'ice_axe',        cat:'tools',    name:'Ice Axe',                             note:'Required for steep snow travel and self-arrest on glaciers.',                       amazon:'ice+axe+mountaineering+backpacking', cond: i => i.difficulty === 'expert' && i.weather.includes('snow') },
+    { id:'hand_warmers',   cat:'tools',    name:'Disposable Hand Warmers',             note:'For cold camp nights and frozen mornings — stuff in gloves and boot liners.',       amazon:'hand+warmers+disposable+backpacking', cond: i => i.weather.includes('cold') || i.weather.includes('snow') },
+    { id:'cooling_towel',  cat:'tools',    name:'Cooling Towel',                       note:'Wet and drape around your neck to fight heat exhaustion.',                          amazon:'cooling+towel+hiking+sport', cond: i => i.weather.includes('hot') || i.terrain === 'desert' },
+    { id:'trowel',         cat:'hygiene',  name:'Backpacking Trowel',                  note:'Dig cat holes 6–8 inches deep, 200 feet from water, trails, and camp.',             amazon:'backpacking+trowel+waste', essential:true },
+    { id:'wag_bags',       cat:'hygiene',  name:'WAG Bags / Human Waste Bags',         note:'Required in desert or low-impact zones where cat holes aren\'t viable.',            amazon:'WAG+bags+human+waste+backpacking', cond: i => i.terrain === 'desert' },
+    { id:'toilet_paper',   cat:'hygiene',  name:'Biodegradable Toilet Paper',          note:'Pack out used TP in a bag — many areas now require this.',                          amazon:'biodegradable+toilet+paper+camping', essential:true },
+    { id:'hand_san',       cat:'hygiene',  name:'Hand Sanitizer',                      note:'Use after every bathroom break — foodborne illness in the backcountry is dangerous.', amazon:'travel+hand+sanitizer', essential:true },
+    { id:'toothbrush',     cat:'hygiene',  name:'Toothbrush + Travel Toothpaste',      note:'Cut toothbrush handle to save weight — store away from camp to avoid attracting wildlife.', amazon:'travel+toothbrush+toothpaste' },
+    { id:'wet_wipes',      cat:'hygiene',  name:'Biodegradable Wet Wipes',             note:'A backcountry "shower" — use for body and face wipe-downs.',                        amazon:'biodegradable+wet+wipes+camping' },
+    { id:'lnt_card',       cat:'hygiene',  name:'Leave No Trace Reference Card',       note:'7 LNT principles — plan ahead, travel on durable surfaces, pack it out.',           amazon:'leave+no+trace+principles+card' },
+    { id:'notebook',       cat:'extras',   name:'Waterproof Notebook + Pencil',        note:'Log campsites, weather, permits, and emergency contacts.',                          amazon:'waterproof+notebook+outdoor+writing' },
+    { id:'permits',        cat:'extras',   name:'Permits and Park Passes',               note:'Physical copy — many wilderness permits must be carried and shown on request.',     amazon:'waterproof+document+holder+hiking' },
+    { id:'stakes',         cat:'extras',   name:'Extra Tent Stakes',                   note:'Carry 2–4 extra — they bend, get lost, or break in rocky soil.',                    amazon:'tent+stakes+titanium+backpacking' },
+    { id:'cord',           cat:'extras',   name:'Paracord (30ft)',                     note:'Hang food, make clothesline, rig tarp, repair gear — endlessly useful.',            amazon:'paracord+550+backpacking' },
+    { id:'sit_pad',        cat:'extras',   name:'Foam Sit Pad',                        note:'Insulated seat for breaks — doubles as hip belt padding.',                          amazon:'foam+sit+pad+backpacking+lightweight' },
+    { id:'bug_net',        cat:'extras',   name:'Head Net (mosquito)',                 note:'A lifesaver in buggy conditions — weighs almost nothing.',                           amazon:'head+net+mosquito+backpacking', cond: i => i.terrain === 'forest' || i.terrain === 'coastal' },
+    { id:'camp_towel',     cat:'extras',   name:'Quick-Dry Camp Towel',                note:'Microfiber towel dries in minutes — doubles as a pot pad.',                         amazon:'quick+dry+microfiber+camp+towel', cond: i => i.days !== '1-2' },
+    { id:'id_docs',        cat:'extras',   name:'ID, Emergency Contacts, and Insurance Card', note:'Laminate or store in waterproof bag. Leave trip itinerary with someone at home.', amazon:'waterproof+wallet+hiking', essential:true },
+  ];
+
+  const CATS = {
+    pack:     { label:'Pack and Carry',              icon:'🎒', cls:'cat-pack' },
+    shelter:  { label:'Shelter and Sleep',            icon:'⛺', cls:'cat-shelter' },
+    nav:      { label:'Navigation',                 icon:'🧭', cls:'cat-nav' },
+    food:     { label:'Food and Cooking',             icon:'🍲', cls:'cat-food' },
+    water:    { label:'Water',                      icon:'💧', cls:'cat-water' },
+    bear:     { label:'Bear and Wildlife Safety',     icon:'🐻', cls:'cat-bear' },
+    clothing: { label:'Clothing and Layers',          icon:'🧥', cls:'cat-clothing' },
+    firstaid: { label:'First Aid and Safety',         icon:'⛑️',  cls:'cat-firstaid' },
+    tools:    { label:'Tools and Gear',               icon:'🔧', cls:'cat-tools' },
+    hygiene:  { label:'Hygiene and Leave No Trace',   icon:'♻️', cls:'cat-hygiene' },
+    extras:   { label:'Documents and Extras',         icon:'📋', cls:'cat-extras' },
+  };
+  const CAT_ORDER = ['pack','shelter','nav','food','water','bear','clothing','firstaid','tools','hygiene','extras'];
+
+  // ══════════════════════════════════════
+  // GENERATE / BUILD RESULTS
+  // ══════════════════════════════════════
+  function generateList() {
+    document.getElementById('err4').classList.remove('show');
+    if (!validators[4]()) { document.getElementById('err4').classList.add('show'); return; }
+    document.getElementById('dot4').classList.replace('active','done');
+    document.getElementById('line3').classList.add('done');
+    document.getElementById('progressBar').style.display = 'none';
+    [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
+    buildResults();
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function buildResults() {
+    const list = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
+    const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
+    const wL = { hot:'Hot and Sunny ☀️', mild:'Mild and Pleasant 🌤️', cold:'Cold and Windy 🌬️', wet:'Wet and Rainy 🌧️', snow:'Snow / Ice ❄️' };
+    const dL = { '1-2':'1–2 Days', '3-5':'3–5 Days', '6-10':'6–10 Days', '10+':'10+ Days' };
+    const dfL = { easy:'Easy 🟢', moderate:'Moderate 🟡', strenuous:'Strenuous 🟠', expert:'Expert 🔴' };
+
+    document.getElementById('tripSummary').innerHTML = `
+      <h2>${tI[inputs.terrain]} Your ${tL[inputs.terrain]} Pack List</h2>
+      <span class="trip-badge">🌍 ${tL[inputs.terrain]}</span>
+      <span class="trip-badge">${inputs.weather.map(w => wL[w]).join(' · ')}</span>
+      <span class="trip-badge">⏱ ${dL[inputs.days]}</span>
+      <span class="trip-badge">🥾 ${dfL[inputs.difficulty]}</span>`;
+
+    const grouped = {};
+    CAT_ORDER.forEach(c => grouped[c] = []);
+    list.forEach(item => { if (grouped[item.cat]) grouped[item.cat].push(item); });
+    document.getElementById('itemCount').innerHTML = `<span>${list.length}</span> items in your pack list`;
+
+    let html = '';
+    CAT_ORDER.forEach(catKey => {
+      const items = grouped[catKey];
+      if (!items.length) return;
+      const cat = CATS[catKey];
+      html += `<div class="category-section ${cat.cls}" id="cat-${catKey}">
+        <div class="category-header" onclick="toggleCat('${catKey}')">
+          <span class="cat-icon">${cat.icon}</span>
+          <span class="cat-name">${cat.label}</span>
+          <span class="cat-count">${items.length} items</span>
+          <span class="cat-chevron">▼</span>
+        </div><div class="category-body">`;
+      items.forEach(item => {
+        const note = typeof item.note === 'function' ? item.note() : item.note;
+        html += `<div class="gear-item" id="gi-${item.id}">
+          <div class="gear-checkbox" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
+          <div class="gear-info">
+            <div class="item-name">${item.name}${item.essential ? '<span class="item-essential">Essential</span>' : ''}</div>
+            <div class="item-note">${note}</div>
+          </div>
+          <a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon">🛒 Amazon</a>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+    document.getElementById('packList').innerHTML = html;
+  }
+
+  function toggleCat(catKey) { document.getElementById('cat-'+catKey).classList.toggle('collapsed'); }
+
+  function toggleCheck(id) {
+    document.getElementById('cb-'+id).classList.toggle('checked');
+    document.getElementById('gi-'+id).classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total   = document.querySelectorAll('.gear-checkbox').length;
+    const checked = document.querySelectorAll('.gear-checkbox.checked').length;
+    document.getElementById('itemCount').innerHTML = `<span>${total - checked}</span> items remaining · ${checked} packed ✓`;
+  }
+
+  // ══════════════════════════════════════
+  // SAVE / LOAD
+  // ══════════════════════════════════════
+  const LS_KEY = 'trailpack_saved_lists';
+  function getSavedLists() { try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch(e) { return []; } }
+  function putSavedLists(lists) { localStorage.setItem(LS_KEY, JSON.stringify(lists)); updateBadge(); }
+
+  function updateBadge() {
+    const count = getSavedLists().length;
+    const badge = document.getElementById('listBadge');
+    badge.textContent = count;
+    badge.classList.toggle('show', count > 0);
+  }
+
+  function openSaveModal() {
+    document.getElementById('listNameInput').value = '';
+    document.getElementById('saveModal').classList.add('show');
+    setTimeout(() => document.getElementById('listNameInput').focus(), 80);
+  }
+  function closeModal() { document.getElementById('saveModal').classList.remove('show'); }
+
+  function confirmSave() {
+    const name = document.getElementById('listNameInput').value.trim();
+    if (!name) {
+      document.getElementById('listNameInput').style.borderColor = '#c33';
+      setTimeout(() => document.getElementById('listNameInput').style.borderColor = '', 1200);
+      return;
+    }
+    const lists = getSavedLists();
+    lists.unshift({
+      id: Date.now(),
+      name,
+      date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+      inputs: JSON.parse(JSON.stringify(inputs)),
+      itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
+    });
+    putSavedLists(lists);
+    closeModal();
+    showToast(`✓ "${name}" saved!`);
+  }
+
+  function renderSavedLists() {
+    const lists = getSavedLists();
+    const el = document.getElementById('savedListsContent');
+    if (!lists.length) {
+      el.innerHTML = `<div class="saved-empty">
+        <span class="empty-icon">🗺️</span>
+        <p>No saved lists yet.<br>Build a pack list and hit <strong>💾 Save List</strong> to keep it here.</p>
+        <button class="btn-generate" onclick="showPage('pack')">🎒 Build My First List</button>
+      </div>`; return;
+    }
+    const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
+    const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
+    const wL = { hot:'☀️ Hot', mild:'🌤️ Mild', cold:'🌬️ Cold', wet:'🌧️ Rainy', snow:'❄️ Snow' };
+    const dL = { '1-2':'1–2 days', '3-5':'3–5 days', '6-10':'6–10 days', '10+':'10+ days' };
+    const dfL = { easy:'🟢 Easy', moderate:'🟡 Moderate', strenuous:'🟠 Strenuous', expert:'🔴 Expert' };
+    el.innerHTML = `<div class="saved-grid">${lists.map(rec => {
+      const inp = rec.inputs;
+      const wBadges = (inp.weather||[]).map(w=>`<span class="saved-badge">${wL[w]||w}</span>`).join('');
+      return `<div class="saved-card">
+        <div class="saved-card-top">
+          <div class="card-date">Saved ${rec.date}</div>
+          <h3>${tI[inp.terrain]||'🏕️'} ${rec.name}</h3>
+          <div class="saved-card-badges">
+            <span class="saved-badge">${tL[inp.terrain]||inp.terrain}</span>
+            ${wBadges}
+            <span class="saved-badge">⏱ ${dL[inp.days]||inp.days}</span>
+            <span class="saved-badge">${dfL[inp.difficulty]||inp.difficulty}</span>
+          </div>
+        </div>
+        <div class="saved-card-body">
+          <div class="saved-item-count"><strong>${rec.itemCount}</strong> gear items</div>
+          <div class="saved-card-actions">
+            <button class="btn-view-list" onclick="loadSavedList(${rec.id})">View List →</button>
+            <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">🗑️</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  function loadSavedList(id) {
+    const rec = getSavedLists().find(l => l.id === id);
+    if (!rec) return;
+    Object.assign(inputs, JSON.parse(JSON.stringify(rec.inputs)));
+    showPage('pack');
+    document.getElementById('progressBar').style.display = 'none';
+    [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
+    buildResults();
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function deleteSavedList(id) {
+    if (!confirm('Delete this saved list?')) return;
+    putSavedLists(getSavedLists().filter(l => l.id !== id));
+    renderSavedLists();
+    showToast('List deleted.');
+  }
+
+  // ══════════════════════════════════════
+  // GROCERY PLANNER STATE
+  // ══════════════════════════════════════
+  const GS = {
+    mode: null,          // 'import' | 'manual'
+    importedListId: null,
+    tripDays: null,
+    tripDifficulty: null,
+    packWeight: null,
+    // personal
+    gender: null,
+    heightFt: null,
+    heightIn: null,
+    age: null,
+    bodyWeight: null,
+    useDefault: false,
+    // dietary
+    restrictions: [],
+    // results
+    mealPlan: null,
+    dailyCal: null,
+  };
+
+  // ── Mode selection
+  function selectImportMode(mode) {
+    GS.mode = mode;
+    document.getElementById('importOpt').classList.toggle('selected', mode === 'import');
+    document.getElementById('manualOpt').classList.toggle('selected', mode === 'manual');
+    document.getElementById('importSelectWrap').classList.toggle('show', mode === 'import');
+    document.getElementById('manualEntryWrap').classList.toggle('show', mode === 'manual');
+    if (mode === 'import') populateImportDropdown();
+  }
+
+  function populateImportDropdown() {
+    const lists = getSavedLists();
+    const sel = document.getElementById('gImportSelect');
+    sel.innerHTML = '<option value="">— Choose a list —</option>';
+    lists.forEach(l => {
+      const o = document.createElement('option');
+      o.value = l.id; o.textContent = l.name; sel.appendChild(o);
+    });
+  }
+
+  function previewImport() {
+    const id = parseInt(document.getElementById('gImportSelect').value);
+    const rec = getSavedLists().find(l => l.id === id);
+    const prev = document.getElementById('importedPreview');
+    if (!rec) { prev.classList.remove('show'); return; }
+    GS.importedListId = id;
+    const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
+    const wL = { hot:'☀️ Hot', mild:'🌤️ Mild', cold:'🌬️ Cold', wet:'🌧️ Rainy', snow:'❄️ Snow' };
+    const dfL = { easy:'Easy 🟢', moderate:'Moderate 🟡', strenuous:'Strenuous 🟠', expert:'Expert 🔴' };
+    const dL  = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
+    document.getElementById('impName').textContent = '📂 ' + rec.name;
+    document.getElementById('impTerrain').textContent = tL[rec.inputs.terrain] || rec.inputs.terrain;
+    document.getElementById('impWeather').textContent = (rec.inputs.weather||[]).map(w=>wL[w]||w).join(' · ');
+    document.getElementById('impDays').textContent = rec.inputs.days + ' days';
+    document.getElementById('impDiff').textContent = dfL[rec.inputs.difficulty] || rec.inputs.difficulty;
+    prev.classList.add('show');
+    // Auto-fill days and pack weight estimate
+    document.getElementById('gDaysImport').value = dL[rec.inputs.days] || 4;
+    document.getElementById('gPackWeightImport').value = estimatePackWeight(rec.inputs);
+    // Store difficulty
+    GS.tripDifficulty = rec.inputs.difficulty;
+  }
+
+  function estimatePackWeight(inp) {
+    let w = 20;
+    if      (inp.days === '1-2') w += 3;
+    else if (inp.days === '3-5') w += 8;
+    else if (inp.days === '6-10') w += 16;
+    else w += 24;
+    if      (inp.difficulty === 'moderate')  w += 3;
+    else if (inp.difficulty === 'strenuous') w += 5;
+    else if (inp.difficulty === 'expert')    w += 8;
+    if (inp.weather && inp.weather.includes('snow')) w += 5;
+    else if (inp.weather && inp.weather.includes('cold')) w += 3;
+    if (inp.weather && inp.weather.includes('wet')) w += 2;
+    if (inp.terrain === 'mountain') w += 3;
+    return Math.round(w);
+  }
+
+  // ── Step navigation
+  function gNextStep(from) {
+    document.getElementById('gerr'+from) && document.getElementById('gerr'+from).classList.remove('show');
+    if (from === 1) {
+      if (!GS.mode) { showGErr(1, 'Please choose an option above.'); return; }
+      if (GS.mode === 'import') {
+        const days = parseInt(document.getElementById('gDaysImport').value);
+        const pw   = parseInt(document.getElementById('gPackWeightImport').value);
+        if (!GS.importedListId || !pw) { showGErr(1, 'Please select a saved list and enter pack weight.'); return; }
+        GS.tripDays  = days || 4;
+        GS.packWeight = pw;
+        GS.tripDifficulty = GS.tripDifficulty || 'moderate';
+      } else {
+        const days = parseInt(document.getElementById('gDaysManual').value);
+        const pw   = parseInt(document.getElementById('gPackWeightManual').value);
+        if (!days || !pw) { showGErr(1, 'Days and pack weight are required.'); return; }
+        GS.tripDays  = days;
+        GS.packWeight = pw;
+        GS.tripDifficulty = document.getElementById('gDiffManual').value || 'moderate';
+      }
+    }
+    document.getElementById('gstep'+from).classList.remove('visible');
+    document.getElementById('gstep'+(from+1)).classList.add('visible');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function gPrevStep(from) {
+    document.getElementById('gstep'+from).classList.remove('visible');
+    document.getElementById('gstep'+(from-1)).classList.add('visible');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function showGErr(step, msg) {
+    let el = document.getElementById('gerr'+step);
+    if (!el) { el = document.createElement('div'); el.id='gerr'+step; el.className='error-msg'; document.getElementById('gstep'+step).insertBefore(el, document.getElementById('gstep'+step).querySelector('.step-nav')); }
+    el.textContent = msg; el.classList.add('show');
+  }
+
+  function gSelectGender(el, val) {
+    document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    GS.gender = val;
+  }
+
+  function gToggleRestriction(el, tag) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) { if (!GS.restrictions.includes(tag)) GS.restrictions.push(tag); }
+    else { GS.restrictions = GS.restrictions.filter(r => r !== tag); }
+    // vegan implies vegetarian
+    if (tag === 'vegan' && el.classList.contains('selected') && !GS.restrictions.includes('vegetarian')) {
+      GS.restrictions.push('vegetarian');
+    }
+  }
+
+  function skipPersonalInfo() {
+    GS.useDefault = true;
+    document.getElementById('gDefaultNote').classList.add('show');
+    gNextStep(2);
+  }
+
+  // ── Calorie calculation (Mifflin-St Jeor)
+  function calcDailyCalories() {
+    const ft  = parseInt(document.getElementById('gHeightFt').value)  || 0;
+    const ins = parseInt(document.getElementById('gHeightIn').value)  || 0;
+    const age = parseInt(document.getElementById('gAge').value)        || 0;
+    const bw  = parseInt(document.getElementById('gBodyWeight').value) || 0;
+    const hasPersonal = GS.gender || ft || age || bw;
+
+    let bmr;
+    if (!hasPersonal || GS.useDefault) {
+      GS.useDefault = true;
+      bmr = 1315; // 5'4", 140 lbs, 35 yo woman
+    } else {
+      GS.heightFt = ft; GS.heightIn = ins; GS.age = age; GS.bodyWeight = bw;
+      const htCm = ((ft||5)*12 + (ins||4)) * 2.54;
+      const wtKg = (bw||140) * 0.453592;
+      const a    = age || 35;
+      const g    = GS.gender || 'woman';
+      if      (g === 'man')      bmr = 10*wtKg + 6.25*htCm - 5*a + 5;
+      else if (g === 'nonbinary') bmr = ((10*wtKg+6.25*htCm-5*a+5) + (10*wtKg+6.25*htCm-5*a-161)) / 2;
+      else                        bmr = 10*wtKg + 6.25*htCm - 5*a - 161;
+    }
+    const multMap = { easy:1.7, moderate:1.9, strenuous:2.1, expert:2.4 };
+    const mult = multMap[GS.tripDifficulty] || 1.9;
+    let cal = bmr * mult;
+    // Pack weight bonus
+    const extra = Math.max(0, (GS.packWeight||25) - 20);
+    cal += Math.round(extra / 10) * 80;
+    GS.dailyCal = Math.round(cal);
+    return GS.dailyCal;
+  }
+
+  // ── MEAL DATABASE
+  const GMEALS = {
+    breakfast: [
+      { id:'b1', name:'Oatmeal Bowl with Seeds and Dried Fruit', icon:'🥣', cal:430, weightOz:4.5,
+        prep:'Add boiling water to oatmeal packets. Stir in sunflower seeds, dried cranberries, and cinnamon.',
+        tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant oatmeal packets',q:'2 packets',sk:'oatmeal',sn:2,su:'packets',cat:'grains'},
+              {n:'Sunflower seeds',q:'1 oz',sk:'sunflower_seeds',sn:1,su:'oz',cat:'nuts'},
+              {n:'Dried cranberries or raisins',q:'1 oz',sk:'dried_cranberries',sn:1,su:'oz',cat:'fruit'},
+              {n:'Brown sugar packets',q:'2 packets',sk:'brown_sugar',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'b2', name:'Peanut Butter Honey Tortilla', icon:'🫓', cal:460, weightOz:3.5,
+        prep:'Spread peanut butter on tortillas, drizzle with honey, roll up.',
+        tags:['vegan','vegetarian','df','porkfree','soyfree','eggfree'],
+        ings:[{n:'Flour tortillas (8-inch)',q:'2',sk:'flour_tortillas',sn:2,su:'each',cat:'grains'},
+              {n:'Peanut butter squeeze packets',q:'2 packets',sk:'peanut_butter',sn:2,su:'packets',cat:'protein'},
+              {n:'Honey packets',q:'2 packets',sk:'honey',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'b3', name:'Granola with Mixed Nuts and Powdered Milk', icon:'🥛', cal:490, weightOz:5,
+        prep:'Combine granola, nuts, and dried mango in a bag. Add powdered milk mixed with cold water.',
+        tags:['vegetarian','porkfree','eggfree'],
+        ings:[{n:'Granola (plain)',q:'2 oz (½ cup)',sk:'granola',sn:2,su:'oz',cat:'grains'},
+              {n:'Mixed nuts (almonds, walnuts)',q:'1 oz',sk:'mixed_nuts',sn:1,su:'oz',cat:'nuts'},
+              {n:'Dried mango or apricots',q:'1 oz',sk:'dried_mango',sn:1,su:'oz',cat:'fruit'},
+              {n:'Powdered whole milk',q:'3 tbsp',sk:'powdered_milk',sn:3,su:'tbsp',cat:'dairy'}]},
+      { id:'b4', name:'Instant Grits with Olive Oil', icon:'🍚', cal:360, weightOz:3,
+        prep:'Boil water, stir in grits and olive oil. Season with salt and a pinch of pepper.',
+        tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant grits packets',q:'2 packets',sk:'grits',sn:2,su:'packets',cat:'grains'},
+              {n:'Olive oil packets (0.5 oz)',q:'2 packets',sk:'olive_oil',sn:2,su:'packets',cat:'fats'},
+              {n:'Salt and pepper packets',q:'as needed',sk:'salt_pepper',sn:1,su:'set',cat:'condiments'}]},
+      { id:'b5', name:'Cream of Wheat with Dried Apricots', icon:'🍵', cal:380, weightOz:3.5,
+        prep:'Add boiling water to Cream of Wheat. Stir in coconut oil and top with apricots and sugar.',
+        tags:['vegetarian','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant Cream of Wheat packets',q:'2 packets',sk:'cream_of_wheat',sn:2,su:'packets',cat:'grains'},
+              {n:'Coconut oil packets or olive oil',q:'1 packet',sk:'coconut_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Dried apricots',q:'1 oz (4–5 pieces)',sk:'dried_apricots',sn:1,su:'oz',cat:'fruit'},
+              {n:'Brown sugar packets',q:'2 packets',sk:'brown_sugar',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'b6', name:'Egg and Potato Hash', icon:'🍳', cal:440, weightOz:4,
+        prep:'Rehydrate hash browns with just-boiling water. Mix in egg powder + water. Cook in oil on stove.',
+        tags:['vegetarian','gf','df','nutfree','porkfree','soyfree'],
+        ings:[{n:'Dehydrated hash brown potatoes',q:'2 oz (1 packet)',sk:'hash_browns',sn:2,su:'oz',cat:'grains'},
+              {n:'Powdered whole eggs',q:'2 tbsp',sk:'powdered_eggs',sn:2,su:'tbsp',cat:'protein'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Hot sauce packets',q:'2 packets',sk:'hot_sauce',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'b7', name:'Mini Bagel with PB and Jam', icon:'🥯', cal:500, weightOz:4.5,
+        prep:'Spread peanut butter on bagel halves, top with jam. Eat with instant coffee or tea.',
+        tags:['vegan','vegetarian','df','porkfree','soyfree','eggfree'],
+        ings:[{n:'Mini bagels',q:'2 bagels',sk:'mini_bagels',sn:2,su:'each',cat:'grains'},
+              {n:'Peanut butter squeeze packets',q:'2 packets',sk:'peanut_butter',sn:2,su:'packets',cat:'protein'},
+              {n:'Jam / jelly packets',q:'2 packets',sk:'jam',sn:2,su:'packets',cat:'condiments'}]},
+    ],
+    lunch: [
+      { id:'l1', name:'Tuna and Crackers', icon:'🐟', cal:400, weightOz:4,
+        prep:'Open tuna packet. Season with lemon pepper and a drizzle of olive oil. Eat with crackers.',
+        tags:['df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Foil-packet tuna (2.6 oz)',q:'1 packet',sk:'tuna_packet',sn:1,su:'packet',cat:'protein'},
+              {n:'Wheat crackers or Triscuits',q:'1.5 oz',sk:'crackers',sn:1.5,su:'oz',cat:'grains'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Lemon pepper packets',q:'1 packet',sk:'lemon_pepper',sn:1,su:'packet',cat:'condiments'}]},
+      { id:'l2', name:'PB&J Tortilla Wrap', icon:'🌯', cal:480, weightOz:3.5,
+        prep:'Spread peanut butter and jam on tortillas, roll up. Quick and filling.',
+        tags:['vegan','vegetarian','df','porkfree','soyfree','eggfree'],
+        ings:[{n:'Flour tortillas (8-inch)',q:'2',sk:'flour_tortillas',sn:2,su:'each',cat:'grains'},
+              {n:'Peanut butter squeeze packets',q:'2 packets',sk:'peanut_butter',sn:2,su:'packets',cat:'protein'},
+              {n:'Jam / jelly packets',q:'2 packets',sk:'jam',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'l3', name:'Salami and Hard Cheese Crackers', icon:'🧀', cal:520, weightOz:4.5,
+        prep:'Layer sliced salami and hard cheese on crackers. No cooking required.',
+        tags:['nutfree','eggfree','soyfree'],
+        ings:[{n:'Hard salami or pepperoni (pre-sliced)',q:'2 oz',sk:'salami',sn:2,su:'oz',cat:'protein'},
+              {n:'Babybel or hard cheese wedge',q:'1 oz (1 piece)',sk:'hard_cheese',sn:1,su:'oz',cat:'dairy'},
+              {n:'Wheat crackers or Triscuits',q:'1.5 oz',sk:'crackers',sn:1.5,su:'oz',cat:'grains'}]},
+      { id:'l4', name:'Cold-Soak Ramen Noodles', icon:'🍜', cal:380, weightOz:3.5,
+        prep:'Put ramen noodles in a jar or water bottle with cold water 30 min before eating. Add soy sauce, sesame oil.',
+        tags:['vegetarian','df','nutfree','porkfree','eggfree'],
+        ings:[{n:'Ramen noodle blocks (without seasoning)',q:'1 block',sk:'ramen_noodles',sn:1,su:'block',cat:'grains'},
+              {n:'Soy sauce packets',q:'3 packets',sk:'soy_sauce',sn:3,su:'packets',cat:'condiments'},
+              {n:'Sesame oil packets',q:'1 packet',sk:'sesame_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Hot sauce packets',q:'2 packets',sk:'hot_sauce',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'l5', name:'Sunflower Butter and Rice Crackers', icon:'🌻', cal:440, weightOz:4,
+        prep:'Dip rice crackers in sunflower butter. Enjoy with dried apricots on the side.',
+        tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Rice crackers (plain)',q:'1.5 oz',sk:'rice_crackers',sn:1.5,su:'oz',cat:'grains'},
+              {n:'Sunflower seed butter packets',q:'2 packets',sk:'sunbutter',sn:2,su:'packets',cat:'protein'},
+              {n:'Dried apricots',q:'1 oz',sk:'dried_apricots',sn:1,su:'oz',cat:'fruit'},
+              {n:'Honey packets',q:'1 packet',sk:'honey',sn:1,su:'packet',cat:'condiments'}]},
+      { id:'l6', name:'Tortilla with Refried Beans and Salsa', icon:'🫘', cal:450, weightOz:4,
+        prep:'Rehydrate bean flakes with a small splash of water. Spread on tortillas with salsa and hot sauce.',
+        tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Flour tortillas (8-inch)',q:'2',sk:'flour_tortillas',sn:2,su:'each',cat:'grains'},
+              {n:'Dehydrated refried bean flakes',q:'3 tbsp',sk:'refried_beans',sn:3,su:'tbsp',cat:'protein'},
+              {n:'Salsa packets or hot sauce',q:'3 packets',sk:'salsa',sn:3,su:'packets',cat:'condiments'}]},
+    ],
+    dinner: [
+      { id:'d1', name:'Tuna Ramen with Olive Oil', icon:'🍜', cal:520, weightOz:5.5,
+        prep:'Cook ramen in boiling water. Drain most water. Add tuna, olive oil, soy sauce, and hot sauce.',
+        tags:['df','nutfree','porkfree','eggfree'],
+        ings:[{n:'Ramen noodle packets (with seasoning)',q:'1 packet',sk:'ramen_packet',sn:1,su:'packet',cat:'grains'},
+              {n:'Foil-packet tuna (2.6 oz)',q:'1 packet',sk:'tuna_packet',sn:1,su:'packet',cat:'protein'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Hot sauce packets',q:'2 packets',sk:'hot_sauce',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'d2', name:'Mac and Cheese with Tuna', icon:'🧀', cal:560, weightOz:6,
+        prep:'Cook mac and cheese per package. Stir in tuna packet and season with hot sauce.',
+        tags:['nutfree','porkfree','eggfree'],
+        ings:[{n:'Single-serve mac and cheese (Annie\'s or Kraft)',q:'1 box',sk:'mac_cheese',sn:1,su:'box',cat:'grains'},
+              {n:'Foil-packet tuna (2.6 oz)',q:'1 packet',sk:'tuna_packet',sn:1,su:'packet',cat:'protein'},
+              {n:'Olive oil or butter powder',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'},
+              {n:'Hot sauce packets',q:'2 packets',sk:'hot_sauce',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'d3', name:'Mashed Potatoes with Chicken and Gravy', icon:'🥔', cal:500, weightOz:5.5,
+        prep:'Boil water, rehydrate potato flakes. Stir in chicken packet, gravy powder, and olive oil.',
+        tags:['gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant mashed potato flakes',q:'½ cup (2 oz)',sk:'mashed_potato',sn:2,su:'oz',cat:'grains'},
+              {n:'Foil-packet chicken (2.6 oz)',q:'1 packet',sk:'chicken_packet',sn:1,su:'packet',cat:'protein'},
+              {n:'Chicken gravy mix packets',q:'1 packet',sk:'gravy_mix',sn:1,su:'packet',cat:'condiments'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'}]},
+      { id:'d4', name:'Angel Hair Pasta with Olive Oil and Sun-Dried Tomatoes', icon:'🍝', cal:470, weightOz:5,
+        prep:'Cook pasta in boiling water. Drain, add olive oil, sun-dried tomatoes, garlic powder, and salt.',
+        tags:['vegan','vegetarian','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Angel hair pasta (thin spaghetti)',q:'2 oz',sk:'pasta',sn:2,su:'oz',cat:'grains'},
+              {n:'Olive oil packets',q:'2 packets',sk:'olive_oil',sn:2,su:'packets',cat:'fats'},
+              {n:'Sun-dried tomatoes (oil-packed, in packet)',q:'1 oz',sk:'sundried_tomatoes',sn:1,su:'oz',cat:'condiments'},
+              {n:'Garlic powder packets',q:'2 packets',sk:'garlic_powder',sn:2,su:'packets',cat:'condiments'},
+              {n:'Parmesan cheese packets (optional)',q:'2 packets',sk:'parmesan',sn:2,su:'packets',cat:'dairy'}]},
+      { id:'d5', name:'Instant Rice and Black Beans', icon:'🫘', cal:490, weightOz:5,
+        prep:'Cook instant rice with boiling water. Rehydrate bean flakes separately. Mix with taco seasoning and hot sauce.',
+        tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant white rice packet',q:'1 packet (~4 oz)',sk:'instant_rice',sn:1,su:'packet',cat:'grains'},
+              {n:'Dehydrated black bean flakes',q:'3 tbsp',sk:'black_beans',sn:3,su:'tbsp',cat:'protein'},
+              {n:'Taco seasoning packet',q:'1 packet',sk:'taco_seasoning',sn:1,su:'packet',cat:'condiments'},
+              {n:'Hot sauce packets',q:'3 packets',sk:'hot_sauce',sn:3,su:'packets',cat:'condiments'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'}]},
+      { id:'d6', name:'Couscous with Chickpeas and Olive Oil', icon:'🫙', cal:460, weightOz:4.5,
+        prep:'Add boiling water to couscous, cover 5 min. Stir in olive oil, chickpeas, cumin, and raisins.',
+        tags:['vegan','vegetarian','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Plain couscous',q:'½ cup (2 oz)',sk:'couscous',sn:2,su:'oz',cat:'grains'},
+              {n:'Roasted chickpeas (snack pouches)',q:'1 oz',sk:'roasted_chickpeas',sn:1,su:'oz',cat:'protein'},
+              {n:'Olive oil packets',q:'2 packets',sk:'olive_oil',sn:2,su:'packets',cat:'fats'},
+              {n:'Ground cumin (pinch)',q:'pinch',sk:'cumin',sn:0.2,su:'tsp',cat:'condiments'},
+              {n:'Raisins',q:'½ oz',sk:'raisins',sn:0.5,su:'oz',cat:'fruit'}]},
+      { id:'d7', name:'Peanut Noodles', icon:'🥜', cal:530, weightOz:5,
+        prep:'Cook ramen noodles. Drain. Mix peanut butter + soy sauce + vinegar + brown sugar + hot sauce. Toss noodles.',
+        tags:['vegan','vegetarian','df','porkfree','eggfree'],
+        ings:[{n:'Ramen noodle blocks (without seasoning)',q:'1 block',sk:'ramen_noodles',sn:1,su:'block',cat:'grains'},
+              {n:'Peanut butter squeeze packets',q:'2 packets',sk:'peanut_butter',sn:2,su:'packets',cat:'protein'},
+              {n:'Soy sauce packets',q:'2 packets',sk:'soy_sauce',sn:2,su:'packets',cat:'condiments'},
+              {n:'Rice vinegar packets',q:'1 packet',sk:'rice_vinegar',sn:1,su:'packet',cat:'condiments'},
+              {n:'Brown sugar packets',q:'1 packet',sk:'brown_sugar',sn:1,su:'packet',cat:'condiments'},
+              {n:'Hot sauce packets',q:'2 packets',sk:'hot_sauce',sn:2,su:'packets',cat:'condiments'}]},
+      { id:'d8', name:'Instant Lentil Soup with Crackers', icon:'🍲', cal:440, weightOz:5,
+        prep:'Add boiling water to lentil soup mix. Simmer 5 min. Drizzle olive oil on top. Serve with crackers.',
+        tags:['vegan','vegetarian','df','nutfree','porkfree','soyfree','eggfree'],
+        ings:[{n:'Instant lentil soup mix',q:'1 packet (3 oz)',sk:'lentil_soup',sn:3,su:'oz',cat:'protein'},
+              {n:'Wheat crackers or Triscuits',q:'1.5 oz',sk:'crackers',sn:1.5,su:'oz',cat:'grains'},
+              {n:'Olive oil packets',q:'1 packet',sk:'olive_oil',sn:1,su:'packet',cat:'fats'}]},
+    ],
+    snack: [
+      { id:'s1', name:'Trail Mix',                  icon:'🌰', cal:280, ings:[{n:'Mixed nuts',q:'1 oz',sk:'mixed_nuts',sn:1,su:'oz',cat:'nuts'},{n:'Dark chocolate chips',q:'½ oz',sk:'dark_choc',sn:0.5,su:'oz',cat:'sweets'},{n:'Raisins',q:'½ oz',sk:'raisins',sn:0.5,su:'oz',cat:'fruit'}], tags:['vegan','vegetarian','gf','df','porkfree','soyfree','eggfree'] },
+      { id:'s2', name:'Beef or Turkey Jerky',        icon:'🥩', cal:160, ings:[{n:'Beef or turkey jerky',q:'1.5 oz',sk:'jerky',sn:1.5,su:'oz',cat:'protein'}], tags:['gf','df','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s3', name:'Peanut Butter Packets',        icon:'🥜', cal:200, ings:[{n:'Peanut butter squeeze packets (Justin\'s)',q:'2 packets',sk:'peanut_butter',sn:2,su:'packets',cat:'protein'}], tags:['vegan','vegetarian','gf','df','porkfree','soyfree','eggfree'] },
+      { id:'s4', name:'Energy Bar (Clif, Kind, RXBar)',icon:'🍫', cal:250, ings:[{n:'Energy bars (Clif, Kind, RXBar)',q:'1 bar',sk:'energy_bar',sn:1,su:'each',cat:'sweets'}], tags:['vegetarian','porkfree'] },
+      { id:'s5', name:'Dried Mango Strips',           icon:'🥭', cal:150, ings:[{n:'Dried mango strips',q:'1.5 oz',sk:'dried_mango',sn:1.5,su:'oz',cat:'fruit'}], tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s6', name:'Dark Chocolate Square',        icon:'🍫', cal:170, ings:[{n:'Dark chocolate bar (70%+)',q:'1.5 oz',sk:'dark_chocolate',sn:1.5,su:'oz',cat:'sweets'}], tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s7', name:'Cheese and Wheat Crackers',     icon:'🧀', cal:220, ings:[{n:'Babybel or string cheese',q:'1 piece (1 oz)',sk:'hard_cheese',sn:1,su:'oz',cat:'dairy'},{n:'Wheat crackers',q:'1 oz',sk:'crackers',sn:1,su:'oz',cat:'grains'}], tags:['vegetarian','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s8', name:'Sunflower Butter Packets',     icon:'🌻', cal:200, ings:[{n:'Sunflower seed butter packets',q:'2 packets',sk:'sunbutter',sn:2,su:'packets',cat:'protein'}], tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s9', name:'Popcorn Bag',                  icon:'🍿', cal:130, ings:[{n:'Single-serve pre-popped popcorn bags',q:'1 bag (1 oz)',sk:'popcorn',sn:1,su:'bag',cat:'sweets'}], tags:['vegan','vegetarian','gf','df','nutfree','porkfree','soyfree','eggfree'] },
+      { id:'s10', name:'Rice Cakes and Almond Butter', icon:'🍘', cal:240, ings:[{n:'Plain rice cakes',q:'2 cakes',sk:'rice_cakes',sn:2,su:'each',cat:'grains'},{n:'Almond butter packets',q:'1 packet',sk:'almond_butter',sn:1,su:'packet',cat:'protein'}], tags:['vegan','vegetarian','gf','df','porkfree','soyfree','eggfree'] },
+    ],
+  };
+
+  // ── Generate meal plan
+  function buildGroceryPlan() {
+    const r = GS.restrictions;
+    const filter = arr => arr.filter(m => r.every(tag => m.tags.includes(tag)));
+
+    let bks = filter(GMEALS.breakfast);
+    let lus = filter(GMEALS.lunch);
+    let dis = filter(GMEALS.dinner);
+    let sns = filter(GMEALS.snack);
+
+    // Safety fallbacks if restrictions are too tight
+    if (!bks.length) bks = GMEALS.breakfast.slice(0,2);
+    if (!lus.length) lus = GMEALS.lunch.slice(0,2);
+    if (!dis.length) dis = GMEALS.dinner.slice(0,2);
+    if (!sns.length) sns = GMEALS.snack.slice(0,3);
+
+    const daily = calcDailyCalories();
+    const days  = GS.tripDays;
+    const plan  = [];
+
+    for (let d = 0; d < days; d++) {
+      const bf = bks[d % bks.length];
+      const lu = lus[d % lus.length];
+      const di = dis[d % dis.length];
+      const mealCal = bf.cal + lu.cal + di.cal;
+      const snackTarget = daily - mealCal;
+
+      // Pick snacks to fill gap, ensuring variety
+      const daySnacks = [];
+      let snackCal = 0, si = d;
+      while (snackCal < snackTarget - 80 && daySnacks.length < 4) {
+        const snk = sns[si % sns.length];
+        if (!daySnacks.includes(snk)) { daySnacks.push(snk); snackCal += snk.cal; }
+        si++;
+        if (si > sns.length * 3) break;
+      }
+
+      plan.push({ day: d+1, bf, lu, di, snacks: daySnacks, totalCal: mealCal + snackCal });
+    }
+
+    GS.mealPlan = plan;
+    renderGroceryResults(plan, daily);
+
+    // Hide wizard steps
+    [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
+    document.getElementById('groceryResults').style.display = 'block';
+    renderSavedGrocerySection();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function renderGroceryResults(plan, daily) {
+    // Nutrition card
+    const carbG = Math.round(daily * 0.50 / 4);
+    const protG = Math.round(daily * 0.20 / 4);
+    const fatG  = Math.round(daily * 0.30 / 9);
+    const daysLabel = GS.tripDays + (GS.tripDays === 1 ? ' day' : ' days');
+    document.getElementById('nutritionCard').innerHTML = `
+      <h3>📊 Your Daily Nutrition Target</h3>
+      <div class="cal-row">
+        <div class="cal-stat"><div class="cal-big">${daily.toLocaleString()}</div><div class="cal-label">Cal / Day</div></div>
+        <div class="cal-stat"><div class="cal-big">${(daily * GS.tripDays).toLocaleString()}</div><div class="cal-label">Total Calories</div></div>
+        <div class="cal-stat"><div class="cal-big">${daysLabel}</div><div class="cal-label">Trip Length</div></div>
+        <div class="cal-stat"><div class="cal-big">${GS.packWeight} lbs</div><div class="cal-label">Pack Weight</div></div>
+      </div>
+      <div class="macro-bars">
+        <div class="macro-row"><span class="macro-name">Carbs</span><div class="macro-track"><div class="macro-fill carb" style="width:50%"></div></div><span class="macro-val">${carbG}g · 50%</span></div>
+        <div class="macro-row"><span class="macro-name">Protein</span><div class="macro-track"><div class="macro-fill prot" style="width:20%"></div></div><span class="macro-val">${protG}g · 20%</span></div>
+        <div class="macro-row"><span class="macro-name">Fat</span><div class="macro-track"><div class="macro-fill fat" style="width:30%"></div></div><span class="macro-val">${fatG}g · 30%</span></div>
+      </div>
+      ${GS.useDefault ? '<div class="default-note">* Calculated for an average adult woman (5\'4", 140 lbs, 35 years). Provide your info in Step 2 for personalized results.</div>' : ''}
+    `;
+    document.getElementById('gItemCount').innerHTML = `<span>${GS.tripDays}</span>-day meal plan · <span>${GS.tripDays * 4}</span> meals total`;
+
+    // Day plan
+    const dayTypes = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    let dayHtml = '';
+    plan.forEach(({ day, bf, lu, di, snacks, totalCal }) => {
+      const label = day <= 7 ? dayTypes[day-1] : `Day ${day}`;
+      dayHtml += `
+      <div class="day-section" id="gday-${day}">
+        <div class="day-header" onclick="toggleDay(${day})">
+          <span class="day-num">${day}</span>
+          <span class="day-name">Day ${day} &nbsp;·&nbsp; ${label}</span>
+          <span class="day-cal">${totalCal.toLocaleString()} cal</span>
+          <span class="day-chev">▼</span>
+        </div>
+        <div class="day-body">
+          ${renderMealBlock('Breakfast', bf)}
+          ${renderMealBlock('Lunch', lu)}
+          ${renderMealBlock('Dinner', di)}
+          <div class="snacks-block">
+            <div class="meal-type">Snacks</div>
+            <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${s.icon} ${s.name} <span style="color:var(--green-mid);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+    document.getElementById('dayPlanContainer').innerHTML = dayHtml;
+
+    // Shopping list
+    renderShoppingList(plan);
+  }
+
+  function renderMealBlock(type, meal) {
+    const ingList = meal.ings.map(i => i.n + ' (' + i.q + ')').join(' · ');
+    return `<div class="meal-block">
+      <span class="meal-cal">${meal.cal} cal</span>
+      <div class="meal-type">${type}</div>
+      <div class="meal-name">${meal.icon} ${meal.name}</div>
+      <div class="meal-ings">${ingList}</div>
+      <div class="meal-prep">▶ ${meal.prep}</div>
+    </div>`;
+  }
+
+  function toggleDay(d) {
+    document.getElementById('gday-'+d).classList.toggle('collapsed');
+  }
+
+  function renderShoppingList(plan) {
+    const totals = {}; // sk → { name, qty, unit, cat }
+    plan.forEach(({ bf, lu, di, snacks }) => {
+      [bf, lu, di, ...snacks].forEach(meal => {
+        meal.ings.forEach(ing => {
+          if (!totals[ing.sk]) totals[ing.sk] = { name: ing.n, qty: 0, unit: ing.su, cat: ing.cat };
+          totals[ing.sk].qty += ing.sn;
+        });
+      });
+    });
+
+    // Format qty display
+    function fmtQty(qty, unit) {
+      const q = Math.ceil(qty * 10) / 10;
+      if (unit === 'packets' || unit === 'packet') return `${Math.ceil(qty)} packets`;
+      if (unit === 'each') return `${Math.ceil(qty)} each`;
+      if (unit === 'oz') { const r = Math.ceil(qty * 2) / 2; return r >= 16 ? `${(r/16).toFixed(1)} lb` : `${r} oz`; }
+      if (unit === 'oz' || unit === 'block' || unit === 'bag' || unit === 'box') return `${Math.ceil(qty)} ${unit}${Math.ceil(qty)>1?'s':''}`;
+      if (unit === 'tbsp') return qty >= 3 ? `${Math.ceil(qty/3)} tbsp (${Math.ceil(qty/16)} cup${qty>=16?'s':''})` : `${Math.ceil(qty)} tbsp`;
+      return `${Math.ceil(qty)} ${unit}`;
+    }
+
+    const catNames = { grains:'🌾 Grains and Starches', protein:'🥩 Proteins', fats:'🫒 Oils and Fats', dairy:'🧀 Dairy', nuts:'🥜 Nuts and Seeds', fruit:'🍇 Dried Fruit', condiments:'🧂 Seasonings and Condiments', sweets:'🍫 Snacks and Sweets' };
+    const catOrder = ['grains','protein','fats','dairy','nuts','fruit','condiments','sweets'];
+
+    const grouped = {};
+    catOrder.forEach(c => grouped[c] = []);
+    Object.values(totals).forEach(item => { if (grouped[item.cat]) grouped[item.cat].push(item); });
+
+    let shopHtml = '';
+    let totalItems = 0;
+    catOrder.forEach(cat => {
+      if (!grouped[cat].length) return;
+      shopHtml += `<div class="shop-cat"><div class="shop-cat-title">${catNames[cat]||cat}</div>`;
+      grouped[cat].forEach((item, idx) => {
+        const shopId = `shop-${cat}-${idx}`;
+        totalItems++;
+        shopHtml += `<div class="shop-item" id="${shopId}">
+          <div class="shop-cb" id="scb-${shopId}" onclick="toggleShopItem('${shopId}')"></div>
+          <span class="shop-item-name">${item.name}</span>
+          <span class="shop-item-qty">${fmtQty(item.qty, item.unit)}</span>
+        </div>`;
+      });
+      shopHtml += `</div>`;
+    });
+
+    document.getElementById('shopListContainer').innerHTML = shopHtml;
+    document.getElementById('shopTotal').textContent = `${totalItems} unique items`;
+  }
+
+  function toggleShopItem(id) {
+    document.getElementById('scb-'+id).classList.toggle('checked');
+    document.getElementById(id).classList.toggle('checked');
+  }
+
+  function resetGroceryWizard() {
+    GS.mode = null; GS.importedListId = null; GS.tripDays = null;
+    GS.tripDifficulty = null; GS.packWeight = null;
+    GS.gender = null; GS.heightFt = null; GS.heightIn = null;
+    GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
+    GS.restrictions = []; GS.mealPlan = null;
+    // reset UI
+    document.getElementById('groceryResults').style.display = 'none';
+    ['importOpt','manualOpt'].forEach(id => document.getElementById(id).classList.remove('selected'));
+    document.getElementById('importSelectWrap').classList.remove('show');
+    document.getElementById('manualEntryWrap').classList.remove('show');
+    document.getElementById('importedPreview').classList.remove('show');
+    document.getElementById('gDefaultNote').classList.remove('show');
+    document.querySelectorAll('.gender-card, .restrict-card').forEach(c => c.classList.remove('selected'));
+    [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
+    document.getElementById('gstep1').classList.add('visible');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // ── Save grocery plan
+  const GLS_KEY = 'trailpack_grocery_lists';
+  function getSavedGroceryLists() { try { return JSON.parse(localStorage.getItem(GLS_KEY)) || []; } catch(e) { return []; } }
+  function putSavedGroceryLists(lists) { localStorage.setItem(GLS_KEY, JSON.stringify(lists)); }
+
+  function openGroceryModal() {
+    document.getElementById('groceryListNameInput').value = '';
+    document.getElementById('saveGroceryModal').classList.add('show');
+    setTimeout(() => document.getElementById('groceryListNameInput').focus(), 80);
+  }
+  function closeGroceryModal() { document.getElementById('saveGroceryModal').classList.remove('show'); }
+
+  function confirmSaveGrocery() {
+    const name = document.getElementById('groceryListNameInput').value.trim();
+    if (!name) {
+      document.getElementById('groceryListNameInput').style.borderColor = '#c33';
+      setTimeout(() => document.getElementById('groceryListNameInput').style.borderColor = '', 1200);
+      return;
+    }
+    const lists = getSavedGroceryLists();
+    lists.unshift({
+      id: Date.now(),
+      name,
+      date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+      dailyCal: GS.dailyCal,
+      tripDays: GS.tripDays,
+      packWeight: GS.packWeight,
+      restrictions: [...GS.restrictions],
+      mealPlan: JSON.parse(JSON.stringify(GS.mealPlan)),
+    });
+    putSavedGroceryLists(lists);
+    closeGroceryModal();
+    showToast(`✓ "${name}" saved!`);
+    renderSavedGrocerySection();
+  }
+
+  function renderSavedGrocerySection() {
+    const lists = getSavedGroceryLists();
+    const sec = document.getElementById('savedGrocerySection');
+    const con = document.getElementById('savedGroceryContent');
+    if (!lists.length) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    con.innerHTML = `<div class="saved-grid">${lists.map(rec => `
+      <div class="saved-card">
+        <div class="saved-card-top">
+          <div class="card-date">Saved ${rec.date}</div>
+          <h3>🍲 ${rec.name}</h3>
+          <div class="saved-card-badges">
+            <span class="saved-badge">⏱ ${rec.tripDays} days</span>
+            <span class="saved-badge">🔥 ${rec.dailyCal?.toLocaleString()||'?'} cal/day</span>
+            <span class="saved-badge">🎒 ${rec.packWeight} lbs</span>
+            ${rec.restrictions.length ? `<span class="saved-badge">${rec.restrictions.join(', ')}</span>` : ''}
+          </div>
+        </div>
+        <div class="saved-card-body">
+          <div class="saved-item-count"><strong>${rec.tripDays * 4}</strong> total meals</div>
+          <div class="saved-card-actions">
+            <button class="btn-view-list" onclick="viewSavedGrocery(${rec.id})">View Plan →</button>
+            <button class="btn-delete-list" onclick="deleteSavedGrocery(${rec.id})" title="Delete">🗑️</button>
+          </div>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+
+  function viewSavedGrocery(id) {
+    const rec = getSavedGroceryLists().find(l => l.id === id);
+    if (!rec) return;
+    GS.dailyCal = rec.dailyCal; GS.tripDays = rec.tripDays;
+    GS.packWeight = rec.packWeight; GS.restrictions = [...rec.restrictions];
+    GS.mealPlan = rec.mealPlan; GS.useDefault = false;
+    [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
+    renderGroceryResults(rec.mealPlan, rec.dailyCal);
+    document.getElementById('groceryResults').style.display = 'block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function deleteSavedGrocery(id) {
+    if (!confirm('Delete this meal plan?')) return;
+    putSavedGroceryLists(getSavedGroceryLists().filter(l => l.id !== id));
+    renderSavedGrocerySection();
+    showToast('Meal plan deleted.');
+  }
+
+  document.getElementById('saveGroceryModal').addEventListener('click', function(e) { if(e.target===this) closeGroceryModal(); });
+
+  // ══════════════════════════════════════
+  // TOAST
+  // ══════════════════════════════════════
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ══════════════════════════════════════
+  // INIT
+  // ══════════════════════════════════════
+  updateBadge();
+  initTruths();
+
+  document.getElementById('saveModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
