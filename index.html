@@ -113,6 +113,32 @@
     }
     .nav-badge.show { display: inline-block; }
 
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--tan);
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* ══════════════════════════════════════
        PAGES WRAPPER
     ══════════════════════════════════════ */
@@ -901,10 +927,27 @@
       .logo-wordmark { font-size: 18px; letter-spacing: 1.5px; }
       .logo-sub { display: none; }
       .logo-svg { width: 32px; height: 35px; }
+      .hamburger-btn { display: flex; }
+      nav {
+        display: none;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: var(--brown-dark);
+        flex-direction: column;
+        padding: 8px 16px 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        gap: 4px;
+        z-index: 99;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      nav.open { display: flex; }
       .nav-link {
-        font-size: 11px;
-        padding: 6px 10px;
+        font-size: 14px;
+        padding: 12px 14px;
         letter-spacing: 0.5px;
+        width: 100%;
       }
 
       .home-hero { padding: 48px 20px 0; }
@@ -1117,8 +1160,11 @@
     </div>
   </a>
 
-  <nav>
-    <button class="nav-link active" id="nav-home"    onclick="showPage('home')">Home</button>
+  <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="mainNav">
     <button class="nav-link"        id="nav-pack"    onclick="showPage('pack')">🎒 Pack List</button>
     <button class="nav-link"        id="nav-grocery" onclick="showPage('grocery')">🍲 Meal Planner</button>
     <button class="nav-link"        id="nav-saved"   onclick="showPage('saved')">
@@ -1272,7 +1318,7 @@
   </section>
 
   <footer>
-    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1580,7 +1626,7 @@
   </div><!-- /container -->
 
   <footer>
-    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1596,7 +1642,7 @@
     <div id="savedListsContent"></div>
   </div>
   <footer>
-    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1612,7 +1658,7 @@
     <p style="color:var(--brown-mid); font-size:14px; margin-bottom:32px;">Contact form coming soon.</p>
   </div>
   <footer>
-    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1662,7 +1708,7 @@
   </div>
 
   <footer>
-    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
 </div>
 
@@ -1673,11 +1719,23 @@
   const PAGES = ['home','pack','grocery','saved'];
   let activePage = 'home';
 
+  function toggleMenu() {
+    const nav = document.getElementById('mainNav');
+    const btn = document.getElementById('hamburgerBtn');
+    nav.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+
   function showPage(name) {
     PAGES.forEach(p => {
       document.getElementById('pg-'+p).classList.toggle('active', p === name);
-      document.getElementById('nav-'+p).classList.toggle('active', p === name);
+      const navEl = document.getElementById('nav-'+p);
+      if (navEl) navEl.classList.toggle('active', p === name);
     });
+    const nav = document.getElementById('mainNav');
+    const btn = document.getElementById('hamburgerBtn');
+    if (nav) nav.classList.remove('open');
+    if (btn) btn.classList.remove('open');
     const contactEl = document.getElementById('pg-contact');
     if (contactEl) contactEl.classList.toggle('active', name === 'contact');
     const splitEl = document.getElementById('pg-split');
