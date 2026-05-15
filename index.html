@@ -543,18 +543,14 @@
 
     /* Category sections */
     .category-section { margin-bottom: 28px; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
-    .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer; user-select: none; transition: padding 0.3s ease; }
-    .cat-icon { font-size: 22px; transition: opacity 0.25s ease; }
-    .cat-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; flex: 1; transition: opacity 0.25s ease; }
-    .cat-count { font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 2px 10px; transition: opacity 0.25s ease; }
-    .cat-chevron { font-size: 12px; transition: transform 0.3s ease, opacity 0.25s ease; color: rgba(255,255,255,0.7); }
-    .category-section.collapsed .cat-chevron { transform: rotate(-90deg); }
+    .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer; user-select: none; }
+    .cat-icon { font-size: 22px; }
+    .cat-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; flex: 1; }
+    .cat-count { font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 2px 10px; }
+    .cat-chevron { font-size: 0; color: rgba(255,255,255,0.9); }
+    .cat-chevron::after { content: '▼'; font-size: 12px; display: inline-block; }
+    .category-section.collapsed .cat-chevron::after { content: '—'; }
     .category-body { padding: 0 8px 8px; overflow: hidden; max-height: 4000px; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; }
-    .category-section.collapsed .category-header { padding-top: 4px; padding-bottom: 4px; }
-    .category-section.collapsed .cat-icon,
-    .category-section.collapsed .cat-name,
-    .category-section.collapsed .cat-count,
-    .category-section.collapsed .cat-chevron { opacity: 0; }
     .category-section.collapsed .category-body { max-height: 0; padding-bottom: 0; }
     .cat-shelter  .category-header { background: #4a5c3a; color: #fff; }
     .cat-pack     .category-header { background: #5c4a3a; color: #fff; }
@@ -1050,19 +1046,6 @@
       .g-item-count span { font-size: 18px; }
     }
 
-    /* Print */
-    @media print {
-      header, nav, .page-header, .results-toolbar, .btn-amazon, footer { display: none !important; }
-      .category-section.collapsed .category-body { max-height: none !important; padding-bottom: 8px !important; }
-      .category-section.collapsed .category-header { padding-top: 14px !important; padding-bottom: 14px !important; }
-      .category-section.collapsed .cat-icon,
-      .category-section.collapsed .cat-name,
-      .category-section.collapsed .cat-count,
-      .category-section.collapsed .cat-chevron { opacity: 1 !important; }
-      body { background: #fff; }
-      .trip-summary { background: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .category-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    }
 
     /* ══════════════════════════════════════
        SPLIT PACK LIST PAGE
@@ -1423,7 +1406,6 @@
         <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize for Space/Weight</button>
         <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert to Full List</button>
         <button class="btn-split"    onclick="initSplitPage()">👥 Split for Multiple People</button>
-        <button class="btn-muted"    onclick="window.print()">🖨️ Print</button>
         <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
         <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
       </div>
@@ -1431,6 +1413,9 @@
     </div>
 
   </div><!-- /container -->
+  <footer>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+  </footer>
 </div><!-- /pg-pack -->
 
 <!-- ═══════════════════════════════════════════
@@ -1603,7 +1588,6 @@
 
       <div class="g-results-toolbar">
         <div class="g-item-count" id="gItemCount"></div>
-        <button class="btn-muted"   onclick="window.print()">🖨️ Print</button>
         <button class="btn-outline" onclick="openGroceryModal()">💾 Save Plan</button>
         <button class="btn-muted"   onclick="resetGroceryWizard()">↺ Start Over</button>
       </div>
