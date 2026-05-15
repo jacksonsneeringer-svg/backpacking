@@ -543,14 +543,19 @@
 
     /* Category sections */
     .category-section { margin-bottom: 28px; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
-    .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer; user-select: none; }
-    .cat-icon { font-size: 22px; }
-    .cat-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; flex: 1; }
-    .cat-count { font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 2px 10px; }
-    .cat-chevron { font-size: 12px; transition: transform 0.25s; color: rgba(255,255,255,0.7); }
+    .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer; user-select: none; transition: padding 0.3s ease; }
+    .cat-icon { font-size: 22px; transition: opacity 0.25s ease; }
+    .cat-name { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; flex: 1; transition: opacity 0.25s ease; }
+    .cat-count { font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 2px 10px; transition: opacity 0.25s ease; }
+    .cat-chevron { font-size: 12px; transition: transform 0.3s ease, opacity 0.25s ease; color: rgba(255,255,255,0.7); }
     .category-section.collapsed .cat-chevron { transform: rotate(-90deg); }
-    .category-body { padding: 0 8px 8px; }
-    .category-section.collapsed .category-body { display: none; }
+    .category-body { padding: 0 8px 8px; overflow: hidden; max-height: 4000px; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; }
+    .category-section.collapsed .category-header { padding-top: 4px; padding-bottom: 4px; }
+    .category-section.collapsed .cat-icon,
+    .category-section.collapsed .cat-name,
+    .category-section.collapsed .cat-count,
+    .category-section.collapsed .cat-chevron { opacity: 0; }
+    .category-section.collapsed .category-body { max-height: 0; padding-bottom: 0; }
     .cat-shelter  .category-header { background: #4a5c3a; color: #fff; }
     .cat-pack     .category-header { background: #5c4a3a; color: #fff; }
     .cat-nav      .category-header { background: #3a4a5c; color: #fff; }
@@ -582,6 +587,13 @@
     .item-essential { display: inline-block; background: #fff3e0; color: #c45c1a; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
     .btn-amazon { display: inline-flex; align-items: center; gap: 5px; background: var(--amz-orange); color: var(--amz-dark); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 20px; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.15); margin-top: 2px; }
     .btn-amazon:hover { background: #f5a623; transform: scale(1.04); }
+    .btn-meal-plan { display: inline-flex; align-items: center; gap: 5px; background: var(--green-mid); color: #fff; font-size: 11px; font-weight: 700; border: none; padding: 5px 12px; border-radius: 20px; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.15); margin-top: 2px; cursor: pointer; }
+    .btn-meal-plan:hover { background: var(--green-dark); transform: scale(1.04); }
+    .btn-optimize { background: var(--brown-mid); border: none; color: #fff; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-optimize:hover { background: var(--brown-dark); }
+    .btn-optimize.active { background: var(--green-dark); }
+    .btn-revert { background: transparent; border: 2px solid var(--brown-mid); color: var(--brown-mid); font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 7px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-revert:hover { background: var(--brown-mid); color: #fff; }
 
     /* ══════════════════════════════════════
        GROCERY PAGE (placeholder)
@@ -1019,7 +1031,6 @@
 
     @media (max-width: 480px) {
       .nav-link .nav-badge { display: none; }
-      .logo-wordmark em { display: none; }
 
       .hero-eyebrow { letter-spacing: 2px; }
       .hero-sub { font-size: 13px; }
@@ -1042,7 +1053,12 @@
     /* Print */
     @media print {
       header, nav, .page-header, .results-toolbar, .btn-amazon, footer { display: none !important; }
-      .category-section.collapsed .category-body { display: block !important; }
+      .category-section.collapsed .category-body { max-height: none !important; padding-bottom: 8px !important; }
+      .category-section.collapsed .category-header { padding-top: 14px !important; padding-bottom: 14px !important; }
+      .category-section.collapsed .cat-icon,
+      .category-section.collapsed .cat-name,
+      .category-section.collapsed .cat-count,
+      .category-section.collapsed .cat-chevron { opacity: 1 !important; }
       body { background: #fff; }
       .trip-summary { background: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .category-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -1404,6 +1420,8 @@
       <div class="trip-summary" id="tripSummary"></div>
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
+        <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize for Space/Weight</button>
+        <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert to Full List</button>
         <button class="btn-split"    onclick="initSplitPage()">👥 Split for Multiple People</button>
         <button class="btn-muted"    onclick="window.print()">🖨️ Print</button>
         <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
@@ -1841,6 +1859,7 @@
 
   function resetWizard() {
     inputs.terrain = null; inputs.weather = []; inputs.days = null; inputs.difficulty = null;
+    optimizeMode = false;
     currentStep = 1;
     document.getElementById('results').style.display = 'none';
     [1,2,3,4].forEach(s => {
@@ -1882,8 +1901,7 @@
     { id:'fuel',           cat:'food',     name:'Fuel Canisters',                      note: () => { if (inputs.days === '1-2') return 'One 100g canister is usually enough for 1-2 days.'; if (inputs.days === '3-5') return 'Bring 1-2 canisters (100–230g) for a 3-5 day trip.'; return 'Pack 2+ canisters; fuel consumption increases in cold weather.'; }, amazon:'backpacking+stove+fuel+canister', essential:true },
     { id:'pot',            cat:'food',     name:'Lightweight Cooking Pot',             note:'Titanium or hard-anodized aluminum — 750mL–1.5L depending on group size.',          amazon:'backpacking+cooking+pot+titanium', essential:true },
     { id:'spork',          cat:'food',     name:'Titanium Spork / Utensils',           note:'Long-handled sporks are great for eating from freeze-dried meal pouches.',          amazon:'titanium+spork+backpacking' },
-    { id:'meals',          cat:'food',     name:'Freeze-Dried Backpacking Meals',      note:'Lightweight, calorie-dense — just add boiling water. Pack 1.5–2 per day.',          amazon:'freeze+dried+backpacking+meals', essential:true },
-    { id:'snacks',         cat:'food',     name:'Trail Mix / Energy Bars / Snacks',    note:'Aim for ~200 cal/oz — pack enough for 2,500–3,500 cal/day.',                        amazon:'backpacking+trail+snacks+energy+bars', essential:true },
+    { id:'food',           cat:'food',     name:'Food',                               note: () => { const d = {'1-2':'1–2 days','3-5':'3–5 days','6-10':'6–10 days','10+':'10+ days'}[inputs.days]; return `Plan calorie-dense, lightweight meals for ${d} — aim for 1.5–2 lbs/day and 2,500–3,500 cal/day.`; }, essential:true, mealPlan:true },
     { id:'electrolytes',   cat:'food',     name:'Electrolyte Drink Packets',           note:'Critical for replacing salt and minerals lost during hot, sweaty miles.',           amazon:'electrolyte+packets+hiking', cond: i => i.weather.includes('hot') || i.difficulty === 'strenuous' || i.difficulty === 'expert' },
     { id:'camp_soap',      cat:'food',     name:'Biodegradable Camp Soap',             note:'Use 200+ feet from any water source. Works for dishes, hands, and body.',           amazon:'biodegradable+camp+soap' },
     { id:'filter',         cat:'water',    name:'Water Filter / Purifier',             note:'Sawyer Squeeze or BeFree are top picks — filter from streams and lakes.',           amazon:'backpacking+water+filter+sawyer', essential:true },
@@ -1981,7 +1999,12 @@
   }
 
   function buildResults() {
-    const list = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const allItems = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const list = optimizeMode ? allItems.filter(item => !OPTIMIZE_CUT.has(item.id)) : allItems;
+    const btnO = document.getElementById('btnOptimize');
+    const btnR = document.getElementById('btnRevert');
+    if (btnO) btnO.style.display = optimizeMode ? 'none' : '';
+    if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
     const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
     const wL = { hot:'Hot and Sunny ☀️', mild:'Mild and Pleasant 🌤️', cold:'Cold and Windy 🌬️', wet:'Wet and Rainy 🌧️', snow:'Snow / Ice ❄️' };
@@ -2014,13 +2037,16 @@
         </div><div class="category-body">`;
       items.forEach(item => {
         const note = typeof item.note === 'function' ? item.note() : item.note;
+        const actionBtn = item.mealPlan
+          ? `<button class="btn-meal-plan" onclick="showPage('grocery')">🍽️ Build My Meal Plan</button>`
+          : `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon">🛒 Amazon</a>`;
         html += `<div class="gear-item" id="gi-${item.id}">
           <div class="gear-checkbox" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
           <div class="gear-info">
             <div class="item-name">${item.name}${item.essential ? '<span class="item-essential">Essential</span>' : ''}</div>
             <div class="item-note">${note}</div>
           </div>
-          <a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon">🛒 Amazon</a>
+          ${actionBtn}
         </div>`;
       });
       html += `</div></div>`;
@@ -2915,7 +2941,7 @@
     tent:4.5, bivy:0.6, tarp:1, footprint:0.6,
     sleep_bag:2, sleep_pad:1.5, pillow:0.25,
     topo_map:0.25, compass:0.1, gps_device:0.5, sat_comm:0.5, trail_app:0,
-    stove:0.5, fuel:0.75, pot:0.5, spork:0.1, meals:0.5, snacks:1, electrolytes:0.2, camp_soap:0.25,
+    stove:0.5, fuel:0.75, pot:0.5, spork:0.1, food:1.5, electrolytes:0.2, camp_soap:0.25,
     filter:0.25, bottles:1, hydration:0.5, tablets:0.1, collapsible:0.25,
     bear_can:2, bear_spray:1, bear_hang:0.5, odor_bags:0.2,
     base_top:0.5, base_bot:0.25, hiking_pants:0.75, fleece:0.75, puffy:0.75,
@@ -2939,7 +2965,7 @@
     sleep_bag:'personal', sleep_pad:'personal', pillow:'personal',
     topo_map:'group', compass:'group', gps_device:'group', sat_comm:'group', trail_app:'personal',
     stove:'group', fuel:'group', pot:'group', spork:'personal',
-    meals:'personal', snacks:'personal', electrolytes:'personal', camp_soap:'group',
+    food:'personal', electrolytes:'personal', camp_soap:'group',
     filter:'group', bottles:'personal', hydration:'personal', tablets:'group', collapsible:'group',
     bear_can:'group', bear_spray:'group', bear_hang:'group', odor_bags:'group',
     base_top:'personal', base_bot:'personal', hiking_pants:'personal', fleece:'personal', puffy:'personal',
@@ -2957,6 +2983,41 @@
   };
 
   const PERSON_COLORS = ['#1e4a22','#2e1d0e','#1a3060','#6b1a2a','#1a5040','#3a3010','#4a1a40','#0e3a3a'];
+
+  let optimizeMode = false;
+
+  const OPTIMIZE_CUT = new Set([
+    'compression',   // covered by dry_bags
+    'hip_belt',      // convenience accessory
+    'footprint',     // nice to have
+    'pillow',        // comfort
+    'trail_app',     // covered by topo_map + compass
+    'bear_hang',     // covered by bear_can
+    'odor_bags',     // covered by bear_can
+    'camp_shoes',    // comfort at camp
+    'buff',          // covered by sun_hat/warm_hat
+    'wet_wipes',     // covered by hand_san
+    'lnt_card',      // knowledge item, not gear
+    'notebook',      // nice to have
+    'sit_pad',       // comfort
+    'camp_towel',    // nice to have
+    'cooling_towel', // nice to have
+    'hand_warmers',  // nice to have
+  ]);
+
+  function toggleOptimize() {
+    optimizeMode = true;
+    document.getElementById('btnOptimize').style.display = 'none';
+    document.getElementById('btnRevert').style.display = '';
+    buildResults();
+  }
+
+  function revertOptimize() {
+    optimizeMode = false;
+    document.getElementById('btnOptimize').style.display = '';
+    document.getElementById('btnRevert').style.display = 'none';
+    buildResults();
+  }
 
   let splitPeople = 2;
   let splitPersonData = [];
@@ -3055,7 +3116,8 @@
     }
     errEl.classList.remove('show');
 
-    const activeItems = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const allItems = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const activeItems = optimizeMode ? allItems.filter(item => !OPTIMIZE_CUT.has(item.id)) : allItems;
     const n = splitPeople;
 
     const packs = splitPersonData.map((p, idx) => ({
