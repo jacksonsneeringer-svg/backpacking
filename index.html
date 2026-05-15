@@ -976,6 +976,83 @@
       .trip-summary { background: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .category-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
+
+    /* ══════════════════════════════════════
+       SPLIT PACK LIST PAGE
+    ══════════════════════════════════════ */
+    .split-page-header {
+      background: linear-gradient(135deg, #1a0e2e 0%, #0e2028 60%, #1e3010 100%);
+      padding: 36px 40px 30px;
+    }
+    .split-page-header h1 { font-family:'Oswald',sans-serif; font-size:32px; font-weight:700; color:#fff; margin-bottom:4px; }
+    .split-page-header p { font-size:14px; color:#9a8acc; }
+
+    .split-container { max-width:960px; margin:0 auto; padding:40px 20px 80px; }
+
+    .person-count-wrap { background:#fff; border-radius:var(--radius); padding:28px 24px; box-shadow:var(--shadow-sm); margin-bottom:28px; }
+    .person-count-wrap h3 { font-family:'Oswald',sans-serif; font-size:18px; font-weight:700; color:var(--brown-dark); margin-bottom:16px; }
+    .count-control { display:flex; align-items:center; gap:20px; }
+    .count-btn { width:42px; height:42px; border-radius:50%; border:2px solid var(--tan); background:transparent; color:var(--brown-dark); font-size:22px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; line-height:1; }
+    .count-btn:hover { background:var(--tan); color:#fff; }
+    .count-num { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--brown-dark); min-width:44px; text-align:center; }
+    .count-label { font-size:14px; color:var(--text-light); }
+
+    .person-cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-bottom:28px; }
+    .person-form-card { background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); border:2px solid var(--cream-dark); }
+    .person-form-card h4 { font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; color:var(--brown-dark); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+    .person-num-badge { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; color:#fff; }
+
+    .btn-split { background:linear-gradient(135deg,#4a3090,#2a1060); border:none; color:#fff; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 18px; border-radius:50px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .btn-split:hover { background:linear-gradient(135deg,#5a40a0,#3a2070); transform:translateY(-1px); }
+
+    .btn-calc-split { background:linear-gradient(135deg,#4a3090,#2a1060); border:none; color:#fff; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:14px 32px; border-radius:10px; cursor:pointer; transition:all 0.25s; box-shadow:var(--shadow-sm); width:100%; }
+    .btn-calc-split:hover { background:linear-gradient(135deg,#5a40a0,#3a2070); transform:translateY(-2px); box-shadow:var(--shadow-md); }
+
+    .split-results { display:none; }
+    .split-results.show { display:block; }
+    .split-summary-bar { background:linear-gradient(135deg,var(--brown-dark),#1e3010); color:#fff; border-radius:var(--radius); padding:18px 24px; margin-bottom:24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .split-summary-bar h3 { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--tan); flex:1; margin:0; }
+    .split-summary-bar span { font-size:13px; color:#b0c4a8; }
+
+    .person-pack-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:20px; margin-bottom:28px; }
+    .person-pack-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow-md); overflow:hidden; }
+    .person-pack-header { padding:16px 20px; display:flex; align-items:center; gap:12px; }
+    .person-pack-header h3 { font-family:'Oswald',sans-serif; font-size:18px; font-weight:700; color:#fff; flex:1; margin:0; }
+    .ppnum-badge { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.2); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; flex-shrink:0; }
+    .person-pack-stats { display:flex; gap:0; border-bottom:1px solid var(--cream-dark); }
+    .pack-stat { flex:1; text-align:center; padding:12px 6px; border-right:1px solid var(--cream-dark); background:var(--cream); }
+    .pack-stat:last-child { border-right:none; }
+    .pack-stat-val { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--brown-dark); }
+    .pack-stat-lbl { font-size:9px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.8px; margin-top:2px; }
+
+    .weight-bar-wrap { padding:10px 16px 14px; background:var(--cream); border-bottom:1px solid var(--cream-dark); }
+    .weight-bar-label { display:flex; justify-content:space-between; font-size:11px; color:var(--text-light); margin-bottom:5px; }
+    .weight-bar-track { background:#ddd; border-radius:6px; height:8px; overflow:hidden; }
+    .weight-bar-fill { height:100%; border-radius:6px; transition:width 0.7s ease; }
+    .weight-bar-fill.ok   { background:var(--green-mid); }
+    .weight-bar-fill.warn { background:var(--orange); }
+    .weight-bar-fill.over { background:#c33; }
+
+    .item-section-title { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-light); padding:10px 16px 4px; background:var(--cream-dark); }
+    .person-item-list { max-height:520px; overflow-y:auto; }
+    .person-item-row { display:flex; align-items:flex-start; gap:8px; padding:8px 16px; border-bottom:1px solid var(--cream-dark); }
+    .person-item-row:last-child { border-bottom:none; }
+    .item-role-badge { font-size:9px; font-weight:700; border-radius:8px; padding:2px 7px; text-transform:uppercase; letter-spacing:0.5px; flex-shrink:0; margin-top:3px; white-space:nowrap; }
+    .item-role-badge.personal { background:#e8f5e9; color:#2d6a34; }
+    .item-role-badge.group    { background:#fff3e0; color:#c45c1a; }
+    .person-item-name { flex:1; font-size:12px; color:var(--text-dark); line-height:1.4; }
+    .item-sub-note { font-size:10px; color:var(--text-light); font-style:italic; }
+    .person-item-wt { font-size:11px; color:var(--text-light); white-space:nowrap; margin-top:2px; }
+
+    .split-error { display:none; color:#c33; font-size:13px; margin-bottom:16px; padding:10px 14px; background:#ffeaea; border-radius:8px; border:1px solid #fbb; }
+    .split-error.show { display:block; }
+
+    @media (max-width:768px) {
+      .split-page-header { padding:24px 20px 20px; }
+      .split-page-header h1 { font-size:26px; }
+      .split-container { padding:24px 16px 60px; }
+      .person-pack-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1205,7 +1282,7 @@
         <div class="option-card" onclick="selectMulti(this,'weather','snow')"><span class="card-icon">❄️</span><span class="card-label">Snow or Ice</span><span class="card-desc">Sub-freezing, snowpack, icy terrain</span></div>
       </div>
       <div class="error-msg" id="err2">Please select at least one weather condition.</div>
-      <div class="step-nav"><button class="btn-back" onclick="prevStep(2)">← Back</button><button class="btn-next" onclick="nextStep(2)">Next →</button></div>
+      <div class="step-nav"><button class="btn-next" onclick="nextStep(2)">Next →</button></div>
     </div>
 
     <!-- STEP 3 -->
@@ -1219,7 +1296,6 @@
         <div class="option-card" onclick="selectSingle(this,'days','10+')"><span class="card-icon">🗓️</span><span class="card-label">10+ Days</span><span class="card-desc">Long-distance or thru-hike section</span></div>
       </div>
       <div class="error-msg" id="err3">Please select trip duration to continue.</div>
-      <div class="step-nav"><button class="btn-back" onclick="prevStep(3)">← Back</button></div>
     </div>
 
     <!-- STEP 4 -->
@@ -1233,7 +1309,6 @@
         <div class="option-card" onclick="selectSingle(this,'difficulty','expert')"><span class="card-icon">🔴</span><span class="card-label">Expert / Technical</span><span class="card-desc">Off-trail navigation, glacier travel, class 3–4 scrambling</span></div>
       </div>
       <div class="error-msg" id="err4">Please select a difficulty level.</div>
-      <div class="step-nav"><button class="btn-back" onclick="prevStep(4)">← Back</button></div>
     </div>
 
     <!-- Results -->
@@ -1241,6 +1316,7 @@
       <div class="trip-summary" id="tripSummary"></div>
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
+        <button class="btn-split"    onclick="initSplitPage()">👥 Split for Multiple People</button>
         <button class="btn-muted"    onclick="window.print()">🖨️ Print</button>
         <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
         <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
@@ -1391,7 +1467,6 @@
       </div>
 
       <div class="step-nav">
-        <button class="btn-back" onclick="gPrevStep(2)">← Back</button>
         <button class="btn-next" onclick="gNextStep(2)">Next →</button>
       </div>
     </div>
@@ -1413,7 +1488,6 @@
       </div>
 
       <div class="step-nav">
-        <button class="btn-back" onclick="gPrevStep(3)">← Back</button>
         <button class="btn-generate" onclick="buildGroceryPlan()">🍲 Build My Meal Plan</button>
       </div>
     </div>
@@ -1494,8 +1568,54 @@
   </div>
   <div class="container" style="max-width:560px; padding: 40px 20px;">
     <p style="color:var(--brown-mid); font-size:14px; margin-bottom:32px;">Contact form coming soon.</p>
-    <button class="btn-back" onclick="showPage('home')" style="font-size:14px;">← Back to Home</button>
   </div>
+  <footer>
+    &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: SPLIT PACK LIST
+════════════════════════════════════════════ -->
+<div class="page" id="pg-split">
+  <div class="split-page-header">
+    <h1>👥 Split Pack List</h1>
+    <p>Enter each hiker's details — we'll distribute gear by weight, fitness, and bag capacity.</p>
+  </div>
+
+  <div class="split-container">
+
+    <!-- Person count -->
+    <div class="person-count-wrap">
+      <h3>How many people are going?</h3>
+      <div class="count-control">
+        <button class="count-btn" onclick="adjustSplitCount(-1)">−</button>
+        <div class="count-num" id="splitPersonCount">2</div>
+        <button class="count-btn" onclick="adjustSplitCount(1)">+</button>
+        <span class="count-label">hikers</span>
+      </div>
+    </div>
+
+    <!-- Person forms -->
+    <div class="person-cards-grid" id="personFormsGrid"></div>
+
+    <!-- Calculate button -->
+    <div class="split-error" id="splitError"></div>
+    <button class="btn-calc-split" onclick="calculateSplit()">⚖️ Calculate Optimal Pack Split</button>
+
+    <!-- Results -->
+    <div class="split-results" id="splitResults">
+      <div style="height:32px"></div>
+      <div class="split-summary-bar">
+        <h3>📦 Pack Distribution</h3>
+        <span id="splitSummaryText"></span>
+      </div>
+      <div class="person-pack-grid" id="splitPackGrid"></div>
+      <button class="btn-muted" onclick="showPage('pack')" style="margin-top:8px;">← Back to Pack List</button>
+    </div>
+
+  </div>
+
   <footer>
     &copy; TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
@@ -1515,6 +1635,8 @@
     });
     const contactEl = document.getElementById('pg-contact');
     if (contactEl) contactEl.classList.toggle('active', name === 'contact');
+    const splitEl = document.getElementById('pg-split');
+    if (splitEl) splitEl.classList.toggle('active', name === 'split');
     activePage = name;
     if (name === 'saved') renderSavedLists();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2545,6 +2667,309 @@
     t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ══════════════════════════════════════
+  // SPLIT PACK LIST
+  // ══════════════════════════════════════
+
+  // Estimated packed weights in lbs
+  const ITEM_WEIGHTS = {
+    backpack:0, rain_cover:0.25, dry_bags:0.5, compression:0.25, hip_belt:0.1,
+    tent:4.5, bivy:0.6, tarp:1, footprint:0.6,
+    sleep_bag:2, sleep_pad:1.5, pillow:0.25,
+    topo_map:0.25, compass:0.1, gps_device:0.5, sat_comm:0.5, trail_app:0,
+    stove:0.5, fuel:0.75, pot:0.5, spork:0.1, meals:0.5, snacks:1, electrolytes:0.2, camp_soap:0.25,
+    filter:0.25, bottles:1, hydration:0.5, tablets:0.1, collapsible:0.25,
+    bear_can:2, bear_spray:1, bear_hang:0.5, odor_bags:0.2,
+    base_top:0.5, base_bot:0.25, hiking_pants:0.75, fleece:0.75, puffy:0.75,
+    rain_jacket:0.75, rain_pants:0.5, boots:0, socks:0.5, gaiters:0.5,
+    camp_shoes:0.75, sun_hat:0.2, warm_hat:0.2, gloves:0.25, buff:0.1, sunglasses:0.15,
+    first_aid:1, moleskin:0.15, pain_med:0.1, antihistamine:0.1, emrg_blanket:0.1,
+    whistle:0.05, fire_start:0.25, sam_splint:0.25, altitude_med:0.05, snake_kit:0.05,
+    headlamp:0.25, knife:0.5, trekking_poles:0, duct_tape:0.25, repair_kit:0.5,
+    sunscreen:0.5, bug_spray:0.5, solar_charger:0.75, microspikes:1.5, ice_axe:2,
+    hand_warmers:0.25, cooling_towel:0.25,
+    trowel:0.25, wag_bags:0.25, toilet_paper:0.25, hand_san:0.25, toothbrush:0.1,
+    wet_wipes:0.5, lnt_card:0.05,
+    notebook:0.25, permits:0.1, stakes:0.5, cord:0.25, sit_pad:0.25, bug_net:0.1,
+    camp_towel:0.25, id_docs:0.1,
+  };
+
+  // Sharing type: personal=each person, group=one for group, per2=one per 2, per3=one per 3, wearable=worn
+  const ITEM_TYPE = {
+    backpack:'personal', rain_cover:'personal', dry_bags:'personal', compression:'personal', hip_belt:'personal',
+    tent:'group', bivy:'group', tarp:'group', footprint:'group',
+    sleep_bag:'personal', sleep_pad:'personal', pillow:'personal',
+    topo_map:'group', compass:'group', gps_device:'group', sat_comm:'group', trail_app:'personal',
+    stove:'group', fuel:'group', pot:'group', spork:'personal',
+    meals:'personal', snacks:'personal', electrolytes:'personal', camp_soap:'group',
+    filter:'group', bottles:'personal', hydration:'personal', tablets:'group', collapsible:'group',
+    bear_can:'group', bear_spray:'group', bear_hang:'group', odor_bags:'group',
+    base_top:'personal', base_bot:'personal', hiking_pants:'personal', fleece:'personal', puffy:'personal',
+    rain_jacket:'personal', rain_pants:'personal', boots:'wearable', socks:'personal', gaiters:'personal',
+    camp_shoes:'personal', sun_hat:'personal', warm_hat:'personal', gloves:'personal', buff:'personal', sunglasses:'personal',
+    first_aid:'group', moleskin:'personal', pain_med:'personal', antihistamine:'personal', emrg_blanket:'personal',
+    whistle:'personal', fire_start:'group', sam_splint:'group', altitude_med:'personal', snake_kit:'group',
+    headlamp:'personal', knife:'group', trekking_poles:'wearable', duct_tape:'group', repair_kit:'group',
+    sunscreen:'per2', bug_spray:'per2', solar_charger:'group', microspikes:'personal', ice_axe:'personal',
+    hand_warmers:'personal', cooling_towel:'personal',
+    trowel:'per3', wag_bags:'personal', toilet_paper:'per2', hand_san:'per2', toothbrush:'personal',
+    wet_wipes:'per2', lnt_card:'group',
+    notebook:'group', permits:'group', stakes:'group', cord:'group', sit_pad:'personal', bug_net:'personal',
+    camp_towel:'per2', id_docs:'personal',
+  };
+
+  const PERSON_COLORS = ['#1e4a22','#2e1d0e','#1a3060','#6b1a2a','#1a5040','#3a3010','#4a1a40','#0e3a3a'];
+
+  let splitPeople = 2;
+  let splitPersonData = [];
+
+  function initSplitPage() {
+    splitPersonData = [];
+    splitPeople = 2;
+    document.getElementById('splitResults').classList.remove('show');
+    showPage('split');
+    document.getElementById('splitPersonCount').textContent = splitPeople;
+    renderPersonForms();
+  }
+
+  function adjustSplitCount(delta) {
+    splitPeople = Math.max(2, Math.min(10, splitPeople + delta));
+    document.getElementById('splitPersonCount').textContent = splitPeople;
+    renderPersonForms();
+  }
+
+  function renderPersonForms() {
+    const grid = document.getElementById('personFormsGrid');
+    const saved = splitPersonData;
+    grid.innerHTML = '';
+    for (let i = 0; i < splitPeople; i++) {
+      const s = saved[i] || {};
+      const color = PERSON_COLORS[i % PERSON_COLORS.length];
+      const el = document.createElement('div');
+      el.className = 'person-form-card';
+      el.innerHTML = `
+        <h4>
+          <div class="person-num-badge" style="background:${color}">${i + 1}</div>
+          Hiker ${i + 1}
+        </h4>
+        <div class="g-field">
+          <label class="g-label">Name (optional)</label>
+          <input class="g-input" type="text" id="sp-name-${i}" placeholder="e.g. Alex" value="${s.name || ''}">
+        </div>
+        <div class="g-row">
+          <div class="g-field">
+            <label class="g-label">Age</label>
+            <input class="g-input" type="number" id="sp-age-${i}" min="5" max="90" placeholder="e.g. 32" value="${s.age || ''}">
+          </div>
+          <div class="g-field">
+            <label class="g-label">Weight (lbs) *</label>
+            <input class="g-input" type="number" id="sp-wt-${i}" min="40" max="400" placeholder="e.g. 160" value="${s.weight || ''}">
+          </div>
+        </div>
+        <div class="g-row">
+          <div class="g-field">
+            <label class="g-label">Bag Size (liters) *</label>
+            <input class="g-input" type="number" id="sp-bag-${i}" min="20" max="120" placeholder="e.g. 60" value="${s.bagL || ''}">
+          </div>
+          <div class="g-field">
+            <label class="g-label">Fitness Level</label>
+            <select class="g-select" id="sp-fit-${i}">
+              <option value="low" ${s.fitness === 'low' ? 'selected' : ''}>Beginner</option>
+              <option value="mid" ${!s.fitness || s.fitness === 'mid' ? 'selected' : ''}>Moderate</option>
+              <option value="high" ${s.fitness === 'high' ? 'selected' : ''}>Strong hiker</option>
+            </select>
+          </div>
+        </div>`;
+      grid.appendChild(el);
+    }
+  }
+
+  function collectSplitPersonData() {
+    splitPersonData = [];
+    for (let i = 0; i < splitPeople; i++) {
+      splitPersonData.push({
+        name:    document.getElementById(`sp-name-${i}`).value.trim() || `Hiker ${i + 1}`,
+        age:     parseInt(document.getElementById(`sp-age-${i}`).value) || 30,
+        weight:  parseInt(document.getElementById(`sp-wt-${i}`).value) || 0,
+        bagL:    parseInt(document.getElementById(`sp-bag-${i}`).value) || 0,
+        fitness: document.getElementById(`sp-fit-${i}`).value || 'mid',
+      });
+    }
+  }
+
+  function calcMaxCarry(person) {
+    const agePct = person.age < 14 ? 0.12 : person.age > 65 ? 0.15 : 0.20;
+    const fitAdj = person.fitness === 'high' ? 0.04 : person.fitness === 'low' ? -0.03 : 0;
+    const maxByWeight = person.weight * (agePct + fitAdj);
+    // Rough bag volume cap: 1 liter ≈ 0.045 kg ≈ 0.1 lbs of gear (conservative)
+    const maxByBag = person.bagL * 0.1;
+    return Math.min(maxByWeight, maxByBag);
+  }
+
+  function calculateSplit() {
+    collectSplitPersonData();
+    const errEl = document.getElementById('splitError');
+    const missing = splitPersonData.some(p => !p.weight || !p.bagL);
+    if (missing) {
+      errEl.textContent = 'Please enter weight and bag size for every hiker.';
+      errEl.classList.add('show');
+      return;
+    }
+    errEl.classList.remove('show');
+
+    const activeItems = ITEMS.filter(item => item.cond ? item.cond(inputs) : true);
+    const n = splitPeople;
+
+    const packs = splitPersonData.map((p, idx) => ({
+      ...p, idx,
+      maxCarry: calcMaxCarry(p),
+      currentWeight: 0,
+      items: [],
+    }));
+
+    const assigned = new Set();
+
+    function mostSpace(exclude) {
+      const ex = exclude || new Set();
+      return [...packs]
+        .filter(p => !ex.has(p.idx))
+        .sort((a, b) => (b.maxCarry - b.currentWeight) - (a.maxCarry - a.currentWeight))[0]
+        || packs[0];
+    }
+
+    function addItem(pack, item, role, note) {
+      const wt = ITEM_WEIGHTS[item.id] || 0;
+      pack.items.push({ item, role, weight: wt, note: note || '' });
+      if (role !== 'wearable') pack.currentWeight += wt;
+    }
+
+    // Step 1: personal + wearable items go to everyone
+    activeItems.forEach(item => {
+      const type = ITEM_TYPE[item.id] || 'group';
+      if (type === 'personal' || type === 'wearable') {
+        packs.forEach(pack => addItem(pack, item, type === 'wearable' ? 'wearable' : 'personal'));
+        assigned.add(item.id);
+      }
+    });
+
+    // Step 2: bear canister — strongest person carries it + packs group food inside
+    const bearCanItem = activeItems.find(i => i.id === 'bear_can');
+    const foodInCan = new Set(['camp_soap', 'fuel']); // group food items stored in canister
+
+    if (bearCanItem && !assigned.has('bear_can')) {
+      const strongest = [...packs].sort((a, b) => b.maxCarry - a.maxCarry)[0];
+      addItem(strongest, bearCanItem, 'group', 'carries bear canister');
+      assigned.add('bear_can');
+
+      foodInCan.forEach(id => {
+        if (assigned.has(id)) return;
+        const fi = activeItems.find(i => i.id === id);
+        if (!fi || ITEM_TYPE[id] === 'personal') return;
+        addItem(strongest, fi, 'group', 'packed inside bear canister');
+        assigned.add(id);
+      });
+    }
+
+    // Step 3: distribute remaining group / per2 / per3 items
+    activeItems.forEach(item => {
+      if (assigned.has(item.id)) return;
+      const type = ITEM_TYPE[item.id] || 'group';
+      if (type === 'personal' || type === 'wearable') return;
+
+      const numNeeded = type === 'per3' ? Math.ceil(n / 3) : type === 'per2' ? Math.ceil(n / 2) : 1;
+      const used = new Set();
+      for (let k = 0; k < numNeeded; k++) {
+        const pack = mostSpace(used);
+        addItem(pack, item, 'group');
+        used.add(pack.idx);
+      }
+      assigned.add(item.id);
+    });
+
+    // Step 4: sort items within each pack (personal first, then group, then wearable; by category)
+    packs.forEach(pack => {
+      const roleOrder = { personal: 0, group: 1, wearable: 2 };
+      pack.items.sort((a, b) => {
+        const ro = (roleOrder[a.role] || 0) - (roleOrder[b.role] || 0);
+        return ro !== 0 ? ro : CAT_ORDER.indexOf(a.item.cat) - CAT_ORDER.indexOf(b.item.cat);
+      });
+    });
+
+    renderSplitResults(packs);
+  }
+
+  function renderSplitResults(packs) {
+    const totalGear = packs.reduce((s, p) => s + p.currentWeight, 0);
+    document.getElementById('splitSummaryText').textContent =
+      `${packs.length} hikers · ${totalGear.toFixed(1)} lbs total gear weight`;
+
+    const grid = document.getElementById('splitPackGrid');
+    grid.innerHTML = packs.map((pack, i) => {
+      const color   = PERSON_COLORS[i % PERSON_COLORS.length];
+      const pct     = pack.maxCarry > 0 ? Math.min(100, (pack.currentWeight / pack.maxCarry) * 100) : 0;
+      const barCls  = pct < 75 ? 'ok' : pct < 95 ? 'warn' : 'over';
+      const personal  = pack.items.filter(e => e.role === 'personal');
+      const group     = pack.items.filter(e => e.role === 'group');
+      const wearable  = pack.items.filter(e => e.role === 'wearable');
+      const personalWt = personal.reduce((s, e) => s + e.weight, 0);
+      const groupWt    = group.reduce((s, e) => s + e.weight, 0);
+      const statusTxt  = pct > 100 ? ' ⚠️ Over recommended max' : pct > 90 ? ' — heavy load' : '';
+
+      const row = e => `
+        <div class="person-item-row">
+          <span class="item-role-badge ${e.role === 'group' ? 'group' : 'personal'}">${e.role === 'group' ? 'shared' : 'personal'}</span>
+          <span class="person-item-name">${e.item.name}${e.note ? `<br><span class="item-sub-note">${e.note}</span>` : ''}</span>
+          ${e.weight > 0 ? `<span class="person-item-wt">${e.weight.toFixed(1)} lb</span>` : ''}
+        </div>`;
+
+      return `
+        <div class="person-pack-card">
+          <div class="person-pack-header" style="background:${color}">
+            <div class="ppnum-badge">${i + 1}</div>
+            <h3>${pack.name}</h3>
+          </div>
+          <div class="person-pack-stats">
+            <div class="pack-stat">
+              <div class="pack-stat-val">${pack.currentWeight.toFixed(1)}<small style="font-size:10px"> lb</small></div>
+              <div class="pack-stat-lbl">Pack Weight</div>
+            </div>
+            <div class="pack-stat">
+              <div class="pack-stat-val">${pack.maxCarry.toFixed(0)}<small style="font-size:10px"> lb</small></div>
+              <div class="pack-stat-lbl">Rec. Max</div>
+            </div>
+            <div class="pack-stat">
+              <div class="pack-stat-val">${pack.bagL}<small style="font-size:10px"> L</small></div>
+              <div class="pack-stat-lbl">Bag Size</div>
+            </div>
+            <div class="pack-stat">
+              <div class="pack-stat-val">${pack.items.filter(e => e.role !== 'wearable').length}</div>
+              <div class="pack-stat-lbl">Items</div>
+            </div>
+          </div>
+          <div class="weight-bar-wrap">
+            <div class="weight-bar-label">
+              <span>Load vs recommended max</span>
+              <span>${pct.toFixed(0)}%${statusTxt}</span>
+            </div>
+            <div class="weight-bar-track">
+              <div class="weight-bar-fill ${barCls}" style="width:${pct}%"></div>
+            </div>
+          </div>
+          <div class="person-item-list">
+            ${personal.length ? `<div class="item-section-title">Personal Items · ${personalWt.toFixed(1)} lbs</div>` : ''}
+            ${personal.map(row).join('')}
+            ${group.length ? `<div class="item-section-title">Group Items You Carry · ${groupWt.toFixed(1)} lbs</div>` : ''}
+            ${group.map(row).join('')}
+            ${wearable.length ? `<div class="item-section-title">Worn / On Body</div>` : ''}
+            ${wearable.map(row).join('')}
+          </div>
+        </div>`;
+    }).join('');
+
+    document.getElementById('splitResults').classList.add('show');
+    document.getElementById('splitResults').scrollIntoView({ behavior: 'smooth' });
   }
 
   // ══════════════════════════════════════
