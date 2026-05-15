@@ -676,6 +676,34 @@
     .btn-delete-list { background: transparent; border: 1.5px solid #ddd; color: #999; font-size: 16px; padding: 9px 13px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
     .btn-delete-list:hover { background: #ffeaea; border-color: #e88; color: #c33; }
 
+    /* Collapsible saved-list items */
+    .sli-list { display: flex; flex-direction: column; gap: 10px; }
+    .sli-item { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; border: 1.5px solid var(--cream-dark); }
+    .sli-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; user-select: none; transition: background 0.15s; }
+    .sli-header:hover { background: var(--cream); }
+    .sli-chevron { font-size: 9px; color: var(--text-light); transition: transform 0.22s; display: inline-block; }
+    .sli-item.open > .sli-header .sli-chevron { transform: rotate(90deg); }
+    .sli-header-icon { font-size: 18px; flex-shrink: 0; }
+    .sli-title { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: var(--brown-dark); flex: 1; }
+    .sli-meta { font-size: 11px; color: var(--text-light); white-space: nowrap; }
+    .sli-body { display: none; padding: 4px 18px 16px; border-top: 1px solid var(--cream-dark); }
+    .sli-item.open > .sli-body { display: block; }
+    .sli-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px; }
+    .sli-badge { background: var(--cream-dark); color: var(--text-mid); font-size: 11px; border-radius: 12px; padding: 3px 10px; }
+    .sli-count { font-size: 13px; color: var(--text-light); margin-bottom: 12px; }
+    .sli-count strong { color: var(--green-dark); }
+    .sli-actions { display: flex; gap: 10px; }
+    /* Split sub-items nested under a pack list */
+    .sli-splits { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--cream-dark); }
+    .sli-split-item { margin-left: 18px; border-left: 3px solid var(--green-light); border-radius: 0 8px 8px 0; margin-bottom: 8px; background: var(--cream); overflow: hidden; }
+    .sli-split-header { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; user-select: none; transition: background 0.15s; }
+    .sli-split-header:hover { background: rgba(0,0,0,0.04); }
+    .sli-split-item.open > .sli-split-header .sli-chevron { transform: rotate(90deg); }
+    .sli-split-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--brown-dark); flex: 1; }
+    .sli-split-body { display: none; padding: 4px 14px 12px; border-top: 1px solid rgba(0,0,0,0.07); }
+    .sli-split-item.open > .sli-split-body { display: block; }
+    .sli-split-info { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
+
     /* ══════════════════════════════════════
        SAVE MODAL
     ══════════════════════════════════════ */
@@ -1109,6 +1137,20 @@
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-modal-save"   onclick="confirmSave()">Save List</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE SPLIT MODAL -->
+<div class="modal-overlay" id="saveSplitModal">
+  <div class="modal-box">
+    <h3>💾 Save Split Pack List</h3>
+    <p>Give this split a name so you can find it later — like "JMT Split 2026".</p>
+    <input class="modal-input" id="splitListNameInput" type="text" placeholder="Split name…" maxlength="60"
+      onkeydown="if(event.key==='Enter') confirmSaveSplit()">
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeSplitModal()">Cancel</button>
+      <button class="btn-modal-save"   onclick="confirmSaveSplit()">Save Split</button>
     </div>
   </div>
 </div>
@@ -1611,7 +1653,10 @@
         <span id="splitSummaryText"></span>
       </div>
       <div class="person-pack-grid" id="splitPackGrid"></div>
-      <button class="btn-muted" onclick="showPage('pack')" style="margin-top:8px;">← Back to Pack List</button>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+        <button class="btn-outline" onclick="openSaveSplitModal()">💾 Save Split</button>
+        <button class="btn-muted" onclick="showPage('pack')">← Back to Pack List</button>
+      </div>
     </div>
 
   </div>
@@ -1943,8 +1988,14 @@
   // SAVE / LOAD
   // ══════════════════════════════════════
   const LS_KEY = 'trailpack_saved_lists';
+  const LS_SPLIT_KEY = 'trailpack_saved_splits';
+  let currentSavedListId = null;
+  let lastCalculatedPacks = null;
+
   function getSavedLists() { try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch(e) { return []; } }
   function putSavedLists(lists) { localStorage.setItem(LS_KEY, JSON.stringify(lists)); updateBadge(); }
+  function getSavedSplitLists() { try { return JSON.parse(localStorage.getItem(LS_SPLIT_KEY)) || []; } catch(e) { return []; } }
+  function putSavedSplitLists(lists) { localStorage.setItem(LS_SPLIT_KEY, JSON.stringify(lists)); }
 
   function updateBadge() {
     const count = getSavedLists().length;
@@ -1968,22 +2019,76 @@
       return;
     }
     const lists = getSavedLists();
-    lists.unshift({
+    const newEntry = {
       id: Date.now(),
       name,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
       inputs: JSON.parse(JSON.stringify(inputs)),
       itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
-    });
+    };
+    lists.unshift(newEntry);
     putSavedLists(lists);
+    currentSavedListId = newEntry.id;
     closeModal();
     showToast(`✓ "${name}" saved!`);
   }
 
+  function openSaveSplitModal() {
+    document.getElementById('splitListNameInput').value = '';
+    document.getElementById('saveSplitModal').classList.add('show');
+    setTimeout(() => document.getElementById('splitListNameInput').focus(), 80);
+  }
+  function closeSplitModal() { document.getElementById('saveSplitModal').classList.remove('show'); }
+
+  function confirmSaveSplit() {
+    const name = document.getElementById('splitListNameInput').value.trim();
+    if (!name) {
+      document.getElementById('splitListNameInput').style.borderColor = '#c33';
+      setTimeout(() => document.getElementById('splitListNameInput').style.borderColor = '', 1200);
+      return;
+    }
+    const lists = getSavedSplitLists();
+    const totalWt = lastCalculatedPacks ? lastCalculatedPacks.reduce((s, p) => s + p.currentWeight, 0) : 0;
+    lists.unshift({
+      id: Date.now(),
+      name,
+      date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+      parentPackListId: currentSavedListId,
+      inputs: JSON.parse(JSON.stringify(inputs)),
+      savedPersonData: JSON.parse(JSON.stringify(splitPersonData)),
+      savedPeopleCount: splitPeople,
+      totalWeight: totalWt,
+      hikerCount: splitPeople,
+    });
+    putSavedSplitLists(lists);
+    closeSplitModal();
+    showToast(`✓ "${name}" split saved!`);
+  }
+
+  function loadSavedSplit(id) {
+    const rec = getSavedSplitLists().find(l => l.id === id);
+    if (!rec) return;
+    Object.assign(inputs, JSON.parse(JSON.stringify(rec.inputs)));
+    splitPersonData = JSON.parse(JSON.stringify(rec.savedPersonData));
+    splitPeople = rec.savedPeopleCount;
+    showPage('split');
+    document.getElementById('splitPersonCount').textContent = splitPeople;
+    renderPersonForms();
+    calculateSplit();
+  }
+
+  function deleteSavedSplit(id) {
+    if (!confirm('Delete this saved split?')) return;
+    putSavedSplitLists(getSavedSplitLists().filter(l => l.id !== id));
+    renderSavedLists();
+    showToast('Split deleted.');
+  }
+
   function renderSavedLists() {
     const lists = getSavedLists();
+    const splitLists = getSavedSplitLists();
     const el = document.getElementById('savedListsContent');
-    if (!lists.length) {
+    if (!lists.length && !splitLists.length) {
       el.innerHTML = `<div class="saved-empty">
         <span class="empty-icon">🗺️</span>
         <p>No saved lists yet.<br>Build a pack list and hit <strong>💾 Save List</strong> to keep it here.</p>
@@ -1995,35 +2100,108 @@
     const wL = { hot:'☀️ Hot', mild:'🌤️ Mild', cold:'🌬️ Cold', wet:'🌧️ Rainy', snow:'❄️ Snow' };
     const dL = { '1-2':'1–2 days', '3-5':'3–5 days', '6-10':'6–10 days', '10+':'10+ days' };
     const dfL = { easy:'🟢 Easy', moderate:'🟡 Moderate', strenuous:'🟠 Strenuous', expert:'🔴 Expert' };
-    el.innerHTML = `<div class="saved-grid">${lists.map(rec => {
+
+    // Group split lists by parent pack list ID
+    const splitsByParent = {};
+    splitLists.forEach(sl => {
+      const key = sl.parentPackListId != null ? sl.parentPackListId : '__unlinked__';
+      if (!splitsByParent[key]) splitsByParent[key] = [];
+      splitsByParent[key].push(sl);
+    });
+
+    let html = '<div class="sli-list">';
+
+    lists.forEach(rec => {
       const inp = rec.inputs;
-      const wBadges = (inp.weather||[]).map(w=>`<span class="saved-badge">${wL[w]||w}</span>`).join('');
-      return `<div class="saved-card">
-        <div class="saved-card-top">
-          <div class="card-date">Saved ${rec.date}</div>
-          <h3>${tI[inp.terrain]||'🏕️'} ${rec.name}</h3>
-          <div class="saved-card-badges">
-            <span class="saved-badge">${tL[inp.terrain]||inp.terrain}</span>
-            ${wBadges}
-            <span class="saved-badge">⏱ ${dL[inp.days]||inp.days}</span>
-            <span class="saved-badge">${dfL[inp.difficulty]||inp.difficulty}</span>
+      const wBadges = (inp.weather||[]).map(w=>`<span class="sli-badge">${wL[w]||w}</span>`).join('');
+      const childSplits = splitsByParent[rec.id] || [];
+      const splitsHtml = childSplits.length ? `
+        <div class="sli-splits">
+          ${childSplits.map(sl => `
+            <div class="sli-split-item" id="sli-split-${sl.id}">
+              <div class="sli-split-header" onclick="toggleSliSplit(${sl.id})">
+                <span class="sli-chevron">▶</span>
+                <span class="sli-split-title">👥 ${sl.name}</span>
+                <span class="sli-meta">${sl.hikerCount} hikers · ${sl.date}</span>
+              </div>
+              <div class="sli-split-body" id="sli-split-body-${sl.id}">
+                <div class="sli-split-info">${sl.hikerCount} hikers · <strong>${sl.totalWeight.toFixed(1)} lbs</strong> total gear weight</div>
+                <div class="sli-actions">
+                  <button class="btn-view-list" onclick="loadSavedSplit(${sl.id})">View Split →</button>
+                  <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">🗑️</button>
+                </div>
+              </div>
+            </div>`).join('')}
+        </div>` : '';
+
+      html += `
+        <div class="sli-item" id="sli-${rec.id}">
+          <div class="sli-header" onclick="toggleSliItem(${rec.id})">
+            <span class="sli-chevron">▶</span>
+            <span class="sli-header-icon">${tI[inp.terrain]||'🏕️'}</span>
+            <span class="sli-title">${rec.name}</span>
+            <span class="sli-meta">saved ${rec.date}</span>
           </div>
-        </div>
-        <div class="saved-card-body">
-          <div class="saved-item-count"><strong>${rec.itemCount}</strong> gear items</div>
-          <div class="saved-card-actions">
-            <button class="btn-view-list" onclick="loadSavedList(${rec.id})">View List →</button>
-            <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">🗑️</button>
+          <div class="sli-body" id="sli-body-${rec.id}">
+            <div class="sli-badges">
+              <span class="sli-badge">${tL[inp.terrain]||inp.terrain}</span>
+              ${wBadges}
+              <span class="sli-badge">⏱ ${dL[inp.days]||inp.days}</span>
+              <span class="sli-badge">${dfL[inp.difficulty]||inp.difficulty}</span>
+            </div>
+            <div class="sli-count"><strong>${rec.itemCount}</strong> gear items</div>
+            <div class="sli-actions">
+              <button class="btn-view-list" onclick="loadSavedList(${rec.id})">View List →</button>
+              <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">🗑️</button>
+            </div>
+            ${splitsHtml}
           </div>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
+        </div>`;
+    });
+
+    // Unlinked splits (saved without a corresponding pack list)
+    const unlinked = splitsByParent['__unlinked__'] || [];
+    unlinked.forEach(sl => {
+      html += `
+        <div class="sli-item" id="sli-us-${sl.id}">
+          <div class="sli-header" onclick="toggleSliUs(${sl.id})">
+            <span class="sli-chevron">▶</span>
+            <span class="sli-header-icon">👥</span>
+            <span class="sli-title">${sl.name}</span>
+            <span class="sli-meta">${sl.hikerCount} hikers · saved ${sl.date}</span>
+          </div>
+          <div class="sli-body" id="sli-us-body-${sl.id}">
+            <div class="sli-count">${sl.hikerCount} hikers · <strong>${sl.totalWeight.toFixed(1)} lbs</strong> total gear weight</div>
+            <div class="sli-actions">
+              <button class="btn-view-list" onclick="loadSavedSplit(${sl.id})">View Split →</button>
+              <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">🗑️</button>
+            </div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+    el.innerHTML = html;
+  }
+
+  function toggleSliItem(id) {
+    const el = document.getElementById(`sli-${id}`);
+    if (el) el.classList.toggle('open');
+  }
+  function toggleSliSplit(id) {
+    const el = document.getElementById(`sli-split-${id}`);
+    if (el) el.classList.toggle('open');
+  }
+  function toggleSliUs(id) {
+    const el = document.getElementById(`sli-us-${id}`);
+    if (el) el.classList.toggle('open');
   }
 
   function loadSavedList(id) {
     const rec = getSavedLists().find(l => l.id === id);
     if (!rec) return;
     Object.assign(inputs, JSON.parse(JSON.stringify(rec.inputs)));
+    currentSavedListId = id;
     showPage('pack');
     document.getElementById('progressBar').style.display = 'none';
     [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
@@ -2901,25 +3079,27 @@
   }
 
   function renderSplitResults(packs) {
+    lastCalculatedPacks = packs;
     const totalGear = packs.reduce((s, p) => s + p.currentWeight, 0);
     document.getElementById('splitSummaryText').textContent =
       `${packs.length} hikers · ${totalGear.toFixed(1)} lbs total gear weight`;
 
     const grid = document.getElementById('splitPackGrid');
     grid.innerHTML = packs.map((pack, i) => {
-      const color   = PERSON_COLORS[i % PERSON_COLORS.length];
-      const pct     = pack.maxCarry > 0 ? Math.min(100, (pack.currentWeight / pack.maxCarry) * 100) : 0;
-      const barCls  = pct < 75 ? 'ok' : pct < 95 ? 'warn' : 'over';
-      const personal  = pack.items.filter(e => e.role === 'personal');
-      const group     = pack.items.filter(e => e.role === 'group');
-      const wearable  = pack.items.filter(e => e.role === 'wearable');
+      const color      = PERSON_COLORS[i % PERSON_COLORS.length];
+      const pct        = pack.maxCarry > 0 ? Math.min(100, (pack.currentWeight / pack.maxCarry) * 100) : 0;
+      const barCls     = pct < 75 ? 'ok' : pct < 95 ? 'warn' : 'over';
+      const personal   = pack.items.filter(e => e.role === 'personal');
+      const group      = pack.items.filter(e => e.role === 'group');
+      const wearable   = pack.items.filter(e => e.role === 'wearable');
       const personalWt = personal.reduce((s, e) => s + e.weight, 0);
       const groupWt    = group.reduce((s, e) => s + e.weight, 0);
+      const wearableWt = wearable.reduce((s, e) => s + e.weight, 0);
       const statusTxt  = pct > 100 ? ' ⚠️ Over recommended max' : pct > 90 ? ' — heavy load' : '';
 
-      const row = e => `
+      const sharedRow = e => `
         <div class="person-item-row">
-          <span class="item-role-badge ${e.role === 'group' ? 'group' : 'personal'}">${e.role === 'group' ? 'shared' : 'personal'}</span>
+          <span class="item-role-badge group">shared</span>
           <span class="person-item-name">${e.item.name}${e.note ? `<br><span class="item-sub-note">${e.note}</span>` : ''}</span>
           ${e.weight > 0 ? `<span class="person-item-wt">${e.weight.toFixed(1)} lb</span>` : ''}
         </div>`;
@@ -2936,16 +3116,8 @@
               <div class="pack-stat-lbl">Pack Weight</div>
             </div>
             <div class="pack-stat">
-              <div class="pack-stat-val">${pack.maxCarry.toFixed(0)}<small style="font-size:10px"> lb</small></div>
-              <div class="pack-stat-lbl">Rec. Max</div>
-            </div>
-            <div class="pack-stat">
               <div class="pack-stat-val">${pack.bagL}<small style="font-size:10px"> L</small></div>
               <div class="pack-stat-lbl">Bag Size</div>
-            </div>
-            <div class="pack-stat">
-              <div class="pack-stat-val">${pack.items.filter(e => e.role !== 'wearable').length}</div>
-              <div class="pack-stat-lbl">Items</div>
             </div>
           </div>
           <div class="weight-bar-wrap">
@@ -2958,12 +3130,10 @@
             </div>
           </div>
           <div class="person-item-list">
-            ${personal.length ? `<div class="item-section-title">Personal Items · ${personalWt.toFixed(1)} lbs</div>` : ''}
-            ${personal.map(row).join('')}
-            ${group.length ? `<div class="item-section-title">Group Items You Carry · ${groupWt.toFixed(1)} lbs</div>` : ''}
-            ${group.map(row).join('')}
-            ${wearable.length ? `<div class="item-section-title">Worn / On Body</div>` : ''}
-            ${wearable.map(row).join('')}
+            ${personalWt > 0 ? `<div class="item-section-title">Personal Items · est. ${personalWt.toFixed(1)} lbs</div>` : ''}
+            ${group.length ? `<div class="item-section-title">Shared Items You Carry · ${groupWt.toFixed(1)} lbs</div>` : ''}
+            ${group.map(sharedRow).join('')}
+            ${wearable.length ? `<div class="item-section-title">Worn / On Body${wearableWt > 0 ? ` · est. ${wearableWt.toFixed(1)} lbs` : ''}</div>` : ''}
           </div>
         </div>`;
     }).join('');
@@ -2980,6 +3150,9 @@
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
+  });
+  document.getElementById('saveSplitModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSplitModal();
   });
 </script>
 </body>
