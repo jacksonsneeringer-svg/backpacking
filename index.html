@@ -526,6 +526,7 @@
     .trip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: #e8e0d0; display: flex; align-items: center; gap: 6px; }
 
     .results-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
+    .toolbar-top-btns { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .item-count { font-family: 'Oswald', sans-serif; font-size: 18px; color: var(--brown-mid); margin-right: auto; }
     .item-count span { color: var(--green-dark); font-size: 22px; }
     .btn-outline {
@@ -994,7 +995,8 @@
       .step-nav { flex-direction: column-reverse; gap: 10px; }
       .btn-back, .btn-next, .btn-generate { width: 100%; text-align: center; }
 
-      .results-toolbar { gap: 8px; }
+      .results-toolbar { gap: 8px; flex-direction: column; align-items: flex-start; }
+      .toolbar-top-btns { display: flex; gap: 8px; flex-wrap: wrap; }
       .btn-outline, .btn-muted { font-size: 12px; padding: 8px 14px; }
 
       .trip-summary { padding: 18px 16px; }
@@ -1186,20 +1188,6 @@
   </div>
 </div>
 
-<!-- SAVE SPLIT MODAL -->
-<div class="modal-overlay" id="saveSplitModal">
-  <div class="modal-box">
-    <h3>💾 Save Split Pack List</h3>
-    <p>Give this split a name so you can find it later — like "JMT Split 2026".</p>
-    <input class="modal-input" id="splitListNameInput" type="text" placeholder="Split name…" maxlength="60"
-      onkeydown="if(event.key==='Enter') confirmSaveSplit()">
-    <div class="modal-actions">
-      <button class="btn-modal-cancel" onclick="closeSplitModal()">Cancel</button>
-      <button class="btn-modal-save"   onclick="confirmSaveSplit()">Save Split</button>
-    </div>
-  </div>
-</div>
-
 <!-- MEAL PLAN PROMPT MODAL -->
 <div class="modal-overlay" id="mealPlanPromptModal">
   <div class="modal-box">
@@ -1210,9 +1198,6 @@
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeMealPlanPrompt()">Cancel</button>
       <button class="btn-modal-save"   onclick="saveThenBuildMeal()">Save & Build →</button>
-    </div>
-    <div style="text-align:center; margin-top:10px;">
-      <button class="btn-muted" onclick="skipSaveBuildMeal()" style="font-size:13px;">Skip saving →</button>
     </div>
   </div>
 </div>
@@ -1420,11 +1405,13 @@
       <div class="trip-summary" id="tripSummary"></div>
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
-        <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize for Space/Weight</button>
-        <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert to Full List</button>
+        <div class="toolbar-top-btns">
+          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize for Space/Weight</button>
+          <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert to Full List</button>
+          <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
+        </div>
         <button class="btn-split"    onclick="initSplitPage()">👥 Split for Multiple People</button>
         <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
-        <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
       </div>
       <div id="packList"></div>
     </div>
@@ -1719,7 +1706,7 @@
       </div>
       <div class="person-pack-grid" id="splitPackGrid"></div>
       <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
-        <button class="btn-outline" onclick="openSaveSplitModal()">💾 Save Split</button>
+        <button class="btn-outline" onclick="confirmSaveSplit()">💾 Save Split</button>
         <button class="btn-muted" onclick="showPage('pack')">← Back to Pack List</button>
       </div>
     </div>
@@ -2097,6 +2084,10 @@
   function closeModal() { document.getElementById('saveModal').classList.remove('show'); }
 
   function buildMealFromPackList() {
+    if (currentSavedListId !== null) {
+      navigateToMealBuilder();
+      return;
+    }
     document.getElementById('mealPlanListNameInput').value = '';
     document.getElementById('mealPlanPromptModal').classList.add('show');
     setTimeout(() => document.getElementById('mealPlanListNameInput').focus(), 80);
@@ -2151,10 +2142,6 @@
     navigateToMealBuilder();
   }
 
-  function skipSaveBuildMeal() {
-    navigateToMealBuilder();
-  }
-
   function confirmSave() {
     const name = document.getElementById('listNameInput').value.trim();
     if (!name) {
@@ -2177,25 +2164,14 @@
     showToast(`✓ "${name}" saved!`);
   }
 
-  function openSaveSplitModal() {
-    document.getElementById('splitListNameInput').value = '';
-    document.getElementById('saveSplitModal').classList.add('show');
-    setTimeout(() => document.getElementById('splitListNameInput').focus(), 80);
-  }
-  function closeSplitModal() { document.getElementById('saveSplitModal').classList.remove('show'); }
-
   function confirmSaveSplit() {
-    const name = document.getElementById('splitListNameInput').value.trim();
-    if (!name) {
-      document.getElementById('splitListNameInput').style.borderColor = '#c33';
-      setTimeout(() => document.getElementById('splitListNameInput').style.borderColor = '', 1200);
-      return;
-    }
+    if (!lastCalculatedPacks) return;
     const lists = getSavedSplitLists();
-    const totalWt = lastCalculatedPacks ? lastCalculatedPacks.reduce((s, p) => s + p.currentWeight, 0) : 0;
+    const totalWt = lastCalculatedPacks.reduce((s, p) => s + p.currentWeight, 0);
+    const personNames = splitPersonData.map(p => p.name).join(' · ');
     lists.unshift({
       id: Date.now(),
-      name,
+      name: personNames,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
       parentPackListId: currentSavedListId,
       inputs: JSON.parse(JSON.stringify(inputs)),
@@ -2205,8 +2181,7 @@
       hikerCount: splitPeople,
     });
     putSavedSplitLists(lists);
-    closeSplitModal();
-    showToast(`✓ "${name}" split saved!`);
+    showToast(`✓ Split saved!`);
   }
 
   function loadSavedSplit(id) {
@@ -3083,6 +3058,10 @@
   let splitPersonData = [];
 
   function initSplitPage() {
+    if (!currentSavedListId) {
+      showToast('💾 Save your pack list first before splitting.');
+      return;
+    }
     splitPersonData = [];
     splitPeople = 2;
     document.getElementById('splitResults').classList.remove('show');
@@ -3112,7 +3091,7 @@
           Hiker ${i + 1}
         </h4>
         <div class="g-field">
-          <label class="g-label">Name (optional)</label>
+          <label class="g-label">Name *</label>
           <input class="g-input" type="text" id="sp-name-${i}" placeholder="e.g. Alex" value="${s.name || ''}">
         </div>
         <div class="g-row">
@@ -3147,7 +3126,7 @@
     splitPersonData = [];
     for (let i = 0; i < splitPeople; i++) {
       splitPersonData.push({
-        name:    document.getElementById(`sp-name-${i}`).value.trim() || `Hiker ${i + 1}`,
+        name:    document.getElementById(`sp-name-${i}`).value.trim(),
         age:     parseInt(document.getElementById(`sp-age-${i}`).value) || 30,
         weight:  parseInt(document.getElementById(`sp-wt-${i}`).value) || 0,
         bagL:    parseInt(document.getElementById(`sp-bag-${i}`).value) || 0,
@@ -3168,9 +3147,9 @@
   function calculateSplit() {
     collectSplitPersonData();
     const errEl = document.getElementById('splitError');
-    const missing = splitPersonData.some(p => !p.weight || !p.bagL);
+    const missing = splitPersonData.some(p => !p.name || !p.weight || !p.bagL);
     if (missing) {
-      errEl.textContent = 'Please enter weight and bag size for every hiker.';
+      errEl.textContent = 'Please enter a name, weight, and bag size for every hiker.';
       errEl.classList.add('show');
       return;
     }
@@ -3271,10 +3250,8 @@
       const barCls     = pct < 75 ? 'ok' : pct < 95 ? 'warn' : 'over';
       const personal   = pack.items.filter(e => e.role === 'personal');
       const group      = pack.items.filter(e => e.role === 'group');
-      const wearable   = pack.items.filter(e => e.role === 'wearable');
       const personalWt = personal.reduce((s, e) => s + e.weight, 0);
       const groupWt    = group.reduce((s, e) => s + e.weight, 0);
-      const wearableWt = wearable.reduce((s, e) => s + e.weight, 0);
       const statusTxt  = pct > 100 ? ' ⚠️ Over recommended max' : pct > 90 ? ' — heavy load' : '';
 
       const sharedRow = e => `
@@ -3313,7 +3290,6 @@
             ${personalWt > 0 ? `<div class="item-section-title">Personal Items · est. ${personalWt.toFixed(1)} lbs</div>` : ''}
             ${group.length ? `<div class="item-section-title">Shared Items You Carry · ${groupWt.toFixed(1)} lbs</div>` : ''}
             ${group.map(sharedRow).join('')}
-            ${wearable.length ? `<div class="item-section-title">Worn / On Body${wearableWt > 0 ? ` · est. ${wearableWt.toFixed(1)} lbs` : ''}</div>` : ''}
           </div>
         </div>`;
     }).join('');
@@ -3330,9 +3306,6 @@
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
-  });
-  document.getElementById('saveSplitModal').addEventListener('click', function(e) {
-    if (e.target === this) closeSplitModal();
   });
   document.getElementById('mealPlanPromptModal').addEventListener('click', function(e) {
     if (e.target === this) closeMealPlanPrompt();
