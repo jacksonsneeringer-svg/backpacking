@@ -550,7 +550,7 @@
     .cat-chevron { font-size: 0; color: rgba(255,255,255,0.9); }
     .cat-chevron::after { content: '▼'; font-size: 12px; display: inline-block; }
     .category-section.collapsed .cat-chevron::after { content: '—'; }
-    .category-body { padding: 0 8px 8px; overflow: hidden; max-height: 4000px; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; }
+    .category-body { padding: 0 8px 8px; overflow: hidden; max-height: 4000px; transition: max-height 0.15s ease, padding 0.1s ease; }
     .category-section.collapsed .category-body { max-height: 0; padding-bottom: 0; }
     .cat-shelter  .category-header { background: #4a5c3a; color: #fff; }
     .cat-pack     .category-header { background: #5c4a3a; color: #fff; }
@@ -1196,6 +1196,23 @@
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeSplitModal()">Cancel</button>
       <button class="btn-modal-save"   onclick="confirmSaveSplit()">Save Split</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEAL PLAN PROMPT MODAL -->
+<div class="modal-overlay" id="mealPlanPromptModal">
+  <div class="modal-box">
+    <h3>🍲 Build Meal Plan</h3>
+    <p>Would you like to save your pack list before heading to the Meal Planner?</p>
+    <input class="modal-input" id="mealPlanListNameInput" type="text" placeholder="Trip name… (e.g. JMT 2026)" maxlength="60"
+      onkeydown="if(event.key==='Enter') saveThenBuildMeal()">
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeMealPlanPrompt()">Cancel</button>
+      <button class="btn-modal-save"   onclick="saveThenBuildMeal()">Save & Build →</button>
+    </div>
+    <div style="text-align:center; margin-top:10px;">
+      <button class="btn-muted" onclick="skipSaveBuildMeal()" style="font-size:13px;">Skip saving →</button>
     </div>
   </div>
 </div>
@@ -2022,7 +2039,7 @@
       items.forEach(item => {
         const note = typeof item.note === 'function' ? item.note() : item.note;
         const actionBtn = item.mealPlan
-          ? `<button class="btn-meal-plan" onclick="showPage('grocery')">🍽️ Build My Meal Plan</button>`
+          ? `<button class="btn-meal-plan" onclick="buildMealFromPackList()">🍽️ Build My Meal Plan</button>`
           : `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon">🛒 Amazon</a>`;
         html += `<div class="gear-item" id="gi-${item.id}">
           <div class="gear-checkbox" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
@@ -2078,6 +2095,65 @@
     setTimeout(() => document.getElementById('listNameInput').focus(), 80);
   }
   function closeModal() { document.getElementById('saveModal').classList.remove('show'); }
+
+  function buildMealFromPackList() {
+    document.getElementById('mealPlanListNameInput').value = '';
+    document.getElementById('mealPlanPromptModal').classList.add('show');
+    setTimeout(() => document.getElementById('mealPlanListNameInput').focus(), 80);
+  }
+
+  function closeMealPlanPrompt() {
+    document.getElementById('mealPlanPromptModal').classList.remove('show');
+  }
+
+  function navigateToMealBuilder() {
+    closeMealPlanPrompt();
+    const dL = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
+    document.getElementById('groceryResults').style.display = 'none';
+    ['importOpt','manualOpt'].forEach(id => document.getElementById(id).classList.remove('selected'));
+    document.getElementById('importSelectWrap').classList.remove('show');
+    document.getElementById('manualEntryWrap').classList.remove('show');
+    document.getElementById('importedPreview').classList.remove('show');
+    document.getElementById('gDefaultNote').classList.remove('show');
+    document.querySelectorAll('.gender-card, .restrict-card').forEach(c => c.classList.remove('selected'));
+    [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
+    GS.mode = 'fromPackList';
+    GS.importedListId = null;
+    GS.tripDays = dL[inputs.days] || 4;
+    GS.packWeight = estimatePackWeight(inputs);
+    GS.tripDifficulty = inputs.difficulty || 'moderate';
+    GS.gender = null; GS.heightFt = null; GS.heightIn = null;
+    GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
+    GS.restrictions = []; GS.mealPlan = null;
+    document.getElementById('gstep2').classList.add('visible');
+    showPage('grocery');
+  }
+
+  function saveThenBuildMeal() {
+    const name = document.getElementById('mealPlanListNameInput').value.trim();
+    if (!name) {
+      document.getElementById('mealPlanListNameInput').style.borderColor = '#c33';
+      setTimeout(() => document.getElementById('mealPlanListNameInput').style.borderColor = '', 1200);
+      return;
+    }
+    const lists = getSavedLists();
+    const newEntry = {
+      id: Date.now(),
+      name,
+      date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+      inputs: JSON.parse(JSON.stringify(inputs)),
+      itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
+    };
+    lists.unshift(newEntry);
+    putSavedLists(lists);
+    currentSavedListId = newEntry.id;
+    showToast(`✓ "${name}" saved!`);
+    navigateToMealBuilder();
+  }
+
+  function skipSaveBuildMeal() {
+    navigateToMealBuilder();
+  }
 
   function confirmSave() {
     const name = document.getElementById('listNameInput').value.trim();
@@ -3257,6 +3333,9 @@
   });
   document.getElementById('saveSplitModal').addEventListener('click', function(e) {
     if (e.target === this) closeSplitModal();
+  });
+  document.getElementById('mealPlanPromptModal').addEventListener('click', function(e) {
+    if (e.target === this) closeMealPlanPrompt();
   });
 </script>
 </body>
