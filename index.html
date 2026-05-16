@@ -716,8 +716,9 @@
     .sli-item { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; border: 1.5px solid var(--cream-dark); }
     .sli-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; user-select: none; transition: background 0.15s; }
     .sli-header:hover { background: var(--cream); }
-    .sli-chevron { font-size: 9px; color: var(--text-light); transition: transform 0.22s; display: inline-block; }
-    .sli-item.open > .sli-header .sli-chevron { transform: rotate(90deg); }
+    .sli-chevron { font-size: 11px; color: var(--text-light); display: inline-block; line-height: 1; }
+    .sli-chevron::after { content: '▼'; }
+    .sli-item.open > .sli-header .sli-chevron::after { content: '—'; }
     .sli-header-icon { font-size: 18px; flex-shrink: 0; }
     .sli-title { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: var(--brown-dark); flex: 1; }
     .sli-meta { font-size: 11px; color: var(--text-light); white-space: nowrap; }
@@ -733,7 +734,7 @@
     .sli-split-item { margin-left: 18px; border-left: 3px solid var(--green-light); border-radius: 0 8px 8px 0; margin-bottom: 8px; background: var(--cream); overflow: hidden; }
     .sli-split-header { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; user-select: none; transition: background 0.15s; }
     .sli-split-header:hover { background: rgba(0,0,0,0.04); }
-    .sli-split-item.open > .sli-split-header .sli-chevron { transform: rotate(90deg); }
+    .sli-split-item.open > .sli-split-header .sli-chevron::after { content: '—'; }
     .sli-split-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--brown-dark); flex: 1; }
     .sli-split-body { display: none; padding: 4px 14px 12px; border-top: 1px solid rgba(0,0,0,0.07); }
     .sli-split-item.open > .sli-split-body { display: block; }
@@ -877,8 +878,9 @@
     .day-num  { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--tan); min-width:24px; }
     .day-name { font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; flex:1; }
     .day-cal  { font-size:12px; color:#8aaa72; }
-    .day-chev { font-size:11px; color:rgba(255,255,255,0.5); transition:transform 0.25s; }
-    .day-section.collapsed .day-chev { transform:rotate(-90deg); }
+    .day-chev { font-size:12px; color:rgba(255,255,255,0.5); }
+    .day-chev::after { content:'▼'; }
+    .day-section.collapsed .day-chev::after { content:'—'; }
     .day-body { padding:0; }
     .day-section.collapsed .day-body { display:none; }
 
@@ -1125,6 +1127,59 @@
       .split-container { padding:24px 16px 60px; }
       .person-pack-grid { grid-template-columns:1fr; }
     }
+
+    /* ══════════════════════════════════════
+       TOOLBAR ACTION ROW (split + save)
+    ══════════════════════════════════════ */
+    .toolbar-action-row { display:flex; gap:10px; flex-wrap:wrap; }
+    @media (max-width:768px) {
+      .toolbar-action-row { width:100%; }
+      .toolbar-action-row .btn-split,
+      .toolbar-action-row .btn-outline { flex:1; font-size:11px; padding:8px 8px; letter-spacing:0.3px; white-space:normal; text-align:center; }
+    }
+
+    /* ══════════════════════════════════════
+       CUT ITEMS SECTION (optimize mode)
+    ══════════════════════════════════════ */
+    .cut-section { background:#fff; border-radius:var(--radius); margin-top:16px; box-shadow:var(--shadow-sm); overflow:hidden; border:1.5px solid var(--cream-dark); }
+    .cut-section-header { display:flex; align-items:center; gap:10px; padding:12px 18px; cursor:pointer; user-select:none; background:var(--cream-dark); transition:background 0.15s; }
+    .cut-section-header:hover { background:#ddd3c0; }
+    .cut-section-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; color:var(--text-mid); flex:1; }
+    .cut-chev { font-size:11px; color:var(--text-light); }
+    .cut-chev::after { content:'▼'; }
+    .cut-section.cut-collapsed .cut-chev::after { content:'—'; }
+    .cut-section-body { padding:8px; overflow:hidden; max-height:3000px; transition:max-height 0.2s ease, padding 0.1s ease; }
+    .cut-section.cut-collapsed .cut-section-body { max-height:0; padding:0; }
+    .cut-item { display:flex; align-items:flex-start; gap:12px; padding:10px 12px; border-radius:8px; }
+    .cut-item-name { font-weight:600; font-size:13px; color:var(--text-dark); }
+    .cut-item-note-txt { font-size:12px; color:var(--text-light); margin-top:2px; line-height:1.4; }
+
+    /* ══════════════════════════════════════
+       STANDARD PLAN (meal planner)
+    ══════════════════════════════════════ */
+    .standard-plan-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow-sm); overflow:hidden; margin-bottom:16px; }
+    .standard-plan-header { background:linear-gradient(90deg,var(--green-dark),#1a4a10); padding:14px 20px; }
+    .standard-plan-header h3 { font-family:'Oswald',sans-serif; font-size:18px; font-weight:700; color:var(--tan); margin:0; }
+    .standard-plan-header p { font-size:12px; color:#8aaa72; margin:4px 0 0; }
+    .btn-fancy { display:flex; align-items:center; justify-content:center; gap:8px; margin:20px auto 8px; background:linear-gradient(135deg,#7030b0,#3a1080); border:none; color:#fff; font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:13px 28px; border-radius:50px; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 16px rgba(80,30,160,0.35); }
+    .btn-fancy:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(80,30,160,0.55); }
+    @keyframes fancyPop { 0%{transform:scale(1)} 40%{transform:scale(1.1);box-shadow:0 8px 32px rgba(80,30,160,0.7)} 100%{transform:scale(1)} }
+    .btn-fancy.animating { animation:fancyPop 0.45s ease forwards; }
+    .btn-revert-fancy { display:inline-flex; align-items:center; gap:8px; background:transparent; border:2px solid var(--brown-light); color:var(--brown-mid); font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:8px 18px; border-radius:50px; cursor:pointer; transition:all 0.2s; margin-bottom:16px; }
+    .btn-revert-fancy:hover { background:var(--brown-mid); color:#fff; }
+    .fancy-plan-wrap { animation:fadeIn 0.4s ease; }
+
+    /* ══════════════════════════════════════
+       GROCERY PLAN NESTED UNDER PACK LIST
+    ══════════════════════════════════════ */
+    .sli-grocery-item { margin-left:18px; border-left:3px solid var(--green-mid); border-radius:0 8px 8px 0; margin-bottom:8px; background:var(--green-pale); overflow:hidden; }
+    .sli-grocery-header { display:flex; align-items:center; gap:10px; padding:9px 14px; cursor:pointer; user-select:none; transition:background 0.15s; }
+    .sli-grocery-header:hover { background:rgba(0,0,0,0.04); }
+    .sli-grocery-item.open > .sli-grocery-header .sli-chevron::after { content:'—'; }
+    .sli-grocery-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; color:var(--green-dark); flex:1; }
+    .sli-grocery-body { display:none; padding:4px 14px 12px; border-top:1px solid rgba(0,0,0,0.07); }
+    .sli-grocery-item.open > .sli-grocery-body { display:block; }
+    .sli-grocery-info { font-size:13px; color:var(--text-light); margin-bottom:10px; }
   </style>
 </head>
 <body>
@@ -1188,16 +1243,16 @@
   </div>
 </div>
 
-<!-- MEAL PLAN PROMPT MODAL -->
-<div class="modal-overlay" id="mealPlanPromptModal">
+<!-- MEAL DAYS MODAL -->
+<div class="modal-overlay" id="mealDaysModal">
   <div class="modal-box">
-    <h3>🍲 Build Meal Plan</h3>
-    <p>Would you like to save your pack list before heading to the Meal Planner?</p>
-    <input class="modal-input" id="mealPlanListNameInput" type="text" placeholder="Trip name… (e.g. JMT 2026)" maxlength="60"
-      onkeydown="if(event.key==='Enter') saveThenBuildMeal()">
+    <h3>How many days is your trip?</h3>
+    <p>We'll calculate your total meal quantities and shopping list based on this.</p>
+    <input class="modal-input" id="mealDaysInput" type="number" min="1" max="30" placeholder="e.g. 5"
+      onkeydown="if(event.key==='Enter') confirmMealDays()">
     <div class="modal-actions">
-      <button class="btn-modal-cancel" onclick="closeMealPlanPrompt()">Cancel</button>
-      <button class="btn-modal-save"   onclick="saveThenBuildMeal()">Save & Build →</button>
+      <button class="btn-modal-cancel" onclick="closeMealDaysModal()">Cancel</button>
+      <button class="btn-modal-save"   onclick="confirmMealDays()">Continue →</button>
     </div>
   </div>
 </div>
@@ -1405,13 +1460,15 @@
       <div class="trip-summary" id="tripSummary"></div>
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
-        <div class="toolbar-top-btns">
-          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize for Space/Weight</button>
-          <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert to Full List</button>
-          <button class="btn-muted"    onclick="resetWizard()">↺ New List</button>
+        <div class="toolbar-top-btns" id="toolbarTopBtns">
+          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize</button>
+          <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert</button>
+          <button class="btn-muted"    id="btnNewList"  onclick="resetWizard()">↺ New List</button>
         </div>
-        <button class="btn-split"    onclick="initSplitPage()">👥 Split for Multiple People</button>
-        <button class="btn-outline"  onclick="openSaveModal()">💾 Save List</button>
+        <div class="toolbar-action-row" id="toolbarActionRow">
+          <button class="btn-split"   id="btnSplit"    onclick="initSplitPage()">👥 Split for Multiple People</button>
+          <button class="btn-outline" id="btnSaveList" onclick="openSaveModal()">💾 Save List</button>
+        </div>
       </div>
       <div id="packList"></div>
     </div>
@@ -1599,10 +1656,10 @@
       <!-- Nutrition summary -->
       <div class="nutrition-card" id="nutritionCard"></div>
 
-      <!-- Day-by-day meal plan -->
-      <div style="margin-bottom:8px;">
-        <div class="step-question" style="margin-bottom:4px;">📅 Day-by-Day Meal Plan</div>
-        <div class="step-sub">Tap any day to expand. All meals use ingredients from a regular grocery store.</div>
+      <!-- Meal plan (standard or fancy) -->
+      <div id="mealPlanHeader" style="margin-bottom:8px;">
+        <div class="step-question" style="margin-bottom:4px;" id="mealPlanHeadingText">Your Meal Plan</div>
+        <div class="step-sub" id="mealPlanSubText">All meals use ingredients from a regular grocery store.</div>
       </div>
       <div id="dayPlanContainer"></div>
 
@@ -1848,6 +1905,7 @@
   function resetWizard() {
     inputs.terrain = null; inputs.weather = []; inputs.days = null; inputs.difficulty = null;
     optimizeMode = false;
+    isViewMode = false;
     currentStep = 1;
     document.getElementById('results').style.display = 'none';
     [1,2,3,4].forEach(s => {
@@ -1977,6 +2035,7 @@
   function generateList() {
     document.getElementById('err4').classList.remove('show');
     if (!validators[4]()) { document.getElementById('err4').classList.add('show'); return; }
+    isViewMode = false;
     document.getElementById('dot4').classList.replace('active','done');
     document.getElementById('line3').classList.add('done');
     document.getElementById('progressBar').style.display = 'none';
@@ -1991,8 +2050,17 @@
     const list = optimizeMode ? allItems.filter(item => !OPTIMIZE_CUT.has(item.id)) : allItems;
     const btnO = document.getElementById('btnOptimize');
     const btnR = document.getElementById('btnRevert');
-    if (btnO) btnO.style.display = optimizeMode ? 'none' : '';
-    if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
+    const topBtns = document.getElementById('toolbarTopBtns');
+    const actionRow = document.getElementById('toolbarActionRow');
+    if (isViewMode) {
+      if (topBtns) topBtns.style.display = 'none';
+      if (actionRow) actionRow.style.display = 'none';
+    } else {
+      if (topBtns) topBtns.style.display = '';
+      if (actionRow) actionRow.style.display = '';
+      if (btnO) btnO.style.display = optimizeMode ? 'none' : '';
+      if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
+    }
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
     const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
     const wL = { hot:'Hot and Sunny ☀️', mild:'Mild and Pleasant 🌤️', cold:'Cold and Windy 🌬️', wet:'Wet and Rainy 🌧️', snow:'Snow / Ice ❄️' };
@@ -2021,7 +2089,7 @@
           <span class="cat-icon">${cat.icon}</span>
           <span class="cat-name">${cat.label}</span>
           <span class="cat-count">${items.length} items</span>
-          <span class="cat-chevron">▼</span>
+          <span class="cat-chevron"></span>
         </div><div class="category-body">`;
       items.forEach(item => {
         const note = typeof item.note === 'function' ? item.note() : item.note;
@@ -2039,7 +2107,36 @@
       });
       html += `</div></div>`;
     });
+
+    // Show cut items section when in optimize mode
+    if (optimizeMode) {
+      const cutItems = allItems.filter(item => OPTIMIZE_CUT.has(item.id));
+      if (cutItems.length) {
+        html += `<div class="cut-section cut-collapsed" id="cutSection">
+          <div class="cut-section-header" onclick="toggleCutSection()">
+            <span class="cut-section-title">Items removed by optimize (${cutItems.length})</span>
+            <span class="cut-chev"></span>
+          </div>
+          <div class="cut-section-body">`;
+        cutItems.forEach(item => {
+          const note = typeof item.note === 'function' ? item.note() : item.note;
+          html += `<div class="cut-item">
+            <div class="gear-info">
+              <div class="cut-item-name">${item.name}</div>
+              <div class="cut-item-note-txt">${note}</div>
+            </div>
+          </div>`;
+        });
+        html += `</div></div>`;
+      }
+    }
+
     document.getElementById('packList').innerHTML = html;
+  }
+
+  function toggleCutSection() {
+    const el = document.getElementById('cutSection');
+    if (el) el.classList.toggle('cut-collapsed');
   }
 
   function toggleCat(catKey) { document.getElementById('cat-'+catKey).classList.toggle('collapsed'); }
@@ -2084,22 +2181,44 @@
   function closeModal() { document.getElementById('saveModal').classList.remove('show'); }
 
   function buildMealFromPackList() {
-    if (currentSavedListId !== null) {
-      navigateToMealBuilder();
+    const defaultDays = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
+    document.getElementById('mealDaysInput').value = defaultDays[inputs.days] || '';
+    document.getElementById('mealDaysModal').classList.add('show');
+    setTimeout(() => document.getElementById('mealDaysInput').focus(), 80);
+  }
+
+  function closeMealDaysModal() {
+    document.getElementById('mealDaysModal').classList.remove('show');
+  }
+
+  function confirmMealDays() {
+    const days = parseInt(document.getElementById('mealDaysInput').value);
+    if (!days || days < 1 || days > 30) {
+      document.getElementById('mealDaysInput').style.borderColor = '#c33';
+      setTimeout(() => document.getElementById('mealDaysInput').style.borderColor = '', 1200);
       return;
     }
-    document.getElementById('mealPlanListNameInput').value = '';
-    document.getElementById('mealPlanPromptModal').classList.add('show');
-    setTimeout(() => document.getElementById('mealPlanListNameInput').focus(), 80);
+    closeMealDaysModal();
+    // Auto-save pack list silently if not already saved
+    if (currentSavedListId === null) {
+      const tL = { mountain:'Mountain', desert:'Desert', forest:'Forest', coastal:'Coastal', mixed:'Mixed' };
+      const autoName = (tL[inputs.terrain] || 'Backcountry') + ' Trip';
+      const lists = getSavedLists();
+      const newEntry = {
+        id: Date.now(),
+        name: autoName,
+        date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+        inputs: JSON.parse(JSON.stringify(inputs)),
+        itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
+      };
+      lists.unshift(newEntry);
+      putSavedLists(lists);
+      currentSavedListId = newEntry.id;
+    }
+    navigateToMealBuilder(days);
   }
 
-  function closeMealPlanPrompt() {
-    document.getElementById('mealPlanPromptModal').classList.remove('show');
-  }
-
-  function navigateToMealBuilder() {
-    closeMealPlanPrompt();
-    const dL = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
+  function navigateToMealBuilder(days) {
     document.getElementById('groceryResults').style.display = 'none';
     ['importOpt','manualOpt'].forEach(id => document.getElementById(id).classList.remove('selected'));
     document.getElementById('importSelectWrap').classList.remove('show');
@@ -2110,36 +2229,14 @@
     [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
     GS.mode = 'fromPackList';
     GS.importedListId = null;
-    GS.tripDays = dL[inputs.days] || 4;
+    GS.tripDays = days || 4;
     GS.packWeight = estimatePackWeight(inputs);
     GS.tripDifficulty = inputs.difficulty || 'moderate';
     GS.gender = null; GS.heightFt = null; GS.heightIn = null;
     GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
-    GS.restrictions = []; GS.mealPlan = null;
+    GS.restrictions = []; GS.mealPlan = null; GS.standardMeal = null; GS.fancyMode = false;
     document.getElementById('gstep2').classList.add('visible');
     showPage('grocery');
-  }
-
-  function saveThenBuildMeal() {
-    const name = document.getElementById('mealPlanListNameInput').value.trim();
-    if (!name) {
-      document.getElementById('mealPlanListNameInput').style.borderColor = '#c33';
-      setTimeout(() => document.getElementById('mealPlanListNameInput').style.borderColor = '', 1200);
-      return;
-    }
-    const lists = getSavedLists();
-    const newEntry = {
-      id: Date.now(),
-      name,
-      date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
-      inputs: JSON.parse(JSON.stringify(inputs)),
-      itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
-    };
-    lists.unshift(newEntry);
-    putSavedLists(lists);
-    currentSavedListId = newEntry.id;
-    showToast(`✓ "${name}" saved!`);
-    navigateToMealBuilder();
   }
 
   function confirmSave() {
@@ -2206,8 +2303,9 @@
   function renderSavedLists() {
     const lists = getSavedLists();
     const splitLists = getSavedSplitLists();
+    const groceryLists = getSavedGroceryLists();
     const el = document.getElementById('savedListsContent');
-    if (!lists.length && !splitLists.length) {
+    if (!lists.length && !splitLists.length && !groceryLists.length) {
       el.innerHTML = `<div class="saved-empty">
         <span class="empty-icon">🗺️</span>
         <p>No saved lists yet.<br>Build a pack list and hit <strong>💾 Save List</strong> to keep it here.</p>
@@ -2228,18 +2326,28 @@
       splitsByParent[key].push(sl);
     });
 
+    // Group grocery lists by parent pack list ID
+    const groceryByParent = {};
+    groceryLists.forEach(gl => {
+      const key = gl.parentPackListId != null ? gl.parentPackListId : '__unlinked__';
+      if (!groceryByParent[key]) groceryByParent[key] = [];
+      groceryByParent[key].push(gl);
+    });
+
     let html = '<div class="sli-list">';
 
     lists.forEach(rec => {
       const inp = rec.inputs;
       const wBadges = (inp.weather||[]).map(w=>`<span class="sli-badge">${wL[w]||w}</span>`).join('');
       const childSplits = splitsByParent[rec.id] || [];
+      const childGroceries = groceryByParent[rec.id] || [];
+
       const splitsHtml = childSplits.length ? `
         <div class="sli-splits">
           ${childSplits.map(sl => `
             <div class="sli-split-item" id="sli-split-${sl.id}">
               <div class="sli-split-header" onclick="toggleSliSplit(${sl.id})">
-                <span class="sli-chevron">▶</span>
+                <span class="sli-chevron"></span>
                 <span class="sli-split-title">👥 ${sl.name}</span>
                 <span class="sli-meta">${sl.hikerCount} hikers · ${sl.date}</span>
               </div>
@@ -2253,10 +2361,29 @@
             </div>`).join('')}
         </div>` : '';
 
+      const groceriesHtml = childGroceries.length ? `
+        <div class="sli-splits">
+          ${childGroceries.map(gl => `
+            <div class="sli-grocery-item" id="sli-groc-${gl.id}">
+              <div class="sli-grocery-header" onclick="toggleSliGrocery(${gl.id})">
+                <span class="sli-chevron"></span>
+                <span class="sli-grocery-title">🍲 ${gl.name}</span>
+                <span class="sli-meta">${gl.tripDays} days · ${gl.date}</span>
+              </div>
+              <div class="sli-grocery-body" id="sli-groc-body-${gl.id}">
+                <div class="sli-grocery-info">${gl.tripDays} days · <strong>${(gl.dailyCal||0).toLocaleString()} cal/day</strong></div>
+                <div class="sli-actions">
+                  <button class="btn-view-list" onclick="viewSavedGroceryFromList(${gl.id})">View Plan →</button>
+                  <button class="btn-delete-list" onclick="deleteSavedGrocery(${gl.id})" title="Delete">🗑️</button>
+                </div>
+              </div>
+            </div>`).join('')}
+        </div>` : '';
+
       html += `
         <div class="sli-item" id="sli-${rec.id}">
           <div class="sli-header" onclick="toggleSliItem(${rec.id})">
-            <span class="sli-chevron">▶</span>
+            <span class="sli-chevron"></span>
             <span class="sli-header-icon">${tI[inp.terrain]||'🏕️'}</span>
             <span class="sli-title">${rec.name}</span>
             <span class="sli-meta">saved ${rec.date}</span>
@@ -2274,6 +2401,7 @@
               <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">🗑️</button>
             </div>
             ${splitsHtml}
+            ${groceriesHtml}
           </div>
         </div>`;
     });
@@ -2284,7 +2412,7 @@
       html += `
         <div class="sli-item" id="sli-us-${sl.id}">
           <div class="sli-header" onclick="toggleSliUs(${sl.id})">
-            <span class="sli-chevron">▶</span>
+            <span class="sli-chevron"></span>
             <span class="sli-header-icon">👥</span>
             <span class="sli-title">${sl.name}</span>
             <span class="sli-meta">${sl.hikerCount} hikers · saved ${sl.date}</span>
@@ -2301,6 +2429,16 @@
 
     html += '</div>';
     el.innerHTML = html;
+  }
+
+  function toggleSliGrocery(id) {
+    const el = document.getElementById(`sli-groc-${id}`);
+    if (el) el.classList.toggle('open');
+  }
+
+  function viewSavedGroceryFromList(id) {
+    showPage('grocery');
+    setTimeout(() => viewSavedGrocery(id), 50);
   }
 
   function toggleSliItem(id) {
@@ -2321,6 +2459,8 @@
     if (!rec) return;
     Object.assign(inputs, JSON.parse(JSON.stringify(rec.inputs)));
     currentSavedListId = id;
+    isViewMode = true;
+    optimizeMode = false;
     showPage('pack');
     document.getElementById('progressBar').style.display = 'none';
     [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
@@ -2340,7 +2480,7 @@
   // GROCERY PLANNER STATE
   // ══════════════════════════════════════
   const GS = {
-    mode: null,          // 'import' | 'manual'
+    mode: null,          // 'import' | 'manual' | 'fromPackList'
     importedListId: null,
     tripDays: null,
     tripDifficulty: null,
@@ -2355,7 +2495,9 @@
     // dietary
     restrictions: [],
     // results
-    mealPlan: null,
+    mealPlan: null,      // full cycling/fancy plan
+    standardMeal: null,  // single repeating day for standard mode
+    fancyMode: false,
     dailyCal: null,
   };
 
@@ -2695,16 +2837,29 @@
 
     const daily = calcDailyCalories();
     const days  = GS.tripDays;
-    const plan  = [];
 
+    // Build standard meal (same every day)
+    const stdBf = bks[0], stdLu = lus[0], stdDi = dis[0];
+    const stdMealCal = stdBf.cal + stdLu.cal + stdDi.cal;
+    const stdSnackTarget = daily - stdMealCal;
+    const stdSnacks = [];
+    let stdSnackCal = 0, ssi = 0;
+    while (stdSnackCal < stdSnackTarget - 80 && stdSnacks.length < 4) {
+      const snk = sns[ssi % sns.length];
+      if (!stdSnacks.includes(snk)) { stdSnacks.push(snk); stdSnackCal += snk.cal; }
+      ssi++;
+      if (ssi > sns.length * 3) break;
+    }
+    GS.standardMeal = { bf: stdBf, lu: stdLu, di: stdDi, snacks: stdSnacks, totalCal: stdMealCal + stdSnackCal };
+
+    // Build fancy plan (cycling different meals each day)
+    const plan = [];
     for (let d = 0; d < days; d++) {
       const bf = bks[d % bks.length];
       const lu = lus[d % lus.length];
       const di = dis[d % dis.length];
       const mealCal = bf.cal + lu.cal + di.cal;
       const snackTarget = daily - mealCal;
-
-      // Pick snacks to fill gap, ensuring variety
       const daySnacks = [];
       let snackCal = 0, si = d;
       while (snackCal < snackTarget - 80 && daySnacks.length < 4) {
@@ -2713,11 +2868,11 @@
         si++;
         if (si > sns.length * 3) break;
       }
-
       plan.push({ day: d+1, bf, lu, di, snacks: daySnacks, totalCal: mealCal + snackCal });
     }
 
     GS.mealPlan = plan;
+    GS.fancyMode = false;
     renderGroceryResults(plan, daily);
 
     // Hide wizard steps
@@ -2750,9 +2905,49 @@
     `;
     document.getElementById('gItemCount').innerHTML = `<span>${GS.tripDays}</span>-day meal plan · <span>${GS.tripDays * 4}</span> meals total`;
 
-    // Day plan
+    renderMealPlanSection();
+    renderShoppingListSection();
+  }
+
+  function renderMealPlanSection() {
+    const headingEl = document.getElementById('mealPlanHeadingText');
+    const subEl = document.getElementById('mealPlanSubText');
+    // Fall back to fancy if no standard meal (e.g. old saved plan)
+    if (GS.fancyMode || !GS.standardMeal) {
+      if (headingEl) headingEl.textContent = 'Day-by-Day Meal Plan';
+      if (subEl) subEl.textContent = 'Tap any day to expand. All meals use ingredients from a regular grocery store.';
+      renderFancyDayPlan(GS.mealPlan);
+    } else {
+      if (headingEl) headingEl.textContent = 'Standard Plan';
+      if (subEl) subEl.textContent = 'The same meals every day — simple, repeatable, easy to prep.';
+      renderStandardPlan();
+    }
+  }
+
+  function renderStandardPlan() {
+    if (!GS.standardMeal) return;
+    const { bf, lu, di, snacks, totalCal } = GS.standardMeal;
+    let html = `<div class="standard-plan-card">
+      <div class="standard-plan-header">
+        <h3>Daily Repeating Meals</h3>
+        <p>Same plan every day — no decision fatigue. Shopping list covers all ${GS.tripDays} days.</p>
+      </div>
+      ${renderMealBlock('Breakfast', bf)}
+      ${renderMealBlock('Lunch', lu)}
+      ${renderMealBlock('Dinner', di)}
+      <div class="snacks-block">
+        <div class="meal-type">Snacks</div>
+        <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${s.icon} ${s.name} <span style="color:var(--green-mid);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
+      </div>
+    </div>
+    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">✨ Make it Fancy</button>`;
+    document.getElementById('dayPlanContainer').innerHTML = html;
+  }
+
+  function renderFancyDayPlan(plan) {
     const dayTypes = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-    let dayHtml = '';
+    let dayHtml = `<div class="fancy-plan-wrap">
+      <button class="btn-revert-fancy" onclick="disableFancyMode()">↩ Revert to Standard</button>`;
     plan.forEach(({ day, bf, lu, di, snacks, totalCal }) => {
       const label = day <= 7 ? dayTypes[day-1] : `Day ${day}`;
       dayHtml += `
@@ -2761,7 +2956,7 @@
           <span class="day-num">${day}</span>
           <span class="day-name">Day ${day} &nbsp;·&nbsp; ${label}</span>
           <span class="day-cal">${totalCal.toLocaleString()} cal</span>
-          <span class="day-chev">▼</span>
+          <span class="day-chev"></span>
         </div>
         <div class="day-body">
           ${renderMealBlock('Breakfast', bf)}
@@ -2774,10 +2969,32 @@
         </div>
       </div>`;
     });
+    dayHtml += `</div>`;
     document.getElementById('dayPlanContainer').innerHTML = dayHtml;
+  }
 
-    // Shopping list
-    renderShoppingList(plan);
+  function enableFancyMode() {
+    GS.fancyMode = true;
+    const btn = document.getElementById('btnFancy');
+    if (btn) { btn.classList.add('animating'); }
+    setTimeout(() => { renderMealPlanSection(); renderShoppingListSection(); }, 120);
+  }
+
+  function disableFancyMode() {
+    GS.fancyMode = false;
+    renderMealPlanSection();
+    renderShoppingListSection();
+  }
+
+  function renderShoppingListSection() {
+    if (GS.fancyMode || !GS.standardMeal) {
+      renderShoppingList(GS.mealPlan);
+    } else {
+      // Build a plan array where the same standard meal repeats every day
+      const { bf, lu, di, snacks } = GS.standardMeal;
+      const stdPlan = Array.from({ length: GS.tripDays }, (_, i) => ({ day: i+1, bf, lu, di, snacks }));
+      renderShoppingList(stdPlan);
+    }
   }
 
   function renderMealBlock(type, meal) {
@@ -2855,7 +3072,7 @@
     GS.tripDifficulty = null; GS.packWeight = null;
     GS.gender = null; GS.heightFt = null; GS.heightIn = null;
     GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
-    GS.restrictions = []; GS.mealPlan = null;
+    GS.restrictions = []; GS.mealPlan = null; GS.standardMeal = null; GS.fancyMode = false;
     // reset UI
     document.getElementById('groceryResults').style.display = 'none';
     ['importOpt','manualOpt'].forEach(id => document.getElementById(id).classList.remove('selected'));
@@ -2875,6 +3092,13 @@
   function putSavedGroceryLists(lists) { localStorage.setItem(GLS_KEY, JSON.stringify(lists)); }
 
   function openGroceryModal() {
+    if (GS.mode === 'fromPackList') {
+      // Auto-save linked to pack list, no name prompt
+      const packList = getSavedLists().find(l => l.id === currentSavedListId);
+      const autoName = (packList ? packList.name : 'My Trip') + ' — Meals';
+      saveGroceryWithName(autoName);
+      return;
+    }
     document.getElementById('groceryListNameInput').value = '';
     document.getElementById('saveGroceryModal').classList.add('show');
     setTimeout(() => document.getElementById('groceryListNameInput').focus(), 80);
@@ -2888,16 +3112,22 @@
       setTimeout(() => document.getElementById('groceryListNameInput').style.borderColor = '', 1200);
       return;
     }
+    saveGroceryWithName(name);
+  }
+
+  function saveGroceryWithName(name) {
     const lists = getSavedGroceryLists();
     lists.unshift({
       id: Date.now(),
       name,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
+      parentPackListId: GS.mode === 'fromPackList' ? currentSavedListId : null,
       dailyCal: GS.dailyCal,
       tripDays: GS.tripDays,
       packWeight: GS.packWeight,
       restrictions: [...GS.restrictions],
       mealPlan: JSON.parse(JSON.stringify(GS.mealPlan)),
+      standardMeal: GS.standardMeal ? JSON.parse(JSON.stringify(GS.standardMeal)) : null,
     });
     putSavedGroceryLists(lists);
     closeGroceryModal();
@@ -2938,7 +3168,10 @@
     if (!rec) return;
     GS.dailyCal = rec.dailyCal; GS.tripDays = rec.tripDays;
     GS.packWeight = rec.packWeight; GS.restrictions = [...rec.restrictions];
-    GS.mealPlan = rec.mealPlan; GS.useDefault = false;
+    GS.mealPlan = rec.mealPlan;
+    GS.standardMeal = rec.standardMeal || null;
+    GS.fancyMode = false;
+    GS.useDefault = false;
     [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
     renderGroceryResults(rec.mealPlan, rec.dailyCal);
     document.getElementById('groceryResults').style.display = 'block';
@@ -2953,6 +3186,7 @@
   }
 
   document.getElementById('saveGroceryModal').addEventListener('click', function(e) { if(e.target===this) closeGroceryModal(); });
+  document.getElementById('mealDaysModal').addEventListener('click', function(e) { if(e.target===this) closeMealDaysModal(); });
 
   // ══════════════════════════════════════
   // TOAST
@@ -3020,6 +3254,7 @@
   const PERSON_COLORS = ['#1e4a22','#2e1d0e','#1a3060','#6b1a2a','#1a5040','#3a3010','#4a1a40','#0e3a3a'];
 
   let optimizeMode = false;
+  let isViewMode = false;
 
   const OPTIMIZE_CUT = new Set([
     'compression',   // covered by dry_bags
@@ -3306,9 +3541,6 @@
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
-  });
-  document.getElementById('mealPlanPromptModal').addEventListener('click', function(e) {
-    if (e.target === this) closeMealPlanPrompt();
   });
 </script>
 </body>
