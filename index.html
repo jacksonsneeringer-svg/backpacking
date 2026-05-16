@@ -938,27 +938,9 @@
       .logo-wordmark { font-size: 18px; letter-spacing: 1.5px; }
       .logo-sub { display: none; }
       .logo-svg { width: 32px; height: 35px; }
-      .hamburger-btn { display: flex; }
-      nav {
-        display: none;
-        position: fixed;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: var(--brown-dark);
-        flex-direction: column;
-        padding: 8px 16px 16px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-        gap: 4px;
-        z-index: 99;
-        border-top: 1px solid rgba(255,255,255,0.08);
-      }
-      nav.open { display: flex; }
       .nav-link {
         font-size: 14px;
-        padding: 12px 14px;
         letter-spacing: 0.5px;
-        width: 100%;
       }
 
       .home-hero { padding: 48px 20px 0; }
@@ -1182,6 +1164,436 @@
     .sli-grocery-body { display:none; padding:4px 14px 12px; border-top:1px solid rgba(0,0,0,0.07); }
     .sli-grocery-item.open > .sli-grocery-body { display:block; }
     .sli-grocery-info { font-size:13px; color:var(--text-light); margin-bottom:10px; }
+
+    /* ══════════════════════════════════════
+       NAV DROPDOWN (Plan My Trip)
+    ══════════════════════════════════════ */
+    .nav-dropdown-wrap { position: relative; }
+    .nav-caret { font-size: 10px; margin-left: 2px; transition: transform 0.2s; display: inline-block; }
+    .nav-dropdown-wrap.open .nav-caret { transform: rotate(180deg); }
+    .nav-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 8px;
+      min-width: 170px;
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .nav-dropdown-wrap.open .nav-dropdown { display: block; }
+    .nav-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      color: #a09080;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+    }
+    .nav-dropdown-item:hover { background: rgba(255,255,255,0.08); color: var(--tan); }
+    .nav-dropdown-item + .nav-dropdown-item { border-top: 1px solid rgba(255,255,255,0.06); }
+
+    /* Mobile nav open state */
+    @media (max-width: 680px) {
+      .hamburger-btn { display: flex; }
+      nav#mainNav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 62px;
+        left: 0;
+        right: 0;
+        background: var(--brown-dark);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding: 10px 0 16px;
+        box-shadow: var(--shadow-md);
+        z-index: 99;
+        gap: 0;
+      }
+      nav#mainNav.open { display: flex; }
+      .nav-dropdown-wrap { width: 100%; }
+      .nav-dropdown { position: static; border: none; box-shadow: none; background: rgba(255,255,255,0.04); border-radius: 0; }
+      .nav-dropdown-wrap.open .nav-dropdown { display: block; }
+      .nav-link { width: 100%; justify-content: flex-start; padding: 12px 20px; border-radius: 0; }
+    }
+
+    /* ══════════════════════════════════════
+       LANDING PAGE
+    ══════════════════════════════════════ */
+    .landing-hero {
+      background: linear-gradient(165deg, #1a0e06 0%, #1e3212 50%, #0e2810 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .landing-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 20%, rgba(200,169,110,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .landing-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--tan);
+      opacity: 0.8;
+      margin-bottom: 18px;
+    }
+    .landing-headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: 0.5px;
+      max-width: 760px;
+      margin: 0 auto 16px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+    }
+    .landing-headline span { color: var(--tan); }
+    .landing-sub {
+      font-size: 17px;
+      color: #b0c4a8;
+      max-width: 520px;
+      margin: 0 auto 56px;
+      line-height: 1.75;
+    }
+    .landing-cta-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 16px;
+    }
+    .landing-card {
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(200,169,110,0.3);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      width: 280px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.28s;
+      backdrop-filter: blur(6px);
+      position: relative;
+      overflow: hidden;
+    }
+    .landing-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
+      pointer-events: none;
+    }
+    .landing-card:hover {
+      background: rgba(255,255,255,0.13);
+      border-color: rgba(200,169,110,0.7);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+    }
+    .landing-card-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+    .landing-card-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .landing-card-desc { font-size: 14px; color: #8aab82; line-height: 1.6; margin-bottom: 24px; }
+    .landing-card-btn {
+      display: inline-block;
+      background: var(--green-mid);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 26px;
+      border-radius: 50px;
+      transition: background 0.2s;
+    }
+    .landing-card.explore .landing-card-btn { background: var(--orange); }
+    .landing-card:hover .landing-card-btn { background: var(--green-light); }
+    .landing-card.explore:hover .landing-card-btn { background: #d96a25; }
+    .landing-mountain-svg {
+      display: block;
+      width: 100%;
+      margin-top: 48px;
+      max-height: 200px;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       EXPLORE STATE PAGE
+    ══════════════════════════════════════ */
+    .explore-header {
+      background: linear-gradient(135deg, #0e2028 0%, #1e3a10 100%);
+      padding: 40px 40px 36px;
+      text-align: center;
+    }
+    .explore-header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .explore-header p { font-size: 15px; color: #8aab82; }
+    .explore-container { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+    .explore-section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 16px;
+    }
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+    .state-btn {
+      background: #fff;
+      border: 2px solid var(--cream-dark);
+      border-radius: 10px;
+      padding: 14px 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-family: 'Oswald', sans-serif;
+    }
+    .state-btn:hover {
+      border-color: var(--green-mid);
+      background: var(--green-pale);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .state-btn-abbr {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green-dark);
+      display: block;
+    }
+    .state-btn-name { font-size: 11px; color: var(--text-light); letter-spacing: 0.5px; margin-top: 2px; }
+    .state-btn-count { font-size: 10px; color: var(--green-mid); margin-top: 3px; }
+
+    /* ══════════════════════════════════════
+       TRIPS GRID PAGE
+    ══════════════════════════════════════ */
+    .trips-header {
+      background: linear-gradient(135deg, #0e2028 0%, #1e3a10 100%);
+      padding: 32px 40px 28px;
+    }
+    .trips-header-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .trips-back-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: #b0c4a8;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .trips-back-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .trips-header-text { flex: 1; }
+    .trips-header-text h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .trips-header-text p { font-size: 14px; color: #8aab82; }
+    .trips-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* Filter bar */
+    .filters-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      align-items: center;
+    }
+    .filter-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-right: 4px;
+    }
+    .filter-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .filter-chip {
+      background: #fff;
+      border: 2px solid var(--cream-dark);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .filter-chip:hover { border-color: var(--green-mid); color: var(--green-dark); }
+    .filter-chip.active { background: var(--green-dark); border-color: var(--green-dark); color: #fff; }
+    .filter-divider { width: 1px; height: 24px; background: var(--cream-dark); margin: 0 4px; }
+    .trips-result-count {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .trips-result-count strong { color: var(--green-dark); }
+
+    /* Trip cards grid */
+    .trips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .trip-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.22s;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+    }
+    .trip-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--green-pale);
+    }
+    .trip-card-banner {
+      background: linear-gradient(135deg, var(--green-dark), #1a3a10);
+      padding: 20px 20px 16px;
+      position: relative;
+    }
+    .trip-card-icon { font-size: 36px; margin-bottom: 8px; display: block; }
+    .trip-card-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .trip-card-region { font-size: 12px; color: #8aab82; }
+    .diff-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .diff-easy    { background: #2d6a34; color: #b5e8b5; }
+    .diff-moderate{ background: #7a6a10; color: #f0e888; }
+    .diff-strenuous{ background: #8a3a10; color: #f8c898; }
+    .diff-expert  { background: #6a1a1a; color: #f8a8a8; }
+    .trip-card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+    .trip-stats-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 12px;
+      border: 1px solid var(--cream-dark);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .trip-stat {
+      flex: 1;
+      text-align: center;
+      padding: 8px 4px;
+      background: var(--cream);
+    }
+    .trip-stat + .trip-stat { border-left: 1px solid var(--cream-dark); }
+    .trip-stat-val {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--brown-dark);
+    }
+    .trip-stat-lbl { font-size: 9px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 1px; }
+    .trip-highlights {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+      flex: 1;
+      margin-bottom: 14px;
+    }
+    .trip-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .trip-tag {
+      background: var(--cream-dark);
+      color: var(--text-mid);
+      font-size: 11px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    .trip-tag.permit { background: rgba(196,92,26,0.12); color: var(--orange); }
+    .no-trips-msg {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      font-size: 15px;
+    }
+    .no-trips-msg strong { display: block; font-family: 'Oswald', sans-serif; font-size: 22px; color: var(--brown-mid); margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -1223,10 +1635,18 @@
   </button>
 
   <nav id="mainNav">
-    <button class="nav-link"        id="nav-pack"    onclick="showPage('pack')">🎒 Pack List</button>
-    <button class="nav-link"        id="nav-grocery" onclick="showPage('grocery')">🍲 Meal Planner</button>
-    <button class="nav-link"        id="nav-saved"   onclick="showPage('saved')">
-      📂 My Lists <span class="nav-badge" id="listBadge">0</span>
+    <div class="nav-dropdown-wrap" id="navPlanWrap">
+      <button class="nav-link" id="nav-plan" onclick="togglePlanDropdown(event)">
+        🗺️ Plan My Trip <span class="nav-caret">▾</span>
+      </button>
+      <div class="nav-dropdown" id="planDropdown">
+        <button class="nav-dropdown-item" onclick="startNewPackList(); closePlanDropdown()">🎒 Packing List</button>
+        <button class="nav-dropdown-item" onclick="startNewMealPlan(); closePlanDropdown()">🍲 Meal Planner</button>
+      </div>
+    </div>
+    <button class="nav-link" id="nav-explore" onclick="showPage('explore')">🌎 Explore Trips</button>
+    <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
+      📂 Saved Trips <span class="nav-badge" id="listBadge">0</span>
     </button>
   </nav>
 </header>
@@ -1263,9 +1683,50 @@
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════════════════════════════════════
-     PAGE: HOME
+     PAGE: LANDING
 ════════════════════════════════════════════ -->
 <div class="page active" id="pg-home">
+  <section class="landing-hero">
+    <div class="landing-eyebrow">Built for the backcountry</div>
+    <h1 class="landing-headline">Your Next Adventure<br>Starts <span>Right Here.</span></h1>
+    <p class="landing-sub">Discover epic trails, build your perfect gear list, and plan every meal — all in one place.</p>
+
+    <div class="landing-cta-row">
+      <div class="landing-card" onclick="showPage('plan')">
+        <span class="landing-card-icon">🗺️</span>
+        <div class="landing-card-name">Plan My Trip</div>
+        <div class="landing-card-desc">Build a custom packing list and meal plan tailored to your exact terrain, weather, and trip length.</div>
+        <span class="landing-card-btn">Get Started →</span>
+      </div>
+      <div class="landing-card explore" onclick="showPage('explore')">
+        <span class="landing-card-icon">🌎</span>
+        <div class="landing-card-name">Explore Trips</div>
+        <div class="landing-card-desc">Browse hundreds of popular backpacking routes by state. Filter by difficulty, length, terrain, and more.</div>
+        <span class="landing-card-btn">Browse Routes →</span>
+      </div>
+    </div>
+
+    <svg class="landing-mountain-svg" viewBox="0 0 1400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <circle cx="100" cy="20" r="1.5" fill="white" opacity="0.4"/>
+      <circle cx="320" cy="35" r="1"   fill="white" opacity="0.3"/>
+      <circle cx="550" cy="15" r="1.5" fill="white" opacity="0.35"/>
+      <circle cx="780" cy="28" r="1"   fill="white" opacity="0.3"/>
+      <circle cx="1050" cy="18" r="1.5" fill="white" opacity="0.4"/>
+      <circle cx="1280" cy="30" r="1"  fill="white" opacity="0.3"/>
+      <polygon points="0,220 150,70 300,160 480,40 640,130 800,20 960,110 1120,55 1280,100 1400,60 1400,220" fill="#1a3a18" opacity="0.7"/>
+      <polygon points="0,220 100,120 220,175 360,90 500,155 620,75 740,130 860,85 1000,150 1140,80 1260,125 1400,95 1400,220" fill="#122810" opacity="0.85"/>
+      <polygon points="480,40 510,70 450,70"  fill="white" opacity="0.6"/>
+      <polygon points="800,20 828,55 772,55"  fill="white" opacity="0.7"/>
+      <polygon points="1120,55 1145,85 1095,85" fill="white" opacity="0.55"/>
+      <polygon points="0,220 60,155 85,175 110,150 135,170 165,140 190,165 220,145 250,168 280,148 310,175 350,145 380,170 420,155 460,175 500,150 540,165 580,148 620,172 660,155 700,170 740,152 780,168 820,150 860,175 900,155 940,170 980,148 1020,175 1060,158 1100,170 1140,150 1180,168 1220,155 1260,175 1300,158 1340,172 1400,152 1400,220" fill="#0a2008"/>
+    </svg>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PLAN MY TRIP
+════════════════════════════════════════════ -->
+<div class="page" id="pg-plan">
 
   <!-- Hero -->
   <section class="home-hero">
@@ -1290,22 +1751,17 @@
 
     <!-- Mountain landscape -->
     <svg class="landscape-svg" viewBox="0 0 1400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <!-- Sky stars -->
       <circle cx="100" cy="20" r="1.5" fill="white" opacity="0.4"/>
       <circle cx="320" cy="35" r="1"   fill="white" opacity="0.3"/>
       <circle cx="550" cy="15" r="1.5" fill="white" opacity="0.35"/>
       <circle cx="780" cy="28" r="1"   fill="white" opacity="0.3"/>
       <circle cx="1050" cy="18" r="1.5" fill="white" opacity="0.4"/>
       <circle cx="1280" cy="30" r="1"  fill="white" opacity="0.3"/>
-      <!-- Far mountains -->
       <polygon points="0,220 150,70 300,160 480,40 640,130 800,20 960,110 1120,55 1280,100 1400,60 1400,220" fill="#1a3a18" opacity="0.7"/>
-      <!-- Mid mountains -->
       <polygon points="0,220 100,120 220,175 360,90 500,155 620,75 740,130 860,85 1000,150 1140,80 1260,125 1400,95 1400,220" fill="#122810" opacity="0.85"/>
-      <!-- Snow caps -->
       <polygon points="480,40 510,70 450,70"  fill="white" opacity="0.6"/>
       <polygon points="800,20 828,55 772,55"  fill="white" opacity="0.7"/>
       <polygon points="1120,55 1145,85 1095,85" fill="white" opacity="0.55"/>
-      <!-- Treeline foreground -->
       <polygon points="0,220 60,155 85,175 110,150 135,170 165,140 190,165 220,145 250,168 280,148 310,175 350,145 380,170 420,155 460,175 500,150 540,165 580,148 620,172 660,155 700,170 740,152 780,168 820,150 860,175 900,155 940,170 980,148 1020,175 1060,158 1100,170 1140,150 1180,168 1220,155 1260,175 1300,158 1340,172 1400,152 1400,220" fill="#0a2008"/>
     </svg>
   </section>
@@ -1375,6 +1831,77 @@
     </div>
   </section>
 
+  <footer>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: EXPLORE — STATE SELECTION
+════════════════════════════════════════════ -->
+<div class="page" id="pg-explore">
+  <div class="explore-header">
+    <h1>🌎 Explore Backpacking Trips</h1>
+    <p>Choose a state to browse popular routes, then filter by difficulty, length, and terrain.</p>
+  </div>
+  <div class="explore-container">
+    <div class="explore-section-title">Select a State</div>
+    <div class="state-grid" id="stateGrid"></div>
+  </div>
+  <footer>
+    &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: TRIPS GRID
+════════════════════════════════════════════ -->
+<div class="page" id="pg-trips">
+  <div class="trips-header">
+    <div class="trips-header-inner">
+      <button class="trips-back-btn" onclick="showPage('explore')">← All States</button>
+      <div class="trips-header-text">
+        <h1 id="tripsPageTitle">Backpacking Trips</h1>
+        <p id="tripsPageSub">Showing all routes</p>
+      </div>
+    </div>
+  </div>
+  <div class="trips-container">
+    <div class="filters-bar">
+      <span class="filter-label">Difficulty</span>
+      <div class="filter-group" id="diffFilters">
+        <button class="filter-chip active" data-filter="diff" data-val="all" onclick="setFilter('diff','all',this)">All</button>
+        <button class="filter-chip" data-filter="diff" data-val="easy"     onclick="setFilter('diff','easy',this)">🟢 Easy</button>
+        <button class="filter-chip" data-filter="diff" data-val="moderate" onclick="setFilter('diff','moderate',this)">🟡 Moderate</button>
+        <button class="filter-chip" data-filter="diff" data-val="strenuous"onclick="setFilter('diff','strenuous',this)">🟠 Strenuous</button>
+        <button class="filter-chip" data-filter="diff" data-val="expert"   onclick="setFilter('diff','expert',this)">🔴 Expert</button>
+      </div>
+      <div class="filter-divider"></div>
+      <span class="filter-label">Length</span>
+      <div class="filter-group" id="lenFilters">
+        <button class="filter-chip active" data-filter="len" data-val="all" onclick="setFilter('len','all',this)">All</button>
+        <button class="filter-chip" data-filter="len" data-val="short"  onclick="setFilter('len','short',this)">1–3 Days</button>
+        <button class="filter-chip" data-filter="len" data-val="medium" onclick="setFilter('len','medium',this)">4–7 Days</button>
+        <button class="filter-chip" data-filter="len" data-val="long"   onclick="setFilter('len','long',this)">8+ Days</button>
+      </div>
+      <div class="filter-divider"></div>
+      <span class="filter-label">Terrain</span>
+      <div class="filter-group" id="terrainFilters">
+        <button class="filter-chip active" data-filter="terrain" data-val="all"    onclick="setFilter('terrain','all',this)">All</button>
+        <button class="filter-chip" data-filter="terrain" data-val="alpine"  onclick="setFilter('terrain','alpine',this)">🏔️ Alpine</button>
+        <button class="filter-chip" data-filter="terrain" data-val="canyon"  onclick="setFilter('terrain','canyon',this)">🏜️ Canyon</button>
+        <button class="filter-chip" data-filter="terrain" data-val="coastal" onclick="setFilter('terrain','coastal',this)">🌊 Coastal</button>
+        <button class="filter-chip" data-filter="terrain" data-val="forest"  onclick="setFilter('terrain','forest',this)">🌲 Forest</button>
+        <button class="filter-chip" data-filter="terrain" data-val="desert"  onclick="setFilter('terrain','desert',this)">🌵 Desert</button>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <button class="filter-chip" id="permitFilter" onclick="togglePermitFilter(this)">🎟️ No Permit Needed</button>
+      </div>
+    </div>
+    <div class="trips-result-count" id="tripsResultCount"></div>
+    <div class="trips-grid" id="tripsGrid"></div>
+  </div>
   <footer>
     &copy; 2026 TrailPack <span class="footer-divider">|</span> <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
   </footer>
@@ -1700,8 +2227,8 @@
 ════════════════════════════════════════════ -->
 <div class="page" id="pg-saved">
   <div class="saved-page-header">
-    <h1>📂 My Saved Lists</h1>
-    <p>All your saved pack lists in one place.</p>
+    <h1>📂 My Saved Trips</h1>
+    <p>All your saved pack lists and meal plans in one place.</p>
   </div>
   <div class="saved-container">
     <div id="savedListsContent"></div>
@@ -1781,7 +2308,7 @@
   // ══════════════════════════════════════
   // NAVIGATION
   // ══════════════════════════════════════
-  const PAGES = ['home','pack','grocery','saved'];
+  const PAGES = ['home','plan','explore','trips','pack','grocery','saved'];
   let activePage = 'home';
 
   function toggleMenu() {
@@ -1791,22 +2318,43 @@
     btn.classList.toggle('open');
   }
 
+  function togglePlanDropdown(e) {
+    e.stopPropagation();
+    const wrap = document.getElementById('navPlanWrap');
+    wrap.classList.toggle('open');
+  }
+
+  function closePlanDropdown() {
+    document.getElementById('navPlanWrap').classList.remove('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('navPlanWrap');
+    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+  });
+
   function showPage(name) {
     PAGES.forEach(p => {
-      document.getElementById('pg-'+p).classList.toggle('active', p === name);
+      const el = document.getElementById('pg-'+p);
+      if (el) el.classList.toggle('active', p === name);
       const navEl = document.getElementById('nav-'+p);
       if (navEl) navEl.classList.toggle('active', p === name);
     });
+    // Plan My Trip nav button stays active for pack/grocery/plan pages
+    const planBtn = document.getElementById('nav-plan');
+    if (planBtn) planBtn.classList.toggle('active', ['plan','pack','grocery'].includes(name));
     const nav = document.getElementById('mainNav');
     const btn = document.getElementById('hamburgerBtn');
     if (nav) nav.classList.remove('open');
     if (btn) btn.classList.remove('open');
+    closePlanDropdown();
     const contactEl = document.getElementById('pg-contact');
     if (contactEl) contactEl.classList.toggle('active', name === 'contact');
     const splitEl = document.getElementById('pg-split');
     if (splitEl) splitEl.classList.toggle('active', name === 'split');
     activePage = name;
     if (name === 'saved') renderSavedLists();
+    if (name === 'explore') renderStateGrid();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -1819,6 +2367,8 @@
     showPage('grocery');
     resetGroceryWizard();
   }
+
+  function goToPlan() { showPage('plan'); }
 
   // ══════════════════════════════════════
   // TRAIL TRUTHS CAROUSEL
@@ -3592,6 +4142,191 @@
 
     document.getElementById('splitResults').classList.add('show');
     document.getElementById('splitResults').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ══════════════════════════════════════
+  // EXPLORE TRIPS DATA & LOGIC
+  // ══════════════════════════════════════
+  const TRIPS_DATA = [
+    // California
+    { id:1,  state:'CA', name:'John Muir Trail',           region:'Sierra Nevada',            difficulty:'strenuous', miles:211, minDays:14, maxDays:21, gain:47000, terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'Mt. Whitney, Yosemite Valley, passes over 13,000 ft' },
+    { id:2,  state:'CA', name:'Lost Coast Trail',          region:'Humboldt Coast',           difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:3000,  terrain:'coastal', permit:true,  icon:'🌊', highlights:'Remote black-sand beaches, tidal crossings, sea cliffs' },
+    { id:3,  state:'CA', name:'Desolation Wilderness',     region:'Lake Tahoe',               difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:4000,  terrain:'alpine',  permit:true,  icon:'💎', highlights:'Glacier-carved lakes, granite domes, Tahoe basin views' },
+    { id:4,  state:'CA', name:'Mt. Whitney Trail',         region:'Eastern Sierra',           difficulty:'strenuous', miles:22,  minDays:1,  maxDays:2,  gain:6100,  terrain:'alpine',  permit:true,  icon:'⛰️', highlights:'Highest summit in the lower 48 at 14,505 ft' },
+    { id:5,  state:'CA', name:'Rae Lakes Loop',            region:'Kings Canyon NP',          difficulty:'strenuous', miles:41,  minDays:4,  maxDays:6,  gain:6500,  terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'Crystal-clear lakes, Glen Pass, dramatic granite scenery' },
+    { id:6,  state:'CA', name:'Trans-Catalina Trail',      region:'Santa Catalina Island',    difficulty:'moderate',  miles:38,  minDays:3,  maxDays:5,  gain:8000,  terrain:'coastal', permit:false, icon:'🏝️', highlights:'Channel Islands, bison sightings, ocean views' },
+    // Colorado
+    { id:7,  state:'CO', name:'Maroon Bells Loop',         region:'Elk Mountains',            difficulty:'strenuous', miles:27,  minDays:3,  maxDays:4,  gain:7400,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'The "Deadly Bells", wildflower meadows, high passes' },
+    { id:8,  state:'CO', name:'Weminuche Wilderness',      region:'San Juan Mountains',       difficulty:'strenuous', miles:50,  minDays:5,  maxDays:7,  gain:12000, terrain:'alpine',  permit:false, icon:'🌄', highlights:"Colorado's largest wilderness, waterfalls, rugged terrain" },
+    { id:9,  state:'CO', name:'Holy Cross Wilderness',     region:'Eagle County',             difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:5200,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Cross-shaped snow formation, pristine alpine lakes' },
+    { id:10, state:'CO', name:'Indian Peaks Wilderness',   region:'Front Range',              difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3500,  terrain:'alpine',  permit:true,  icon:'⛰️', highlights:'Easy access from Denver, stunning tundra, Brainard Lake' },
+    { id:11, state:'CO', name:'Collegiate Peaks Loop',     region:'Sawatch Range',            difficulty:'strenuous', miles:28,  minDays:3,  maxDays:5,  gain:7000,  terrain:'alpine',  permit:false, icon:'🎓', highlights:'Harvard, Yale, Columbia peaks, Cottonwood Pass' },
+    // Washington
+    { id:12, state:'WA', name:'The Enchantments',          region:'Alpine Lakes Wilderness',  difficulty:'strenuous', miles:18,  minDays:2,  maxDays:4,  gain:5200,  terrain:'alpine',  permit:true,  icon:'💎', highlights:'Granite peaks, mountain goats, turquoise lakes — permit lottery' },
+    { id:13, state:'WA', name:'Wonderland Trail',          region:'Mt. Rainier NP',           difficulty:'strenuous', miles:93,  minDays:10, maxDays:14, gain:22000, terrain:'alpine',  permit:true,  icon:'🌋', highlights:'Full circumnavigation of Mt. Rainier, glaciers, wildflower meadows' },
+    { id:14, state:'WA', name:'Olympic Coast Traverse',    region:'Olympic NP',               difficulty:'moderate',  miles:20,  minDays:3,  maxDays:5,  gain:1000,  terrain:'coastal', permit:true,  icon:'🌊', highlights:'Sea stacks, tidal pools, old-growth forest meets Pacific' },
+    { id:15, state:'WA', name:'Glacier Peak Wilderness',   region:'North Cascades',           difficulty:'expert',    miles:35,  minDays:4,  maxDays:6,  gain:10000, terrain:'alpine',  permit:false, icon:'🌋', highlights:'Remote active volcano, glaciers, technical approach routes' },
+    { id:16, state:'WA', name:'Maple Pass Loop',           region:'Okanogan-Wenatchee NF',    difficulty:'moderate',  miles:7,   minDays:1,  maxDays:2,  gain:2000,  terrain:'alpine',  permit:false, icon:'🍁', highlights:'Peak fall color, ridge walk above Lake Ann and Rainy Lake' },
+    // Utah
+    { id:17, state:'UT', name:'Zion Narrows',              region:'Zion NP',                  difficulty:'moderate',  miles:16,  minDays:1,  maxDays:2,  gain:200,   terrain:'canyon',  permit:true,  icon:'🏜️', highlights:'Slot canyon wading, towering sandstone walls, Virgin River' },
+    { id:18, state:'UT', name:'Coyote Gulch',              region:'Grand Staircase-Escalante',difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:2000,  terrain:'canyon',  permit:false, icon:'🌵', highlights:'Natural arches, waterfalls, remote Escalante desert' },
+    { id:19, state:'UT', name:'High Uintas Wilderness',    region:'Uinta Mountains',          difficulty:'moderate',  miles:40,  minDays:4,  maxDays:6,  gain:6000,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:"Utah's highest range, Kings Peak, 400+ alpine lakes" },
+    { id:20, state:'UT', name:'Paria Canyon',              region:'Vermilion Cliffs',         difficulty:'moderate',  miles:38,  minDays:4,  maxDays:6,  gain:1500,  terrain:'canyon',  permit:true,  icon:'🏜️', highlights:'Slot canyons, Native rock art, remote southern Utah desert' },
+    { id:21, state:'UT', name:'Bryce Canyon Fairyland Loop',region:'Bryce Canyon NP',         difficulty:'moderate',  miles:8,   minDays:1,  maxDays:2,  gain:1900,  terrain:'canyon',  permit:false, icon:'🌅', highlights:'Hoodoos, fairyland spires, sweeping pink-orange canyon views' },
+    // Wyoming
+    { id:22, state:'WY', name:'Wind River High Route',     region:'Bridger Wilderness',       difficulty:'expert',    miles:70,  minDays:7,  maxDays:10, gain:14000, terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Fremont Peak, pristine lakes, largely off-trail freedom' },
+    { id:23, state:'WY', name:'Teton Crest Trail',         region:'Grand Teton NP',           difficulty:'strenuous', miles:35,  minDays:4,  maxDays:6,  gain:8000,  terrain:'alpine',  permit:true,  icon:'🦌', highlights:'Iconic Teton views, Alaska Basin, moose and bear country' },
+    { id:24, state:'WY', name:'Cirque of the Towers',      region:'Wind River Range',         difficulty:'strenuous', miles:28,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:false, icon:'💎', highlights:'Soaring granite spires, emerald alpine lakes, bouldering' },
+    // Oregon
+    { id:25, state:'OR', name:'Eagle Cap Wilderness',      region:'Wallowa Mountains',        difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:5000,  terrain:'alpine',  permit:false, icon:'🌸', highlights:"Oregon's Alps — crystal lakes, wildflower meadows, solitude" },
+    { id:26, state:'OR', name:'Crater Lake Rim Loop',      region:'Crater Lake NP',           difficulty:'moderate',  miles:33,  minDays:3,  maxDays:4,  gain:6000,  terrain:'alpine',  permit:false, icon:'🌊', highlights:'Deepest lake in the US, volcanic caldera panoramas' },
+    { id:27, state:'OR', name:'Three Sisters Wilderness',  region:'Central Cascades',         difficulty:'moderate',  miles:40,  minDays:4,  maxDays:5,  gain:5000,  terrain:'alpine',  permit:true,  icon:'🌋', highlights:'Three volcanic sisters, lava fields, alpine lakes, PCT junction' },
+    // Montana
+    { id:28, state:'MT', name:'Bob Marshall Wilderness',   region:'Rocky Mountain Front',     difficulty:'strenuous', miles:60,  minDays:7,  maxDays:10, gain:12000, terrain:'alpine',  permit:false, icon:'🐻', highlights:'The Chinese Wall, grizzly habitat, truly remote wilderness' },
+    { id:29, state:'MT', name:'Glacier NP Highline Trail', region:'Glacier NP',               difficulty:'moderate',  miles:22,  minDays:2,  maxDays:3,  gain:2000,  terrain:'alpine',  permit:false, icon:'🐐', highlights:'Going-to-the-Sun road corridor, mountain goats, hanging gardens' },
+    { id:30, state:'MT', name:'Beartooth Wilderness',      region:'Beartooth Range',          difficulty:'strenuous', miles:45,  minDays:5,  maxDays:7,  gain:9000,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Highest road in US, high-altitude plateau, 20+ lakes' },
+    // Arizona
+    { id:31, state:'AZ', name:'Grand Canyon Rim to Rim',   region:'Grand Canyon NP',          difficulty:'strenuous', miles:24,  minDays:2,  maxDays:3,  gain:5800,  terrain:'canyon',  permit:true,  icon:'🏜️', highlights:'Inner gorge, Colorado River crossing, Phantom Ranch' },
+    { id:32, state:'AZ', name:'Havasupai Falls',           region:'Grand Canyon Area',        difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:2600,  terrain:'canyon',  permit:true,  icon:'💦', highlights:'Turquoise waterfalls, blue-green pools, Havasu Creek oasis' },
+    { id:33, state:'AZ', name:'Mazatzal Wilderness',       region:'Tonto NF',                 difficulty:'strenuous', miles:40,  minDays:4,  maxDays:6,  gain:8000,  terrain:'desert',  permit:false, icon:'🌵', highlights:'Remote desert peaks, ancient Mazatzal Divide Trail, solitude' },
+    // North Carolina
+    { id:34, state:'NC', name:'Black Mountains Loop',      region:'Pisgah NF',                difficulty:'strenuous', miles:25,  minDays:2,  maxDays:3,  gain:6500,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Mt. Mitchell — highest peak east of Mississippi, ridgeline views' },
+    { id:35, state:'NC', name:'Shining Rock Wilderness',   region:'Pisgah NF',                difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3000,  terrain:'forest',  permit:false, icon:'💎', highlights:'White quartzite outcrops, high-elevation meadows, no blazes' },
+    { id:36, state:'NC', name:'Linville Gorge Wilderness', region:'Pisgah NF',                difficulty:'strenuous', miles:15,  minDays:2,  maxDays:3,  gain:4000,  terrain:'forest',  permit:true,  icon:'🌊', highlights:'Deepest gorge in the East, rugged off-trail terrain, river' },
+    // Tennessee
+    { id:37, state:'TN', name:'AT in Great Smoky Mountains',region:'GSMNP',                  difficulty:'moderate',  miles:72,  minDays:7,  maxDays:10, gain:16000, terrain:'forest',  permit:true,  icon:'🦌', highlights:'Highest AT peaks in the South, old-growth forest, elk herds' },
+    { id:38, state:'TN', name:'Big South Fork',            region:'BSFNRRA',                  difficulty:'easy',      miles:15,  minDays:2,  maxDays:3,  gain:800,   terrain:'forest',  permit:false, icon:'🌿', highlights:'Sandstone arches, river gorge, lush bottomland hardwoods' },
+    // New Mexico
+    { id:39, state:'NM', name:'Wheeler Peak Wilderness',   region:'Carson NF',                difficulty:'strenuous', miles:17,  minDays:2,  maxDays:3,  gain:3500,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:"New Mexico's highest at 13,161 ft, alpine tundra panoramas" },
+    { id:40, state:'NM', name:'Gila Wilderness',           region:'Gila NF',                  difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:4000,  terrain:'desert',  permit:false, icon:'♨️', highlights:'First designated wilderness in the US, hot springs, cliff dwellings' },
+    // Idaho
+    { id:41, state:'ID', name:'Sawtooth Wilderness',       region:'Sawtooth NRA',             difficulty:'moderate',  miles:40,  minDays:4,  maxDays:6,  gain:7000,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:'Jagged granite peaks, 300+ alpine lakes, truly uncrowded' },
+    { id:42, state:'ID', name:'Selway-Bitterroot Wilderness',region:'Nez Perce NF',           difficulty:'strenuous', miles:50,  minDays:5,  maxDays:8,  gain:10000, terrain:'alpine',  permit:false, icon:'🦌', highlights:'Second-largest US wilderness, remote river canyons, elk country' },
+    // Vermont
+    { id:43, state:'VT', name:'Long Trail (End to End)',   region:'Green Mountains',          difficulty:'strenuous', miles:272, minDays:21, maxDays:28, gain:68000, terrain:'forest',  permit:false, icon:'🌲', highlights:"Oldest long trail in the US — a classic New England thru-hike" },
+    { id:44, state:'VT', name:"Camel's Hump",              region:'Green Mountains',          difficulty:'moderate',  miles:7,   minDays:1,  maxDays:2,  gain:2550,  terrain:'forest',  permit:false, icon:'🐪', highlights:'Iconic Vermont summit, panoramic views, fragile alpine zone' },
+    // Georgia
+    { id:45, state:'GA', name:'Cohutta Wilderness',        region:'Chattahoochee NF',         difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:4500,  terrain:'forest',  permit:false, icon:'🌊', highlights:'Remote river canyons, rhododendron tunnels, old-growth areas' },
+    { id:46, state:'GA', name:'AT in Georgia',             region:'Blood Mountain Area',      difficulty:'moderate',  miles:80,  minDays:6,  maxDays:10, gain:18000, terrain:'forest',  permit:false, icon:'🐾', highlights:"AT's southern terminus to NC border, Blood Mountain, spring wildflowers" },
+    // Colorado extra
+    { id:47, state:'CO', name:'Four Pass Loop',            region:'Maroon Bells-Snowmass',    difficulty:'strenuous', miles:26,  minDays:3,  maxDays:4,  gain:7300,  terrain:'alpine',  permit:false, icon:'🔄', highlights:'Four 12,000+ ft passes, jaw-dropping alpine scenery, Snowmass Lake' },
+    // Washington extra
+    { id:48, state:'WA', name:'Norse Peak Wilderness',     region:'Mt. Baker-Snoqualmie NF',  difficulty:'moderate',  miles:25,  minDays:2,  maxDays:3,  gain:4000,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:'Rainier views, subalpine meadows, accessible from Seattle' },
+  ];
+
+  const STATE_NAMES = {
+    AZ:'Arizona', CA:'California', CO:'Colorado', GA:'Georgia', ID:'Idaho',
+    MT:'Montana', NC:'North Carolina', NM:'New Mexico', OR:'Oregon', TN:'Tennessee',
+    UT:'Utah', VT:'Vermont', WA:'Washington', WY:'Wyoming',
+  };
+
+  let activeFilters = { diff: 'all', len: 'all', terrain: 'all', permitOnly: false };
+  let currentStateCode = '';
+
+  function renderStateGrid() {
+    const grid = document.getElementById('stateGrid');
+    if (!grid) return;
+    // Count trips per state
+    const counts = {};
+    TRIPS_DATA.forEach(t => { counts[t.state] = (counts[t.state] || 0) + 1; });
+    const states = Object.keys(counts).sort((a,b) => STATE_NAMES[a].localeCompare(STATE_NAMES[b]));
+    grid.innerHTML = states.map(code => `
+      <button class="state-btn" onclick="openStateTrips('${code}')">
+        <span class="state-btn-abbr">${code}</span>
+        <div class="state-btn-name">${STATE_NAMES[code] || code}</div>
+        <div class="state-btn-count">${counts[code]} route${counts[code]!==1?'s':''}</div>
+      </button>
+    `).join('');
+  }
+
+  function openStateTrips(stateCode) {
+    currentStateCode = stateCode;
+    activeFilters = { diff: 'all', len: 'all', terrain: 'all', permitOnly: false };
+    // Reset filter chips
+    document.querySelectorAll('.filter-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.val === 'all');
+    });
+    const permitChip = document.getElementById('permitFilter');
+    if (permitChip) permitChip.classList.remove('active');
+    document.getElementById('tripsPageTitle').textContent = (STATE_NAMES[stateCode] || stateCode) + ' Backpacking Trips';
+    showPage('trips');
+    renderTripsGrid();
+  }
+
+  function setFilter(type, val, btn) {
+    activeFilters[type] = val;
+    // Deactivate siblings in same group
+    btn.closest('.filter-group').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    renderTripsGrid();
+  }
+
+  function togglePermitFilter(btn) {
+    activeFilters.permitOnly = !activeFilters.permitOnly;
+    btn.classList.toggle('active', activeFilters.permitOnly);
+    renderTripsGrid();
+  }
+
+  function getMinDays(trip) { return trip.minDays; }
+
+  function renderTripsGrid() {
+    const trips = TRIPS_DATA.filter(t => {
+      if (t.state !== currentStateCode) return false;
+      if (activeFilters.diff !== 'all' && t.difficulty !== activeFilters.diff) return false;
+      if (activeFilters.terrain !== 'all' && t.terrain !== activeFilters.terrain) return false;
+      if (activeFilters.len !== 'all') {
+        if (activeFilters.len === 'short'  && t.maxDays > 3) return false;
+        if (activeFilters.len === 'medium' && (t.minDays > 7 || t.maxDays < 4)) return false;
+        if (activeFilters.len === 'long'   && t.maxDays < 8) return false;
+      }
+      if (activeFilters.permitOnly && t.permit) return false;
+      return true;
+    });
+
+    const countEl = document.getElementById('tripsResultCount');
+    const stateTotal = TRIPS_DATA.filter(t => t.state === currentStateCode).length;
+    countEl.innerHTML = `Showing <strong>${trips.length}</strong> of ${stateTotal} routes in ${STATE_NAMES[currentStateCode] || currentStateCode}`;
+
+    const grid = document.getElementById('tripsGrid');
+    if (!trips.length) {
+      grid.innerHTML = '<div class="no-trips-msg"><strong>No routes match your filters</strong>Try adjusting the difficulty, length, or terrain filters above.</div>';
+      return;
+    }
+
+    const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
+
+    grid.innerHTML = trips.map(t => `
+      <div class="trip-card">
+        <div class="trip-card-banner">
+          <span class="trip-card-icon">${t.icon}</span>
+          <div class="trip-card-name">${t.name}</div>
+          <div class="trip-card-region">${t.region}</div>
+          <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
+        </div>
+        <div class="trip-card-body">
+          <div class="trip-stats-row">
+            <div class="trip-stat">
+              <div class="trip-stat-val">${t.miles}<small style="font-size:10px"> mi</small></div>
+              <div class="trip-stat-lbl">Distance</div>
+            </div>
+            <div class="trip-stat">
+              <div class="trip-stat-val">${t.minDays === t.maxDays ? t.minDays : t.minDays+'–'+t.maxDays}</div>
+              <div class="trip-stat-lbl">Days</div>
+            </div>
+            <div class="trip-stat">
+              <div class="trip-stat-val">${(t.gain/1000).toFixed(0)}k<small style="font-size:10px"> ft</small></div>
+              <div class="trip-stat-lbl">Gain</div>
+            </div>
+          </div>
+          <div class="trip-highlights">${t.highlights}</div>
+          <div class="trip-tags">
+            <span class="trip-tag">${terrainLabel[t.terrain]}</span>
+            ${t.permit ? '<span class="trip-tag permit">🎟️ Permit</span>' : '<span class="trip-tag">No Permit</span>'}
+          </div>
+        </div>
+      </div>
+    `).join('');
   }
 
   // ══════════════════════════════════════
