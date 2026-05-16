@@ -1168,6 +1168,8 @@
     .btn-revert-fancy { display:inline-flex; align-items:center; gap:8px; background:transparent; border:2px solid var(--brown-light); color:var(--brown-mid); font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:8px 18px; border-radius:50px; cursor:pointer; transition:all 0.2s; margin-bottom:16px; }
     .btn-revert-fancy:hover { background:var(--brown-mid); color:#fff; }
     .fancy-plan-wrap { animation:fadeIn 0.4s ease; }
+    .btn-swap-meal { margin-top:10px; background:none; border:1.5px solid var(--cream-dark); color:var(--brown-mid); font-size:12px; padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Oswald',sans-serif; letter-spacing:0.5px; font-weight:600; text-transform:uppercase; transition:all 0.18s; }
+    .btn-swap-meal:hover { background:var(--cream-dark); color:var(--brown-dark); border-color:var(--tan); }
 
     /* ══════════════════════════════════════
        GROCERY PLAN NESTED UNDER PACK LIST
@@ -1272,13 +1274,13 @@
     <p class="hero-sub">Answer a few questions about your adventure and TrailPack builds your perfect gear list — complete with Amazon links for everything you need.</p>
 
     <div class="tool-cards">
-      <div class="tool-card" onclick="showPage('pack')">
+      <div class="tool-card" onclick="startNewPackList()">
         <span class="tool-card-icon">🎒</span>
         <div class="tool-card-name">Pack List</div>
         <div class="tool-card-desc">Get a personalized gear list based on terrain, weather, duration, and difficulty.</div>
         <span class="tool-card-btn">Build My List →</span>
       </div>
-      <div class="tool-card" onclick="showPage('grocery')">
+      <div class="tool-card" onclick="startNewMealPlan()">
         <span class="tool-card-icon">🍲</span>
         <div class="tool-card-name">Meal Planner</div>
         <div class="tool-card-desc">Calculate calories, macros, and a full resupply shopping list for your trip.</div>
@@ -1806,6 +1808,16 @@
     activePage = name;
     if (name === 'saved') renderSavedLists();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function startNewPackList() {
+    showPage('pack');
+    resetWizard();
+  }
+
+  function startNewMealPlan() {
+    showPage('grocery');
+    resetGroceryWizard();
   }
 
   // ══════════════════════════════════════
@@ -2878,7 +2890,6 @@
     // Hide wizard steps
     [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
     document.getElementById('groceryResults').style.display = 'block';
-    renderSavedGrocerySection();
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
@@ -2927,20 +2938,21 @@
   function renderStandardPlan() {
     if (!GS.standardMeal) return;
     const { bf, lu, di, snacks, totalCal } = GS.standardMeal;
-    let html = `<div class="standard-plan-card">
+    let html = `
+    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">✨ Make it Fancy</button>
+    <div class="standard-plan-card">
       <div class="standard-plan-header">
         <h3>Daily Repeating Meals</h3>
         <p>Same plan every day — no decision fatigue. Shopping list covers all ${GS.tripDays} days.</p>
       </div>
-      ${renderMealBlock('Breakfast', bf)}
-      ${renderMealBlock('Lunch', lu)}
-      ${renderMealBlock('Dinner', di)}
+      ${renderStdMealBlock('Breakfast', bf, 'breakfast')}
+      ${renderStdMealBlock('Lunch', lu, 'lunch')}
+      ${renderStdMealBlock('Dinner', di, 'dinner')}
       <div class="snacks-block">
         <div class="meal-type">Snacks</div>
         <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${s.icon} ${s.name} <span style="color:var(--green-mid);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
       </div>
-    </div>
-    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">✨ Make it Fancy</button>`;
+    </div>`;
     document.getElementById('dayPlanContainer').innerHTML = html;
   }
 
@@ -3006,6 +3018,56 @@
       <div class="meal-ings">${ingList}</div>
       <div class="meal-prep">▶ ${meal.prep}</div>
     </div>`;
+  }
+
+  function renderStdMealBlock(type, meal, mealKey) {
+    const ingList = meal.ings.map(i => i.n + ' (' + i.q + ')').join(' · ');
+    return `<div class="meal-block">
+      <span class="meal-cal">${meal.cal} cal</span>
+      <div class="meal-type">${type}</div>
+      <div class="meal-name">${meal.icon} ${meal.name}</div>
+      <div class="meal-ings">${ingList}</div>
+      <div class="meal-prep">▶ ${meal.prep}</div>
+      <button class="btn-swap-meal" onclick="swapMeal('${mealKey}')">↺ Try a Different ${type}</button>
+    </div>`;
+  }
+
+  function swapMeal(mealKey) {
+    const r = GS.restrictions;
+    const filter = arr => arr.filter(m => r.every(tag => m.tags.includes(tag)));
+    let pool, currentId;
+    if (mealKey === 'breakfast') {
+      pool = filter(GMEALS.breakfast); if (!pool.length) pool = GMEALS.breakfast.slice(0,2);
+      currentId = GS.standardMeal.bf.id;
+    } else if (mealKey === 'lunch') {
+      pool = filter(GMEALS.lunch); if (!pool.length) pool = GMEALS.lunch.slice(0,2);
+      currentId = GS.standardMeal.lu.id;
+    } else {
+      pool = filter(GMEALS.dinner); if (!pool.length) pool = GMEALS.dinner.slice(0,2);
+      currentId = GS.standardMeal.di.id;
+    }
+    if (pool.length <= 1) return;
+    const idx = pool.findIndex(m => m.id === currentId);
+    const newMeal = pool[(idx + 1) % pool.length];
+    if (mealKey === 'breakfast') GS.standardMeal.bf = newMeal;
+    else if (mealKey === 'lunch') GS.standardMeal.lu = newMeal;
+    else GS.standardMeal.di = newMeal;
+    // Recalculate snacks to keep nutrition targets met
+    let sns = filter(GMEALS.snack); if (!sns.length) sns = GMEALS.snack.slice(0,3);
+    const { bf, lu, di } = GS.standardMeal;
+    const mealCal = bf.cal + lu.cal + di.cal;
+    const snackTarget = GS.dailyCal - mealCal;
+    const stdSnacks = []; let stdSnackCal = 0, ssi = 0;
+    while (stdSnackCal < snackTarget - 80 && stdSnacks.length < 4) {
+      const snk = sns[ssi % sns.length];
+      if (!stdSnacks.includes(snk)) { stdSnacks.push(snk); stdSnackCal += snk.cal; }
+      ssi++;
+      if (ssi > sns.length * 3) break;
+    }
+    GS.standardMeal.snacks = stdSnacks;
+    GS.standardMeal.totalCal = mealCal + stdSnackCal;
+    renderStandardPlan();
+    renderShoppingListSection();
   }
 
   function toggleDay(d) {
@@ -3132,7 +3194,6 @@
     putSavedGroceryLists(lists);
     closeGroceryModal();
     showToast(`✓ "${name}" saved!`);
-    renderSavedGrocerySection();
   }
 
   function renderSavedGrocerySection() {
