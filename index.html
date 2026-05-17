@@ -22,6 +22,11 @@
       --shadow-lg:   0 8px 32px rgba(0,0,0,0.2);
       --radius:      10px;
     }
+    .tp-icon { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+    .tp-icon-sm { width: 14px; height: 14px; }
+    .tp-icon-md { width: 20px; height: 20px; }
+    .tp-icon-lg { width: 28px; height: 28px; }
+    .tp-icon-xl { width: 40px; height: 40px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; }
 
@@ -53,11 +58,10 @@
     .logo-wrap:hover { opacity: 0.85; }
     .logo-svg { width: 38px; height: 41px; flex-shrink: 0; }
     .logo-wordmark {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Playfair Display', serif;
       font-weight: 700;
       font-size: 21px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
+      letter-spacing: 0.2px;
       color: var(--gold);
       line-height: 1;
     }
@@ -576,7 +580,7 @@
     }
     .gear-checkbox:hover { border-color: var(--forest); }
     .gear-checkbox.checked { background: var(--forest); border-color: var(--forest); color: #fff; }
-    .gear-checkbox.checked::after { content: '✓'; font-size: 13px; font-weight: 700; }
+    .gear-checkbox.checked::after { content: '✓'; font-size: 11px; font-weight: 700; }
     .gear-info { flex: 1; min-width: 0; }
     .item-name { font-weight: 600; font-size: 14px; color: var(--text-dark); transition: all 0.2s; }
     .item-note { font-size: 12px; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
@@ -1707,16 +1711,16 @@
   <nav id="mainNav">
     <div class="nav-dropdown-wrap" id="navPlanWrap">
       <button class="nav-link" id="nav-plan" onclick="togglePlanDropdown(event)">
-        🗺️ Plan My Trip <span class="nav-caret">▾</span>
+        <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Plan My Trip <span class="nav-caret"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
       </button>
       <div class="nav-dropdown" id="planDropdown">
-        <button class="nav-dropdown-item" onclick="startNewPackList(); closePlanDropdown()">🎒 Packing List</button>
-        <button class="nav-dropdown-item" onclick="startNewMealPlan(); closePlanDropdown()">🍲 Meal Planner</button>
+        <button class="nav-dropdown-item" onclick="startNewPackList(); closePlanDropdown()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M9 11h6M12 8v6"/></svg> Packing List</button>
+        <button class="nav-dropdown-item" onclick="startNewMealPlan(); closePlanDropdown()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a10 10 0 0 0-9.95 9h19.9A10 10 0 0 0 12 2z"/><path d="M7 22l1-4h8l1 4"/></svg> Meal Planner</button>
       </div>
     </div>
-    <button class="nav-link" id="nav-explore" onclick="showPage('explore')">🌎 Explore Trips</button>
+    <button class="nav-link" id="nav-explore" onclick="showPage('explore')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/></svg> Explore Trips</button>
     <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
-      📂 Saved Trips <span class="nav-badge" id="listBadge">0</span>
+      <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips <span class="nav-badge" id="listBadge">0</span>
     </button>
   </nav>
 </header>
@@ -1724,7 +1728,7 @@
 <!-- ═══════════ SAVE MODAL ═══════════ -->
 <div class="modal-overlay" id="saveModal">
   <div class="modal-box">
-    <h3>💾 Save This Pack List</h3>
+    <h3><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save This Pack List</h3>
     <p>Give this list a name so you can find it later — like "JMT 2026" or "Cascade Loop".</p>
     <input class="modal-input" id="listNameInput" type="text" placeholder="Trip name…" maxlength="60"
       onkeydown="if(event.key==='Enter') confirmSave()">
@@ -1744,7 +1748,7 @@
       onkeydown="if(event.key==='Enter') confirmMealDays()">
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeMealDaysModal()">Cancel</button>
-      <button class="btn-modal-save"   onclick="confirmMealDays()">Continue →</button>
+      <button class="btn-modal-save"   onclick="confirmMealDays()">Continue <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
     </div>
   </div>
 </div>
@@ -1775,7 +1779,7 @@
         </svg>
         <div class="landing-card-name">Plan My Trip</div>
         <div class="landing-card-desc">Build a custom packing list and meal plan tailored to your exact terrain, weather, and trip length.</div>
-        <span class="landing-card-btn">Get Started →</span>
+        <span class="landing-card-btn">Get Started <svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </div>
       <div class="landing-card explore" onclick="showPage('explore')">
         <svg class="landing-card-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1788,7 +1792,7 @@
         </svg>
         <div class="landing-card-name">Explore Trips</div>
         <div class="landing-card-desc">Browse hundreds of popular backpacking routes by state. Filter by difficulty, length, terrain, and more.</div>
-        <span class="landing-card-btn">Browse Routes →</span>
+        <span class="landing-card-btn">Browse Routes <svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </div>
     </div>
 
@@ -1845,7 +1849,7 @@
         </svg>
         <div class="tool-card-name">Pack List</div>
         <div class="tool-card-desc">Get a personalized gear list based on terrain, weather, duration, and difficulty.</div>
-        <span class="tool-card-btn">Build My List →</span>
+        <span class="tool-card-btn">Build My List <svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </div>
       <div class="tool-card" onclick="startNewMealPlan()">
         <svg class="tool-card-icon" viewBox="0 0 40 40" fill="none" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
@@ -1857,7 +1861,7 @@
         </svg>
         <div class="tool-card-name">Meal Planner</div>
         <div class="tool-card-desc">Calculate calories, macros, and a full resupply shopping list for your trip.</div>
-        <span class="tool-card-btn">Plan My Meals →</span>
+        <span class="tool-card-btn">Plan My Meals <svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </div>
     </div>
 
@@ -2006,7 +2010,7 @@
 <div class="page" id="pg-trips">
   <div class="trips-header">
     <div class="trips-header-inner">
-      <button class="trips-back-btn" onclick="showPage('explore')">← All States</button>
+      <button class="trips-back-btn" onclick="showPage('explore')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> All States</button>
       <div class="trips-header-text">
         <h1 id="tripsPageTitle">Backpacking Trips</h1>
         <p id="tripsPageSub">Showing all routes</p>
@@ -2035,15 +2039,15 @@
       <span class="filter-label">Terrain</span>
       <div class="filter-group" id="terrainFilters">
         <button class="filter-chip active" data-filter="terrain" data-val="all"    onclick="setFilter('terrain','all',this)">All</button>
-        <button class="filter-chip" data-filter="terrain" data-val="alpine"  onclick="setFilter('terrain','alpine',this)">🏔️ Alpine</button>
-        <button class="filter-chip" data-filter="terrain" data-val="canyon"  onclick="setFilter('terrain','canyon',this)">🏜️ Canyon</button>
-        <button class="filter-chip" data-filter="terrain" data-val="coastal" onclick="setFilter('terrain','coastal',this)">🌊 Coastal</button>
-        <button class="filter-chip" data-filter="terrain" data-val="forest"  onclick="setFilter('terrain','forest',this)">🌲 Forest</button>
-        <button class="filter-chip" data-filter="terrain" data-val="desert"  onclick="setFilter('terrain','desert',this)">🌵 Desert</button>
+        <button class="filter-chip" data-filter="terrain" data-val="alpine"  onclick="setFilter('terrain','alpine',this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L12 3l10 17H2z"/><path d="M8.5 14l3.5-7 3.5 7"/><path d="M7 17h10"/></svg> Alpine</button>
+        <button class="filter-chip" data-filter="terrain" data-val="canyon"  onclick="setFilter('terrain','canyon',this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h5v16H2M17 4h5v16h-5M7 4l3 16M17 4l-3 16"/></svg> Canyon</button>
+        <button class="filter-chip" data-filter="terrain" data-val="coastal" onclick="setFilter('terrain','coastal',this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 17c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg> Coastal</button>
+        <button class="filter-chip" data-filter="terrain" data-val="forest"  onclick="setFilter('terrain','forest',this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L7 10h2L5 16h5v6h4v-6h5l-4-6h2L12 2z"/></svg> Forest</button>
+        <button class="filter-chip" data-filter="terrain" data-val="desert"  onclick="setFilter('terrain','desert',this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V10c0-2.2 4-2.2 4 0v2c0-2.2 4-2.2 4 0v8"/><path d="M2 20h20"/><circle cx="18" cy="5" r="2"/></svg> Desert</button>
       </div>
       <div class="filter-divider"></div>
       <div class="filter-group">
-        <button class="filter-chip" id="permitFilter" onclick="togglePermitFilter(this)">🎟️ No Permit Needed</button>
+        <button class="filter-chip" id="permitFilter" onclick="togglePermitFilter(this)"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 12h6M9 17h4"/></svg> No Permit Needed</button>
       </div>
     </div>
     <div class="trips-result-count" id="tripsResultCount"></div>
@@ -2093,11 +2097,11 @@
       <div class="step-question">Where are you headed?</div>
       <div class="step-sub">Choose the terrain that best matches your destination.</div>
       <div class="cards-grid">
-        <div class="option-card" onclick="selectSingle(this,'terrain','mountain')"><span class="card-icon">🏔️</span><span class="card-label">Mountain / Alpine</span><span class="card-desc">High elevation, rocky peaks, exposed ridgelines</span></div>
-        <div class="option-card" onclick="selectSingle(this,'terrain','desert')"><span class="card-icon">🏜️</span><span class="card-label">Desert / Canyon</span><span class="card-desc">Arid terrain, sandstone, minimal shade</span></div>
-        <div class="option-card" onclick="selectSingle(this,'terrain','forest')"><span class="card-icon">🌲</span><span class="card-label">Forest / Woodland</span><span class="card-desc">Dense trees, streams, wildlife corridors</span></div>
-        <div class="option-card" onclick="selectSingle(this,'terrain','coastal')"><span class="card-icon">🌊</span><span class="card-label">Coastal / Rainforest</span><span class="card-desc">Humid, lush, variable conditions</span></div>
-        <div class="option-card" onclick="selectSingle(this,'terrain','mixed')"><span class="card-icon">🗺️</span><span class="card-label">Mixed / Multi-terrain</span><span class="card-desc">Varied landscape, point-to-point routes</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','mountain')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L12 3l10 17H2z"/><path d="M8.5 14l3.5-7 3.5 7"/><path d="M7 17h10"/></svg></span><span class="card-label">Mountain / Alpine</span><span class="card-desc">High elevation, rocky peaks, exposed ridgelines</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','desert')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V10c0-2.2 4-2.2 4 0v2c0-2.2 4-2.2 4 0v8"/><path d="M2 20h20"/><circle cx="18" cy="5" r="2"/><path d="M18 7v2"/></svg></span><span class="card-label">Desert / Canyon</span><span class="card-desc">Arid terrain, sandstone, minimal shade</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','forest')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L7 10h2L5 16h5v6h4v-6h5l-4-6h2L12 2z"/></svg></span><span class="card-label">Forest / Woodland</span><span class="card-desc">Dense trees, streams, wildlife corridors</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','coastal')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 17c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 7h20"/></svg></span><span class="card-label">Coastal / Rainforest</span><span class="card-desc">Humid, lush, variable conditions</span></div>
+        <div class="option-card" onclick="selectSingle(this,'terrain','mixed')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M3 12h18M12 3a15 15 0 0 0 0 18M12 3a15 15 0 0 1 0 18"/></svg></span><span class="card-label">Mixed / Multi-terrain</span><span class="card-desc">Varied landscape, point-to-point routes</span></div>
       </div>
       <div class="error-msg" id="err1">Please select a terrain type to continue.</div>
     </div>
@@ -2107,14 +2111,14 @@
       <div class="step-question">What's the forecast?</div>
       <div class="step-sub">Select all conditions that apply — you can pick more than one.</div>
       <div class="cards-grid">
-        <div class="option-card" onclick="selectMulti(this,'weather','hot')"><span class="card-icon">☀️</span><span class="card-label">Hot &amp; Sunny</span><span class="card-desc">High UV, intense heat, low humidity</span></div>
-        <div class="option-card" onclick="selectMulti(this,'weather','mild')"><span class="card-icon">🌤️</span><span class="card-label">Mild &amp; Pleasant</span><span class="card-desc">Comfortable temps, some clouds</span></div>
-        <div class="option-card" onclick="selectMulti(this,'weather','cold')"><span class="card-icon">🌬️</span><span class="card-label">Cold &amp; Windy</span><span class="card-desc">Below 45°F, wind chill possible</span></div>
-        <div class="option-card" onclick="selectMulti(this,'weather','wet')"><span class="card-icon">🌧️</span><span class="card-label">Wet &amp; Rainy</span><span class="card-desc">Frequent rain, muddy trails</span></div>
-        <div class="option-card" onclick="selectMulti(this,'weather','snow')"><span class="card-icon">❄️</span><span class="card-label">Snow or Ice</span><span class="card-desc">Sub-freezing, snowpack, icy terrain</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','hot')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="card-label">Hot &amp; Sunny</span><span class="card-desc">High UV, intense heat, low humidity</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','mild')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span><span class="card-label">Mild &amp; Pleasant</span><span class="card-desc">Comfortable temps, some clouds</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','cold')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg></span><span class="card-label">Cold &amp; Windy</span><span class="card-desc">Below 45°F, wind chill possible</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','wet')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><path d="M8 19v1M8 23v1M12 21v1M12 17v1M16 19v1M16 23v1"/></svg></span><span class="card-label">Wet &amp; Rainy</span><span class="card-desc">Frequent rain, muddy trails</span></div>
+        <div class="option-card" onclick="selectMulti(this,'weather','snow')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><path d="M8 20h.01M12 22h.01M16 20h.01M8 16h.01M12 18h.01M16 16h.01"/></svg></span><span class="card-label">Snow or Ice</span><span class="card-desc">Sub-freezing, snowpack, icy terrain</span></div>
       </div>
       <div class="error-msg" id="err2">Please select at least one weather condition.</div>
-      <div class="step-nav"><button class="btn-next" onclick="nextStep(2)">Next →</button></div>
+      <div class="step-nav"><button class="btn-next" onclick="nextStep(2)">Next <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
     </div>
 
     <!-- STEP 3 -->
@@ -2122,10 +2126,10 @@
       <div class="step-question">How many days?</div>
       <div class="step-sub">This affects food, fuel, and resupply gear recommendations.</div>
       <div class="cards-grid">
-        <div class="option-card" onclick="selectSingle(this,'days','1-2')"><span class="card-icon">⚡</span><span class="card-label">1–2 Days</span><span class="card-desc">Overnight or quick weekend trip</span></div>
-        <div class="option-card" onclick="selectSingle(this,'days','3-5')"><span class="card-icon">🌄</span><span class="card-label">3–5 Days</span><span class="card-desc">Classic long weekend expedition</span></div>
-        <div class="option-card" onclick="selectSingle(this,'days','6-10')"><span class="card-icon">🏕️</span><span class="card-label">6–10 Days</span><span class="card-desc">Full week in the backcountry</span></div>
-        <div class="option-card" onclick="selectSingle(this,'days','10+')"><span class="card-icon">🗓️</span><span class="card-label">10+ Days</span><span class="card-desc">Long-distance or thru-hike section</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','1-2')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="card-label">1–2 Days</span><span class="card-desc">Overnight or quick weekend trip</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','3-5')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/></svg></span><span class="card-label">3–5 Days</span><span class="card-desc">Classic long weekend expedition</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','6-10')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20 12 4l10 16H2z"/><path d="M9 20v-5h6v5"/></svg></span><span class="card-label">6–10 Days</span><span class="card-desc">Full week in the backcountry</span></div>
+        <div class="option-card" onclick="selectSingle(this,'days','10+')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="card-label">10+ Days</span><span class="card-desc">Long-distance or thru-hike section</span></div>
       </div>
       <div class="error-msg" id="err3">Please select trip duration to continue.</div>
     </div>
@@ -2135,10 +2139,10 @@
       <div class="step-question">How tough is the trail?</div>
       <div class="step-sub">Difficulty determines safety gear and technical equipment.</div>
       <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));">
-        <div class="option-card" onclick="selectSingle(this,'difficulty','easy')"><span class="card-icon">🟢</span><span class="card-label">Easy</span><span class="card-desc">Well-marked trails, minimal elevation gain, manageable footing</span></div>
-        <div class="option-card" onclick="selectSingle(this,'difficulty','moderate')"><span class="card-icon">🟡</span><span class="card-label">Moderate</span><span class="card-desc">Steeper sections, some scrambling, possible off-trail segments</span></div>
-        <div class="option-card" onclick="selectSingle(this,'difficulty','strenuous')"><span class="card-icon">🟠</span><span class="card-label">Strenuous</span><span class="card-desc">Significant elevation, rugged terrain, demanding day mileage</span></div>
-        <div class="option-card" onclick="selectSingle(this,'difficulty','expert')"><span class="card-icon">🔴</span><span class="card-label">Expert / Technical</span><span class="card-desc">Off-trail navigation, glacier travel, class 3–4 scrambling</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','easy')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#6B9B7A"/></svg></span><span class="card-label">Easy</span><span class="card-desc">Well-marked trails, minimal elevation gain, manageable footing</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','moderate')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#D4A033"/></svg></span><span class="card-label">Moderate</span><span class="card-desc">Steeper sections, some scrambling, possible off-trail segments</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','strenuous')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#C4582A"/></svg></span><span class="card-label">Strenuous</span><span class="card-desc">Significant elevation, rugged terrain, demanding day mileage</span></div>
+        <div class="option-card" onclick="selectSingle(this,'difficulty','expert')"><span class="card-icon"><svg width="32" height="32" class="tp-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#1A3128"/></svg></span><span class="card-label">Expert / Technical</span><span class="card-desc">Off-trail navigation, glacier travel, class 3–4 scrambling</span></div>
       </div>
       <div class="error-msg" id="err4">Please select a difficulty level.</div>
     </div>
@@ -2149,13 +2153,13 @@
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
         <div class="toolbar-top-btns" id="toolbarTopBtns">
-          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()">✂️ Optimize</button>
-          <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">↩ Revert</button>
-          <button class="btn-muted"    id="btnNewList"  onclick="resetWizard()">↺ New List</button>
+          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L3 8m0 0v-5m0 5h5M3.51 15a9 9 0 0 0 14.85 3.36L21 16m0 0v5m0-5h-5"/></svg> Optimize</button>
+          <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">&#8617; Revert</button>
+          <button class="btn-muted"    id="btnNewList"  onclick="resetWizard()">&#8635; New List</button>
         </div>
         <div class="toolbar-action-row" id="toolbarActionRow">
-          <button class="btn-split"   id="btnSplit"    onclick="initSplitPage()">👥 Split for Multiple People</button>
-          <button class="btn-outline" id="btnSaveList" onclick="openSaveModal()">💾 Save List</button>
+          <button class="btn-split"   id="btnSplit"    onclick="initSplitPage()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><path d="M7 22l1-7H4l3-6h4l1 3 4-1"/><path d="M17 22l-1-7h4l-3-6h-4l-.5 2"/></svg> Split for Multiple People</button>
+          <button class="btn-outline" id="btnSaveList" onclick="openSaveModal()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save List</button>
         </div>
       </div>
       <div id="packList"></div>
@@ -2191,7 +2195,7 @@
   <!-- Save Grocery Modal -->
   <div class="modal-overlay" id="saveGroceryModal">
     <div class="modal-box">
-      <h3>💾 Save This Meal Plan</h3>
+      <h3><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save This Meal Plan</h3>
       <p>Give it a name — like "JMT 2026 Food" or "Desert Loop Meals".</p>
       <input class="modal-input" id="groceryListNameInput" type="text" placeholder="Plan name…" maxlength="60"
         onkeydown="if(event.key==='Enter') confirmSaveGrocery()">
@@ -2211,12 +2215,12 @@
 
       <div class="import-row">
         <div class="import-opt" id="importOpt" onclick="selectImportMode('import')">
-          <span class="import-opt-icon">📂</span>
+          <span class="import-opt-icon"><svg width="36" height="36" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
           <div class="import-opt-title">Import from Saved Pack List</div>
           <div class="import-opt-desc">Automatically pulls terrain, weather, days, and difficulty from a saved list.</div>
         </div>
         <div class="import-opt" id="manualOpt" onclick="selectImportMode('manual')">
-          <span class="import-opt-icon">✏️</span>
+          <span class="import-opt-icon"><svg width="36" height="36" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
           <div class="import-opt-title">Enter Manually</div>
           <div class="import-opt-desc">Specify trip duration, difficulty, and estimated pack weight yourself.</div>
         </div>
@@ -2273,7 +2277,7 @@
       </div>
 
       <div class="error-msg" id="gerr1">Please select an option and fill in the required fields.</div>
-      <div class="step-nav"><button class="btn-next" onclick="gNextStep(1)">Next →</button></div>
+      <div class="step-nav"><button class="btn-next" onclick="gNextStep(1)">Next <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
     </div>
 
     <!-- STEP G2 — Personal Info -->
@@ -2283,10 +2287,10 @@
 
       <label class="g-label" style="margin-bottom:10px;">Gender</label>
       <div class="gender-grid">
-        <div class="gender-card" onclick="gSelectGender(this,'man')"><span class="gender-card-icon">👨</span><div class="gender-card-label">Man</div></div>
-        <div class="gender-card" onclick="gSelectGender(this,'woman')"><span class="gender-card-icon">👩</span><div class="gender-card-label">Woman</div></div>
-        <div class="gender-card" onclick="gSelectGender(this,'nonbinary')"><span class="gender-card-icon">🧑</span><div class="gender-card-label">Non-binary</div></div>
-        <div class="gender-card" onclick="gSelectGender(this,'prefer_not')"><span class="gender-card-icon">🤐</span><div class="gender-card-label">Prefer not to say</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'man')"><span class="gender-card-icon"><svg width="26" height="26" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div class="gender-card-label">Man</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'woman')"><span class="gender-card-icon"><svg width="26" height="26" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div class="gender-card-label">Woman</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'nonbinary')"><span class="gender-card-icon"><svg width="26" height="26" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div class="gender-card-label">Non-binary</div></div>
+        <div class="gender-card" onclick="gSelectGender(this,'prefer_not')"><span class="gender-card-icon"><svg width="26" height="26" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span><div class="gender-card-label">Prefer not to say</div></div>
       </div>
 
       <div class="g-row">
@@ -2319,7 +2323,7 @@
       </div>
 
       <div class="step-nav">
-        <button class="btn-next" onclick="gNextStep(2)">Next →</button>
+        <button class="btn-next" onclick="gNextStep(2)">Next <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </div>
     </div>
 
@@ -2329,18 +2333,18 @@
       <div class="step-sub">Select any that apply — we'll filter your meal plan accordingly. Select none to see all options.</div>
 
       <div class="restrict-grid">
-        <div class="restrict-card" onclick="gToggleRestriction(this,'vegetarian')"><span class="restrict-icon">🥦</span><div class="restrict-label">Vegetarian</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'vegan')"><span class="restrict-icon">🌱</span><div class="restrict-label">Vegan</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'gf')"><span class="restrict-icon">🌾</span><div class="restrict-label">Gluten-Free</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'df')"><span class="restrict-icon">🥛</span><div class="restrict-label">Dairy-Free</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'nutfree')"><span class="restrict-icon">🥜</span><div class="restrict-label">Nut Allergy</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'porkfree')"><span class="restrict-icon">🐷</span><div class="restrict-label">No Pork</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'soyfree')"><span class="restrict-icon">🫘</span><div class="restrict-label">Soy-Free</div></div>
-        <div class="restrict-card" onclick="gToggleRestriction(this,'eggfree')"><span class="restrict-icon">🥚</span><div class="restrict-label">No Eggs</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'vegetarian')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span><div class="restrict-label">Vegetarian</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'vegan')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span><div class="restrict-label">Vegan</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'gf')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M12 22V10"/><path d="M12 10c0-3 2-5 5-5-1 2-1 5-5 5z"/><path d="M12 10c0-3-2-5-5-5 1 2 1 5 5 5z"/><path d="M12 15c0-2 1.5-3.5 4-3.5-.5 1.5-.5 3.5-4 3.5z"/><path d="M12 15c0-2-1.5-3.5-4-3.5.5 1.5.5 3.5 4 3.5z"/></svg></span><div class="restrict-label">Gluten-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'df')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M8 2h8l1 4H7L8 2z"/><path d="M7 6l-2 16h14L17 6H7z"/><path d="M9 13c1-1 5-1 6 0"/></svg></span><div class="restrict-label">Dairy-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'nutfree')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><ellipse cx="12" cy="13" rx="6" ry="8"/><path d="M12 5V3"/><path d="M9 5c0-2 6-2 6 0"/></svg></span><div class="restrict-label">Nut Allergy</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'porkfree')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M18 4a4 4 0 0 1 0 8"/><circle cx="9" cy="10" r="6"/><path d="M9 4a2 2 0 0 1 4 0"/><circle cx="7.5" cy="9.5" r=".5" fill="currentColor"/><circle cx="10.5" cy="9.5" r=".5" fill="currentColor"/><path d="M8 13c.5.5 2 .5 2 0"/></svg></span><div class="restrict-label">No Pork</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'soyfree')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M12 22c-4 0-8-3-8-8a8 8 0 0 1 15-4 8 8 0 0 1-7 12z"/><path d="M12 12c-2 2-2 5 0 7"/></svg></span><div class="restrict-label">Soy-Free</div></div>
+        <div class="restrict-card" onclick="gToggleRestriction(this,'eggfree')"><span class="restrict-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tp-icon"><path d="M12 22a8 8 0 0 1-8-8c0-5 4-12 8-12s8 7 8 12a8 8 0 0 1-8 8z"/></svg></span><div class="restrict-label">No Eggs</div></div>
       </div>
 
       <div class="step-nav">
-        <button class="btn-generate" onclick="buildGroceryPlan()">🍲 Build My Meal Plan</button>
+        <button class="btn-generate" onclick="buildGroceryPlan()"><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a10 10 0 0 0-9.95 9h19.9A10 10 0 0 0 12 2z"/><path d="M7 22l1-4h8l1 4"/></svg> Build My Meal Plan</button>
       </div>
     </div>
 
@@ -2349,8 +2353,8 @@
 
       <div class="g-results-toolbar">
         <div class="g-item-count" id="gItemCount"></div>
-        <button class="btn-outline" onclick="openGroceryModal()">💾 Save Plan</button>
-        <button class="btn-muted"   onclick="resetGroceryWizard()">↺ Start Over</button>
+        <button class="btn-outline" onclick="openGroceryModal()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Plan</button>
+        <button class="btn-muted"   onclick="resetGroceryWizard()">&#8635; Start Over</button>
       </div>
 
       <!-- Nutrition summary -->
@@ -2365,7 +2369,7 @@
 
       <!-- Shopping list -->
       <div style="margin:32px 0 8px;">
-        <div class="step-question" style="margin-bottom:4px;">🛒 Master Shopping List</div>
+        <div class="step-question" style="margin-bottom:4px;"><svg width="20" height="20" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Master Shopping List</div>
         <div class="step-sub">Everything you need for the whole trip, grouped by section. Check items off as you shop.</div>
       </div>
       <div class="shop-section">
@@ -2381,7 +2385,7 @@
     <!-- SAVED GROCERY LISTS -->
     <div id="savedGrocerySection" style="display:none;">
       <div class="saved-header" style="margin-top:32px; border-top:2px solid var(--cream-dark); padding-top:32px;">
-        <h2 style="font-family:'DM Sans',sans-serif; font-size:22px; color:var(--pine);">📂 Saved Meal Plans</h2>
+        <h2 style="font-family:'DM Sans',sans-serif; font-size:22px; color:var(--pine);"><svg width="20" height="20" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Meal Plans</h2>
       </div>
       <div id="savedGroceryContent"></div>
     </div>
@@ -2488,19 +2492,19 @@
 
     <!-- Calculate button -->
     <div class="split-error" id="splitError"></div>
-    <button class="btn-calc-split" onclick="calculateSplit()">⚖️ Calculate Optimal Pack Split</button>
+    <button class="btn-calc-split" onclick="calculateSplit()"><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L3 8m0 0v-5m0 5h5M3.51 15a9 9 0 0 0 14.85 3.36L21 16m0 0v5m0-5h-5"/></svg> Calculate Optimal Pack Split</button>
 
     <!-- Results -->
     <div class="split-results" id="splitResults">
       <div style="height:32px"></div>
       <div class="split-summary-bar">
-        <h3>📦 Pack Distribution</h3>
+        <h3><svg width="20" height="20" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M9 11h6M12 8v6"/></svg> Pack Distribution</h3>
         <span id="splitSummaryText"></span>
       </div>
       <div class="person-pack-grid" id="splitPackGrid"></div>
       <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
-        <button class="btn-outline" onclick="confirmSaveSplit()">💾 Save Split</button>
-        <button class="btn-muted" onclick="showPage('pack')">← Back to Pack List</button>
+        <button class="btn-outline" onclick="confirmSaveSplit()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Split</button>
+        <button class="btn-muted" onclick="showPage('pack')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back to Pack List</button>
       </div>
     </div>
 
@@ -2524,6 +2528,75 @@
 </div>
 
 <script>
+  // ══════════════════════════════════════
+  // SVG ICON SYSTEM
+  // ══════════════════════════════════════
+  const ICONS = {
+    pack:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M9 11h6M12 8v6"/></svg>`,
+    shelter:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20 12 4l10 16H2z"/><path d="M9 20v-5h6v5"/></svg>`,
+    nav:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88" fill="currentColor"/></svg>`,
+    food:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a10 10 0 0 0-9.95 9h19.9A10 10 0 0 0 12 2z"/><path d="M7 22l1-4h8l1 4"/></svg>`,
+    water:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L5 12a7 7 0 0 0 14 0L12 2z"/></svg>`,
+    bear:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="6" r="2"/><circle cx="17" cy="6" r="2"/><path d="M4 10c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v6a6 6 0 0 1-12 0v-6z"/><path d="M9 15c1 1 5 1 6 0"/><circle cx="9.5" cy="12" r="0.5" fill="currentColor"/><circle cx="14.5" cy="12" r="0.5" fill="currentColor"/></svg>`,
+    clothing: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-4-4-4 4-4-4-4 4 2 2v11h16V9l2-2z"/><path d="M12 7v14"/></svg>`,
+    firstaid: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>`,
+    tools:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+    hygiene:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
+    extras:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 12h6M9 17h4"/></svg>`,
+    mountain: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/><path d="M13 7l-2 2"/></svg>`,
+    alpine:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L12 3l10 17H2z"/><path d="M8.5 14l3.5-7 3.5 7"/><path d="M7 17h10"/></svg>`,
+    forest:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L7 10h2L5 16h5v6h4v-6h5l-4-6h2L12 2z"/></svg>`,
+    coastal:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 17c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 7h20"/></svg>`,
+    desert:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V10c0-2.2 4-2.2 4 0v2c0-2.2 4-2.2 4 0v8"/><path d="M2 20h20"/><circle cx="18" cy="5" r="2"/><path d="M18 7v2"/></svg>`,
+    canyon:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h5v16H2M17 4h5v16h-5M7 4l3 16M17 4l-3 16"/></svg>`,
+    mixed:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M3 12h18M12 3a15 15 0 0 0 0 18M12 3a15 15 0 0 1 0 18"/></svg>`,
+    sunny:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+    mild:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
+    windy:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>`,
+    rainy:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><path d="M8 19v1M8 23v1M12 21v1M12 17v1M16 19v1M16 23v1"/></svg>`,
+    snowy:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><path d="M8 20h.01M12 22h.01M16 20h.01M8 16h.01M12 18h.01M16 16h.01"/></svg>`,
+    save:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+    delete:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
+    edit:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+    optimize: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L3 8m0 0v-5m0 5h5M3.51 15a9 9 0 0 0 14.85 3.36L21 16m0 0v5m0-5h-5"/></svg>`,
+    open:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+    import:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+    easy:     `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#6B9B7A"/></svg>`,
+    moderate: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#D4A033"/></svg>`,
+    strenuous:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#C4582A"/></svg>`,
+    expert:   `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#1A3128"/></svg>`,
+    map:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>`,
+    gem:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 9 18 20 6 20 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><path d="M12 2l4 7H8l4-7z"/></svg>`,
+    star:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    person:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    hikers:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><path d="M7 22l1-7H4l3-6h4l1 3 4-1"/><path d="M17 22l-1-7h4l-3-6h-4l-.5 2"/></svg>`,
+    boot:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18v-3H3zM3 17l2-9h3l1 5h5l1-5h3l2 9"/></svg>`,
+    flame:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.105 0 2-.895 2-2 0-1.5-2.5-4-2.5-4s-2 2.5-2 3.5z"/><path d="M12 22c5.523 0 10-4.477 10-10 0-2.21-.713-4.25-1.93-5.9C19 4.5 17.5 3 16 2c.5 2-1 3.5-2.5 4-.5-1.5-2-2.5-4-3 1 2 .5 4-1 5.5-1.5 1.5-4.5 2-6 4-1 1.5-1 3.5 0 5 .5.75 1 1.5 2 2.5A10 10 0 0 0 12 22z"/></svg>`,
+    leaf:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`,
+    list:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+    fork:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/><path d="M18 4a2 2 0 0 1 0 4"/><path d="M6 16a2 2 0 0 1 0-4c1.5 0 3 1 3 2s-1.5 2-3 2z"/></svg>`,
+    check:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+    arrowRight:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+    arrowLeft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
+    chevronDown:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`,
+    wildlife: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3C4 3 2 5 2 7.5c0 1.5.7 2.8 1.8 3.7L12 20l8.2-8.8C21.3 10.3 22 9 22 7.5 22 5 20 3 17.5 3c-1.7 0-3.2.9-4 2.2A4.5 4.5 0 0 0 6.5 3z"/></svg>`,
+    fish:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c0-3.5 3.5-6 7-6 2.5 0 6 1.5 8 6-2 4.5-5.5 6-8 6-3.5 0-7-2.5-7-6z"/><path d="M6.5 12C4 12 2 9.5 2 9.5S4 7 6.5 7"/><circle cx="17" cy="11" r=".5" fill="currentColor"/></svg>`,
+    meal:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>`,
+    compass:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88" fill="currentColor" stroke="none"/></svg>`,
+    wheat:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V10"/><path d="M12 10c0-3 2-5 5-5-1 2-1 5-5 5z"/><path d="M12 10c0-3-2-5-5-5 1 2 1 5 5 5z"/><path d="M12 15c0-2 1.5-3.5 4-3.5-.5 1.5-.5 3.5-4 3.5z"/><path d="M12 15c0-2-1.5-3.5-4-3.5.5 1.5.5 3.5 4 3.5z"/></svg>`,
+    milk:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l1 4H7L8 2z"/><path d="M7 6l-2 16h14L17 6H7z"/><path d="M9 13c1-1 5-1 6 0"/></svg>`,
+    nut:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="6" ry="8"/><path d="M12 5V3"/><path d="M9 5c0-2 6-2 6 0"/></svg>`,
+    egg:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a8 8 0 0 1-8-8c0-5 4-12 8-12s8 7 8 12a8 8 0 0 1-8 8z"/></svg>`,
+    pig:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4a4 4 0 0 1 0 8"/><circle cx="9" cy="10" r="6"/><path d="M9 4a2 2 0 0 1 4 0"/><circle cx="7.5" cy="9.5" r=".5" fill="currentColor"/><circle cx="10.5" cy="9.5" r=".5" fill="currentColor"/><path d="M8 13c.5.5 2 .5 2 0"/></svg>`,
+    bean:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4 0-8-3-8-8a8 8 0 0 1 15-4 8 8 0 0 1-7 12z"/><path d="M12 12c-2 2-2 5 0 7"/></svg>`,
+    timer:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 3h6"/><path d="M12 3v2"/></svg>`,
+  };
+
+  function icon(name, cls='', size=16) {
+    const svg = ICONS[name] || ICONS.star;
+    return svg.replace('<svg', `<svg width="${size}" height="${size}" class="tp-icon ${cls}"`);
+  }
+
   // ══════════════════════════════════════
   // NAVIGATION
   // ══════════════════════════════════════
@@ -2796,17 +2869,17 @@
   ];
 
   const CATS = {
-    pack:     { label:'Pack and Carry',              icon:'🎒', cls:'cat-pack' },
-    shelter:  { label:'Shelter and Sleep',            icon:'⛺', cls:'cat-shelter' },
-    nav:      { label:'Navigation',                 icon:'🧭', cls:'cat-nav' },
-    food:     { label:'Food and Cooking',             icon:'🍲', cls:'cat-food' },
-    water:    { label:'Water',                      icon:'💧', cls:'cat-water' },
-    bear:     { label:'Bear and Wildlife Safety',     icon:'🐻', cls:'cat-bear' },
-    clothing: { label:'Clothing and Layers',          icon:'🧥', cls:'cat-clothing' },
-    firstaid: { label:'First Aid and Safety',         icon:'⛑️',  cls:'cat-firstaid' },
-    tools:    { label:'Tools and Gear',               icon:'🔧', cls:'cat-tools' },
-    hygiene:  { label:'Hygiene and Leave No Trace',   icon:'♻️', cls:'cat-hygiene' },
-    extras:   { label:'Documents and Extras',         icon:'📋', cls:'cat-extras' },
+    pack:     { label:'Pack and Carry',              icon:'pack',     cls:'cat-pack' },
+    shelter:  { label:'Shelter and Sleep',            icon:'shelter',  cls:'cat-shelter' },
+    nav:      { label:'Navigation',                 icon:'nav',      cls:'cat-nav' },
+    food:     { label:'Food and Cooking',             icon:'food',     cls:'cat-food' },
+    water:    { label:'Water',                      icon:'water',    cls:'cat-water' },
+    bear:     { label:'Bear and Wildlife Safety',     icon:'bear',     cls:'cat-bear' },
+    clothing: { label:'Clothing and Layers',          icon:'clothing', cls:'cat-clothing' },
+    firstaid: { label:'First Aid and Safety',         icon:'firstaid', cls:'cat-firstaid' },
+    tools:    { label:'Tools and Gear',               icon:'tools',    cls:'cat-tools' },
+    hygiene:  { label:'Hygiene and Leave No Trace',   icon:'hygiene',  cls:'cat-hygiene' },
+    extras:   { label:'Documents and Extras',         icon:'extras',   cls:'cat-extras' },
   };
   const CAT_ORDER = ['pack','shelter','nav','food','water','bear','clothing','firstaid','tools','hygiene','extras'];
 
@@ -2843,17 +2916,19 @@
       if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
     }
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
-    const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
-    const wL = { hot:'Hot and Sunny ☀️', mild:'Mild and Pleasant 🌤️', cold:'Cold and Windy 🌬️', wet:'Wet and Rainy 🌧️', snow:'Snow / Ice ❄️' };
+    const tIKey = { mountain:'mountain', desert:'desert', forest:'forest', coastal:'coastal', mixed:'mixed' };
+    const wL = { hot:'Hot and Sunny', mild:'Mild and Pleasant', cold:'Cold and Windy', wet:'Wet and Rainy', snow:'Snow / Ice' };
+    const wIKey = { hot:'sunny', mild:'mild', cold:'windy', wet:'rainy', snow:'snowy' };
     const dL = { '1-2':'1–2 Days', '3-5':'3–5 Days', '6-10':'6–10 Days', '10+':'10+ Days' };
-    const dfL = { easy:'Easy 🟢', moderate:'Moderate 🟡', strenuous:'Strenuous 🟠', expert:'Expert 🔴' };
+    const dfL = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    const dfIKey = { easy:'easy', moderate:'moderate', strenuous:'strenuous', expert:'expert' };
 
     document.getElementById('tripSummary').innerHTML = `
-      <h2>${tI[inputs.terrain]} Your ${tL[inputs.terrain]} Pack List</h2>
-      <span class="trip-badge">🌍 ${tL[inputs.terrain]}</span>
-      <span class="trip-badge">${inputs.weather.map(w => wL[w]).join(' · ')}</span>
-      <span class="trip-badge">⏱ ${dL[inputs.days]}</span>
-      <span class="trip-badge">🥾 ${dfL[inputs.difficulty]}</span>`;
+      <h2>${icon(tIKey[inputs.terrain],'',20)} Your ${tL[inputs.terrain]} Pack List</h2>
+      <span class="trip-badge">${icon(tIKey[inputs.terrain],'',14)} ${tL[inputs.terrain]}</span>
+      <span class="trip-badge">${inputs.weather.map(w => icon(wIKey[w],'',14) + ' ' + wL[w]).join(' · ')}</span>
+      <span class="trip-badge">${icon('boot','',14)} ${dL[inputs.days]}</span>
+      <span class="trip-badge">${icon(dfIKey[inputs.difficulty],'',14)} ${dfL[inputs.difficulty]}</span>`;
 
     const grouped = {};
     CAT_ORDER.forEach(c => grouped[c] = []);
@@ -2867,7 +2942,7 @@
       const cat = CATS[catKey];
       html += `<div class="category-section ${cat.cls}" id="cat-${catKey}">
         <div class="category-header" onclick="toggleCat('${catKey}')">
-          <span class="cat-icon">${cat.icon}</span>
+          <span class="cat-icon">${icon(cat.icon, '', 22)}</span>
           <span class="cat-name">${cat.label}</span>
           <span class="cat-count">${items.length} items</span>
           <span class="cat-chevron"></span>
@@ -2875,8 +2950,8 @@
       items.forEach(item => {
         const note = typeof item.note === 'function' ? item.note() : item.note;
         const actionBtn = item.mealPlan
-          ? `<button class="btn-meal-plan" onclick="buildMealFromPackList()">🍽️ Build My Meal Plan</button>`
-          : `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon">🛒 Amazon</a>`;
+          ? `<button class="btn-meal-plan" onclick="buildMealFromPackList()">${icon('food','',12)} Build My Meal Plan</button>`
+          : `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Amazon</a>`;
         html += `<div class="gear-item" id="gi-${item.id}">
           <div class="gear-checkbox" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
           <div class="gear-info">
@@ -2931,7 +3006,7 @@
   function updateProgress() {
     const total   = document.querySelectorAll('.gear-checkbox').length;
     const checked = document.querySelectorAll('.gear-checkbox.checked').length;
-    document.getElementById('itemCount').innerHTML = `<span>${total - checked}</span> items remaining · ${checked} packed ✓`;
+    document.getElementById('itemCount').innerHTML = `<span>${total - checked}</span> items remaining · ${checked} packed ${icon('check','',14)}`;
   }
 
   // ══════════════════════════════════════
@@ -3088,16 +3163,18 @@
     const el = document.getElementById('savedListsContent');
     if (!lists.length && !splitLists.length && !groceryLists.length) {
       el.innerHTML = `<div class="saved-empty">
-        <span class="empty-icon">🗺️</span>
-        <p>No saved lists yet.<br>Build a pack list and hit <strong>💾 Save List</strong> to keep it here.</p>
-        <button class="btn-generate" onclick="showPage('pack')">🎒 Build My First List</button>
+        <span class="empty-icon">${icon('map','',56)}</span>
+        <p>No saved lists yet.<br>Build a pack list and hit <strong>Save List</strong> to keep it here.</p>
+        <button class="btn-generate" onclick="showPage('pack')">${icon('pack','',18)} Build My First List</button>
       </div>`; return;
     }
-    const tI = { mountain:'🏔️', desert:'🏜️', forest:'🌲', coastal:'🌊', mixed:'🗺️' };
+    const tIKey = { mountain:'mountain', desert:'desert', forest:'forest', coastal:'coastal', mixed:'mixed' };
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
-    const wL = { hot:'☀️ Hot', mild:'🌤️ Mild', cold:'🌬️ Cold', wet:'🌧️ Rainy', snow:'❄️ Snow' };
+    const wL = { hot:'Hot', mild:'Mild', cold:'Cold', wet:'Rainy', snow:'Snow' };
+    const wIKey = { hot:'sunny', mild:'mild', cold:'windy', wet:'rainy', snow:'snowy' };
     const dL = { '1-2':'1–2 days', '3-5':'3–5 days', '6-10':'6–10 days', '10+':'10+ days' };
-    const dfL = { easy:'🟢 Easy', moderate:'🟡 Moderate', strenuous:'🟠 Strenuous', expert:'🔴 Expert' };
+    const dfL = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    const dfIKey = { easy:'easy', moderate:'moderate', strenuous:'strenuous', expert:'expert' };
 
     // Group split lists by parent pack list ID
     const splitsByParent = {};
@@ -3119,7 +3196,7 @@
 
     lists.forEach(rec => {
       const inp = rec.inputs;
-      const wBadges = (inp.weather||[]).map(w=>`<span class="sli-badge">${wL[w]||w}</span>`).join('');
+      const wBadges = (inp.weather||[]).map(w=>`<span class="sli-badge">${icon(wIKey[w]||'sunny','',12)} ${wL[w]||w}</span>`).join('');
       const childSplits = splitsByParent[rec.id] || [];
       const childGroceries = groceryByParent[rec.id] || [];
 
@@ -3129,14 +3206,14 @@
             <div class="sli-split-item" id="sli-split-${sl.id}">
               <div class="sli-split-header" onclick="toggleSliSplit(${sl.id})">
                 <span class="sli-chevron"></span>
-                <span class="sli-split-title">👥 ${sl.name}</span>
+                <span class="sli-split-title">${icon('hikers','',16)} ${sl.name}</span>
                 <span class="sli-meta">${sl.hikerCount} hikers · ${sl.date}</span>
               </div>
               <div class="sli-split-body" id="sli-split-body-${sl.id}">
                 <div class="sli-split-info">${sl.hikerCount} hikers · <strong>${sl.totalWeight.toFixed(1)} lbs</strong> total gear weight</div>
                 <div class="sli-actions">
                   <button class="btn-view-list" onclick="loadSavedSplit(${sl.id})">View Split →</button>
-                  <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">🗑️</button>
+                  <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">${icon('delete','',14)}</button>
                 </div>
               </div>
             </div>`).join('')}
@@ -3148,14 +3225,14 @@
             <div class="sli-grocery-item" id="sli-groc-${gl.id}">
               <div class="sli-grocery-header" onclick="toggleSliGrocery(${gl.id})">
                 <span class="sli-chevron"></span>
-                <span class="sli-grocery-title">🍲 ${gl.name}</span>
+                <span class="sli-grocery-title">${icon('food','',16)} ${gl.name}</span>
                 <span class="sli-meta">${gl.tripDays} days · ${gl.date}</span>
               </div>
               <div class="sli-grocery-body" id="sli-groc-body-${gl.id}">
                 <div class="sli-grocery-info">${gl.tripDays} days · <strong>${(gl.dailyCal||0).toLocaleString()} cal/day</strong></div>
                 <div class="sli-actions">
                   <button class="btn-view-list" onclick="viewSavedGroceryFromList(${gl.id})">View Plan →</button>
-                  <button class="btn-delete-list" onclick="deleteSavedGrocery(${gl.id})" title="Delete">🗑️</button>
+                  <button class="btn-delete-list" onclick="deleteSavedGrocery(${gl.id})" title="Delete">${icon('delete','',14)}</button>
                 </div>
               </div>
             </div>`).join('')}
@@ -3165,7 +3242,7 @@
         <div class="sli-item" id="sli-${rec.id}">
           <div class="sli-header" onclick="toggleSliItem(${rec.id})">
             <span class="sli-chevron"></span>
-            <span class="sli-header-icon">${tI[inp.terrain]||'🏕️'}</span>
+            <span class="sli-header-icon">${icon(tIKey[inp.terrain]||'mountain','',18)}</span>
             <span class="sli-title">${rec.name}</span>
             <span class="sli-meta">saved ${rec.date}</span>
           </div>
@@ -3173,13 +3250,13 @@
             <div class="sli-badges">
               <span class="sli-badge">${tL[inp.terrain]||inp.terrain}</span>
               ${wBadges}
-              <span class="sli-badge">⏱ ${dL[inp.days]||inp.days}</span>
-              <span class="sli-badge">${dfL[inp.difficulty]||inp.difficulty}</span>
+              <span class="sli-badge">${icon('boot','',12)} ${dL[inp.days]||inp.days}</span>
+              <span class="sli-badge">${icon(dfIKey[inp.difficulty]||'moderate','',12)} ${dfL[inp.difficulty]||inp.difficulty}</span>
             </div>
             <div class="sli-count"><strong>${rec.itemCount}</strong> gear items</div>
             <div class="sli-actions">
               <button class="btn-view-list" onclick="loadSavedList(${rec.id})">View List →</button>
-              <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">🗑️</button>
+              <button class="btn-delete-list" onclick="deleteSavedList(${rec.id})" title="Delete">${icon('delete','',14)}</button>
             </div>
             ${splitsHtml}
             ${groceriesHtml}
@@ -3194,7 +3271,7 @@
         <div class="sli-item" id="sli-us-${sl.id}">
           <div class="sli-header" onclick="toggleSliUs(${sl.id})">
             <span class="sli-chevron"></span>
-            <span class="sli-header-icon">👥</span>
+            <span class="sli-header-icon">${icon('hikers','',18)}</span>
             <span class="sli-title">${sl.name}</span>
             <span class="sli-meta">${sl.hikerCount} hikers · saved ${sl.date}</span>
           </div>
@@ -3202,7 +3279,7 @@
             <div class="sli-count">${sl.hikerCount} hikers · <strong>${sl.totalWeight.toFixed(1)} lbs</strong> total gear weight</div>
             <div class="sli-actions">
               <button class="btn-view-list" onclick="loadSavedSplit(${sl.id})">View Split →</button>
-              <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">🗑️</button>
+              <button class="btn-delete-list" onclick="deleteSavedSplit(${sl.id})" title="Delete">${icon('delete','',14)}</button>
             </div>
           </div>
         </div>`;
@@ -3309,10 +3386,10 @@
     if (!rec) { prev.classList.remove('show'); return; }
     GS.importedListId = id;
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
-    const wL = { hot:'☀️ Hot', mild:'🌤️ Mild', cold:'🌬️ Cold', wet:'🌧️ Rainy', snow:'❄️ Snow' };
-    const dfL = { easy:'Easy 🟢', moderate:'Moderate 🟡', strenuous:'Strenuous 🟠', expert:'Expert 🔴' };
+    const wL = { hot:'Hot', mild:'Mild', cold:'Cold', wet:'Rainy', snow:'Snow' };
+    const dfL = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
     const dL  = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
-    document.getElementById('impName').textContent = '📂 ' + rec.name;
+    document.getElementById('impName').textContent = rec.name;
     document.getElementById('impTerrain').textContent = tL[rec.inputs.terrain] || rec.inputs.terrain;
     document.getElementById('impWeather').textContent = (rec.inputs.weather||[]).map(w=>wL[w]||w).join(' · ');
     document.getElementById('impDays').textContent = rec.inputs.days + ' days';
@@ -3669,7 +3746,7 @@
     const fatG  = Math.round(daily * 0.30 / 9);
     const daysLabel = GS.tripDays + (GS.tripDays === 1 ? ' day' : ' days');
     document.getElementById('nutritionCard').innerHTML = `
-      <h3>📊 Your Daily Nutrition Target</h3>
+      <h3>${icon('list','',18)} Your Daily Nutrition Target</h3>
       <div class="cal-row">
         <div class="cal-stat"><div class="cal-big">${daily.toLocaleString()}</div><div class="cal-label">Cal / Day</div></div>
         <div class="cal-stat"><div class="cal-big">${(daily * GS.tripDays).toLocaleString()}</div><div class="cal-label">Total Calories</div></div>
@@ -3708,7 +3785,7 @@
     if (!GS.standardMeal) return;
     const { bf, lu, di, snacks, totalCal } = GS.standardMeal;
     let html = `
-    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">✨ Make it Fancy</button>
+    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">${icon('star','',14)} Make it Fancy</button>
     <div class="standard-plan-card">
       <div class="standard-plan-header">
         <h3>Daily Repeating Meals</h3>
@@ -3719,7 +3796,7 @@
       ${renderStdMealBlock('Dinner', di, 'dinner')}
       <div class="snacks-block">
         <div class="meal-type">Snacks</div>
-        <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${s.icon} ${s.name} <span style="color:var(--forest);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
+        <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${icon('meal','',14)} ${s.name} <span style="color:var(--forest);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
       </div>
     </div>`;
     document.getElementById('dayPlanContainer').innerHTML = html;
@@ -3745,7 +3822,7 @@
           ${renderMealBlock('Dinner', di)}
           <div class="snacks-block">
             <div class="meal-type">Snacks</div>
-            <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${s.icon} ${s.name} <span style="color:var(--forest);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
+            <div class="snack-items">${snacks.map(s=>`<div class="snack-chip">${icon('meal','',14)} ${s.name} <span style="color:var(--forest);font-weight:700;">${s.cal} cal</span></div>`).join('')}</div>
           </div>
         </div>
       </div>`;
@@ -3783,9 +3860,9 @@
     return `<div class="meal-block">
       <span class="meal-cal">${meal.cal} cal</span>
       <div class="meal-type">${type}</div>
-      <div class="meal-name">${meal.icon} ${meal.name}</div>
+      <div class="meal-name">${icon('meal','',16)} ${meal.name}</div>
       <div class="meal-ings">${ingList}</div>
-      <div class="meal-prep">▶ ${meal.prep}</div>
+      <div class="meal-prep">&#9654; ${meal.prep}</div>
     </div>`;
   }
 
@@ -3794,10 +3871,10 @@
     return `<div class="meal-block">
       <span class="meal-cal">${meal.cal} cal</span>
       <div class="meal-type">${type}</div>
-      <div class="meal-name">${meal.icon} ${meal.name}</div>
+      <div class="meal-name">${icon('meal','',16)} ${meal.name}</div>
       <div class="meal-ings">${ingList}</div>
-      <div class="meal-prep">▶ ${meal.prep}</div>
-      <button class="btn-swap-meal" onclick="swapMeal('${mealKey}')">↺ Try a Different ${type}</button>
+      <div class="meal-prep">&#9654; ${meal.prep}</div>
+      <button class="btn-swap-meal" onclick="swapMeal('${mealKey}')">&#8635; Try a Different ${type}</button>
     </div>`;
   }
 
@@ -3865,7 +3942,8 @@
       return `${Math.ceil(qty)} ${unit}`;
     }
 
-    const catNames = { grains:'🌾 Grains and Starches', protein:'🥩 Proteins', fats:'🫒 Oils and Fats', dairy:'🧀 Dairy', nuts:'🥜 Nuts and Seeds', fruit:'🍇 Dried Fruit', condiments:'🧂 Seasonings and Condiments', sweets:'🍫 Snacks and Sweets' };
+    const catIconMap = { grains:'wheat', protein:'meal', fats:'food', dairy:'milk', nuts:'nut', fruit:'leaf', condiments:'extras', sweets:'food' };
+    const catNames = { grains:'Grains and Starches', protein:'Proteins', fats:'Oils and Fats', dairy:'Dairy', nuts:'Nuts and Seeds', fruit:'Dried Fruit', condiments:'Seasonings and Condiments', sweets:'Snacks and Sweets' };
     const catOrder = ['grains','protein','fats','dairy','nuts','fruit','condiments','sweets'];
 
     const grouped = {};
@@ -3876,7 +3954,7 @@
     let totalItems = 0;
     catOrder.forEach(cat => {
       if (!grouped[cat].length) return;
-      shopHtml += `<div class="shop-cat"><div class="shop-cat-title">${catNames[cat]||cat}</div>`;
+      shopHtml += `<div class="shop-cat"><div class="shop-cat-title">${icon(catIconMap[cat]||'food','',14)} ${catNames[cat]||cat}</div>`;
       grouped[cat].forEach((item, idx) => {
         const shopId = `shop-${cat}-${idx}`;
         totalItems++;
@@ -3975,11 +4053,11 @@
       <div class="saved-card">
         <div class="saved-card-top">
           <div class="card-date">Saved ${rec.date}</div>
-          <h3>🍲 ${rec.name}</h3>
+          <h3>${icon('food','',18)} ${rec.name}</h3>
           <div class="saved-card-badges">
-            <span class="saved-badge">⏱ ${rec.tripDays} days</span>
-            <span class="saved-badge">🔥 ${rec.dailyCal?.toLocaleString()||'?'} cal/day</span>
-            <span class="saved-badge">🎒 ${rec.packWeight} lbs</span>
+            <span class="saved-badge">${icon('timer','',12)} ${rec.tripDays} days</span>
+            <span class="saved-badge">${icon('flame','',12)} ${rec.dailyCal?.toLocaleString()||'?'} cal/day</span>
+            <span class="saved-badge">${icon('pack','',12)} ${rec.packWeight} lbs</span>
             ${rec.restrictions.length ? `<span class="saved-badge">${rec.restrictions.join(', ')}</span>` : ''}
           </div>
         </div>
@@ -3987,7 +4065,7 @@
           <div class="saved-item-count"><strong>${rec.tripDays * 4}</strong> total meals</div>
           <div class="saved-card-actions">
             <button class="btn-view-list" onclick="viewSavedGrocery(${rec.id})">View Plan →</button>
-            <button class="btn-delete-list" onclick="deleteSavedGrocery(${rec.id})" title="Delete">🗑️</button>
+            <button class="btn-delete-list" onclick="deleteSavedGrocery(${rec.id})" title="Delete">${icon('delete','',14)}</button>
           </div>
         </div>
       </div>`).join('')}</div>`;
@@ -4124,7 +4202,7 @@
 
   function initSplitPage() {
     if (!currentSavedListId) {
-      showToast('💾 Save your pack list first before splitting.');
+      showToast('Save your pack list first before splitting.');
       return;
     }
     splitPersonData = [];
@@ -4317,7 +4395,7 @@
       const group      = pack.items.filter(e => e.role === 'group');
       const personalWt = personal.reduce((s, e) => s + e.weight, 0);
       const groupWt    = group.reduce((s, e) => s + e.weight, 0);
-      const statusTxt  = pct > 100 ? ' ⚠️ Over recommended max' : pct > 90 ? ' — heavy load' : '';
+      const statusTxt  = pct > 100 ? ' — Over recommended max' : pct > 90 ? ' — heavy load' : '';
 
       const sharedRow = e => `
         <div class="person-item-row">
@@ -4515,10 +4593,11 @@
     const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
     const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
 
+    const terrainIconMap = { alpine:'alpine', canyon:'canyon', coastal:'coastal', forest:'forest', desert:'desert', mixed:'mixed', mountain:'mountain' };
     grid.innerHTML = trips.map(t => `
       <div class="trip-card">
         <div class="trip-card-banner">
-          <span class="trip-card-icon">${t.icon}</span>
+          <span class="trip-card-icon">${icon(terrainIconMap[t.terrain]||'mountain','',36)}</span>
           <div class="trip-card-name">${t.name}</div>
           <div class="trip-card-region">${t.region}</div>
           <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
@@ -4541,7 +4620,7 @@
           <div class="trip-highlights">${t.highlights}</div>
           <div class="trip-tags">
             <span class="trip-tag">${terrainLabel[t.terrain]}</span>
-            ${t.permit ? '<span class="trip-tag permit">🎟️ Permit</span>' : '<span class="trip-tag">No Permit</span>'}
+            ${t.permit ? '<span class="trip-tag permit">Permit Required</span>' : '<span class="trip-tag">No Permit</span>'}
           </div>
         </div>
       </div>
