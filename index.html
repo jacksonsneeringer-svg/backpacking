@@ -2045,74 +2045,6 @@
     .badge-avoid { background: rgba(196,88,42,0.15); color: var(--rust); }
     .badge-ok    { background: rgba(212,160,51,0.15); color: #a07010; }
     .badge-best  { background: rgba(61,107,85,0.15);  color: var(--forest); }
-    /* JMT photo carousel */
-    .jmt-carousel-wrap {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 16/9;
-      background: var(--pine);
-    }
-    .jmt-carousel-track {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
-    }
-    .jmt-carousel-slide {
-      min-width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-    .jmt-carousel-slide-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 28px 22px 18px;
-      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-    }
-    .jmt-carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-      transition: background 0.2s;
-    }
-    .jmt-carousel-btn:hover { background: rgba(0,0,0,0.7); }
-    .jmt-carousel-prev { left: 12px; }
-    .jmt-carousel-next { right: 12px; }
-    .jmt-carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 7px;
-      margin-top: 12px;
-    }
-    .jmt-carousel-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--cream-dark);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .jmt-carousel-dot.active { background: var(--forest); transform: scale(1.3); }
   </style>
 </head>
 <body>
@@ -2801,40 +2733,6 @@
           <div style="margin-left:auto"><div class="hiker-note-stars">★★★★★</div></div>
         </div>
       </div>
-    </div>
-
-    <!-- Photo Carousel -->
-    <div class="jmt-section">
-      <div class="jmt-section-title">Along the Trail</div>
-      <div class="jmt-carousel-wrap" id="jmtCarousel">
-        <div class="jmt-carousel-track" id="jmtCarouselTrack">
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">Sierra Nevada high country — the JMT stays above 8,000 ft for most of its 211 miles</div>
-          </div>
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">Snowcapped passes — ten major crossings above 10,000 ft greet southbound hikers</div>
-          </div>
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1454496522416-dd7571124224?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">Rae Lakes Basin — frequently cited as the most photographed stretch of the JMT</div>
-          </div>
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">Stars over the Sierra — campsites above 11,000 ft offer unrivaled night skies</div>
-          </div>
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">The trail is well-marked throughout — hikers cover 10–13 miles per day at a comfortable pace</div>
-          </div>
-          <div class="jmt-carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1445363692820-085f47ba4aea?auto=format&fit=crop&w=900&q=80')">
-            <div class="jmt-carousel-slide-caption">Evolution Valley — widely considered the finest valley in the Sierra Nevada</div>
-          </div>
-        </div>
-        <button class="jmt-carousel-btn jmt-carousel-prev" onclick="jmtCarouselMove(-1)" aria-label="Previous">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="jmt-carousel-btn jmt-carousel-next" onclick="jmtCarouselMove(1)" aria-label="Next">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-      <div class="jmt-carousel-dots" id="jmtCarouselDots"></div>
     </div>
 
     <!-- Best Seasons -->
@@ -5491,64 +5389,105 @@
 
   function getMinDays(trip) { return trip.minDays; }
 
-  const TERRAIN_PHOTOS = {
-    alpine:  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80',
-    canyon:  'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=600&q=80',
-    coastal: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80',
-    forest:  'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80',
-    desert:  'https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=600&q=80',
-  };
+  function generateTripCover(trip) {
+    const id = trip.id;
+    const W = 600, H = 400;
+    const h = n => Math.abs(Math.sin(id * 9301 + n * 49297 + 233)) % 1;
+    const hi = (n, lo, range) => lo + Math.floor(h(n) * range);
 
-  const TRIP_PHOTOS = {
-    1:  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80',  // JMT — Sierra high ridge
-    2:  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',  // Lost Coast — beach
-    3:  'https://images.unsplash.com/photo-1454496522416-dd7571124224?auto=format&fit=crop&w=600&q=80',  // Desolation — alpine lake
-    4:  'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80',  // Mt. Whitney — summit stars
-    5:  'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=600&q=80',  // Rae Lakes — snowy peaks
-    6:  'https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&w=600&q=80',  // Trans-Catalina — sea cliffs
-    7:  'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=600&q=80',  // Maroon Bells — CO trail
-    8:  'https://images.unsplash.com/photo-1445363692820-085f47ba4aea?auto=format&fit=crop&w=600&q=80',  // Weminuche — rugged peaks
-    9:  'https://images.unsplash.com/photo-1432405972569-7a1975fef39b?auto=format&fit=crop&w=600&q=80',  // Holy Cross — alpine snowfield
-    10: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80',    // Indian Peaks — granite
-    11: 'https://images.unsplash.com/photo-1547036967-23b900db8c8b?auto=format&fit=crop&w=600&q=80',    // Collegiate Peaks — alpine
-    12: 'https://images.unsplash.com/photo-1486365227551-f3f90034cfd7?auto=format&fit=crop&w=600&q=80', // Enchantments — WA spires
-    13: 'https://images.unsplash.com/photo-1446034295857-a39f8848ca10?auto=format&fit=crop&w=600&q=80', // Wonderland — Rainier
-    14: 'https://images.unsplash.com/photo-1559827291-72a19b5b2b1e?auto=format&fit=crop&w=600&q=80',    // Olympic Coast — sea stacks
-    15: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80', // Glacier Peak — N Cascades
-    16: 'https://images.unsplash.com/photo-1444137262372-4e42f4eeab20?auto=format&fit=crop&w=600&q=80', // Maple Pass — fall colors
-    17: 'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=600&q=80', // Zion Narrows — canyon walls
-    18: 'https://images.unsplash.com/photo-1513542789-de5fa39a6b2c?auto=format&fit=crop&w=600&q=80',    // Coyote Gulch — sandstone
-    19: 'https://images.unsplash.com/photo-1523374228107-6e44bd2b524e?auto=format&fit=crop&w=600&q=80', // High Uintas — lake
-    20: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=600&q=80', // Paria Canyon — vermilion
-    21: 'https://images.unsplash.com/photo-1559128010-7c1ad6e1d6a5?auto=format&fit=crop&w=600&q=80',    // Bryce Canyon — hoodoos
-    22: 'https://images.unsplash.com/photo-1500534314209-a157d0e14f8?auto=format&fit=crop&w=600&q=80',  // Wind River — WY alpine
-    23: 'https://images.unsplash.com/photo-1447927392-e0ebc4fdcf6a?auto=format&fit=crop&w=600&q=80',   // Teton Crest — Grand Teton
-    24: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&w=600&q=80', // Cirque of Towers — spires
-    25: 'https://images.unsplash.com/photo-1568605117036-5c9b7b4d4b9c?auto=format&fit=crop&w=600&q=80', // Eagle Cap — Wallowas
-    26: 'https://images.unsplash.com/photo-1527525443-37b3ad0fe4fd?auto=format&fit=crop&w=600&q=80',   // Crater Lake — caldera
-    27: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80', // Three Sisters — volcanic
-    28: 'https://images.unsplash.com/photo-1503614474-8c538f07f487?auto=format&fit=crop&w=600&q=80',   // Bob Marshall — MT wilderness
-    29: 'https://images.unsplash.com/photo-1518888901-d3fdcc10000b?auto=format&fit=crop&w=600&q=80',   // Glacier NP — highline
-    30: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=600&q=80', // Beartooth — high plateau
-    31: 'https://images.unsplash.com/photo-1522163723-f87e9f8c00dd?auto=format&fit=crop&w=600&q=80',   // Grand Canyon — rim
-    32: 'https://images.unsplash.com/photo-1541534741688-6078c738800f?auto=format&fit=crop&w=600&q=80', // Havasupai — turquoise
-    33: 'https://images.unsplash.com/photo-1518547419791-5c2ac5552cca?auto=format&fit=crop&w=600&q=80', // Mazatzal — AZ desert
-    34: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80', // Black Mountains — NC forest
-    35: 'https://images.unsplash.com/photo-1448615269588-53d20f5e58e7?auto=format&fit=crop&w=600&q=80', // Shining Rock — forest ridge
-    36: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80', // Linville Gorge — gorge
-    37: 'https://images.unsplash.com/photo-1502943693-e8c6e5aa3a71?auto=format&fit=crop&w=600&q=80',   // AT Smokies — dense forest
-    38: 'https://images.unsplash.com/photo-1590512386612-6ba07e2be3ac?auto=format&fit=crop&w=600&q=80', // Big South Fork — river
-    39: 'https://images.unsplash.com/photo-1484318571209-661cf29a69d8?auto=format&fit=crop&w=600&q=80', // Wheeler Peak — NM alpine
-    40: 'https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=600&q=80', // Gila — desert terrain
-    41: 'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=600&q=80', // Sawtooth — Idaho granite
-    42: 'https://images.unsplash.com/photo-1572021335469-31706a17aaef?auto=format&fit=crop&w=600&q=80', // Selway-Bitterroot — river
-    43: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80', // Long Trail — VT forest
-    44: 'https://images.unsplash.com/photo-1516214104703-d870798de96e?auto=format&fit=crop&w=600&q=80', // Camel's Hump — VT summit
-    45: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80',   // Cohutta — GA forest
-    46: 'https://images.unsplash.com/photo-1540306364-cc5d31ff70d4?auto=format&fit=crop&w=600&q=80',   // AT Georgia — trail
-    47: 'https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?auto=format&fit=crop&w=600&q=80',   // Four Pass Loop — alpine valley
-    48: 'https://images.unsplash.com/photo-1574101866684-a3f4d5e02d5f?auto=format&fit=crop&w=600&q=80', // Norse Peak — WA alpine
-  };
+    function mtnPath(seed, count, yTop, yBot) {
+      const base = yTop + (yBot - yTop) * 0.6;
+      let pts = [[0, H], [0, base + h(seed) * (yBot - base) * 0.5]];
+      for (let i = 1; i < count * 2; i++) {
+        const x = (i / (count * 2)) * W;
+        const y = i % 2 === 1
+          ? yTop + h(seed + i) * (yBot - yTop) * 0.45
+          : yBot - h(seed + i) * (yBot - yTop) * 0.25;
+        pts.push([x, y]);
+      }
+      pts.push([W, base + h(seed + 50) * (yBot - base) * 0.5], [W, H]);
+      return 'M ' + pts.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' L ') + ' Z';
+    }
+
+    function treeLine(seed, count, yBase, treeH) {
+      const step = W / count;
+      let d = 'M 0,' + H;
+      for (let i = 0; i < count; i++) {
+        const x = i * step;
+        const th = treeH * (0.55 + h(seed + i * 3) * 0.9);
+        const tw = step * (0.45 + h(seed + i * 5) * 0.35);
+        d += ' L ' + x.toFixed(1) + ',' + yBase + ' L ' + (x + tw / 2).toFixed(1) + ',' + (yBase - th).toFixed(1) + ' L ' + (x + tw).toFixed(1) + ',' + yBase;
+      }
+      return d + ' L ' + W + ',' + H + ' Z';
+    }
+
+    let svg;
+    if (trip.terrain === 'alpine') {
+      const skyTop = `hsl(${hi(1,215,45)},55%,${hi(2,12,14)}%)`;
+      const skyMid = `hsl(${hi(3,200,40)},42%,${hi(4,28,22)}%)`;
+      const skyHor = `hsl(${hi(5,20,35)},${hi(6,55,30)}%,${hi(7,55,22)}%)`;
+      const farC = `hsl(${hi(8,195,35)},${hi(9,10,15)}%,${hi(10,38,18)}%)`;
+      const midC = `hsl(${hi(11,150,30)},${hi(12,18,15)}%,${hi(13,16,14)}%)`;
+      const nearC = `hsl(${hi(14,140,20)},${hi(15,22,14)}%,${hi(16,8,10)}%)`;
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="52%" stop-color="${skyMid}"/><stop offset="100%" stop-color="${skyHor}"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#s${id})"/><path d="${mtnPath(1,hi(17,5,4),hi(18,55,55),hi(19,110,55))}" fill="${farC}" opacity="0.8"/><path d="${mtnPath(2,hi(20,4,4),hi(21,120,65),hi(22,210,55))}" fill="${midC}"/><path d="${mtnPath(3,hi(23,3,3),hi(24,220,65),hi(25,310,60))}" fill="${nearC}"/></svg>`;
+
+    } else if (trip.terrain === 'forest') {
+      const skyTop = `hsl(${hi(1,195,45)},${hi(2,40,25)}%,${hi(3,30,28)}%)`;
+      const skyHor = `hsl(${hi(4,22,30)},${hi(5,60,28)}%,${hi(6,58,20)}%)`;
+      const farC = `hsl(${hi(7,130,35)},${hi(8,22,22)}%,${hi(9,20,16)}%)`;
+      const midC = `hsl(${hi(10,135,25)},${hi(11,28,20)}%,${hi(12,12,12)}%)`;
+      const nearC = `hsl(${hi(13,140,18)},${hi(14,32,20)}%,${hi(15,7,9)}%)`;
+      const gnd = `hsl(${hi(16,100,35)},${hi(17,18,20)}%,${hi(18,8,10)}%)`;
+      const gY = hi(19,275,50);
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="100%" stop-color="${skyHor}"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#s${id})"/><rect y="${gY}" width="${W}" height="${H}" fill="${gnd}"/><path d="${treeLine(1,hi(20,8,7),hi(21,215,50),hi(22,55,50))}" fill="${farC}" opacity="0.65"/><path d="${treeLine(2,hi(23,10,7),hi(24,255,50),hi(25,65,55))}" fill="${midC}" opacity="0.82"/><path d="${treeLine(3,hi(26,12,7),hi(27,295,55),hi(28,75,55))}" fill="${nearC}"/></svg>`;
+
+    } else if (trip.terrain === 'canyon') {
+      const skyTop = `hsl(${hi(1,5,28)},${hi(2,58,28)}%,${hi(3,42,26)}%)`;
+      const skyBot = `hsl(${hi(4,22,32)},${hi(5,68,22)}%,${hi(6,65,14)}%)`;
+      const w1 = `hsl(${hi(7,10,22)},${hi(8,44,24)}%,${hi(9,28,16)}%)`;
+      const w2 = `hsl(${hi(10,8,22)},${hi(11,48,24)}%,${hi(12,20,16)}%)`;
+      const flr = `hsl(${hi(13,28,20)},${hi(14,35,22)}%,${hi(15,52,22)}%)`;
+      const sH = hi(16,60,70), lE = hi(17,110,80), rS = hi(18,350,80);
+      const lp = [[0,0],[lE,0],[lE-30,sH*.5],[lE-15,sH*.8],[lE+20,sH*1.1],[lE-10,sH*1.8],[lE+30,H*.7],[0,H]];
+      const rp = [[W,0],[rS,0],[rS+30,sH*.5],[rS+15,sH*.8],[rS-20,sH*1.1],[rS+10,sH*1.8],[rS-30,H*.7],[W,H]];
+      const lw = 'M ' + lp.map(([x,y])=>x.toFixed(1)+','+y.toFixed(1)).join(' L ') + ' Z';
+      const rw = 'M ' + rp.map(([x,y])=>x.toFixed(1)+','+y.toFixed(1)).join(' L ') + ' Z';
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="100%" stop-color="${skyBot}"/></linearGradient></defs><rect width="${W}" height="${H}" fill="${flr}"/><rect width="${W}" height="${sH}" fill="url(#s${id})"/><path d="${lw}" fill="${w1}"/><path d="${rw}" fill="${w2}"/></svg>`;
+
+    } else if (trip.terrain === 'coastal') {
+      const skyTop = `hsl(${hi(1,182,40)},${hi(2,42,28)}%,${hi(3,32,26)}%)`;
+      const skyBot = `hsl(${hi(4,192,28)},${hi(5,48,28)}%,${hi(6,58,22)}%)`;
+      const ocnDp = `hsl(${hi(7,183,28)},${hi(8,52,28)}%,${hi(9,22,20)}%)`;
+      const ocnSh = `hsl(${hi(10,172,35)},${hi(11,48,28)}%,${hi(12,42,22)}%)`;
+      const clff = `hsl(${hi(13,22,28)},${hi(14,18,20)}%,${hi(15,28,20)}%)`;
+      const hY = hi(16,155,55);
+      let wv = 'M 0,' + hY;
+      for (let x = 0; x <= W; x += 30) {
+        const wy = hY + Math.sin(x / 80 + h(17) * 5) * (4 + h(18 + x * 0.1) * 7);
+        wv += ' L ' + x + ',' + wy.toFixed(1);
+      }
+      wv += ' L ' + W + ',' + H + ' L 0,' + H + ' Z';
+      const cW = hi(19,90,100), cH = hi(20,55,100);
+      const cP = `M 0,0 L ${cW},0 L ${(cW*0.88).toFixed(1)},${(cH*0.62).toFixed(1)} L ${(cW*0.78).toFixed(1)},${cH} L 0,${cH} Z`;
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="100%" stop-color="${skyBot}"/></linearGradient><linearGradient id="o${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${ocnSh}"/><stop offset="100%" stop-color="${ocnDp}"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#s${id})"/><path d="${wv}" fill="url(#o${id})"/><path d="${cP}" fill="${clff}"/></svg>`;
+
+    } else {
+      const skyTop = `hsl(${hi(1,195,55)},${hi(2,38,28)}%,${hi(3,12,18)}%)`;
+      const skyMid = `hsl(${hi(4,270,72)},${hi(5,48,28)}%,${hi(6,32,28)}%)`;
+      const skyHor = `hsl(${hi(7,14,35)},${hi(8,65,28)}%,${hi(9,52,22)}%)`;
+      const sand = `hsl(${hi(10,30,18)},${hi(11,38,25)}%,${hi(12,58,16)}%)`;
+      const m1c = `hsl(${hi(13,8,22)},${hi(14,43,24)}%,${hi(15,26,18)}%)`;
+      const m2c = `hsl(${hi(16,8,22)},${hi(17,48,24)}%,${hi(18,18,18)}%)`;
+      const sY = hi(19,240,50);
+      const m1x=hi(20,20,70), m1w=hi(21,100,100), m1y=hi(22,100,100), m1s=hi(23,20,20);
+      const m2x=hi(24,270,60), m2w=hi(25,100,100), m2y=hi(26,85,90), m2s=hi(27,20,20);
+      const ms1 = `M ${m1x},${H} L ${m1x},${m1y+m1s} L ${m1x+m1s},${m1y} L ${m1x+m1w-m1s},${m1y} L ${m1x+m1w},${m1y+m1s} L ${m1x+m1w},${H} Z`;
+      const ms2 = `M ${m2x},${H} L ${m2x},${m2y+m2s} L ${m2x+m2s},${m2y} L ${m2x+m2w-m2s},${m2y} L ${m2x+m2w},${m2y+m2s} L ${m2x+m2w},${H} Z`;
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="42%" stop-color="${skyMid}"/><stop offset="100%" stop-color="${skyHor}"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#s${id})"/><rect y="${sY}" width="${W}" height="${H}" fill="${sand}"/><path d="${ms1}" fill="${m1c}"/><path d="${ms2}" fill="${m2c}"/></svg>`;
+    }
+
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
 
   function renderTripsGrid() {
     const trips = TRIPS_DATA.filter(t => {
@@ -5578,7 +5517,7 @@
     const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
 
     grid.innerHTML = trips.map(t => {
-      const photo = TRIP_PHOTOS[t.id] || TERRAIN_PHOTOS[t.terrain] || TERRAIN_PHOTOS.alpine;
+      const photo = generateTripCover(t);
       const bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}')`;
       const isJMT = t.id === 1;
       return `
@@ -5663,40 +5602,10 @@
   }
 
   // ══════════════════════════════════════
-  // JMT PHOTO CAROUSEL
-  // ══════════════════════════════════════
-  let jmtSlideIdx = 0;
-  const JMT_SLIDE_COUNT = 6;
-
-  function initJMTCarousel() {
-    const dotsEl = document.getElementById('jmtCarouselDots');
-    if (!dotsEl) return;
-    dotsEl.innerHTML = '';
-    for (let i = 0; i < JMT_SLIDE_COUNT; i++) {
-      const d = document.createElement('div');
-      d.className = 'jmt-carousel-dot' + (i === 0 ? ' active' : '');
-      d.onclick = () => jmtCarouselGoTo(i);
-      dotsEl.appendChild(d);
-    }
-  }
-
-  function jmtCarouselMove(dir) {
-    jmtCarouselGoTo((jmtSlideIdx + dir + JMT_SLIDE_COUNT) % JMT_SLIDE_COUNT);
-  }
-
-  function jmtCarouselGoTo(idx) {
-    jmtSlideIdx = idx;
-    const track = document.getElementById('jmtCarouselTrack');
-    if (track) track.style.transform = `translateX(-${idx * 100}%)`;
-    document.querySelectorAll('.jmt-carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
-
-  // ══════════════════════════════════════
   // INIT
   // ══════════════════════════════════════
   updateBadge();
   initTruths();
-  initJMTCarousel();
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
