@@ -2050,16 +2050,78 @@
     /* ══════════════════════════════════════
        CONTACT PAGE
     ══════════════════════════════════════ */
-    .contact-wrap {
-      max-width: 580px;
-      margin: 0 auto;
-      padding: 48px 24px 64px;
+    #pg-contact .page-header {
+      background: linear-gradient(135deg, #0d2019 0%, var(--pine) 60%, #1e4a36 100%);
+      padding: 52px 40px 44px;
+      position: relative;
+      overflow: hidden;
     }
-    .contact-intro {
+    #pg-contact .page-header::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(212,160,51,0.08);
+      pointer-events: none;
+    }
+    #pg-contact .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: -70px; left: 5%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(107,155,122,0.1);
+      pointer-events: none;
+    }
+    #pg-contact .page-header h1 {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    #pg-contact .page-header p {
       font-size: 15px;
-      color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 36px;
+      color: rgba(255,255,255,0.55);
+    }
+    .contact-hints {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .contact-hint {
+      flex: 1;
+      min-width: 140px;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 18px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border-top: 3px solid var(--forest);
+    }
+    .contact-hint-icon {
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .contact-hint-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pine);
+      margin-bottom: 3px;
+      letter-spacing: 0.2px;
+    }
+    .contact-hint-desc {
+      font-size: 12px;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+    .cf-label .req { color: var(--rust); margin-left: 2px; }
+    .contact-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
     }
     .contact-card {
       background: #fff;
@@ -2181,9 +2243,13 @@
     }
     .cf-status.success {
       display: block;
-      background: rgba(61,107,85,0.12);
-      border: 1.5px solid var(--forest);
-      color: var(--forest);
+      background: rgba(61,107,85,0.1);
+      border: 2px solid var(--forest);
+      color: var(--pine);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 18px 20px;
+      text-align: center;
     }
     .cf-status.error {
       display: block;
@@ -3384,36 +3450,58 @@
 <div class="page" id="pg-contact">
   <div class="page-header">
     <h1>Contact Us</h1>
-    <p>Have a question, suggestion, or just want to say hello?</p>
+    <p>Questions, ideas, trail stories — we want to hear it all.</p>
   </div>
 
   <div class="contact-wrap">
-    <p class="contact-intro">We read every message. Fill out the form below and we'll get back to you as soon as we can.</p>
+    <div class="contact-hints">
+      <div class="contact-hint">
+        <div class="contact-hint-icon">📬</div>
+        <div>
+          <div class="contact-hint-title">We Read Everything</div>
+          <div class="contact-hint-desc">Every message is personally reviewed by our team.</div>
+        </div>
+      </div>
+      <div class="contact-hint">
+        <div class="contact-hint-icon">⚡</div>
+        <div>
+          <div class="contact-hint-title">Fast Replies</div>
+          <div class="contact-hint-desc">We usually respond within 24–48 hours.</div>
+        </div>
+      </div>
+      <div class="contact-hint">
+        <div class="contact-hint-icon">🌲</div>
+        <div>
+          <div class="contact-hint-title">Real Humans</div>
+          <div class="contact-hint-desc">No bots, no auto-replies — just us.</div>
+        </div>
+      </div>
+    </div>
 
     <div class="contact-card">
       <form id="contactForm" novalidate>
         <div class="cf-row">
           <div class="cf-field">
-            <label class="cf-label" for="cf-name">Name</label>
-            <input class="cf-input" id="cf-name" name="name" type="text" placeholder="Your name" autocomplete="name">
+            <label class="cf-label" for="cf-name">Name <span class="req">*</span></label>
+            <input class="cf-input" id="cf-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
             <div class="cf-field-error" id="cf-name-err">Please enter your name.</div>
           </div>
           <div class="cf-field">
-            <label class="cf-label" for="cf-email">Email</label>
-            <input class="cf-input" id="cf-email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+            <label class="cf-label" for="cf-email">Email <span class="req">*</span></label>
+            <input class="cf-input" id="cf-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
             <div class="cf-field-error" id="cf-email-err">Please enter a valid email.</div>
           </div>
         </div>
 
         <div class="cf-field">
-          <label class="cf-label" for="cf-subject">Subject</label>
-          <input class="cf-input" id="cf-subject" name="subject" type="text" placeholder="What's this about?">
+          <label class="cf-label" for="cf-subject">Subject <span class="req">*</span></label>
+          <input class="cf-input" id="cf-subject" name="subject" type="text" placeholder="What's this about?" required>
           <div class="cf-field-error" id="cf-subject-err">Please enter a subject.</div>
         </div>
 
         <div class="cf-field">
-          <label class="cf-label" for="cf-message">Message</label>
-          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="Tell us what's on your mind…"></textarea>
+          <label class="cf-label" for="cf-message">Message <span class="req">*</span></label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="Tell us what's on your mind…" required></textarea>
           <div class="cf-field-error" id="cf-message-err">Please enter a message.</div>
         </div>
 
@@ -5893,7 +5981,7 @@
       });
       if (res.ok) {
         status.className = 'cf-status success';
-        status.textContent = "Message sent! We'll get back to you soon.";
+        status.textContent = "We read every message. We'll get back to you as soon as we can.";
         document.getElementById('contactForm').reset();
         refreshCaptcha();
       } else {
