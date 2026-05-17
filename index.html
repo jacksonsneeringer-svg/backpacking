@@ -1268,13 +1268,12 @@
       nav#mainNav {
         display: none;
         flex-direction: column;
-        position: absolute;
+        position: fixed;
         top: 62px;
         left: 0;
         right: 0;
         background: var(--pine);
-        border-top: 1px solid rgba(255,255,255,0.08);
-        padding: 10px 0 16px;
+        padding: 0 0 10px;
         box-shadow: var(--shadow-md);
         z-index: 99;
         gap: 0;
@@ -1588,10 +1587,26 @@
     }
     .trip-card-banner {
       background: linear-gradient(135deg, var(--pine), #1A3128);
-      padding: 20px 20px 16px;
+      padding: 100px 20px 16px;
       position: relative;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background-size: cover;
+      background-position: center;
     }
-    .trip-card-icon { font-size: 36px; margin-bottom: 8px; display: block; }
+    .trip-card-cta {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.9;
+    }
+    .trip-card-icon { font-size: 36px; margin-bottom: 8px; display: none; }
     .trip-card-name {
       font-family: 'Playfair Display', serif;
       font-size: 19px;
@@ -1668,6 +1683,336 @@
       font-size: 15px;
     }
     .no-trips-msg strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 22px; color: var(--forest); margin-bottom: 8px; }
+
+    /* ══════════════════════════════════════
+       JMT DETAIL PAGE
+    ══════════════════════════════════════ */
+    .jmt-hero {
+      min-height: 480px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(26,49,40,0.72) 55%, rgba(26,49,40,0.97) 100%),
+        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 40px 48px;
+      position: relative;
+    }
+    .jmt-hero-back {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .jmt-hero-back:hover { background: rgba(0,0,0,0.55); }
+    .jmt-hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .jmt-hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5vw, 58px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.08;
+      margin-bottom: 20px;
+    }
+    .jmt-hero-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .jmt-hero-stat {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(6px);
+      border-radius: 8px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+    .jmt-hero-stat-val {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .jmt-hero-stat-lbl {
+      font-size: 10px;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+    .jmt-plan-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--gold);
+      color: var(--pine);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 13px 26px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(212,160,51,0.4);
+    }
+    .jmt-plan-btn:hover { background: #e5b03d; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,160,51,0.5); }
+    .jmt-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+    }
+    .jmt-section { margin-bottom: 44px; }
+    .jmt-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--pine);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--cream-dark);
+    }
+    .jmt-overview-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+    .jmt-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .jmt-stat-card {
+      background: #fff;
+      border: 1px solid var(--cream-dark);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .jmt-stat-card-icon { font-size: 22px; margin-bottom: 6px; display: block; }
+    .jmt-stat-card-val {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--pine);
+    }
+    .jmt-stat-card-lbl { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+    .jmt-route-section {
+      display: flex;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .jmt-route-section:last-child { border-bottom: none; }
+    .jmt-route-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--pine);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .jmt-route-text { flex: 1; }
+    .jmt-route-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--pine);
+      margin-bottom: 4px;
+    }
+    .jmt-route-desc { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+    .jmt-route-meta {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .jmt-route-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--forest);
+      background: rgba(61,107,85,0.1);
+      padding: 2px 9px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .jmt-challenge-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .jmt-challenge-item:last-child { border-bottom: none; }
+    .jmt-challenge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(196,88,42,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .jmt-challenge-title { font-weight: 700; font-size: 15px; color: var(--pine); margin-bottom: 4px; }
+    .jmt-challenge-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+    .hiker-note {
+      background: #fff;
+      border: 1px solid var(--cream-dark);
+      border-left: 4px solid var(--sage);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .hiker-note-text {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .hiker-note-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hiker-note-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--pine);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hiker-note-name { font-weight: 600; font-size: 13px; color: var(--pine); }
+    .hiker-note-date { font-size: 12px; color: var(--text-light); }
+    .hiker-note-stars { color: var(--gold); font-size: 12px; letter-spacing: 1px; }
+    .jmt-season-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .jmt-season-card {
+      background: #fff;
+      border: 1px solid var(--cream-dark);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .jmt-season-name { font-weight: 700; font-size: 15px; color: var(--pine); margin-bottom: 6px; }
+    .jmt-season-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .badge-best { background: rgba(61,107,85,0.15); color: var(--forest); }
+    .badge-ok { background: rgba(212,160,51,0.15); color: #8a6010; }
+    .badge-avoid { background: rgba(196,88,42,0.12); color: var(--rust); }
+    .jmt-season-text { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+    .jmt-permit-box {
+      background: rgba(26,49,40,0.04);
+      border: 1px solid rgba(26,49,40,0.12);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .jmt-permit-box p { font-size: 14px; color: var(--text-mid); line-height: 1.75; margin-bottom: 10px; }
+    .jmt-permit-box p:last-child { margin-bottom: 0; }
+    .jmt-permit-box strong { color: var(--pine); }
+    .jmt-bottom-cta {
+      background: linear-gradient(135deg, var(--pine), #1A3128);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      margin-top: 48px;
+    }
+    .jmt-bottom-cta h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .jmt-bottom-cta p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 22px; }
+    .jmt-passes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .jmt-pass-chip {
+      background: var(--cream-dark);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--pine);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .jmt-pass-elev { font-size: 11px; color: var(--text-light); font-weight: 400; }
+    @media (max-width: 680px) {
+      .jmt-hero { padding: 0 20px 36px; min-height: 420px; }
+      .jmt-body { padding: 32px 20px 60px; }
+      .jmt-hero-stats { gap: 10px; }
+      .jmt-hero-stat { padding: 8px 12px; }
+      .jmt-hero-stat-val { font-size: 17px; }
+    }
+
+    /* Trip packing banner */
+    .trip-pack-banner {
+      display: none;
+      background: linear-gradient(135deg, var(--pine), #3D6B55);
+      border-radius: 12px;
+      padding: 16px 22px;
+      margin-bottom: 24px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      align-items: center;
+      gap: 12px;
+    }
+    .trip-pack-banner.show { display: flex; }
+    .trip-pack-banner-icon { font-size: 20px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -2071,6 +2416,367 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
+     PAGE: JMT DETAIL
+════════════════════════════════════════════ -->
+<div class="page" id="pg-jmt">
+
+  <!-- Hero -->
+  <div class="jmt-hero">
+    <button class="jmt-hero-back" onclick="history.back(); showPage('trips')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Trips
+    </button>
+    <div class="jmt-hero-eyebrow">Sierra Nevada · California · Permit Required</div>
+    <h1 class="jmt-hero-title">John Muir Trail</h1>
+    <div class="jmt-hero-stats">
+      <div class="jmt-hero-stat">
+        <div class="jmt-hero-stat-val">211</div>
+        <div class="jmt-hero-stat-lbl">Miles</div>
+      </div>
+      <div class="jmt-hero-stat">
+        <div class="jmt-hero-stat-val">14–21</div>
+        <div class="jmt-hero-stat-lbl">Days</div>
+      </div>
+      <div class="jmt-hero-stat">
+        <div class="jmt-hero-stat-val">47k ft</div>
+        <div class="jmt-hero-stat-lbl">Elevation Gain</div>
+      </div>
+      <div class="jmt-hero-stat">
+        <div class="jmt-hero-stat-val">14,505 ft</div>
+        <div class="jmt-hero-stat-lbl">High Point</div>
+      </div>
+      <div class="jmt-hero-stat">
+        <div class="jmt-hero-stat-val">Strenuous</div>
+        <div class="jmt-hero-stat-lbl">Difficulty</div>
+      </div>
+    </div>
+    <button class="jmt-plan-btn" onclick="startTripPacking(TRIPS_DATA[0])">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Plan My Packing List
+    </button>
+  </div>
+
+  <div class="jmt-body">
+
+    <!-- Quick stats -->
+    <div class="jmt-stats-grid">
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">🗺️</span>
+        <div class="jmt-stat-card-val">211 mi</div>
+        <div class="jmt-stat-card-lbl">Total Distance</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">📅</span>
+        <div class="jmt-stat-card-val">14–21 days</div>
+        <div class="jmt-stat-card-lbl">Typical Duration</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">⛰️</span>
+        <div class="jmt-stat-card-val">47,000 ft</div>
+        <div class="jmt-stat-card-lbl">Total Gain</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">🏔️</span>
+        <div class="jmt-stat-card-val">10</div>
+        <div class="jmt-stat-card-lbl">Major Passes</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">🎫</span>
+        <div class="jmt-stat-card-val">Required</div>
+        <div class="jmt-stat-card-lbl">Wilderness Permit</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon">🐻</span>
+        <div class="jmt-stat-card-val">Mandatory</div>
+        <div class="jmt-stat-card-lbl">Bear Canister</div>
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Overview</div>
+      <p class="jmt-overview-text">
+        The John Muir Trail is a 211-mile long-distance trail through the heart of the Sierra Nevada mountain range in California — widely regarded as one of the most spectacular wilderness routes in the world. Running from Yosemite Valley to the summit of Mt. Whitney, the highest peak in the contiguous United States at 14,505 feet, the trail passes through three national parks (Yosemite, Kings Canyon, and Sequoia), multiple wilderness areas, and some of the most breathtaking alpine scenery on the planet.
+      </p>
+      <br>
+      <p class="jmt-overview-text">
+        The JMT follows the Sierra crest closely, spending the majority of its length above 8,000 feet with ten major high passes — four of them above 12,000 feet. Hikers traverse crystalline alpine lakes, ancient granite domes, roaring Sierra rivers, lush flower-filled meadows, and ancient groves. It shares much of its route with the Pacific Crest Trail, meaning excellent trail infrastructure and well-established camping areas.
+      </p>
+      <br>
+      <p class="jmt-overview-text">
+        Most hikers travel southbound from Yosemite Valley (Happy Isles trailhead) to Mt. Whitney Portal, completing the trail in 17–21 days at a comfortable pace of 10–13 miles per day. Experienced thru-hikers and trail runners have completed it in under 14 days. The trail is well-marked and maintained, but its remoteness, altitude, and sustained physical demand make it a serious undertaking requiring careful preparation.
+      </p>
+    </div>
+
+    <!-- Route Breakdown -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Route Breakdown</div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">1</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">Yosemite Valley → Tuolumne Meadows</div>
+          <div class="jmt-route-desc">Begin at Happy Isles, climbing steadily through Little Yosemite Valley past the Vernal and Nevada Falls junction. The trail gains significant elevation quickly. Pass the Half Dome junction (a popular side trip adding 4–5 miles round-trip) before reaching the subalpine expanse of Tuolumne Meadows — a classic first camp or resupply point.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">21 miles</span>
+            <span class="jmt-route-tag">4,200 ft gain</span>
+            <span class="jmt-route-tag">Resupply: Tuolumne Store</span>
+          </div>
+        </div>
+      </div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">2</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">Tuolumne Meadows → Reds Meadow</div>
+          <div class="jmt-route-desc">Cross Donohue Pass (11,056 ft), the southern boundary of Yosemite into the Ansel Adams Wilderness. Descend through the volcanic Mammoth Lakes region to Reds Meadow — home to the famous Rainbow Falls and the Devils Postpile National Monument. Bus access to Mammoth Lakes makes this a popular resupply point.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">28 miles</span>
+            <span class="jmt-route-tag">~5,000 ft gain</span>
+            <span class="jmt-route-tag">Resupply: Reds Meadow Resort</span>
+          </div>
+        </div>
+      </div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">3</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">Reds Meadow → Vermilion Valley Resort</div>
+          <div class="jmt-route-desc">Enter deep backcountry as the JMT climbs back into the high Sierra via Silver Pass (10,745 ft). The trail winds through remote terrain alongside Bear Creek, passing stunning lakes. Vermilion Valley Resort on Lake Edison is accessible via a short ferry ride — a beloved hiker hangout with burgers, beer, and hot showers.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">31 miles</span>
+            <span class="jmt-route-tag">~6,200 ft gain</span>
+            <span class="jmt-route-tag">Resupply: VVR (ferry)</span>
+          </div>
+        </div>
+      </div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">4</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">VVR → South Fork Kings River</div>
+          <div class="jmt-route-desc">The most awe-inspiring section. Cross Selden Pass (10,900 ft) and descend into the magical Evolution Valley — often called the finest valley in the Sierra. Traverse past Evolution Lake, past the towering Darwin Bench, and over Muir Pass (11,955 ft) with its famous stone emergency hut. Enter Kings Canyon National Park and descend to the South Fork Kings River.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">50 miles</span>
+            <span class="jmt-route-tag">~12,000 ft gain</span>
+            <span class="jmt-route-tag">Resupply: Muir Trail Ranch (cache)</span>
+          </div>
+        </div>
+      </div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">5</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">South Fork Kings → Junction Meadow</div>
+          <div class="jmt-route-desc">The pass-heavy central section. Climb Mather Pass (12,100 ft) with its sheer west face, cross Pinchot Pass (12,130 ft) and the dramatic Glen Pass (11,978 ft) descending to the jewel-like Rae Lakes Basin — perhaps the most photographed stretch of the entire JMT. Continue south through Vidette Meadow and over Forester Pass (13,153 ft), the highest point on both the JMT and Pacific Crest Trail.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">35 miles</span>
+            <span class="jmt-route-tag">~14,000 ft gain</span>
+            <span class="jmt-route-tag">Kearsarge Trailhead access (resupply Bishop)</span>
+          </div>
+        </div>
+      </div>
+      <div class="jmt-route-section">
+        <div class="jmt-route-num">6</div>
+        <div class="jmt-route-text">
+          <div class="jmt-route-name">Junction Meadow → Mt. Whitney Summit</div>
+          <div class="jmt-route-desc">The triumphant final push. Climb through Guitar Lake Basin with its stunning Kaweah Peaks backdrop — a favorite final-night camp at 11,460 ft. Ascend Trail Crest (13,777 ft), then the final mile-long ridge traverse to the Mt. Whitney summit at 14,505 ft. Descend 11 miles via the Whitney Trail to Whitney Portal trailhead. Most hikers arrange a car shuttle or taxi to Lone Pine.</div>
+          <div class="jmt-route-meta">
+            <span class="jmt-route-tag">46 miles</span>
+            <span class="jmt-route-tag">~11,000 ft gain</span>
+            <span class="jmt-route-tag">Finish: Whitney Portal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Passes -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Key Passes &amp; Waypoints</div>
+      <div class="jmt-passes-grid">
+        <div class="jmt-pass-chip">Donohue Pass <span class="jmt-pass-elev">11,056 ft</span></div>
+        <div class="jmt-pass-chip">Island Pass <span class="jmt-pass-elev">10,203 ft</span></div>
+        <div class="jmt-pass-chip">Silver Pass <span class="jmt-pass-elev">10,745 ft</span></div>
+        <div class="jmt-pass-chip">Selden Pass <span class="jmt-pass-elev">10,900 ft</span></div>
+        <div class="jmt-pass-chip">Muir Pass <span class="jmt-pass-elev">11,955 ft</span></div>
+        <div class="jmt-pass-chip">Mather Pass <span class="jmt-pass-elev">12,100 ft</span></div>
+        <div class="jmt-pass-chip">Pinchot Pass <span class="jmt-pass-elev">12,130 ft</span></div>
+        <div class="jmt-pass-chip">Glen Pass <span class="jmt-pass-elev">11,978 ft</span></div>
+        <div class="jmt-pass-chip">Forester Pass <span class="jmt-pass-elev">13,153 ft</span></div>
+        <div class="jmt-pass-chip">Trail Crest <span class="jmt-pass-elev">13,777 ft</span></div>
+        <div class="jmt-pass-chip">Mt. Whitney Summit <span class="jmt-pass-elev">14,505 ft</span></div>
+      </div>
+    </div>
+
+    <!-- Challenges -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Expected Challenges</div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">🏔️</div>
+        <div>
+          <div class="jmt-challenge-title">Sustained High Altitude</div>
+          <div class="jmt-challenge-text">The majority of the JMT sits above 8,000 feet, with camping regularly above 10,000 ft and ten passes above 10,000 ft. Altitude sickness (AMS) is a real concern, particularly in the first three days. Give yourself at least one night at altitude before starting if coming from sea level. Symptoms include headache, nausea, and fatigue — descend if they worsen.</div>
+        </div>
+      </div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">🎫</div>
+        <div>
+          <div class="jmt-challenge-title">Highly Competitive Permits</div>
+          <div class="jmt-challenge-text">The Yosemite Wilderness Permit for Happy Isles (the traditional southbound start) is one of the hardest permits to score in the country. Applications open in late March via recreation.gov for the upcoming season. Less competitive alternatives include starting from Lyell Canyon, Donohue Pass area, or heading northbound from Whitney Portal. The PCTA permit lottery (January) is separate for PCT combined permits.</div>
+        </div>
+      </div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">🌊</div>
+        <div>
+          <div class="jmt-challenge-title">River Crossings in Early Season</div>
+          <div class="jmt-challenge-text">June and early July hikers may face waist-deep or dangerous river crossings during peak Sierra snowmelt. Evolution Creek, the South Fork Kings River, and multiple other crossings can be hazardous or impassable in high water years. Check current conditions on the JMT Facebook groups and Caltopo snowpack maps before departing. Trekking poles are essential for stability.</div>
+        </div>
+      </div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">⛈️</div>
+        <div>
+          <div class="jmt-challenge-title">Summer Afternoon Thunderstorms</div>
+          <div class="jmt-challenge-text">The Sierra Nevada produces intense afternoon thunderstorms from July through early September, especially during summer monsoon patterns. Make it a rule to be off exposed ridges and passes by noon. Lightning is the primary weather danger — exposed passes like Forester, Mather, and Glen are particularly exposed. Carry a rain shell regardless of forecast.</div>
+        </div>
+      </div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">🎒</div>
+        <div>
+          <div class="jmt-challenge-title">Heavy Resupply Carries</div>
+          <div class="jmt-challenge-text">The JMT has only 4–5 resupply points along its length (Tuolumne Meadows, Reds Meadow, VVR, Muir Trail Ranch, and Kearsarge Pass exit). Most hikers carry 5–7 days of food between stops, resulting in pack weights of 45–60+ lbs when fully loaded. Ultralight gear, calorie-dense food, and careful bear canister packing are essential. Bear canisters are legally required throughout and must fit all your food.</div>
+        </div>
+      </div>
+      <div class="jmt-challenge-item">
+        <div class="jmt-challenge-icon">🦟</div>
+        <div>
+          <div class="jmt-challenge-title">Mosquitoes — Especially in July</div>
+          <div class="jmt-challenge-text">Early-season JMT hikers frequently describe the mosquitoes as "biblical" — particularly in the meadows and lake basins around Evolution Valley, Rae Lakes, and Tuolumne Meadows through mid-July. Head nets, permethrin-treated clothing, and DEET are your best tools. The mosquitoes improve dramatically after mid-August.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Community Notes -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Notes from Hikers</div>
+
+      <div class="hiker-note">
+        <div class="hiker-note-text">"Started southbound from Whitney Portal — the permit was way easier to get and I loved building toward Yosemite as the finish line. The initial climb over Forester Pass on day one nearly wrecked me, but after that my body adapted. Evolution Valley stopped me in my tracks — I sat there for an hour just staring. Genuinely other-worldly. Guitar Lake camp with the Kaweahs at sunset is something I'll never forget."</div>
+        <div class="hiker-note-author">
+          <div class="hiker-note-avatar">TM</div>
+          <div>
+            <div class="hiker-note-name">T. Morales</div>
+            <div class="hiker-note-date">Completed August 2024 · 18 days</div>
+          </div>
+          <div style="margin-left:auto"><div class="hiker-note-stars">★★★★★</div></div>
+        </div>
+      </div>
+
+      <div class="hiker-note">
+        <div class="hiker-note-text">"Do not underestimate the mosquitoes around Evolution Lake in early July. Bring head nets and treat all your clothing with permethrin before you go — I wish someone had told me. On the plus side, the trail itself is incredibly well-marked, the campsites at Rae Lakes are absolutely magical, and the other hikers you meet on the JMT are some of the warmest people I've ever encountered anywhere. The VVR ferry experience is pure joy."</div>
+        <div class="hiker-note-author">
+          <div class="hiker-note-avatar">KW</div>
+          <div>
+            <div class="hiker-note-name">K. Watanabe</div>
+            <div class="hiker-note-date">Completed July 2023 · 21 days</div>
+          </div>
+          <div style="margin-left:auto"><div class="hiker-note-stars">★★★★★</div></div>
+        </div>
+      </div>
+
+      <div class="hiker-note">
+        <div class="hiker-note-text">"The Muir Hut at Muir Pass saved us during a sudden afternoon storm — always be off exposed passes by noon. I cannot stress this enough. We camped at Guitar Lake two nights before Whitney and the 4am summit push was worth every bit of exhaustion. Also: bring more socks than you think you need. My feet were wrecked by day 10 and dry socks were the only thing that kept morale up. I'd do it again in a heartbeat."</div>
+        <div class="hiker-note-author">
+          <div class="hiker-note-avatar">RS</div>
+          <div>
+            <div class="hiker-note-name">R. Svensson</div>
+            <div class="hiker-note-date">Completed September 2024 · 16 days</div>
+          </div>
+          <div style="margin-left:auto"><div class="hiker-note-stars">★★★★★</div></div>
+        </div>
+      </div>
+
+      <div class="hiker-note">
+        <div class="hiker-note-text">"My third time on the JMT and every section surprises me differently depending on the season. Mid-August is the sweet spot — snow is gone, mosquitoes are gone, crowds thin out but trail services are still open. Mather Pass is underrated and Glen Pass overlooking Rae Lakes is the single best vista on the trail. The half-dome side trip is worth it but only if your legs feel fresh on day 2 — it's brutal otherwise."</div>
+        <div class="hiker-note-author">
+          <div class="hiker-note-avatar">JP</div>
+          <div>
+            <div class="hiker-note-name">J. Park</div>
+            <div class="hiker-note-date">Completed August 2024 · 17 days</div>
+          </div>
+          <div style="margin-left:auto"><div class="hiker-note-stars">★★★★★</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best Seasons -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Best Time to Go</div>
+      <div class="jmt-season-grid">
+        <div class="jmt-season-card">
+          <div class="jmt-season-name">June</div>
+          <span class="jmt-season-badge badge-avoid">Not Recommended</span>
+          <div class="jmt-season-text">High water crossings, significant snow on passes above 11,000 ft, heavy mosquitoes. Only for experienced mountaineers with ice axe skills.</div>
+        </div>
+        <div class="jmt-season-card">
+          <div class="jmt-season-name">Early July</div>
+          <span class="jmt-season-badge badge-ok">Manageable</span>
+          <div class="jmt-season-text">Snow mostly cleared but crossings may still be high. Worst mosquito season. Long daylight hours. Requires flexibility and experience.</div>
+        </div>
+        <div class="jmt-season-card">
+          <div class="jmt-season-name">Late July – Aug</div>
+          <span class="jmt-season-badge badge-best">Best Window</span>
+          <div class="jmt-season-text">Most stable weather, all services open, passes clear of snow, mosquitoes fading. August 1–September 10 is the prime JMT season. Plan permits early.</div>
+        </div>
+        <div class="jmt-season-card">
+          <div class="jmt-season-name">September</div>
+          <span class="jmt-season-badge badge-best">Excellent</span>
+          <div class="jmt-season-text">Solitude, no mosquitoes, stable weather, beautiful fall light. Cold nights below 10,000 ft. Services close by mid-September. Ideal for experienced hikers.</div>
+        </div>
+        <div class="jmt-season-card">
+          <div class="jmt-season-name">October+</div>
+          <span class="jmt-season-badge badge-avoid">Expert Only</span>
+          <div class="jmt-season-text">Early snow on passes likely. All services closed. Can be stunning and solitary for experienced winter travelers with appropriate gear.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Permits -->
+    <div class="jmt-section">
+      <div class="jmt-section-title">Permits &amp; Planning</div>
+      <div class="jmt-permit-box">
+        <p><strong>Yosemite Wilderness Permit (Southbound from Happy Isles):</strong> Required for overnight travel in Yosemite. Issued via a lottery system that opens in late March for the coming season at recreation.gov. Trailhead quota is small (roughly 12–25/day per trailhead). Day-of cancellations are released online at 11am PT — set an alarm.</p>
+        <p><strong>Alternative Start: Donohue Pass Area (Lyell Canyon):</strong> Fewer applications compete for permits at the Lyell Canyon trailhead, which bypasses Yosemite Valley entirely. You join the main JMT near the southern Yosemite boundary — a good strategy for securing a permit without the Happy Isles lottery odds.</p>
+        <p><strong>Northbound from Whitney Portal:</strong> Requires a Mt. Whitney Zone permit from the Inyo National Forest lottery (opens February 1 at recreation.gov). The quota is 100 overnight hikers per day. Significantly better odds than Happy Isles.</p>
+        <p><strong>Bear Canister:</strong> Legally required throughout the entire trail. Popular options include the BearVault BV500, Bearikade Weekender, and Garcia Backpacker's Cache. A full 7-day supply of food will fit in a 650-700 cubic inch canister for most hikers.</p>
+        <p><strong>Leave No Trace:</strong> Camp at established sites or on durable surfaces 200 feet from water. All human waste must be packed out in wag bags in the Mt. Whitney Zone (above 10,400 ft). Fires are prohibited throughout most of the JMT corridor.</p>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="jmt-bottom-cta">
+      <h3>Ready to Pack for the JMT?</h3>
+      <p>We'll pre-load your trip details — just tell us what season you're going and we'll build a complete gear list tailored for the Sierra Nevada.</p>
+      <button class="jmt-plan-btn" onclick="startTripPacking(TRIPS_DATA[0])">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Plan My Packing List
+      </button>
+    </div>
+
+  </div><!-- /jmt-body -->
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-wordmark">Trail<em>Pack</em></div>
+        <div class="footer-tagline">Built for the backcountry.</div>
+      </div>
+      <nav class="footer-links">
+        <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
+        <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
+        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('contact'); return false;">Contact</a>
+      </nav>
+      <div class="footer-copy">&copy; 2026 TrailPack. All rights reserved.</div>
+    </div>
+  </footer>
+</div><!-- /pg-jmt -->
+
+<!-- ═══════════════════════════════════════════
      PAGE: PACK LIST
 ════════════════════════════════════════════ -->
 <div class="page" id="pg-pack">
@@ -2080,6 +2786,12 @@
   </div>
 
   <div class="container">
+
+    <!-- Trip packing context banner -->
+    <div class="trip-pack-banner" id="tripPackBanner">
+      <span class="trip-pack-banner-icon">🏔️</span>
+      <span id="tripPackBannerText">Trip details pre-loaded — just pick your season below.</span>
+    </div>
 
     <!-- Progress -->
     <div class="progress-wrap" id="progressBar">
@@ -2600,7 +3312,7 @@
   // ══════════════════════════════════════
   // NAVIGATION
   // ══════════════════════════════════════
-  const PAGES = ['home','plan','explore','trips','pack','grocery','saved'];
+  const PAGES = ['home','plan','explore','trips','jmt','pack','grocery','saved'];
   let activePage = 'home';
 
   function toggleMenu() {
@@ -2708,6 +3420,7 @@
   // ══════════════════════════════════════
   const inputs = { terrain: null, weather: [], days: null, difficulty: null };
   let currentStep = 1;
+  let tripPackingMode = false;
 
   function selectSingle(el, field, val) {
     el.closest('.cards-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
@@ -2738,6 +3451,16 @@
     if (!validators[from]()) { document.getElementById('err'+from).classList.add('show'); return; }
     document.getElementById('dot'+from).classList.replace('active','done');
     document.getElementById('line'+from).classList.add('done');
+    // In trip packing mode, after weather (step 2) skip directly to generate
+    if (tripPackingMode && from === 2) {
+      tripPackingMode = false;
+      document.getElementById('step'+from).classList.remove('visible');
+      document.getElementById('dot3').classList.add('done');
+      document.getElementById('line3').classList.add('done');
+      document.getElementById('dot4').classList.add('done');
+      generateList();
+      return;
+    }
     currentStep = from + 1;
     document.getElementById('step'+from).classList.remove('visible');
     document.getElementById('step'+currentStep).classList.add('visible');
@@ -2760,7 +3483,10 @@
     inputs.terrain = null; inputs.weather = []; inputs.days = null; inputs.difficulty = null;
     optimizeMode = false;
     isViewMode = false;
+    tripPackingMode = false;
     currentStep = 1;
+    const tripBanner = document.getElementById('tripPackBanner');
+    if (tripBanner) tripBanner.classList.remove('show');
     document.getElementById('results').style.display = 'none';
     [1,2,3,4].forEach(s => {
       const panel = document.getElementById('step'+s);
@@ -4566,6 +5292,14 @@
 
   function getMinDays(trip) { return trip.minDays; }
 
+  const TERRAIN_PHOTOS = {
+    alpine:  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80',
+    canyon:  'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=600&q=80',
+    coastal: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80',
+    forest:  'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80',
+    desert:  'https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=600&q=80',
+  };
+
   function renderTripsGrid() {
     const trips = TRIPS_DATA.filter(t => {
       if (t.state !== currentStateCode) return false;
@@ -4593,38 +5327,79 @@
     const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
     const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
 
-    const terrainIconMap = { alpine:'alpine', canyon:'canyon', coastal:'coastal', forest:'forest', desert:'desert', mixed:'mixed', mountain:'mountain' };
-    grid.innerHTML = trips.map(t => `
-      <div class="trip-card">
-        <div class="trip-card-banner">
-          <span class="trip-card-icon">${icon(terrainIconMap[t.terrain]||'mountain','',36)}</span>
-          <div class="trip-card-name">${t.name}</div>
-          <div class="trip-card-region">${t.region}</div>
-          <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
-        </div>
-        <div class="trip-card-body">
-          <div class="trip-stats-row">
-            <div class="trip-stat">
-              <div class="trip-stat-val">${t.miles}<small style="font-size:10px"> mi</small></div>
-              <div class="trip-stat-lbl">Distance</div>
+    grid.innerHTML = trips.map(t => {
+      const photo = TERRAIN_PHOTOS[t.terrain] || TERRAIN_PHOTOS.alpine;
+      const bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}')`;
+      const isJMT = t.id === 1;
+      return `
+        <div class="trip-card" ${isJMT ? 'onclick="showJMTDetail()" style="cursor:pointer"' : ''}>
+          <div class="trip-card-banner" style="${bannerBg}">
+            <div class="trip-card-name">${t.name}</div>
+            <div class="trip-card-region">${t.region}</div>
+            <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
+            ${isJMT ? '<div class="trip-card-cta">View Full Details →</div>' : ''}
+          </div>
+          <div class="trip-card-body">
+            <div class="trip-stats-row">
+              <div class="trip-stat">
+                <div class="trip-stat-val">${t.miles}<small style="font-size:10px"> mi</small></div>
+                <div class="trip-stat-lbl">Distance</div>
+              </div>
+              <div class="trip-stat">
+                <div class="trip-stat-val">${t.minDays === t.maxDays ? t.minDays : t.minDays+'–'+t.maxDays}</div>
+                <div class="trip-stat-lbl">Days</div>
+              </div>
+              <div class="trip-stat">
+                <div class="trip-stat-val">${(t.gain/1000).toFixed(0)}k<small style="font-size:10px"> ft</small></div>
+                <div class="trip-stat-lbl">Gain</div>
+              </div>
             </div>
-            <div class="trip-stat">
-              <div class="trip-stat-val">${t.minDays === t.maxDays ? t.minDays : t.minDays+'–'+t.maxDays}</div>
-              <div class="trip-stat-lbl">Days</div>
-            </div>
-            <div class="trip-stat">
-              <div class="trip-stat-val">${(t.gain/1000).toFixed(0)}k<small style="font-size:10px"> ft</small></div>
-              <div class="trip-stat-lbl">Gain</div>
+            <div class="trip-highlights">${t.highlights}</div>
+            <div class="trip-tags">
+              <span class="trip-tag">${terrainLabel[t.terrain]}</span>
+              ${t.permit ? '<span class="trip-tag permit">Permit Required</span>' : '<span class="trip-tag">No Permit</span>'}
             </div>
           </div>
-          <div class="trip-highlights">${t.highlights}</div>
-          <div class="trip-tags">
-            <span class="trip-tag">${terrainLabel[t.terrain]}</span>
-            ${t.permit ? '<span class="trip-tag permit">Permit Required</span>' : '<span class="trip-tag">No Permit</span>'}
-          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
+  }
+
+  function showJMTDetail() {
+    showPage('jmt');
+  }
+
+  function startTripPacking(trip) {
+    resetWizard();
+    // Map trip terrain to wizard terrain
+    const terrainMap = { alpine:'mountain', canyon:'desert', coastal:'coastal', forest:'forest', desert:'desert', mixed:'mixed' };
+    inputs.terrain = terrainMap[trip.terrain] || 'mountain';
+    // Map trip duration to wizard days category
+    const avg = (trip.minDays + trip.maxDays) / 2;
+    if (avg <= 2) inputs.days = '1-2';
+    else if (avg <= 5) inputs.days = '3-5';
+    else if (avg <= 10) inputs.days = '6-10';
+    else inputs.days = '10+';
+    // Map difficulty
+    inputs.difficulty = trip.difficulty;
+    // Activate trip packing mode
+    tripPackingMode = true;
+    showPage('pack');
+    // Show context banner
+    const banner = document.getElementById('tripPackBanner');
+    const bannerText = document.getElementById('tripPackBannerText');
+    if (banner && bannerText) {
+      bannerText.textContent = `Planning for ${trip.name} — terrain, duration & difficulty are pre-loaded. Just pick your season below.`;
+      banner.classList.add('show');
+    }
+    // Advance wizard to step 2 (weather/season)
+    document.getElementById('dot1').classList.replace('active', 'done');
+    document.getElementById('line1').classList.add('done');
+    document.getElementById('step1').classList.remove('visible');
+    document.getElementById('step2').classList.add('visible');
+    document.getElementById('dot2').classList.add('active');
+    currentStep = 2;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // ══════════════════════════════════════
