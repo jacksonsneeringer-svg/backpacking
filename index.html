@@ -2046,6 +2046,157 @@
     .badge-avoid { background: rgba(196,88,42,0.15); color: var(--rust); }
     .badge-ok    { background: rgba(212,160,51,0.15); color: #a07010; }
     .badge-best  { background: rgba(61,107,85,0.15);  color: var(--forest); }
+
+    /* ══════════════════════════════════════
+       CONTACT PAGE
+    ══════════════════════════════════════ */
+    .contact-wrap {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+    .contact-intro {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .contact-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 36px 32px;
+    }
+    @media (max-width: 480px) {
+      .contact-card { padding: 24px 18px; }
+      .contact-wrap { padding: 28px 16px 48px; }
+    }
+    .cf-field { margin-bottom: 20px; }
+    .cf-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+    }
+    .cf-input, .cf-textarea {
+      width: 100%;
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text-dark);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cf-input:focus, .cf-textarea:focus {
+      border-color: var(--forest);
+      background: #fff;
+    }
+    .cf-input.error, .cf-textarea.error { border-color: var(--rust); }
+    .cf-textarea { resize: vertical; min-height: 130px; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 520px) { .cf-row { grid-template-columns: 1fr; } }
+
+    .captcha-block {
+      background: var(--cream);
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .captcha-question {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      flex: 1;
+      min-width: 160px;
+    }
+    .captcha-input {
+      width: 90px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
+      background: #fff;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .captcha-input:focus { border-color: var(--forest); }
+    .captcha-input.error { border-color: var(--rust); }
+    .captcha-refresh {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--forest);
+      padding: 4px;
+      opacity: 0.7;
+      transition: opacity 0.2s, transform 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    .captcha-refresh:hover { opacity: 1; transform: rotate(180deg); }
+
+    .cf-submit {
+      width: 100%;
+      background: var(--forest);
+      border: none;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .cf-submit:hover { background: var(--pine); transform: translateY(-1px); }
+    .cf-submit:disabled { background: #aaa; cursor: not-allowed; transform: none; }
+
+    .cf-status {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+    }
+    .cf-status.success {
+      display: block;
+      background: rgba(61,107,85,0.12);
+      border: 1.5px solid var(--forest);
+      color: var(--forest);
+    }
+    .cf-status.error {
+      display: block;
+      background: rgba(196,88,42,0.1);
+      border: 1.5px solid var(--rust);
+      color: var(--rust);
+    }
+    .cf-field-error {
+      font-size: 12px;
+      color: var(--rust);
+      margin-top: 5px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -2099,6 +2250,9 @@
     <button class="nav-link" id="nav-explore" onclick="showPage('explore')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/></svg> Explore Trips</button>
     <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
       <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips <span class="nav-badge" id="listBadge">0</span>
+    </button>
+    <button class="nav-link" id="nav-contact" onclick="showPage('contact')">
+      <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Contact
     </button>
   </nav>
 </header>
@@ -3230,11 +3384,62 @@
 <div class="page" id="pg-contact">
   <div class="page-header">
     <h1>Contact Us</h1>
-    <p>Have a question or feedback? We'd love to hear from you.</p>
+    <p>Have a question, suggestion, or just want to say hello?</p>
   </div>
-  <div class="container" style="max-width:560px; padding: 40px 20px;">
-    <p style="color:var(--forest); font-size:14px; margin-bottom:32px;">Contact form coming soon.</p>
+
+  <div class="contact-wrap">
+    <p class="contact-intro">We read every message. Fill out the form below and we'll get back to you as soon as we can.</p>
+
+    <div class="contact-card">
+      <form id="contactForm" novalidate>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="cf-name">Name</label>
+            <input class="cf-input" id="cf-name" name="name" type="text" placeholder="Your name" autocomplete="name">
+            <div class="cf-field-error" id="cf-name-err">Please enter your name.</div>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="cf-email">Email</label>
+            <input class="cf-input" id="cf-email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+            <div class="cf-field-error" id="cf-email-err">Please enter a valid email.</div>
+          </div>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-subject">Subject</label>
+          <input class="cf-input" id="cf-subject" name="subject" type="text" placeholder="What's this about?">
+          <div class="cf-field-error" id="cf-subject-err">Please enter a subject.</div>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-message">Message</label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="Tell us what's on your mind…"></textarea>
+          <div class="cf-field-error" id="cf-message-err">Please enter a message.</div>
+        </div>
+
+        <!-- Math CAPTCHA -->
+        <div class="cf-field">
+          <label class="cf-label">Verify you're human</label>
+          <div class="captcha-block">
+            <span class="captcha-question" id="captchaQuestion"></span>
+            <input class="captcha-input" id="captchaAnswer" type="number" placeholder="?" aria-label="CAPTCHA answer" autocomplete="off">
+            <button type="button" class="captcha-refresh" onclick="refreshCaptcha()" title="New question">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            </button>
+          </div>
+          <div class="cf-field-error" id="cf-captcha-err">Incorrect answer — please try again.</div>
+        </div>
+
+        <button class="cf-submit" id="cfSubmitBtn" type="button" onclick="submitContactForm()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send Message
+        </button>
+
+        <div class="cf-status" id="cfStatus"></div>
+      </form>
+    </div>
   </div>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
@@ -3387,7 +3592,7 @@
   // ══════════════════════════════════════
   // NAVIGATION
   // ══════════════════════════════════════
-  const PAGES = ['home','plan','explore','trips','jmt','pack','grocery','saved'];
+  const PAGES = ['home','plan','explore','trips','jmt','pack','grocery','saved','contact'];
   let activePage = 'home';
 
   function toggleMenu() {
@@ -5611,6 +5816,100 @@
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
+
+  // ══════════════════════════════════════
+  // CONTACT FORM + CAPTCHA
+  // ══════════════════════════════════════
+  // To receive emails, create a free Formspree account at https://formspree.io,
+  // add a form targeting jackson@snurray.com, then replace FORMSPREE_ENDPOINT below
+  // with your form's endpoint (e.g. https://formspree.io/f/abcdefgh).
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpzngjbd';
+
+  let _captchaAnswer = 0;
+
+  function refreshCaptcha() {
+    const a = Math.floor(Math.random() * 12) + 1;
+    const b = Math.floor(Math.random() * 12) + 1;
+    const ops = [
+      { label: `${a} + ${b}`, answer: a + b },
+      { label: `${a + b} − ${b}`, answer: a },
+      { label: `${a} × ${b > 6 ? 2 : b}`, answer: a * (b > 6 ? 2 : b) },
+    ];
+    const pick = ops[Math.floor(Math.random() * ops.length)];
+    _captchaAnswer = pick.answer;
+    document.getElementById('captchaQuestion').textContent = `What is ${pick.label}?`;
+    const inp = document.getElementById('captchaAnswer');
+    inp.value = '';
+    inp.classList.remove('error');
+    document.getElementById('cf-captcha-err').style.display = 'none';
+  }
+
+  function cfSetError(fieldId, errId, show) {
+    const field = document.getElementById(fieldId);
+    const err   = document.getElementById(errId);
+    if (show) {
+      field.classList.add('error');
+      err.style.display = 'block';
+    } else {
+      field.classList.remove('error');
+      err.style.display = 'none';
+    }
+    return !show;
+  }
+
+  async function submitContactForm() {
+    const name    = document.getElementById('cf-name').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const subject = document.getElementById('cf-subject').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    const answer  = parseInt(document.getElementById('captchaAnswer').value, 10);
+
+    let valid = true;
+    valid = cfSetError('cf-name',    'cf-name-err',    !name)    && valid;
+    valid = cfSetError('cf-email',   'cf-email-err',   !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && valid;
+    valid = cfSetError('cf-subject', 'cf-subject-err', !subject) && valid;
+    valid = cfSetError('cf-message', 'cf-message-err', !message) && valid;
+
+    const captchaOk = !isNaN(answer) && answer === _captchaAnswer;
+    const captchaInput = document.getElementById('captchaAnswer');
+    captchaInput.classList.toggle('error', !captchaOk);
+    document.getElementById('cf-captcha-err').style.display = captchaOk ? 'none' : 'block';
+    if (!captchaOk) valid = false;
+
+    if (!valid) return;
+
+    const btn    = document.getElementById('cfSubmitBtn');
+    const status = document.getElementById('cfStatus');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.className = 'cf-status';
+    status.style.display = 'none';
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message, _replyto: email }),
+      });
+      if (res.ok) {
+        status.className = 'cf-status success';
+        status.textContent = "Message sent! We'll get back to you soon.";
+        document.getElementById('contactForm').reset();
+        refreshCaptcha();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Server responded with ${res.status}`);
+      }
+    } catch (err) {
+      status.className = 'cf-status error';
+      status.textContent = `Something went wrong: ${err.message}. Please try again or email us directly at jackson@snurray.com.`;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    }
+  }
+
+  refreshCaptcha();
 </script>
 </body>
 </html>
