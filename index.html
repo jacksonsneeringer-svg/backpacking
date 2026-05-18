@@ -1440,18 +1440,18 @@
       background:
         linear-gradient(rgba(10,20,15,0.60), rgba(10,20,15,0.60)),
         url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&auto=format&fit=crop&q=80') center/cover no-repeat;
-      padding: 40px 40px 36px;
+      padding: 36px 40px 30px;
       text-align: center;
     }
     .explore-header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 38px;
+      font-size: 34px;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       letter-spacing: -0.3px;
     }
-    .explore-header p { font-size: 15px; color: rgba(245,240,232,0.78); }
+    .explore-header p { font-size: 14px; color: rgba(245,240,232,0.78); }
     .explore-container { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
     .explore-section-title {
       font-family: 'DM Sans', sans-serif;
@@ -4334,12 +4334,37 @@
         </div>`;
     });
 
+    // Unlinked grocery lists (saved without a corresponding pack list)
+    const unlinkedGroceries = groceryByParent['__unlinked__'] || [];
+    unlinkedGroceries.forEach(gl => {
+      html += `
+        <div class="sli-item" id="sli-ug-${gl.id}">
+          <div class="sli-header" onclick="toggleSliUg(${gl.id})">
+            <span class="sli-chevron"></span>
+            <span class="sli-header-icon">${icon('food','',18)}</span>
+            <span class="sli-title">${gl.name}</span>
+            <span class="sli-meta">${gl.tripDays} days · saved ${gl.date}</span>
+          </div>
+          <div class="sli-body" id="sli-ug-body-${gl.id}">
+            <div class="sli-count">${gl.tripDays} days · <strong>${(gl.dailyCal||0).toLocaleString()} cal/day</strong></div>
+            <div class="sli-actions">
+              <button class="btn-view-list" onclick="viewSavedGroceryFromList(${gl.id})">View Plan →</button>
+              <button class="btn-delete-list" onclick="deleteSavedGrocery(${gl.id})" title="Delete">${icon('delete','',14)}</button>
+            </div>
+          </div>
+        </div>`;
+    });
+
     html += '</div>';
     el.innerHTML = html;
   }
 
   function toggleSliGrocery(id) {
     const el = document.getElementById(`sli-groc-${id}`);
+    if (el) el.classList.toggle('open');
+  }
+  function toggleSliUg(id) {
+    const el = document.getElementById(`sli-ug-${id}`);
     if (el) el.classList.toggle('open');
   }
 
@@ -5050,8 +5075,8 @@
   function putSavedGroceryLists(lists) { localStorage.setItem(GLS_KEY, JSON.stringify(lists)); }
 
   function openGroceryModal() {
-    if (GS.mode === 'fromPackList') {
-      // Auto-save linked to pack list, no name prompt
+    if (currentSavedListId) {
+      // Auto-save linked to the active trip, no name prompt
       const packList = getSavedLists().find(l => l.id === currentSavedListId);
       const autoName = (packList ? packList.name : 'My Trip') + ' — Meals';
       saveGroceryWithName(autoName);
@@ -5079,7 +5104,7 @@
       id: Date.now(),
       name,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
-      parentPackListId: GS.mode === 'fromPackList' ? currentSavedListId : null,
+      parentPackListId: currentSavedListId || null,
       dailyCal: GS.dailyCal,
       tripDays: GS.tripDays,
       packWeight: GS.packWeight,
@@ -5139,6 +5164,7 @@
     if (!confirm('Delete this meal plan?')) return;
     putSavedGroceryLists(getSavedGroceryLists().filter(l => l.id !== id));
     renderSavedGrocerySection();
+    renderSavedLists();
     showToast('Meal plan deleted.');
   }
 
@@ -5913,7 +5939,8 @@
       });
       if (res.ok) {
         status.className = 'cf-status success';
-        status.textContent = "We read every message. We'll get back to you as soon as we can.";
+        status.style.display = '';
+        status.textContent = "Message sent! We read every message and we'll get back to you as soon as we can.";
         document.getElementById('contactForm').reset();
         refreshCaptcha();
       } else {
@@ -5922,6 +5949,7 @@
       }
     } catch (err) {
       status.className = 'cf-status error';
+      status.style.display = '';
       status.textContent = `Something went wrong: ${err.message}. Please try again or email us directly at jackson@snurray.com.`;
     } finally {
       btn.disabled = false;
