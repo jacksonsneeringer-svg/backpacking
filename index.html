@@ -2220,6 +2220,240 @@
       margin-top: 5px;
       display: none;
     }
+
+    /* ─── Submit Trip Banner & Modal ─── */
+    .submit-trip-banner {
+      margin: 40px 0 0;
+      padding: 28px 32px;
+      background: linear-gradient(135deg, var(--forest) 0%, var(--pine) 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #fff;
+    }
+    .submit-trip-banner-icon {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .submit-trip-banner-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; margin: 0 0 4px;
+    }
+    .submit-trip-banner-text p { font-size: 14px; opacity: 0.85; margin: 0; }
+    .submit-trip-open-btn {
+      margin-left: auto; flex-shrink: 0;
+      background: #fff; color: var(--forest);
+      border: none; padding: 12px 22px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-trip-open-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.18); }
+    @media(max-width:600px) {
+      .submit-trip-banner { flex-direction: column; align-items: flex-start; }
+      .submit-trip-open-btn { margin-left: 0; width: 100%; text-align: center; }
+    }
+
+    .submit-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 9000;
+      display: none; align-items: center; justify-content: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .submit-modal-overlay.open { display: flex; }
+    .submit-modal-box {
+      background: #fff; border-radius: 20px;
+      width: 100%; max-width: 600px; max-height: 90vh;
+      overflow-y: auto; padding: 36px 40px;
+      position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      margin: auto;
+    }
+    @media(max-width:600px) { .submit-modal-box { padding: 24px 20px; } }
+    .submit-modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: #f5f5f5; border: none; border-radius: 50%;
+      width: 36px; height: 36px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #555; transition: background 0.2s;
+    }
+    .submit-modal-close:hover { background: #e0e0e0; }
+    .submit-modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; color: var(--pine); margin: 0 0 4px;
+    }
+    .submit-modal-sub { font-size: 14px; color: #777; margin: 0 0 28px; }
+    .sm-field { margin-bottom: 18px; }
+    .sm-label {
+      display: block; font-size: 12px; font-weight: 700;
+      color: var(--pine); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .sm-input, .sm-select, .sm-textarea {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid #ddd; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: #333;
+      background: #fafafa; transition: border-color 0.2s; box-sizing: border-box;
+    }
+    .sm-input:focus, .sm-select:focus, .sm-textarea:focus {
+      outline: none; border-color: var(--forest); background: #fff;
+    }
+    .sm-textarea { resize: vertical; min-height: 110px; }
+    .sm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width:480px) { .sm-row { grid-template-columns: 1fr; } }
+    .sm-photo-area {
+      border: 2px dashed #ccc; border-radius: 12px;
+      padding: 28px; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s; position: relative;
+    }
+    .sm-photo-area:hover { border-color: var(--forest); background: rgba(61,107,85,0.04); }
+    .sm-photo-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .sm-photo-preview {
+      width: 100%; height: 180px; object-fit: cover;
+      border-radius: 10px; display: none; margin-top: 12px;
+    }
+    .sm-photo-placeholder { font-size: 14px; color: #999; }
+    .sm-photo-placeholder svg { display: block; margin: 0 auto 8px; opacity: 0.4; }
+    .sm-checkbox-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; cursor: pointer; color: #444;
+    }
+    .sm-checkbox-row input { width: 17px; height: 17px; cursor: pointer; accent-color: var(--forest); }
+    .sm-submit-btn {
+      width: 100%; background: var(--forest); color: #fff;
+      border: none; padding: 15px; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 8px;
+    }
+    .sm-submit-btn:hover { background: var(--pine); transform: translateY(-1px); }
+    .sm-success-msg { text-align: center; padding: 40px 20px; display: none; }
+    .sm-success-icon {
+      width: 64px; height: 64px;
+      background: rgba(61,107,85,0.1); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+    }
+    .sm-success-msg h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--pine); margin: 0 0 8px; }
+    .sm-success-msg p { color: #666; font-size: 15px; margin: 0; }
+
+    /* ─── Admin Panel ─── */
+    .admin-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      z-index: 9900; display: none; align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .admin-overlay.open { display: flex; }
+    .admin-box {
+      background: #fff; border-radius: 20px;
+      width: 100%; max-width: 740px; padding: 36px 40px;
+      position: relative; margin: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    @media(max-width:600px) { .admin-box { padding: 24px 20px; } }
+    .admin-title {
+      font-family: 'Playfair Display', serif; font-size: 26px;
+      color: var(--pine); margin: 0 0 4px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .admin-sub { font-size: 14px; color: #888; margin: 0 0 28px; }
+    .admin-close {
+      position: absolute; top: 14px; right: 14px;
+      background: #f5f5f5; border: none; border-radius: 50%;
+      width: 36px; height: 36px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #555; transition: background 0.2s;
+    }
+    .admin-close:hover { background: #e0e0e0; }
+    .admin-trip-card {
+      border: 1.5px solid #eee; border-radius: 14px;
+      padding: 18px 20px; margin-bottom: 14px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .admin-trip-photo {
+      width: 100px; height: 75px; object-fit: cover;
+      border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--pine), var(--forest));
+    }
+    .admin-trip-info { flex: 1; min-width: 0; }
+    .admin-trip-name { font-weight: 700; font-size: 17px; color: var(--pine); }
+    .admin-trip-meta { font-size: 13px; color: #777; margin: 3px 0 6px; }
+    .admin-trip-desc { font-size: 13px; color: #555; line-height: 1.5; }
+    .admin-trip-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .admin-approve-btn {
+      padding: 8px 18px; background: var(--forest); color: #fff;
+      border: none; border-radius: 50px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .admin-approve-btn:hover { background: var(--pine); }
+    .admin-reject-btn {
+      padding: 8px 18px; background: #fff; color: var(--rust);
+      border: 1.5px solid var(--rust); border-radius: 50px;
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .admin-reject-btn:hover { background: var(--rust); color: #fff; }
+    .admin-empty { text-align: center; padding: 52px; color: #aaa; font-size: 15px; }
+    .admin-badge {
+      background: var(--rust); color: #fff;
+      border-radius: 50px; font-size: 12px; font-weight: 700; padding: 2px 9px;
+    }
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+    .admin-tab {
+      padding: 8px 18px; border-radius: 50px; border: 1.5px solid #ddd;
+      background: #fff; font-size: 13px; font-weight: 600; cursor: pointer;
+      color: #666; transition: all 0.2s;
+    }
+    .admin-tab.active { background: var(--forest); color: #fff; border-color: var(--forest); }
+
+    /* ─── User Trip Detail Page ─── */
+    .user-trip-hero-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.35;
+    }
+    .jmt-hero { position: relative; }
+
+    /* ─── JMT Map ─── */
+    .jmt-map-section { margin: 0 0 52px; }
+    .jmt-map-section .jmt-section-title { margin-bottom: 20px; }
+    .jmt-map-frame {
+      width: 100%; height: 420px; border: none;
+      border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); display: block;
+    }
+    .jmt-map-caption {
+      font-size: 13px; color: #888; text-align: center; margin-top: 10px;
+    }
+    .jmt-map-caption a { color: var(--forest); text-decoration: none; }
+    .jmt-map-caption a:hover { text-decoration: underline; }
+    .jmt-map-legend {
+      display: flex; gap: 20px; justify-content: center;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .jmt-map-legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #555;
+    }
+    .jmt-map-legend-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .jmt-map-legend-line {
+      width: 24px; height: 3px; border-radius: 2px;
+    }
+
+    /* Pending trips count in nav (admin) */
+    .admin-nav-hint {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--rust); color: #fff;
+      border-radius: 50px; padding: 10px 18px;
+      font-size: 13px; font-weight: 700;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      cursor: pointer; z-index: 8000; display: none;
+      align-items: center; gap: 8px; transition: transform 0.2s;
+    }
+    .admin-nav-hint.show { display: flex; }
+    .admin-nav-hint:hover { transform: scale(1.04); }
   </style>
 </head>
 <body>
@@ -2273,9 +2507,6 @@
     <button class="nav-link" id="nav-explore" onclick="showPage('explore')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/></svg> Explore Trips</button>
     <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
       <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips <span class="nav-badge" id="listBadge">0</span>
-    </button>
-    <button class="nav-link" id="nav-contact" onclick="showPage('contact')">
-      <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Contact
     </button>
   </nav>
 </header>
@@ -2607,7 +2838,213 @@
     </div>
     <div class="trips-result-count" id="tripsResultCount"></div>
     <div class="trips-grid" id="tripsGrid"></div>
+
+    <!-- Submit a Route Banner -->
+    <div class="submit-trip-banner" id="submitTripBanner">
+      <div class="submit-trip-banner-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </div>
+      <div class="submit-trip-banner-text">
+        <h3>Know a great route?</h3>
+        <p>Submit a trail for this state — add photos, stats, and a description. Approved routes appear right here.</p>
+      </div>
+      <button class="submit-trip-open-btn" onclick="openSubmitTripModal()">Submit a Route</button>
+    </div>
   </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-wordmark">Trail<em>Pack</em></div>
+        <div class="footer-tagline">Built for the backcountry.</div>
+      </div>
+      <nav class="footer-links">
+        <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
+        <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
+        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('contact'); return false;">Contact</a>
+      </nav>
+      <div class="footer-copy">&copy; 2026 TrailPack. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════ SUBMIT TRIP MODAL ═══════════ -->
+<div class="submit-modal-overlay" id="submitTripModal">
+  <div class="submit-modal-box">
+    <button class="submit-modal-close" onclick="closeSubmitTripModal()" aria-label="Close">&#x2715;</button>
+
+    <!-- Form view -->
+    <div id="submitTripForm">
+      <h2 class="submit-modal-title">Submit a Route</h2>
+      <p class="submit-modal-sub" id="submitTripStateLine">Submitting for this state. Routes are reviewed before going live.</p>
+
+      <div class="sm-field">
+        <label class="sm-label" for="st-name">Trail Name *</label>
+        <input class="sm-input" id="st-name" type="text" placeholder="e.g. Crystal Lake Loop">
+      </div>
+      <div class="sm-row">
+        <div class="sm-field">
+          <label class="sm-label" for="st-region">Region / Area *</label>
+          <input class="sm-input" id="st-region" type="text" placeholder="e.g. Sierra Nevada">
+        </div>
+        <div class="sm-field">
+          <label class="sm-label" for="st-difficulty">Difficulty *</label>
+          <select class="sm-select" id="st-difficulty">
+            <option value="">Select…</option>
+            <option value="easy">Easy</option>
+            <option value="moderate">Moderate</option>
+            <option value="strenuous">Strenuous</option>
+            <option value="expert">Expert</option>
+          </select>
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="sm-field">
+          <label class="sm-label" for="st-miles">Distance (miles) *</label>
+          <input class="sm-input" id="st-miles" type="number" min="0.1" step="0.1" placeholder="e.g. 28">
+        </div>
+        <div class="sm-field">
+          <label class="sm-label" for="st-gain">Elevation Gain (ft)</label>
+          <input class="sm-input" id="st-gain" type="number" min="0" step="100" placeholder="e.g. 5200">
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="sm-field">
+          <label class="sm-label" for="st-mindays">Min Days *</label>
+          <input class="sm-input" id="st-mindays" type="number" min="1" step="1" placeholder="e.g. 2">
+        </div>
+        <div class="sm-field">
+          <label class="sm-label" for="st-maxdays">Max Days *</label>
+          <input class="sm-input" id="st-maxdays" type="number" min="1" step="1" placeholder="e.g. 4">
+        </div>
+      </div>
+      <div class="sm-row">
+        <div class="sm-field">
+          <label class="sm-label" for="st-terrain">Terrain</label>
+          <select class="sm-select" id="st-terrain">
+            <option value="alpine">Alpine</option>
+            <option value="forest">Forest</option>
+            <option value="canyon">Canyon</option>
+            <option value="coastal">Coastal</option>
+            <option value="desert">Desert</option>
+          </select>
+        </div>
+        <div class="sm-field" style="display:flex;align-items:center;padding-top:22px;">
+          <label class="sm-checkbox-row">
+            <input type="checkbox" id="st-permit">
+            Permit Required
+          </label>
+        </div>
+      </div>
+      <div class="sm-field">
+        <label class="sm-label" for="st-highlights">Highlights (shown on card)</label>
+        <input class="sm-input" id="st-highlights" type="text" placeholder="e.g. Alpine lakes, granite peaks, wildflower meadows">
+      </div>
+      <div class="sm-field">
+        <label class="sm-label" for="st-desc">Full Description *</label>
+        <textarea class="sm-textarea" id="st-desc" placeholder="Describe the trail — route, scenery, difficulty, camping spots, notable features, etc."></textarea>
+      </div>
+
+      <!-- Photo upload -->
+      <div class="sm-field">
+        <label class="sm-label">Trail Photo</label>
+        <div class="sm-photo-area" id="smPhotoArea">
+          <input type="file" accept="image/*" id="st-photo" onchange="handleTripPhotoUpload(this)">
+          <div class="sm-photo-placeholder" id="smPhotoPlaceholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Click or drag to upload a photo
+          </div>
+          <img class="sm-photo-preview" id="smPhotoPreview" src="" alt="Preview">
+        </div>
+      </div>
+
+      <div class="sm-row">
+        <div class="sm-field">
+          <label class="sm-label" for="st-your-name">Your Name *</label>
+          <input class="sm-input" id="st-your-name" type="text" placeholder="Your name">
+        </div>
+        <div class="sm-field">
+          <label class="sm-label" for="st-your-email">Your Email *</label>
+          <input class="sm-input" id="st-your-email" type="email" placeholder="you@example.com">
+        </div>
+      </div>
+
+      <button class="sm-submit-btn" onclick="submitTripForm()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Submit for Review
+      </button>
+    </div>
+
+    <!-- Success view -->
+    <div class="sm-success-msg" id="submitTripSuccess">
+      <div class="sm-success-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>Route Submitted!</h3>
+      <p>Thanks for sharing. Your route has been sent for review and will appear on the site once approved.</p>
+      <button class="sm-submit-btn" style="margin-top:20px;max-width:220px;margin-left:auto;margin-right:auto;display:block;" onclick="closeSubmitTripModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN PANEL ═══════════ -->
+<div class="admin-overlay" id="adminPanel">
+  <div class="admin-box">
+    <button class="admin-close" onclick="closeAdminPanel()" aria-label="Close">&#x2715;</button>
+    <h2 class="admin-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Route Review
+    </h2>
+    <p class="admin-sub">Submitted user routes awaiting approval. Approved routes go live on the state pages.</p>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('pending', this)">Pending <span id="adminPendingCount" class="admin-badge">0</span></button>
+      <button class="admin-tab" onclick="switchAdminTab('approved', this)">Approved <span id="adminApprovedCount" class="admin-badge" style="background:var(--forest)">0</span></button>
+    </div>
+    <div id="adminTripsList"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN HINT BUTTON ═══════════ -->
+<div class="admin-nav-hint" id="adminNavHint" onclick="openAdminPanel()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <span id="adminNavHintText">1 route pending review</span>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: USER TRIP DETAIL
+════════════════════════════════════════════ -->
+<div class="page" id="pg-user-trip">
+  <div class="jmt-hero" id="userTripHero" style="position:relative">
+    <img class="user-trip-hero-img" id="userTripHeroImg" src="" alt="">
+    <button class="jmt-hero-back" onclick="showPage('trips')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Trips
+    </button>
+    <div class="jmt-hero-eyebrow" id="userTripEyebrow"></div>
+    <h1 class="jmt-hero-title" id="userTripTitle"></h1>
+    <div class="jmt-hero-stats" id="userTripHeroStats"></div>
+    <button class="jmt-plan-btn" id="userTripPlanBtn" onclick="">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Plan My Packing List
+    </button>
+  </div>
+
+  <div class="jmt-body">
+    <div class="jmt-stats-grid" id="userTripStatsGrid"></div>
+    <div class="jmt-section">
+      <div class="jmt-section-title">Overview</div>
+      <div id="userTripOverview" class="jmt-overview-text"></div>
+    </div>
+    <div class="jmt-bottom-cta">
+      <h3>Ready to Pack for this Trip?</h3>
+      <p>Pre-load your trip details and we'll build a complete gear list tailored for your adventure.</p>
+      <button class="jmt-plan-btn" id="userTripPlanBtn2" onclick="">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Plan My Packing List
+      </button>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
@@ -2954,6 +3391,36 @@
         <p><strong>Northbound from Whitney Portal:</strong> Requires a Mt. Whitney Zone permit from the Inyo National Forest lottery (opens February 1 at recreation.gov). The quota is 100 overnight hikers per day. Significantly better odds than Happy Isles.</p>
         <p><strong>Bear Canister:</strong> Legally required throughout the entire trail. Popular options include the BearVault BV500, Bearikade Weekender, and Garcia Backpacker's Cache. A full 7-day supply of food will fit in a 650-700 cubic inch canister for most hikers.</p>
         <p><strong>Leave No Trace:</strong> Camp at established sites or on durable surfaces 200 feet from water. All human waste must be packed out in wag bags in the Mt. Whitney Zone (above 10,400 ft). Fires are prohibited throughout most of the JMT corridor.</p>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="jmt-section jmt-map-section">
+      <div class="jmt-section-title">Trail Map</div>
+      <iframe
+        class="jmt-map-frame"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-119.65%2C36.40%2C-118.10%2C38.05&layer=mapnik"
+        allowfullscreen
+        loading="lazy"
+        title="John Muir Trail map — Yosemite Valley to Mt. Whitney"
+      ></iframe>
+      <p class="jmt-map-caption">
+        JMT corridor · Yosemite Valley (north) to Mt. Whitney (south) ·
+        <a href="https://www.openstreetmap.org/relation/1244744" target="_blank" rel="noopener">View full route on OpenStreetMap ↗</a>
+      </p>
+      <div class="jmt-map-legend">
+        <div class="jmt-map-legend-item">
+          <div class="jmt-map-legend-dot" style="background:#1A3128"></div>
+          Yosemite Valley (N trailhead)
+        </div>
+        <div class="jmt-map-legend-item">
+          <div class="jmt-map-legend-dot" style="background:#D4A033"></div>
+          Mt. Whitney (S terminus, 14,505 ft)
+        </div>
+        <div class="jmt-map-legend-item">
+          <div class="jmt-map-legend-line" style="background:var(--rust)"></div>
+          211-mile route
+        </div>
       </div>
     </div>
 
@@ -3612,7 +4079,7 @@
   // ══════════════════════════════════════
   // NAVIGATION
   // ══════════════════════════════════════
-  const PAGES = ['home','plan','explore','trips','jmt','pack','grocery','saved','contact'];
+  const PAGES = ['home','plan','explore','trips','jmt','user-trip','pack','grocery','saved','contact'];
   let activePage = 'home';
 
   function toggleMenu() {
@@ -5768,17 +6235,40 @@
     const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
     const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
 
-    grid.innerHTML = trips.map(t => {
-      const photo = generateTripCover(t);
-      const bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}')`;
+    const approvedUserTrips = getApprovedTrips().filter(t => {
+      if (t.state !== currentStateCode) return false;
+      if (activeFilters.diff !== 'all' && t.difficulty !== activeFilters.diff) return false;
+      if (activeFilters.terrain !== 'all' && t.terrain !== activeFilters.terrain) return false;
+      if (activeFilters.len !== 'all') {
+        if (activeFilters.len === 'short'  && t.maxDays > 3) return false;
+        if (activeFilters.len === 'medium' && (t.minDays > 7 || t.maxDays < 4)) return false;
+        if (activeFilters.len === 'long'   && t.maxDays < 8) return false;
+      }
+      if (activeFilters.permitOnly && t.permit) return false;
+      return true;
+    });
+
+    const allTrips = [...trips, ...approvedUserTrips];
+
+    grid.innerHTML = allTrips.map(t => {
+      const isUserTrip = typeof t.id === 'string' && t.id.startsWith('user_');
       const isJMT = t.id === 1;
+      let bannerBg;
+      if (isUserTrip && t.photo) {
+        bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${t.photo}'); background-size: cover; background-position: center;`;
+      } else {
+        const photo = generateTripCover(t);
+        bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}')`;
+      }
+      const clickAttr = isJMT ? 'onclick="showJMTDetail()" style="cursor:pointer"'
+                       : isUserTrip ? `onclick="showUserTripDetail('${t.id}')" style="cursor:pointer"` : '';
       return `
-        <div class="trip-card" ${isJMT ? 'onclick="showJMTDetail()" style="cursor:pointer"' : ''}>
+        <div class="trip-card" ${clickAttr}>
           <div class="trip-card-banner" style="${bannerBg}">
             <div class="trip-card-name">${t.name}</div>
             <div class="trip-card-region">${t.region}</div>
             <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
-            ${isJMT ? '<div class="trip-card-cta">View Full Details →</div>' : ''}
+            ${(isJMT || isUserTrip) ? '<div class="trip-card-cta">View Full Details →</div>' : ''}
           </div>
           <div class="trip-card-body">
             <div class="trip-stats-row">
@@ -5791,14 +6281,15 @@
                 <div class="trip-stat-lbl">Days</div>
               </div>
               <div class="trip-stat">
-                <div class="trip-stat-val">${(t.gain/1000).toFixed(0)}k<small style="font-size:10px"> ft</small></div>
+                <div class="trip-stat-val">${t.gain ? (t.gain/1000).toFixed(0)+'k' : '—'}<small style="font-size:10px">${t.gain ? ' ft' : ''}</small></div>
                 <div class="trip-stat-lbl">Gain</div>
               </div>
             </div>
-            <div class="trip-highlights">${t.highlights}</div>
+            <div class="trip-highlights">${t.highlights || ''}</div>
             <div class="trip-tags">
-              <span class="trip-tag">${terrainLabel[t.terrain]}</span>
+              <span class="trip-tag">${terrainLabel[t.terrain] || t.terrain}</span>
               ${t.permit ? '<span class="trip-tag permit">Permit Required</span>' : '<span class="trip-tag">No Permit</span>'}
+              ${isUserTrip ? '<span class="trip-tag" style="background:rgba(212,160,51,0.15);color:#9a7010;border-color:rgba(212,160,51,0.3)">Community</span>' : ''}
             </div>
           </div>
         </div>
@@ -5808,6 +6299,310 @@
 
   function showJMTDetail() {
     showPage('jmt');
+  }
+
+  // ══════════════════════════════════════
+  // USER TRIP STORAGE HELPERS
+  // ══════════════════════════════════════
+  function getUserTrips() {
+    try { return JSON.parse(localStorage.getItem('userTrips') || '[]'); } catch(e) { return []; }
+  }
+  function saveUserTrips(trips) {
+    localStorage.setItem('userTrips', JSON.stringify(trips));
+  }
+  function getPendingTrips() { return getUserTrips().filter(t => t.status === 'pending'); }
+  function getApprovedTrips() { return getUserTrips().filter(t => t.status === 'approved'); }
+
+  function checkAdminHint() {
+    const pending = getPendingTrips();
+    const hint = document.getElementById('adminNavHint');
+    const hintText = document.getElementById('adminNavHintText');
+    if (hint && hintText) {
+      if (pending.length > 0) {
+        hintText.textContent = pending.length === 1 ? '1 route pending review' : `${pending.length} routes pending review`;
+        hint.classList.add('show');
+      } else {
+        hint.classList.remove('show');
+      }
+    }
+  }
+
+  // ══════════════════════════════════════
+  // SUBMIT TRIP MODAL
+  // ══════════════════════════════════════
+  let _tripPhotoBase64 = '';
+
+  function openSubmitTripModal() {
+    const stateLine = document.getElementById('submitTripStateLine');
+    if (stateLine && currentStateCode) {
+      stateLine.textContent = `Submitting for ${STATE_NAMES[currentStateCode] || currentStateCode}. Routes are reviewed before going live.`;
+    }
+    document.getElementById('submitTripForm').style.display = '';
+    document.getElementById('submitTripSuccess').style.display = 'none';
+    document.getElementById('submitTripModal').classList.add('open');
+    _tripPhotoBase64 = '';
+    document.getElementById('smPhotoPreview').style.display = 'none';
+    document.getElementById('smPhotoPlaceholder').style.display = '';
+  }
+
+  function closeSubmitTripModal() {
+    document.getElementById('submitTripModal').classList.remove('open');
+    document.getElementById('st-name').value = '';
+    document.getElementById('st-region').value = '';
+    document.getElementById('st-difficulty').value = '';
+    document.getElementById('st-miles').value = '';
+    document.getElementById('st-gain').value = '';
+    document.getElementById('st-mindays').value = '';
+    document.getElementById('st-maxdays').value = '';
+    document.getElementById('st-highlights').value = '';
+    document.getElementById('st-desc').value = '';
+    document.getElementById('st-your-name').value = '';
+    document.getElementById('st-your-email').value = '';
+    document.getElementById('st-permit').checked = false;
+    document.getElementById('st-photo').value = '';
+    _tripPhotoBase64 = '';
+    document.getElementById('smPhotoPreview').style.display = 'none';
+    document.getElementById('smPhotoPlaceholder').style.display = '';
+  }
+
+  function handleTripPhotoUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      _tripPhotoBase64 = e.target.result;
+      const preview = document.getElementById('smPhotoPreview');
+      preview.src = _tripPhotoBase64;
+      preview.style.display = 'block';
+      document.getElementById('smPhotoPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function submitTripForm() {
+    const name = document.getElementById('st-name').value.trim();
+    const region = document.getElementById('st-region').value.trim();
+    const difficulty = document.getElementById('st-difficulty').value;
+    const miles = parseFloat(document.getElementById('st-miles').value);
+    const minDays = parseInt(document.getElementById('st-mindays').value);
+    const maxDays = parseInt(document.getElementById('st-maxdays').value);
+    const desc = document.getElementById('st-desc').value.trim();
+    const yourName = document.getElementById('st-your-name').value.trim();
+    const yourEmail = document.getElementById('st-your-email').value.trim();
+
+    if (!name || !region || !difficulty || !miles || !minDays || !maxDays || !desc || !yourName || !yourEmail) {
+      alert('Please fill in all required fields (*).');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(yourEmail)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    if (maxDays < minDays) {
+      alert('Max days must be ≥ min days.');
+      return;
+    }
+
+    const newTrip = {
+      id: 'user_' + Date.now(),
+      state: currentStateCode,
+      name,
+      region,
+      difficulty,
+      miles,
+      gain: parseInt(document.getElementById('st-gain').value) || 0,
+      minDays,
+      maxDays,
+      terrain: document.getElementById('st-terrain').value,
+      permit: document.getElementById('st-permit').checked,
+      highlights: document.getElementById('st-highlights').value.trim(),
+      description: desc,
+      photo: _tripPhotoBase64,
+      submitterName: yourName,
+      submitterEmail: yourEmail,
+      submittedAt: new Date().toISOString(),
+      status: 'pending'
+    };
+
+    const trips = getUserTrips();
+    trips.push(newTrip);
+    saveUserTrips(trips);
+
+    // Email notification via Formspree
+    fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        subject: `[TrailPack] New Route Submission: ${name}`,
+        name: yourName,
+        email: yourEmail,
+        message: `New route submitted for review:\n\nTrail: ${name}\nState: ${STATE_NAMES[currentStateCode] || currentStateCode}\nRegion: ${region}\nDifficulty: ${difficulty}\nMiles: ${miles}\nDays: ${minDays}–${maxDays}\nGain: ${newTrip.gain} ft\nTerrain: ${newTrip.terrain}\nPermit: ${newTrip.permit ? 'Yes' : 'No'}\nHighlights: ${newTrip.highlights}\n\nDescription:\n${desc}\n\nPhoto: ${_tripPhotoBase64 ? 'Yes (stored locally)' : 'None'}\n\nSubmitted by: ${yourName} <${yourEmail}>\nSubmitted at: ${newTrip.submittedAt}\nTrip ID: ${newTrip.id}`
+      })
+    }).catch(() => {});
+
+    checkAdminHint();
+    document.getElementById('submitTripForm').style.display = 'none';
+    document.getElementById('submitTripSuccess').style.display = 'block';
+  }
+
+  // ══════════════════════════════════════
+  // USER TRIP DETAIL PAGE
+  // ══════════════════════════════════════
+  function showUserTripDetail(tripId) {
+    const trips = getUserTrips();
+    const trip = trips.find(t => t.id === tripId);
+    if (!trip) return;
+
+    const diffLabels = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    const terrainLabels = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert' };
+
+    const heroImg = document.getElementById('userTripHeroImg');
+    if (trip.photo) {
+      heroImg.src = trip.photo;
+      heroImg.style.display = 'block';
+    } else {
+      heroImg.style.display = 'none';
+    }
+
+    document.getElementById('userTripEyebrow').textContent =
+      `${trip.region} · ${STATE_NAMES[trip.state] || trip.state} · ${trip.permit ? 'Permit Required' : 'No Permit'}`;
+    document.getElementById('userTripTitle').textContent = trip.name;
+
+    document.getElementById('userTripHeroStats').innerHTML = `
+      <div class="jmt-hero-stat"><div class="jmt-hero-stat-val">${trip.miles}</div><div class="jmt-hero-stat-lbl">Miles</div></div>
+      <div class="jmt-hero-stat"><div class="jmt-hero-stat-val">${trip.minDays === trip.maxDays ? trip.minDays : trip.minDays+'–'+trip.maxDays}</div><div class="jmt-hero-stat-lbl">Days</div></div>
+      ${trip.gain ? `<div class="jmt-hero-stat"><div class="jmt-hero-stat-val">${(trip.gain/1000).toFixed(1)}k ft</div><div class="jmt-hero-stat-lbl">Elevation Gain</div></div>` : ''}
+      <div class="jmt-hero-stat"><div class="jmt-hero-stat-val">${diffLabels[trip.difficulty] || trip.difficulty}</div><div class="jmt-hero-stat-lbl">Difficulty</div></div>
+    `;
+
+    document.getElementById('userTripStatsGrid').innerHTML = `
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span>
+        <div class="jmt-stat-card-val">${trip.miles} mi</div>
+        <div class="jmt-stat-card-lbl">Total Distance</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <div class="jmt-stat-card-val">${trip.minDays === trip.maxDays ? trip.minDays : trip.minDays+'–'+trip.maxDays} days</div>
+        <div class="jmt-stat-card-lbl">Typical Duration</div>
+      </div>
+      ${trip.gain ? `<div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L12 4l10 16H2z"/><path d="M8.5 14l3.5-6 3.5 6"/></svg></span>
+        <div class="jmt-stat-card-val">${trip.gain.toLocaleString()} ft</div>
+        <div class="jmt-stat-card-lbl">Elevation Gain</div>
+      </div>` : ''}
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-8 4 5 3-4 5 7H3z"/></svg></span>
+        <div class="jmt-stat-card-val">${diffLabels[trip.difficulty] || trip.difficulty}</div>
+        <div class="jmt-stat-card-lbl">Difficulty</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+        <div class="jmt-stat-card-val">${trip.permit ? 'Required' : 'Not Required'}</div>
+        <div class="jmt-stat-card-lbl">Wilderness Permit</div>
+      </div>
+      <div class="jmt-stat-card">
+        <span class="jmt-stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--forest)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></span>
+        <div class="jmt-stat-card-val">${terrainLabels[trip.terrain] || trip.terrain}</div>
+        <div class="jmt-stat-card-lbl">Terrain Type</div>
+      </div>
+    `;
+
+    const overviewEl = document.getElementById('userTripOverview');
+    overviewEl.innerHTML = trip.description.split('\n\n').map(p => `<p>${p}</p>`).join('') ||
+      `<p>${trip.description}</p>`;
+
+    const planClick = `startTripPacking(${JSON.stringify({
+      id: trip.id, state: trip.state, name: trip.name, terrain: trip.terrain,
+      minDays: trip.minDays, maxDays: trip.maxDays, difficulty: trip.difficulty
+    })})`;
+    document.getElementById('userTripPlanBtn').setAttribute('onclick', planClick);
+    document.getElementById('userTripPlanBtn2').setAttribute('onclick', planClick);
+
+    showPage('user-trip');
+  }
+
+  // ══════════════════════════════════════
+  // ADMIN PANEL
+  // ══════════════════════════════════════
+  let _adminCurrentTab = 'pending';
+
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') { e.preventDefault(); openAdminPanel(); }
+  });
+
+  function openAdminPanel() {
+    document.getElementById('adminPanel').classList.add('open');
+    renderAdminPanel();
+  }
+
+  function closeAdminPanel() {
+    document.getElementById('adminPanel').classList.remove('open');
+  }
+
+  function switchAdminTab(tab, btn) {
+    _adminCurrentTab = tab;
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderAdminPanel();
+  }
+
+  function renderAdminPanel() {
+    const all = getUserTrips();
+    const pending = all.filter(t => t.status === 'pending');
+    const approved = all.filter(t => t.status === 'approved');
+
+    document.getElementById('adminPendingCount').textContent = pending.length;
+    document.getElementById('adminApprovedCount').textContent = approved.length;
+
+    const list = document.getElementById('adminTripsList');
+    const current = _adminCurrentTab === 'pending' ? pending : approved;
+
+    if (!current.length) {
+      list.innerHTML = `<div class="admin-empty">${_adminCurrentTab === 'pending' ? 'No routes pending review.' : 'No approved routes yet.'}</div>`;
+      return;
+    }
+
+    const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    list.innerHTML = current.map(t => `
+      <div class="admin-trip-card" id="admin-card-${t.id}">
+        ${t.photo ? `<img class="admin-trip-photo" src="${t.photo}" alt="${t.name}">` : '<div class="admin-trip-photo"></div>'}
+        <div class="admin-trip-info">
+          <div class="admin-trip-name">${t.name}</div>
+          <div class="admin-trip-meta">${STATE_NAMES[t.state] || t.state} · ${t.region} · ${diffLabel[t.difficulty] || t.difficulty} · ${t.miles} mi · ${t.minDays}–${t.maxDays} days</div>
+          <div class="admin-trip-desc">${t.description ? t.description.substring(0, 200) + (t.description.length > 200 ? '…' : '') : ''}</div>
+          <div style="font-size:12px;color:#aaa;margin-top:6px">Submitted by ${t.submitterName} · ${new Date(t.submittedAt).toLocaleDateString()}</div>
+          <div class="admin-trip-actions">
+            ${t.status === 'pending' ? `
+              <button class="admin-approve-btn" onclick="approveTrip('${t.id}')">Approve &amp; Publish</button>
+              <button class="admin-reject-btn" onclick="rejectTrip('${t.id}')">Reject</button>
+            ` : `
+              <button class="admin-reject-btn" onclick="rejectTrip('${t.id}')">Remove</button>
+            `}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function approveTrip(tripId) {
+    const trips = getUserTrips();
+    const idx = trips.findIndex(t => t.id === tripId);
+    if (idx === -1) return;
+    trips[idx].status = 'approved';
+    saveUserTrips(trips);
+    checkAdminHint();
+    renderAdminPanel();
+    renderTripsGrid();
+  }
+
+  function rejectTrip(tripId) {
+    if (!confirm('Remove this route?')) return;
+    const trips = getUserTrips().filter(t => t.id !== tripId);
+    saveUserTrips(trips);
+    checkAdminHint();
+    renderAdminPanel();
+    renderTripsGrid();
   }
 
   function startTripPacking(trip) {
@@ -5858,9 +6653,18 @@
   // ══════════════════════════════════════
   updateBadge();
   initTruths();
+  checkAdminHint();
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
+  });
+
+  document.getElementById('submitTripModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSubmitTripModal();
+  });
+
+  document.getElementById('adminPanel').addEventListener('click', function(e) {
+    if (e.target === this) closeAdminPanel();
   });
 
   // ══════════════════════════════════════
