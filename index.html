@@ -1285,15 +1285,16 @@
         display: none;
         flex-direction: column;
         position: fixed;
-        top: 62px;
+        top: 0;
         left: 0;
         right: 0;
+        bottom: 0;
         background: #0f2219;
-        padding: 0 0 12px;
+        padding: 62px 0 24px;
         box-shadow: 0 6px 24px rgba(0,0,0,0.3);
         z-index: 99;
         gap: 0;
-        margin-top: -1px;
+        overflow-y: auto;
       }
       nav#mainNav.open { display: flex; }
       .nav-dropdown-wrap { width: 100%; }
@@ -6051,12 +6052,51 @@
     { id:47, state:'CO', name:'Four Pass Loop',            region:'Maroon Bells-Snowmass',    difficulty:'strenuous', miles:26,  minDays:3,  maxDays:4,  gain:7300,  terrain:'alpine',  permit:false, icon:'🔄', highlights:'Four 12,000+ ft passes, jaw-dropping alpine scenery, Snowmass Lake' },
     // Washington extra
     { id:48, state:'WA', name:'Norse Peak Wilderness',     region:'Mt. Baker-Snoqualmie NF',  difficulty:'moderate',  miles:25,  minDays:2,  maxDays:3,  gain:4000,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:'Rainier views, subalpine meadows, accessible from Seattle' },
+    // California extra
+    { id:49, state:'CA', name:'Yosemite Grand Traverse',   region:'Yosemite NP',              difficulty:'strenuous', miles:50,  minDays:5,  maxDays:7,  gain:9000,  terrain:'alpine',  permit:true,  icon:'🌄', highlights:'Tuolumne Meadows, Waterwheel Falls, off-trail granite routes' },
+    { id:50, state:'CA', name:'Mist Trail Loop',           region:'Yosemite NP',              difficulty:'moderate',  miles:14,  minDays:1,  maxDays:2,  gain:3200,  terrain:'alpine',  permit:true,  icon:'💦', highlights:'Vernal & Nevada Falls, Half Dome views, Yosemite Valley grandeur' },
+    { id:51, state:'CA', name:'Emigrant Wilderness',       region:'Stanislaus NF',            difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:5500,  terrain:'alpine',  permit:true,  icon:'🏕️', highlights:'Hundreds of lakes, granite slabs, uncrowded Sierra alternative to JMT' },
+    // Colorado extra
+    { id:52, state:'CO', name:'Rawah Wilderness Loop',     region:'Roosevelt NF',             difficulty:'moderate',  miles:28,  minDays:3,  maxDays:4,  gain:5000,  terrain:'alpine',  permit:false, icon:'🌸', highlights:'Wildflower meadows, glacial lakes, Medicine Bow Range solitude' },
+    { id:53, state:'CO', name:'South San Juan Wilderness', region:'Rio Grande NF',            difficulty:'strenuous', miles:35,  minDays:4,  maxDays:6,  gain:8000,  terrain:'alpine',  permit:false, icon:'🌄', highlights:'Conejos River headwaters, remote 14ers approach, bighorn sheep' },
+    // Washington extra
+    { id:54, state:'WA', name:'Goat Rocks Wilderness',     region:'Gifford Pinchot NF',       difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:7000,  terrain:'alpine',  permit:false, icon:'🐐', highlights:'PCT Knife Edge ridgeline above glaciers, volcanic remnant peaks' },
+    { id:55, state:'WA', name:'Buckhorn Wilderness',       region:'Olympic NF',               difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:4500,  terrain:'alpine',  permit:false, icon:'🦌', highlights:'Olympic rain shadow, mountaintop meadows, views to the Strait of Juan de Fuca' },
+    // Wyoming extra
+    { id:56, state:'WY', name:'Yellowstone Backcountry',   region:'Yellowstone NP',           difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:3000,  terrain:'alpine',  permit:true,  icon:'♨️', highlights:'Remote thermal basins, geyser fields, bison and wolf country' },
+    // Oregon extra
+    { id:57, state:'OR', name:'Mt. Jefferson Wilderness',  region:'Willamette NF',            difficulty:'strenuous', miles:40,  minDays:4,  maxDays:6,  gain:8500,  terrain:'alpine',  permit:true,  icon:'🌋', highlights:"Oregon's second highest peak, PCT junction, turquoise alpine lakes" },
+    { id:58, state:'OR', name:'Sky Lakes Wilderness',      region:'Rogue River-Siskiyou NF',  difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:4000,  terrain:'alpine',  permit:false, icon:'🌊', highlights:'Dozens of glacial lakes, wildflower meadows, distant Mt. Shasta views' },
+    // Montana extra
+    { id:59, state:'MT', name:'Anaconda-Pintler Wilderness',region:'Beaverhead-Deerlodge NF', difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:false, icon:'🦅', highlights:'Continental Divide Trail, remote lake basins, bighorn sheep habitat' },
+    // Arizona extra
+    { id:60, state:'AZ', name:'Kachina Peaks Wilderness',  region:'Coconino NF',              difficulty:'strenuous', miles:12,  minDays:1,  maxDays:2,  gain:3000,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:'Volcanic San Francisco Peaks, sacred Hopi land, above-treeline tundra' },
+    // North Carolina extra
+    { id:61, state:'NC', name:'Art Loeb Trail',            region:'Pisgah NF',                difficulty:'strenuous', miles:30,  minDays:3,  maxDays:4,  gain:7000,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Cold Mountain, Shining Rock, sweeping views across the Cradle of Forestry' },
+    // Tennessee extra
+    { id:62, state:'TN', name:'Savage Gulf State Natural Area',region:'South Cumberland SP',  difficulty:'moderate',  miles:18,  minDays:2,  maxDays:3,  gain:2500,  terrain:'forest',  permit:false, icon:'🌿', highlights:'Three gorges converge, 60-ft waterfall, ancient hemlock groves' },
+    // New Mexico extra
+    { id:63, state:'NM', name:'Pecos Wilderness',          region:'Santa Fe NF',              difficulty:'strenuous', miles:45,  minDays:4,  maxDays:6,  gain:9000,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Truchas Peak, Santa Fe Baldy, high-desert alpine wildflowers above 13,000 ft' },
+    // Idaho extra
+    { id:64, state:'ID', name:'Frank Church Wilderness',   region:'Salmon NF',                difficulty:'expert',    miles:80,  minDays:8,  maxDays:12, gain:18000, terrain:'alpine',  permit:false, icon:'🐻', highlights:"America's largest contiguous lower-48 wilderness, Salmon River, no roads" },
+    // Vermont extra
+    { id:65, state:'VT', name:'Mt. Mansfield Circuit',     region:'Green Mountains',          difficulty:'strenuous', miles:12,  minDays:1,  maxDays:2,  gain:2600,  terrain:'forest',  permit:false, icon:'🏔️', highlights:"Vermont's highest summit, exposed ridgeline, panoramic Lake Champlain views" },
+    // Maine
+    { id:66, state:'ME', name:'100-Mile Wilderness',       region:'Northern Maine',           difficulty:'strenuous', miles:100, minDays:9,  maxDays:12, gain:15000, terrain:'forest',  permit:false, icon:'🌲', highlights:"AT's most remote stretch, pristine lakes, moose and loon country" },
+    { id:67, state:'ME', name:'Bigelow Preserve',          region:'Western Maine',            difficulty:'moderate',  miles:18,  minDays:2,  maxDays:3,  gain:4200,  terrain:'forest',  permit:false, icon:'🦌', highlights:'Bigelow Range traverse, Flagstaff Lake views, remote Maine ridge walking' },
+    // New Hampshire
+    { id:68, state:'NH', name:'Presidential Traverse',     region:'White Mountain NF',        difficulty:'expert',    miles:23,  minDays:1,  maxDays:3,  gain:9000,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Above-treeline ridge from Madison to Washington, highest Northeast peak' },
+    { id:69, state:'NH', name:'Pemigewasset Wilderness',   region:'White Mountain NF',        difficulty:'strenuous', miles:30,  minDays:2,  maxDays:4,  gain:7000,  terrain:'forest',  permit:false, icon:'🌲', highlights:"NH's largest roadless area, Franconia Ridge, Twin-Bond-Carrigain traverse" },
+    // Alaska
+    { id:70, state:'AK', name:'Chilkoot Trail',            region:'Klondike Gold Rush NHP',   difficulty:'strenuous', miles:33,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:true,  icon:'🐻', highlights:'Gold Rush history, glacier views, rainforest to tundra, international trail' },
+    { id:71, state:'AK', name:'Crow Pass Trail',           region:'Chugach NF',               difficulty:'strenuous', miles:26,  minDays:2,  maxDays:3,  gain:5500,  terrain:'alpine',  permit:false, icon:'🦅', highlights:'Alpine pass, active glacier, river ford — Anchorage backcountry gem' },
   ];
 
   const STATE_NAMES = {
-    AZ:'Arizona', CA:'California', CO:'Colorado', GA:'Georgia', ID:'Idaho',
-    MT:'Montana', NC:'North Carolina', NM:'New Mexico', OR:'Oregon', TN:'Tennessee',
-    UT:'Utah', VT:'Vermont', WA:'Washington', WY:'Wyoming',
+    AK:'Alaska', AZ:'Arizona', CA:'California', CO:'Colorado', GA:'Georgia',
+    ID:'Idaho', ME:'Maine', MT:'Montana', NC:'North Carolina', NH:'New Hampshire',
+    NM:'New Mexico', OR:'Oregon', TN:'Tennessee', UT:'Utah', VT:'Vermont',
+    WA:'Washington', WY:'Wyoming',
   };
 
   let activeFilters = { diff: 'all', len: 'all', terrain: 'all', permitOnly: false };
