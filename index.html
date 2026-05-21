@@ -6091,6 +6091,111 @@
     { id:71, state:'AK', name:'Crow Pass Trail',           region:'Chugach NF',               difficulty:'strenuous', miles:26,  minDays:2,  maxDays:3,  gain:5500,  terrain:'alpine',  permit:false, icon:'🦅', highlights:'Alpine pass, active glacier, river ford — Anchorage backcountry gem' },
   ];
 
+  const TRIP_PHOTOS = {
+    // California
+    1:  'photo-1530143311094-34d807799e8f', // John Muir Trail – Sierra Nevada
+    2:  'photo-eeH9IKexRNU',               // Lost Coast Trail – black sand beach
+    3:  'photo-TkW5h4gBUz4',               // Desolation Wilderness – Lake Tahoe alpine
+    4:  'photo-mm4-Uwf54iw',               // Mt. Whitney Trail – rock mountain eastern Sierra
+    5:  'photo-Mw4Z5MzolH8',               // Rae Lakes Loop – Sierra Nevada alpine lake
+    6:  'photo-vkrbz6xvg_Q',               // Trans-Catalina Trail – coastal black sand island
+    // Colorado
+    7:  'photo-Y9fSIO8RyTU',               // Maroon Bells Loop – pine trees, lake, snow peaks
+    8:  'photo-1RIfDabruqw',               // Weminuche Wilderness – San Juan NF mountain
+    9:  'photo-ZkITvVna36I',               // Holy Cross Wilderness – mountains and lake
+    10: 'photo-w39XMoTuHSA',               // Indian Peaks Wilderness – mountain and trees CO
+    11: 'photo-xoYPV4oVQJI',               // Collegiate Peaks Loop – alpine sunset lake CO
+    // Washington
+    12: 'photo-izAmbKvl0Fc',               // The Enchantments – scenic forest and peaks WA
+    13: 'photo-oXDB3MNi2HU',               // Wonderland Trail – Mt. Rainier skyline
+    14: 'photo-d33ernjpaHk',               // Olympic Coast Traverse – sea stacks and waves
+    15: 'photo-IG4NuONbSVE',               // Glacier Peak Wilderness – river through North Cascades
+    16: 'photo-ooIZbdfybiU',               // Maple Pass Loop – forest with mountain backdrop WA
+    // Utah
+    17: 'photo-PfTNxPww6bY',               // Zion Narrows – river under towering canyon walls
+    18: 'photo-H6k3zcgwT3w',               // Coyote Gulch – narrow canyon path Escalante
+    19: 'photo-8xtJFOxGJhw',               // High Uintas Wilderness – alpine lake and peaks
+    20: 'photo-_kmxJrqqLSQ',               // Paria Canyon – slot canyon vermilion cliffs
+    21: 'photo-jlPpJrYhZKY',               // Bryce Canyon Fairyland Loop – vibrant orange hoodoos
+    // Wyoming
+    22: 'photo-jU-DQcFYaxE',               // Wind River High Route – granite peaks Wind River
+    23: 'photo-MzywBEbQFqE',               // Teton Crest Trail – Grand Teton range
+    24: 'photo-llbKxU0xapk',               // Cirque of the Towers – mountain range with lake WY
+    // Oregon
+    25: 'photo-G25lsWW1084',               // Eagle Cap Wilderness – alpine lake Wallowas
+    26: 'photo-ZRMqgmWAt6I',               // Crater Lake Rim Loop – deep blue caldera lake
+    27: 'photo-dLcZem4kBrU',               // Three Sisters Wilderness – snow-capped volcanic peak
+    // Montana
+    28: 'photo-rdSJ3-91U6Q',               // Bob Marshall Wilderness – Montana mountain panorama
+    29: 'photo-9y4IR8pWpcM',               // Glacier NP Highline Trail – mountain goat Glacier NP
+    30: 'photo-WEK72bPsThs',               // Beartooth Wilderness – snow-covered Beartooth peaks
+    // Arizona
+    31: 'photo-qt9uJMNxLCQ',               // Grand Canyon Rim to Rim – Grand Canyon Arizona
+    32: 'photo-FCHie1RnNdQ',               // Havasupai Falls – turquoise waterfall
+    33: 'photo-WeYamle9fDM',               // Mazatzal Wilderness – desert canyon scenery AZ
+    // North Carolina
+    34: 'photo-Ceg4X7rZClo',               // Black Mountains Loop – forested ridgeline in fog
+    35: 'photo-yj4Jjl2sCL0',               // Shining Rock Wilderness – mountain fog and trees
+    36: 'photo-c2vWMzRaxIM',               // Linville Gorge Wilderness – mountain in clouds NC
+    // Tennessee
+    37: 'photo-0cdwDt51YUg',               // AT in Great Smoky Mountains – forest trail
+    38: 'photo-FnaiTxmOHhA',               // Big South Fork – dark old-growth forest path
+    // New Mexico
+    39: 'photo-hM2rMtUdcjo',               // Wheeler Peak Wilderness – mountains under clouds
+    40: 'photo-IDiGiVX3IYo',               // Gila Wilderness – canyon desert landscape NM
+    // Idaho
+    41: 'photo-jY3jvaF05Co',               // Sawtooth Wilderness – hiking in Idaho mountains
+    42: 'photo-IG4NuONbSVE',               // Selway-Bitterroot Wilderness – river canyon forest ID
+    // Vermont
+    43: 'photo-Bkci_8qcdvQ',               // Long Trail – green mountain reflected in water
+    44: 'photo-k820gJnlp8c',               // Camel's Hump – misty mountain green forests VT
+    // Georgia
+    45: 'photo-GScpbtSejSE',               // Cohutta Wilderness – mountains green trees water GA
+    46: 'photo-Ceg4X7rZClo',               // AT in Georgia – forested mountains Blood Mountain
+    // Colorado extra
+    47: 'photo-A22lcuIunu8',               // Four Pass Loop – Maroon Bells reflection lake
+    // Washington extra
+    48: 'photo-ooIZbdfybiU',               // Norse Peak Wilderness – forest mountain WA
+    // California extra
+    49: 'photo-lzpwfEVherQ',               // Yosemite Grand Traverse – Half Dome valley
+    50: 'photo-7vyTATsnkrk',               // Mist Trail Loop – Yosemite El Capitan Half Dome
+    51: 'photo-iLRuvUlZxIc',               // Emigrant Wilderness – lake surrounded by pines CA
+    // Colorado extra
+    52: 'photo-ZkITvVna36I',               // Rawah Wilderness Loop – mountain lake CO
+    53: 'photo-1RIfDabruqw',               // South San Juan Wilderness – San Juan peaks CO
+    // Washington extra
+    54: 'photo-izAmbKvl0Fc',               // Goat Rocks Wilderness – alpine meadows WA
+    55: 'photo--YiYSrdKXUc',               // Buckhorn Wilderness – Olympic Peninsula beach
+    // Wyoming extra
+    56: 'photo--ZsWqKuEiI0',               // Yellowstone Backcountry – turquoise hot spring
+    // Oregon extra
+    57: 'photo-G25lsWW1084',               // Mt. Jefferson Wilderness – alpine lake OR
+    58: 'photo-dLcZem4kBrU',               // Sky Lakes Wilderness – snow-capped peak OR
+    // Montana extra
+    59: 'photo-rdSJ3-91U6Q',               // Anaconda-Pintler Wilderness – Montana mountains
+    // Arizona extra
+    60: 'photo-WEK72bPsThs',               // Kachina Peaks Wilderness – snow-covered peaks AZ
+    // North Carolina extra
+    61: 'photo-yj4Jjl2sCL0',               // Art Loeb Trail – mountain fog trees Pisgah NC
+    // Tennessee extra
+    62: 'photo-c2vWMzRaxIM',               // Savage Gulf – forested gorge in clouds TN
+    // New Mexico extra
+    63: 'photo-llbKxU0xapk',               // Pecos Wilderness – mountain range with lake NM
+    // Idaho extra
+    64: 'photo-IG4NuONbSVE',               // Frank Church Wilderness – remote river canyon ID
+    // Vermont extra
+    65: 'photo-Bkci_8qcdvQ',               // Mt. Mansfield Circuit – Green Mountains VT
+    // Maine
+    66: 'photo-FnaiTxmOHhA',               // 100-Mile Wilderness – remote Maine forest
+    67: 'photo-k820gJnlp8c',               // Bigelow Preserve – mountain forest lake ME
+    // New Hampshire
+    68: 'photo-hM2rMtUdcjo',               // Presidential Traverse – above-treeline ridge NH
+    69: 'photo-0cdwDt51YUg',               // Pemigewasset Wilderness – NH forest trail
+    // Alaska
+    70: 'photo-lR64CdOHZhg',               // Chilkoot Trail – aerial glacier Alaska
+    71: 'photo-NsqMjN7XMDQ',               // Crow Pass Trail – glacier mountain Chugach AK
+  };
+
   const STATE_NAMES = {
     AK:'Alaska', AZ:'Arizona', CA:'California', CO:'Colorado', GA:'Georgia',
     ID:'Idaho', ME:'Maine', MT:'Montana', NC:'North Carolina', NH:'New Hampshire',
@@ -6296,8 +6401,12 @@
       if (isUserTrip && t.photo) {
         bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${t.photo}'); background-size: cover; background-position: center;`;
       } else {
-        const photo = generateTripCover(t);
-        bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}')`;
+        const photoId = TRIP_PHOTOS[t.id];
+        const photoUrl = photoId
+          ? `https://images.unsplash.com/${photoId}?w=600&h=400&fit=crop&auto=format&q=80`
+          : null;
+        const photo = photoUrl || generateTripCover(t);
+        bannerBg = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(26,49,40,0.82) 55%, #1A3128 100%), url('${photo}'); background-size: cover; background-position: center;`;
       }
       const clickAttr = isJMT ? 'onclick="showJMTDetail()" style="cursor:pointer"'
                        : isUserTrip ? `onclick="showUserTripDetail('${t.id}')" style="cursor:pointer"` : '';
