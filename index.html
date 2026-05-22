@@ -2492,6 +2492,21 @@
       font-size: 12px; color: #666; line-height: 1.55;
       border-top: 1px solid #f0ebe3; padding-top: 8px;
     }
+    .jmt-tooltip.centered {
+      left: 50% !important; top: 50% !important;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      max-width: min(265px, calc(100vw - 40px));
+    }
+    #jmt-tooltip-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 998;
+    }
+    #jmt-tooltip-backdrop.visible { display: block; }
+    .jmt-tooltip-close {
+      position: absolute; top: 8px; right: 10px;
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: #aaa; padding: 2px 6px; line-height: 1;
+    }
 
     /* Pending trips count in nav (admin) */
     .admin-nav-hint {
@@ -3611,6 +3626,7 @@
       </svg>
       <!-- Interactive tooltip -->
       <div id="jmt-map-tooltip" class="jmt-tooltip"></div>
+      <div id="jmt-tooltip-backdrop"></div>
 
       <p class="jmt-map-caption">
         JMT corridor · Yosemite Valley (north) to Mt. Whitney (south) ·
@@ -7413,8 +7429,36 @@
 
     var tooltip = document.getElementById('jmt-map-tooltip');
     if (!tooltip) return;
+    var backdrop = document.getElementById('jmt-tooltip-backdrop');
 
     var hideTimer = null;
+
+    function buildTooltipHTML(d) {
+      return '<div class="jmt-tooltip-type ' + d.type + '">' + (TYPE_LABEL[d.type] || d.type) + '</div>' +
+        '<div class="jmt-tooltip-title">' + d.title + '</div>' +
+        '<div class="jmt-tooltip-sub">' + d.sub + '</div>' +
+        '<div class="jmt-tooltip-meta">' +
+          '<div class="jmt-tooltip-meta-item">' +
+            '<span class="jmt-tooltip-meta-label">Elevation</span>' +
+            '<span class="jmt-tooltip-meta-value">' + d.elev + '</span>' +
+          '</div>' +
+          '<div class="jmt-tooltip-meta-item">' +
+            '<span class="jmt-tooltip-meta-label">Mile Marker</span>' +
+            '<span class="jmt-tooltip-meta-value">' + d.mile + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="jmt-tooltip-info">' + d.info + '</div>';
+    }
+
+    function hideTooltipMobile() {
+      tooltip.classList.remove('visible', 'centered');
+      if (backdrop) backdrop.classList.remove('visible');
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('touchstart', function(e) { e.preventDefault(); hideTooltipMobile(); }, { passive: false });
+      backdrop.addEventListener('click', hideTooltipMobile);
+    }
 
     document.querySelectorAll('.map-marker').forEach(function(el) {
       el.addEventListener('mouseenter', function(e) {
@@ -7422,21 +7466,7 @@
         var key = el.getAttribute('data-marker');
         var d = MARKERS[key];
         if (!d) return;
-        tooltip.innerHTML =
-          '<div class="jmt-tooltip-type ' + d.type + '">' + (TYPE_LABEL[d.type] || d.type) + '</div>' +
-          '<div class="jmt-tooltip-title">' + d.title + '</div>' +
-          '<div class="jmt-tooltip-sub">' + d.sub + '</div>' +
-          '<div class="jmt-tooltip-meta">' +
-            '<div class="jmt-tooltip-meta-item">' +
-              '<span class="jmt-tooltip-meta-label">Elevation</span>' +
-              '<span class="jmt-tooltip-meta-value">' + d.elev + '</span>' +
-            '</div>' +
-            '<div class="jmt-tooltip-meta-item">' +
-              '<span class="jmt-tooltip-meta-label">Mile Marker</span>' +
-              '<span class="jmt-tooltip-meta-value">' + d.mile + '</span>' +
-            '</div>' +
-          '</div>' +
-          '<div class="jmt-tooltip-info">' + d.info + '</div>';
+        tooltip.innerHTML = buildTooltipHTML(d);
         tooltip.classList.add('visible');
         positionTooltip(e);
       });
@@ -7444,6 +7474,22 @@
       el.addEventListener('mouseleave', function() {
         hideTimer = setTimeout(function() { tooltip.classList.remove('visible'); }, 120);
       });
+      el.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        clearTimeout(hideTimer);
+        var key = el.getAttribute('data-marker');
+        var d = MARKERS[key];
+        if (!d) return;
+        tooltip.innerHTML = buildTooltipHTML(d) +
+          '<button class="jmt-tooltip-close" id="jmt-tooltip-close-btn">&times;</button>';
+        tooltip.classList.add('visible', 'centered');
+        if (backdrop) backdrop.classList.add('visible');
+        var closeBtn = document.getElementById('jmt-tooltip-close-btn');
+        if (closeBtn) {
+          closeBtn.addEventListener('touchstart', function(ev) { ev.stopPropagation(); hideTooltipMobile(); }, { passive: true });
+          closeBtn.addEventListener('click', function(ev) { ev.stopPropagation(); hideTooltipMobile(); });
+        }
+      }, { passive: false });
     });
 
     function positionTooltip(e) {
