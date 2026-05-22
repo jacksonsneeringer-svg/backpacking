@@ -4545,7 +4545,32 @@
     activePage = name;
     if (name === 'saved') renderSavedLists();
     if (name === 'explore') renderStateGrid();
+    // Update URL hash so page survives refresh
+    if (name === 'home') {
+      history.replaceState(null, '', location.pathname + location.search);
+    } else if (name === 'trips' && currentStateCode) {
+      history.replaceState(null, '', '#trips/' + currentStateCode);
+    } else {
+      history.replaceState(null, '', '#' + name);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function initFromHash() {
+    const hash = location.hash.replace('#', '');
+    if (!hash) return;
+    const parts = hash.split('/');
+    const page = parts[0];
+    if (page === 'trips' && parts[1]) {
+      const code = parts[1].toUpperCase();
+      if (typeof STATE_NAMES !== 'undefined' && STATE_NAMES[code]) {
+        openStateTrips(code);
+        return;
+      }
+    }
+    if (PAGES.includes(page) || page === 'split' || page === 'contact') {
+      showPage(page);
+    }
   }
 
   function startNewPackList() {
@@ -6508,7 +6533,107 @@
     // Alaska
     { id:70, state:'AK', name:'Chilkoot Trail',            region:'Klondike Gold Rush NHP',   difficulty:'strenuous', miles:33,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:true,  icon:'🐻', highlights:'Gold Rush history, glacier views, rainforest to tundra, international trail' },
     { id:71, state:'AK', name:'Crow Pass Trail',           region:'Chugach NF',               difficulty:'strenuous', miles:26,  minDays:2,  maxDays:3,  gain:5500,  terrain:'alpine',  permit:false, icon:'🦅', highlights:'Alpine pass, active glacier, river ford — Anchorage backcountry gem' },
-  ];
+      // Alabama
+    { id:72,  state:'AL', name:'Sipsey Wilderness',          region:'Bankhead NF',              difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:3500,  terrain:'forest',  permit:false, icon:'🌿', highlights:'Waterfall-filled sandstone canyons, old-growth trees, boulder-hop stream crossings' },
+    { id:73,  state:'AL', name:'Cheaha Wilderness',          region:'Talladega NF',             difficulty:'moderate',  miles:20,  minDays:1,  maxDays:3,  gain:2800,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Highest point in Alabama, panoramic ridge views, rocky summit outcrops' },
+    // Arkansas
+    { id:74,  state:'AR', name:'Buffalo River Trail',        region:'Buffalo NR',               difficulty:'moderate',  miles:36,  minDays:3,  maxDays:5,  gain:4500,  terrain:'forest',  permit:false, icon:'🌊', highlights:"America's first national river, limestone bluffs, clear Ozark streams" },
+    { id:75,  state:'AR', name:'Ouachita National Recreation Trail', region:'Ouachita NF',     difficulty:'strenuous', miles:60,  minDays:5,  maxDays:8,  gain:10000, terrain:'forest',  permit:false, icon:'🏕️', highlights:'East-west ridge traverse, spring wildflowers, remote Ouachita highland solitude' },
+    // Connecticut
+    { id:76,  state:'CT', name:'AT in Connecticut',          region:'Housatonic Highlands',     difficulty:'moderate',  miles:52,  minDays:4,  maxDays:7,  gain:10000, terrain:'forest',  permit:false, icon:'🌳', highlights:'Housatonic River valley, classic New England forest ridge walking' },
+    { id:77,  state:'CT', name:'Nipmuck Trail',              region:'Nipmuck State Forest',     difficulty:'easy',      miles:35,  minDays:2,  maxDays:4,  gain:2500,  terrain:'forest',  permit:false, icon:'🍂', highlights:'Scenic ponds, glacial boulders, quiet forested ridges across Connecticut' },
+    // Delaware
+    { id:78,  state:'DE', name:'Brandywine Creek Trail',     region:'Brandywine Valley',        difficulty:'easy',      miles:12,  minDays:1,  maxDays:2,  gain:400,   terrain:'forest',  permit:false, icon:'🌿', highlights:'Creek-side forest walking, historic mill sites, accessible Mid-Atlantic escape' },
+    // Florida
+    { id:79,  state:'FL', name:'Florida Trail (Big Cypress)', region:'Big Cypress National Preserve', difficulty:'moderate', miles:31, minDays:3, maxDays:5, gain:100,  terrain:'mixed',   permit:false, icon:'🐊', highlights:'Wet prairies, cypress swamps, alligators, remote Everglades wilderness' },
+    { id:80,  state:'FL', name:'Ocala National Forest Loop', region:'Ocala NF',                difficulty:'easy',      miles:25,  minDays:2,  maxDays:4,  gain:200,   terrain:'forest',  permit:false, icon:'🌴', highlights:'Crystal-clear springs, scrub jays, sand pine flatwoods — flat and uncrowded' },
+    // Hawaii
+    { id:81,  state:'HI', name:'Kalalau Trail',              region:'Na Pali Coast',            difficulty:'strenuous', miles:11,  minDays:2,  maxDays:3,  gain:5000,  terrain:'coastal', permit:true,  icon:'🌺', highlights:'Emerald sea cliffs, remote Kalalau Valley, no road access — only on foot or sea' },
+    { id:82,  state:'HI', name:'Haleakala Crater Loop',      region:'Haleakala NP',             difficulty:'moderate',  miles:21,  minDays:2,  maxDays:3,  gain:6000,  terrain:'alpine',  permit:true,  icon:'🌋', highlights:'Volcanic crater wilderness, moonscape terrain, silversword plants, Milky Way skies' },
+    // Iowa
+    { id:83,  state:'IA', name:'Loess Hills Pioneer Trail',  region:'Loess Hills SP',           difficulty:'easy',      miles:20,  minDays:2,  maxDays:3,  gain:800,   terrain:'mixed',   permit:false, icon:'🌾', highlights:'Rare loess formations unique to Iowa and China, prairie vistas, native wildflowers' },
+    { id:84,  state:'IA', name:'Yellow River State Forest',  region:'Northeast Iowa',           difficulty:'easy',      miles:15,  minDays:1,  maxDays:2,  gain:600,   terrain:'forest',  permit:false, icon:'🌿', highlights:"Iowa's most forested region, Driftless Area bluffs, clear trout streams" },
+    // Illinois
+    { id:85,  state:'IL', name:'Garden of the Gods Wilderness', region:'Shawnee NF',           difficulty:'easy',      miles:12,  minDays:1,  maxDays:2,  gain:800,   terrain:'forest',  permit:false, icon:'🗿', highlights:'Sandstone rock formations, sweeping Illinois River valley views, fall color' },
+    { id:86,  state:'IL', name:'River to River Trail',       region:'Shawnee NF',               difficulty:'moderate',  miles:160, minDays:10, maxDays:16, gain:12000, terrain:'forest',  permit:false, icon:'🌊', highlights:'Ohio River to Mississippi River traverse across southern Illinois wilderness' },
+    // Indiana
+    { id:87,  state:'IN', name:'Knobstone Trail',            region:'Hoosier NF',               difficulty:'moderate',  miles:58,  minDays:4,  maxDays:7,  gain:9000,  terrain:'forest',  permit:false, icon:'⛰️', highlights:"Indiana's longest trail, rugged hill country, ridge views above forested hollows" },
+    { id:88,  state:'IN', name:'Deam Wilderness',            region:'Hoosier NF',               difficulty:'easy',      miles:20,  minDays:1,  maxDays:3,  gain:1200,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Quiet hill-and-hollow forest, Charles C. Deam Wilderness, spring ephemeral wildflowers' },
+    // Kansas
+    { id:89,  state:'KS', name:'Tallgrass Prairie Trail',    region:'Tallgrass Prairie NP',     difficulty:'easy',      miles:10,  minDays:1,  maxDays:2,  gain:200,   terrain:'mixed',   permit:false, icon:'🌾', highlights:'Last remaining tallgrass prairie, bison herds, wide-open Flint Hills sky' },
+    { id:90,  state:'KS', name:'Cimarron Grasslands Trail',  region:'Cimarron National Grassland', difficulty:'easy',   miles:23,  minDays:2,  maxDays:3,  gain:300,   terrain:'mixed',   permit:false, icon:'🦅', highlights:'Longest Santa Fe Trail section, lesser prairie-chickens, remote southwest Kansas' },
+    // Kentucky
+    { id:91,  state:'KY', name:'Red River Gorge Loop',       region:'Daniel Boone NF',          difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:5000,  terrain:'forest',  permit:false, icon:'🌉', highlights:'Natural arches, sandstone cliffs, Red River, world-class climbing beside scenic trails' },
+    { id:92,  state:'KY', name:'Sheltowee Trace',            region:'Daniel Boone NF',          difficulty:'strenuous', miles:290, minDays:20, maxDays:30, gain:45000, terrain:'forest',  permit:false, icon:'🐢', highlights:"Kentucky's longest trail, Mammoth Cave corridor, Natural Arch, Big South Fork" },
+    // Louisiana
+    { id:93,  state:'LA', name:'Wild Azalea Trail',          region:'Kisatchie NF',             difficulty:'easy',      miles:31,  minDays:2,  maxDays:3,  gain:500,   terrain:'forest',  permit:false, icon:'🌸', highlights:'Longest trail in Louisiana, spring azalea blooms, longleaf pine restoration' },
+    { id:94,  state:'LA', name:'Kisatchie Hills Wilderness', region:'Kisatchie NF',             difficulty:'easy',      miles:15,  minDays:1,  maxDays:2,  gain:400,   terrain:'forest',  permit:false, icon:'🌿', highlights:'Sandstone hills, mesas unique to Louisiana, longleaf pine flatwoods' },
+    // Massachusetts
+    { id:95,  state:'MA', name:'AT in Massachusetts',        region:'Berkshire Hills',          difficulty:'moderate',  miles:90,  minDays:7,  maxDays:12, gain:15000, terrain:'forest',  permit:false, icon:'🍁', highlights:'Mt. Greylock summit, Berkshire Hills traverse, classic New England fall foliage' },
+    { id:96,  state:'MA', name:'Metacomet-Monadnock Trail',  region:'Pioneer Valley',           difficulty:'moderate',  miles:117, minDays:8,  maxDays:12, gain:16000, terrain:'forest',  permit:false, icon:'🌲', highlights:'Traprock ridges, Connecticut River Valley views, Holyoke Range traverse' },
+    // Maryland
+    { id:97,  state:'MD', name:'AT in Maryland',             region:'South Mountain',           difficulty:'easy',      miles:41,  minDays:3,  maxDays:5,  gain:6000,  terrain:'forest',  permit:false, icon:'🌳', highlights:'South Mountain ridge walking, Gathland State Park, Civil War history along the trail' },
+    { id:98,  state:'MD', name:'Catoctin Mountain Loop',     region:'Catoctin Mountain Park',   difficulty:'easy',      miles:15,  minDays:1,  maxDays:2,  gain:1500,  terrain:'forest',  permit:false, icon:'🏕️', highlights:'Blue Ridge foothills, Cunningham Falls, presidential retreat country' },
+    // Michigan
+    { id:99,  state:'MI', name:'Pictured Rocks Lakeshore',   region:'Pictured Rocks NL',        difficulty:'moderate',  miles:42,  minDays:4,  maxDays:6,  gain:4000,  terrain:'coastal', permit:true,  icon:'🏞️', highlights:'Colorful sandstone cliffs above Lake Superior, sea caves, Miners Beach dunes' },
+    { id:100, state:'MI', name:'Porcupine Mountains Wilderness', region:'Porcupine Mountains SP', difficulty:'moderate', miles:35, minDays:3,  maxDays:5,  gain:4500,  terrain:'forest',  permit:false, icon:'🌲', highlights:"Michigan's largest wilderness park, Lake of the Clouds, old-growth hemlock and maple" },
+    // Minnesota
+    { id:101, state:'MN', name:'Superior Hiking Trail',      region:'North Shore',              difficulty:'moderate',  miles:310, minDays:21, maxDays:30, gain:40000, terrain:'forest',  permit:false, icon:'🦌', highlights:'Lake Superior views, cascading waterfalls, boreal forest — a crown jewel of the Midwest' },
+    { id:102, state:'MN', name:'Boundary Waters Wilderness', region:'Superior NF',              difficulty:'moderate',  miles:30,  minDays:4,  maxDays:7,  gain:1000,  terrain:'mixed',   permit:true,  icon:'🛶', highlights:'Portage trails through pristine lakes, loon calls, moose, true northern wilderness' },
+    // Missouri
+    { id:103, state:'MO', name:'Ozark Trail (Irish Wilderness)', region:'Mark Twain NF',        difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:2500,  terrain:'forest',  permit:false, icon:'⭐', highlights:"Missouri's only federally designated wilderness, crystal-clear Eleven Point River corridor" },
+    { id:104, state:'MO', name:'Hercules Glades Wilderness', region:'Mark Twain NF',            difficulty:'easy',      miles:20,  minDays:1,  maxDays:3,  gain:2000,  terrain:'forest',  permit:false, icon:'🦅', highlights:'Open glades, cedar thickets, spring wildflowers, free-roaming elk sightings' },
+    // Mississippi
+    { id:105, state:'MS', name:'Black Creek Trail',          region:'De Soto NF',               difficulty:'easy',      miles:41,  minDays:3,  maxDays:5,  gain:400,   terrain:'forest',  permit:false, icon:'🌊', highlights:'State-designated Scenic River, longleaf pine restoration, blackwater creek crossings' },
+    { id:106, state:'MS', name:'Tuxachanie Trail',           region:'De Soto NF',               difficulty:'easy',      miles:23,  minDays:2,  maxDays:3,  gain:600,   terrain:'forest',  permit:false, icon:'🌿', highlights:'Longleaf pine and wiregrass habitat, red-cockaded woodpecker country, flat Gulf Coast hiking' },
+    // North Dakota
+    { id:107, state:'ND', name:'Maah Daah Hey Trail',        region:'Theodore Roosevelt NP',    difficulty:'strenuous', miles:144, minDays:8,  maxDays:14, gain:12000, terrain:'mixed',   permit:false, icon:'🦬', highlights:'Badlands buttes, wild horses, bison herds — Theodore Roosevelt backcountry traverse' },
+    // Nebraska
+    { id:108, state:'NE', name:'Niobrara National Scenic River Trail', region:'Niobrara NRA',  difficulty:'easy',      miles:25,  minDays:2,  maxDays:3,  gain:500,   terrain:'mixed',   permit:false, icon:'🌊', highlights:"Nebraska's blue-ribbon river, waterfalls, transition zone where east meets west" },
+    { id:109, state:'NE', name:'Pine Ridge Trail',           region:'Nebraska NF',              difficulty:'easy',      miles:18,  minDays:1,  maxDays:2,  gain:800,   terrain:'forest',  permit:false, icon:'🌲', highlights:'Ponderosa pine-capped ridges, White River badlands views, unique Nebraska panhandle' },
+    // New Jersey
+    { id:110, state:'NJ', name:'AT in New Jersey',           region:'Kittatinny Ridge',         difficulty:'moderate',  miles:72,  minDays:5,  maxDays:8,  gain:10000, terrain:'forest',  permit:false, icon:'🌲', highlights:'Delaware Water Gap to NJ border, Sunfish Pond, ridge walking above the valley' },
+    { id:111, state:'NJ', name:'Batona Trail',               region:'Pinelands NR',             difficulty:'easy',      miles:53,  minDays:4,  maxDays:6,  gain:300,   terrain:'forest',  permit:false, icon:'🌿', highlights:'Pink and white sandy paths through the mysterious New Jersey Pine Barrens' },
+    // Nevada
+    { id:112, state:'NV', name:'Ruby Mountains Wilderness',  region:'Humboldt-Toiyabe NF',      difficulty:'strenuous', miles:40,  minDays:4,  maxDays:6,  gain:9000,  terrain:'alpine',  permit:false, icon:'💎', highlights:"Nevada's Alps — unexpected alpine lakes, cirques, mountain goats in the Great Basin desert" },
+    { id:113, state:'NV', name:'Wheeler Peak Wilderness',    region:'Great Basin NP',           difficulty:'moderate',  miles:13,  minDays:1,  maxDays:2,  gain:2900,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:"Nevada's second-highest peak, ancient bristlecone pines, glacier remnant, star-packed skies" },
+    // New York
+    { id:114, state:'NY', name:'Adirondack High Peaks',      region:'Adirondack Park',          difficulty:'strenuous', miles:35,  minDays:4,  maxDays:6,  gain:9000,  terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'46 high peaks including Mt. Marcy, remote lake-studded backcountry, wilderness camping' },
+    { id:115, state:'NY', name:'Catskill High Peaks Loop',   region:'Catskill Park',            difficulty:'strenuous', miles:28,  minDays:2,  maxDays:4,  gain:6000,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Slide Mountain summit, Hunter Mountain, sweeping Hudson Valley panoramas' },
+    { id:116, state:'NY', name:'Long Path (Shawangunks)',    region:'Shawangunk Ridge',         difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:4000,  terrain:'forest',  permit:false, icon:'🌄', highlights:'Mohonk Preserve, iconic white quartz conglomerate ridgeline, hawk migration' },
+    // Ohio
+    { id:117, state:'OH', name:'Buckeye Trail (Hocking Hills)', region:'Hocking Hills SP',      difficulty:'easy',      miles:30,  minDays:2,  maxDays:4,  gain:2000,  terrain:'forest',  permit:false, icon:'🌿', highlights:'Old Man Cave, Cedar Falls, hidden sandstone alcoves and waterfalls in the gorge' },
+    { id:118, state:'OH', name:'North Country Trail (Wayne NF)', region:'Wayne National Forest', difficulty:'easy',     miles:68,  minDays:5,  maxDays:8,  gain:5000,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Forested ravines, covered bridge country, part of the longest US trail system' },
+    // Oklahoma
+    { id:119, state:'OK', name:'Ouachita NRT Oklahoma',      region:'Ouachita NF',              difficulty:'moderate',  miles:100, minDays:7,  maxDays:10, gain:12000, terrain:'forest',  permit:false, icon:'🌄', highlights:'Oklahoma portion of Ouachita NRT, crystal ridges, remote Winding Stair Mountains' },
+    { id:120, state:'OK', name:'Wichita Mountains Wildlife Refuge', region:'Wichita Mountains', difficulty:'easy',      miles:15,  minDays:1,  maxDays:2,  gain:1200,  terrain:'mixed',   permit:false, icon:'🦬', highlights:'Free-roaming bison, longhorn cattle, elk, granite domes rising from the Oklahoma prairie' },
+    // Pennsylvania
+    { id:121, state:'PA', name:'AT in Pennsylvania',         region:'South Mountain to Delaware Water Gap', difficulty:'moderate', miles:229, minDays:14, maxDays:21, gain:22000, terrain:'forest', permit:false, icon:'🌲', highlights:'The rocky Pennsylvania miles, Duncannon, Delaware Water Gap, challenging trail character' },
+    { id:122, state:'PA', name:'Pine Creek Gorge Trail',     region:'Tioga State Forest',       difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:3500,  terrain:'forest',  permit:false, icon:'🌊', highlights:"Pennsylvania Grand Canyon — Pine Creek carves a 1,000 ft gorge through remote elk country" },
+    // Rhode Island
+    { id:123, state:'RI', name:'Narragansett Trail',         region:'Arcadia Management Area',  difficulty:'easy',      miles:22,  minDays:1,  maxDays:2,  gain:1000,  terrain:'forest',  permit:false, icon:'🌿', highlights:'Rocky outcrops, glacial boulders, coastal plain ponds — RI at its most wild' },
+    { id:124, state:'RI', name:'Arcadia Trail Loop',         region:'Arcadia Management Area',  difficulty:'easy',      miles:14,  minDays:1,  maxDays:2,  gain:600,   terrain:'forest',  permit:false, icon:'🌳', highlights:"Rhode Island's largest management area, wood frogs, historic charcoal hearths" },
+    // South Carolina
+    { id:125, state:'SC', name:'Foothills Trail',            region:'Blue Ridge Escarpment',    difficulty:'strenuous', miles:77,  minDays:6,  maxDays:9,  gain:14000, terrain:'forest',  permit:false, icon:'🌊', highlights:'Table Rock, Whitewater Falls, dramatic Blue Ridge escarpment, lush gorges' },
+    { id:126, state:'SC', name:'Chattooga River Trail',      region:'Sumter NF',                difficulty:'moderate',  miles:15,  minDays:1,  maxDays:2,  gain:2000,  terrain:'forest',  permit:false, icon:'🏞️', highlights:'Wild and Scenic Chattooga River corridor, hemlocks, boulders, river pools' },
+    // South Dakota
+    { id:127, state:'SD', name:'Centennial Trail',           region:'Black Hills NF',           difficulty:'strenuous', miles:111, minDays:8,  maxDays:12, gain:12000, terrain:'mixed',   permit:false, icon:'🦅', highlights:'Black Hills traverse, Mt. Rushmore backcountry, Badlands views, ponderosa forest' },
+    { id:128, state:'SD', name:'Badlands Wilderness',        region:'Badlands NP',              difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:1500,  terrain:'desert',  permit:false, icon:'🦬', highlights:'Eroded buttes, bison, pronghorn — off-trail navigation through stark lunar landscapes' },
+    // Texas
+    { id:129, state:'TX', name:'Big Bend South Rim Loop',    region:'Big Bend NP',              difficulty:'strenuous', miles:30,  minDays:3,  maxDays:5,  gain:4000,  terrain:'desert',  permit:true,  icon:'🌵', highlights:'South Rim views across Mexico, Chisos Mountains, roadrunners, Emory Peak summit' },
+    { id:130, state:'TX', name:'Guadalupe Mountains Loop',   region:'Guadalupe Mountains NP',   difficulty:'strenuous', miles:12,  minDays:1,  maxDays:2,  gain:2500,  terrain:'desert',  permit:false, icon:'⛰️', highlights:"Texas' highest peak at 8,749 ft, El Capitan cliff, relict forest in the Chihuahuan Desert" },
+    // Virginia
+    { id:131, state:'VA', name:'Grayson Highlands / Mt. Rogers', region:'Jefferson NF',         difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:5500,  terrain:'alpine',  permit:false, icon:'🐴', highlights:"Virginia's highest at 5,729 ft, wild ponies on the balds, rocky open highlands" },
+    { id:132, state:'VA', name:'Shenandoah AT Traverse',     region:'Shenandoah NP',            difficulty:'moderate',  miles:101, minDays:7,  maxDays:12, gain:18000, terrain:'forest',  permit:true,  icon:'🦌', highlights:'Skyline Drive views, Whiteoak Canyon waterfalls, deer and black bear country' },
+    { id:133, state:'VA', name:'Three Ridges Loop',          region:'George Washington NF',     difficulty:'strenuous', miles:20,  minDays:2,  maxDays:3,  gain:4500,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Harpers Creek Shelter, dramatic ridge views, one of the finest AT loop hikes in Virginia' },
+    // Wisconsin
+    { id:134, state:'WI', name:'Ice Age Trail (Kettle Moraine)', region:'Kettle Moraine SF',    difficulty:'moderate',  miles:40,  minDays:3,  maxDays:6,  gain:3000,  terrain:'forest',  permit:false, icon:'🧊', highlights:'Glacial kettles and kames, tallgrass prairie remnants along 1,000-mile National Scenic Trail' },
+    { id:135, state:'WI', name:'Apostle Islands Lakeshore',  region:'Apostle Islands NL',       difficulty:'moderate',  miles:50,  minDays:4,  maxDays:6,  gain:2000,  terrain:'coastal', permit:true,  icon:'🏝️', highlights:'Sea caves, shipwrecks, old-growth forest on Lake Superior island chain' },
+    // West Virginia
+    { id:136, state:'WV', name:'Dolly Sods Wilderness',      region:'Monongahela NF',           difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:4000,  terrain:'alpine',  permit:false, icon:'🫐', highlights:'High-elevation heath bogs, wind-sculpted red spruce, rhododendron ocean at 4,000 ft' },
+    { id:137, state:'WV', name:'Otter Creek Wilderness',     region:'Monongahela NF',           difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3500,  terrain:'forest',  permit:false, icon:'🦦', highlights:"WV's most popular wilderness, Otter Creek gorge, spruce-hemlock forest, streamside camps" },
+    { id:138, state:'WV', name:'Spruce Knob / Seneca Rocks', region:'Spruce Knob-Seneca Rocks NRA', difficulty:'strenuous', miles:25, minDays:2, maxDays:4,  gain:5000,  terrain:'alpine',  permit:false, icon:'🪨', highlights:"WV's highest point at 4,863 ft, quartzite fins of Seneca Rocks, high-altitude spruce bogs" },
+];
 
   const TRIP_PHOTOS = {
     // California
@@ -6615,10 +6740,16 @@
   };
 
   const STATE_NAMES = {
-    AK:'Alaska', AZ:'Arizona', CA:'California', CO:'Colorado', GA:'Georgia',
-    ID:'Idaho', ME:'Maine', MT:'Montana', NC:'North Carolina', NH:'New Hampshire',
-    NM:'New Mexico', OR:'Oregon', TN:'Tennessee', UT:'Utah', VT:'Vermont',
-    WA:'Washington', WY:'Wyoming',
+    AK:'Alaska', AL:'Alabama', AR:'Arkansas', AZ:'Arizona', CA:'California',
+    CO:'Colorado', CT:'Connecticut', DE:'Delaware', FL:'Florida', GA:'Georgia',
+    HI:'Hawaii', IA:'Iowa', ID:'Idaho', IL:'Illinois', IN:'Indiana',
+    KS:'Kansas', KY:'Kentucky', LA:'Louisiana', MA:'Massachusetts', MD:'Maryland',
+    ME:'Maine', MI:'Michigan', MN:'Minnesota', MO:'Missouri', MS:'Mississippi',
+    MT:'Montana', NC:'North Carolina', ND:'North Dakota', NE:'Nebraska', NH:'New Hampshire',
+    NJ:'New Jersey', NM:'New Mexico', NV:'Nevada', NY:'New York', OH:'Ohio',
+    OK:'Oklahoma', OR:'Oregon', PA:'Pennsylvania', RI:'Rhode Island', SC:'South Carolina',
+    SD:'South Dakota', TN:'Tennessee', TX:'Texas', UT:'Utah', VA:'Virginia',
+    VT:'Vermont', WA:'Washington', WI:'Wisconsin', WV:'West Virginia', WY:'Wyoming',
   };
 
   let activeFilters = { diff: 'all', len: 'all', terrain: 'all', permitOnly: false };
@@ -7506,6 +7637,9 @@
       tooltip.style.top = y + 'px';
     }
   })();
+
+  // Restore page from URL hash on load (keeps position after refresh)
+  initFromHash();
 </script>
 </body>
 </html>
