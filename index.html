@@ -2443,6 +2443,56 @@
       width: 24px; height: 3px; border-radius: 2px;
     }
 
+    /* Interactive map markers */
+    .map-marker { cursor: pointer; }
+    .map-marker .m-shape {
+      transition: filter 0.15s ease, transform 0.15s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .map-marker:hover .m-shape { transform: scale(1.28); }
+    .m-pass:hover .m-shape { filter: brightness(1.35) drop-shadow(0 0 5px rgba(61,107,85,0.75)); }
+    .m-resupply:hover .m-shape { filter: brightness(1.3) drop-shadow(0 0 5px rgba(196,88,42,0.7)); }
+    .m-trailhead:hover .m-shape { filter: brightness(1.2) drop-shadow(0 0 4px rgba(26,49,40,0.65)); }
+    .m-summit:hover .m-shape { filter: brightness(1.3) drop-shadow(0 0 6px rgba(212,160,51,0.85)); }
+    .m-waypoint { cursor: pointer; }
+    .m-waypoint:hover + text,
+    .m-waypoint:hover ~ text { opacity: 0.7; }
+
+    /* Route draw animation */
+    #jmt-route { stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: drawRoute 2.4s ease-out 0.3s forwards; }
+    #jmt-shadow { stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: drawRoute 2.4s ease-out 0.3s forwards; }
+    @keyframes drawRoute { to { stroke-dashoffset: 0; } }
+
+    /* Tooltip */
+    .jmt-tooltip {
+      position: fixed; z-index: 999;
+      background: #fff; border: 1.5px solid #d4c8b0; border-radius: 10px;
+      padding: 12px 15px; min-width: 210px; max-width: 265px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.15); pointer-events: none;
+      opacity: 0; transition: opacity 0.12s ease; font-family: 'DM Sans', sans-serif;
+    }
+    .jmt-tooltip.visible { opacity: 1; }
+    .jmt-tooltip-type {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 1.3px;
+      text-transform: uppercase; margin-bottom: 3px;
+    }
+    .jmt-tooltip-type.pass { color: #3D6B55; }
+    .jmt-tooltip-type.resupply { color: #C4582A; }
+    .jmt-tooltip-type.trailhead { color: #1A3128; }
+    .jmt-tooltip-type.summit { color: #b8861e; }
+    .jmt-tooltip-type.waypoint { color: #3D6B55; }
+    .jmt-tooltip-title { font-size: 15px; font-weight: 700; color: #1A3128; margin-bottom: 2px; }
+    .jmt-tooltip-sub { font-size: 11px; color: #999; margin-bottom: 9px; }
+    .jmt-tooltip-meta { display: flex; gap: 16px; margin-bottom: 9px; }
+    .jmt-tooltip-meta-item { display: flex; flex-direction: column; }
+    .jmt-tooltip-meta-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #bbb; }
+    .jmt-tooltip-meta-value { font-size: 13px; font-weight: 600; color: #333; }
+    .jmt-tooltip-info {
+      font-size: 12px; color: #666; line-height: 1.55;
+      border-top: 1px solid #f0ebe3; padding-top: 8px;
+    }
+
     /* Pending trips count in nav (admin) */
     .admin-nav-hint {
       position: fixed; bottom: 20px; right: 20px;
@@ -3227,70 +3277,241 @@
         <!-- Base background -->
         <rect width="780" height="480" fill="url(#jmtBg)"/>
 
-        <!-- Sierra Nevada high-country band (diagonal, follows crest corridor) -->
+        <!-- Sierra Nevada high-country band -->
         <polygon points="0,55 330,0 780,290 780,480 560,480 220,370 0,220" fill="url(#jmtMtn)" opacity="0.55"/>
 
-        <!-- Subtle contour texture lines -->
+        <!-- Contour texture lines -->
         <path d="M20,160 Q130,125 240,162 Q350,200 440,252 Q530,295 615,352 Q650,374 680,405" fill="none" stroke="#b4c8aa" stroke-width="1.2" opacity="0.55"/>
         <path d="M0,200 Q100,170 200,195 Q310,222 410,278 Q510,320 600,372 Q640,393 668,420" fill="none" stroke="#b4c8aa" stroke-width="1" opacity="0.4"/>
         <path d="M0,105 Q80,82 165,98 Q240,113 320,148 Q400,184 475,228" fill="none" stroke="#b4c8aa" stroke-width="1" opacity="0.4"/>
         <path d="M250,0 Q310,30 370,68 Q440,110 510,165 Q580,218 640,268 Q690,308 730,355" fill="none" stroke="#b4c8aa" stroke-width="1" opacity="0.35"/>
+        <path d="M50,240 Q140,210 240,238 Q340,265 430,308 Q510,342 580,380 Q620,400 650,425" fill="none" stroke="#b4c8aa" stroke-width="1" opacity="0.28"/>
+        <path d="M360,0 Q400,22 440,52 Q490,87 545,130 Q600,170 650,210 Q700,248 740,285" fill="none" stroke="#b4c8aa" stroke-width="0.8" opacity="0.28"/>
 
-        <!-- Water features (approximate geographic locations) -->
+        <!-- Water features -->
         <!-- Lyell Canyon / Tuolumne River -->
         <path d="M155,64 Q168,68 180,72 Q195,77 205,80" fill="none" stroke="#7ab2d0" stroke-width="2.5" opacity="0.7" stroke-linecap="round"/>
+        <!-- Lyell Fork (river up canyon) -->
+        <path d="M190,77 Q204,83 215,89 Q220,92 222,95" fill="none" stroke="#7ab2d0" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
         <!-- Thousand Island Lake -->
         <ellipse cx="257" cy="126" rx="17" ry="7" fill="#82b8d6" opacity="0.78"/>
+        <!-- Garnet Lake (near route) -->
+        <ellipse cx="283" cy="133" rx="9" ry="4" fill="#82b8d6" opacity="0.68"/>
         <!-- Mammoth Lakes area (off-route, east) -->
         <ellipse cx="312" cy="104" rx="11" ry="5" fill="#82b8d6" opacity="0.6"/>
         <ellipse cx="326" cy="113" rx="7" ry="3.5" fill="#82b8d6" opacity="0.55"/>
-        <!-- Edison/Vermilion Reservoir (off-route resupply) -->
+        <!-- Edison/Vermilion Reservoir -->
         <ellipse cx="400" cy="228" rx="24" ry="7" fill="#82b8d6" opacity="0.62"/>
+        <!-- Heart Lake / Marie Lakes (near Selden) -->
+        <ellipse cx="362" cy="218" rx="8" ry="4" fill="#82b8d6" opacity="0.58"/>
         <!-- Evolution Lake -->
-        <ellipse cx="464" cy="265" rx="14" ry="6" fill="#82b8d6" opacity="0.75"/>
+        <ellipse cx="449" cy="251" rx="14" ry="6" fill="#82b8d6" opacity="0.75"/>
+        <!-- Wanda Lake (near Muir Pass) -->
+        <ellipse cx="463" cy="261" rx="10" ry="4.5" fill="#82b8d6" opacity="0.65"/>
         <!-- Rae Lakes -->
         <ellipse cx="556" cy="318" rx="19" ry="6.5" fill="#82b8d6" opacity="0.8"/>
         <ellipse cx="571" cy="330" rx="11" ry="4.5" fill="#82b8d6" opacity="0.72"/>
         <!-- Guitar Lake -->
-        <ellipse cx="614" cy="387" rx="13" ry="5.5" fill="#82b8d6" opacity="0.8"/>
+        <ellipse cx="611" cy="386" rx="13" ry="5.5" fill="#82b8d6" opacity="0.8"/>
+        <!-- Tyndall Creek -->
+        <path d="M586,362 Q593,368 598,374" fill="none" stroke="#7ab2d0" stroke-width="1.8" opacity="0.5" stroke-linecap="round"/>
 
-        <!-- JMT trail route — shadow pass -->
-        <polyline
-          points="83,106 170,69 221,125 259,132 292,135 334,164 339,179 385,212 415,262 453,246 481,284 510,297 575,293 582,310 569,328 562,333 571,348 619,388 632,397 655,395"
-          fill="none" stroke="#C4582A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
+        <!-- JMT trail route — shadow glow -->
+        <path id="jmt-shadow"
+          d="M 83,106
+             C 88,108 96,110 103,112
+             C 108,111 111,107 114,104
+             C 124,97 133,89 141,84
+             C 149,78 158,73 165,71
+             C 167,70 168,70 170,69
+             C 175,70 183,74 191,78
+             C 200,83 207,88 213,93
+             C 217,98 219,105 220,110
+             C 221,115 221,119 221,122
+             C 225,124 231,127 237,128
+             C 243,130 247,131 250,131
+             C 255,132 261,132 268,133
+             C 274,133 281,134 287,134
+             C 290,135 291,135 292,135
+             C 297,137 303,141 309,145
+             C 315,150 321,155 326,159
+             C 330,162 333,164 334,164
+             C 336,168 337,172 338,174
+             C 339,175 339,176 339,179
+             C 340,183 341,188 343,194
+             C 346,200 350,206 355,211
+             C 360,215 366,218 370,218
+             C 374,222 379,229 384,235
+             C 390,242 398,249 405,254
+             C 410,258 413,259 415,260
+             C 422,258 432,254 439,251
+             C 445,248 451,248 456,250
+             C 461,254 466,261 471,269
+             C 475,275 479,280 481,284
+             C 485,289 491,293 496,295
+             C 502,297 508,297 512,297
+             C 522,297 533,296 543,295
+             C 553,295 562,294 569,294
+             C 572,293 574,291 575,288
+             C 577,295 579,302 580,307
+             C 581,310 582,312 582,313
+             C 581,318 579,323 576,327
+             C 573,328 571,329 570,329
+             C 568,330 565,332 563,333
+             C 565,338 568,342 571,344
+             C 577,351 585,359 593,367
+             C 601,374 608,381 613,386
+             C 618,390 624,394 628,396
+             C 630,397 632,397 632,397
+             C 638,397 644,396 650,396
+             C 652,395 654,395 655,395"
+          fill="none" stroke="#C4582A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.15"/>
+
         <!-- JMT trail route — main line -->
-        <polyline
-          points="83,106 170,69 221,125 259,132 292,135 334,164 339,179 385,212 415,262 453,246 481,284 510,297 575,293 582,310 569,328 562,333 571,348 619,388 632,397 655,395"
+        <path id="jmt-route"
+          d="M 83,106
+             C 88,108 96,110 103,112
+             C 108,111 111,107 114,104
+             C 124,97 133,89 141,84
+             C 149,78 158,73 165,71
+             C 167,70 168,70 170,69
+             C 175,70 183,74 191,78
+             C 200,83 207,88 213,93
+             C 217,98 219,105 220,110
+             C 221,115 221,119 221,122
+             C 225,124 231,127 237,128
+             C 243,130 247,131 250,131
+             C 255,132 261,132 268,133
+             C 274,133 281,134 287,134
+             C 290,135 291,135 292,135
+             C 297,137 303,141 309,145
+             C 315,150 321,155 326,159
+             C 330,162 333,164 334,164
+             C 336,168 337,172 338,174
+             C 339,175 339,176 339,179
+             C 340,183 341,188 343,194
+             C 346,200 350,206 355,211
+             C 360,215 366,218 370,218
+             C 374,222 379,229 384,235
+             C 390,242 398,249 405,254
+             C 410,258 413,259 415,260
+             C 422,258 432,254 439,251
+             C 445,248 451,248 456,250
+             C 461,254 466,261 471,269
+             C 475,275 479,280 481,284
+             C 485,289 491,293 496,295
+             C 502,297 508,297 512,297
+             C 522,297 533,296 543,295
+             C 553,295 562,294 569,294
+             C 572,293 574,291 575,288
+             C 577,295 579,302 580,307
+             C 581,310 582,312 582,313
+             C 581,318 579,323 576,327
+             C 573,328 571,329 570,329
+             C 568,330 565,332 563,333
+             C 565,338 568,342 571,344
+             C 577,351 585,359 593,367
+             C 601,374 608,381 613,386
+             C 618,390 624,394 628,396
+             C 630,397 632,397 632,397
+             C 638,397 644,396 650,396
+             C 652,395 654,395 655,395"
           fill="none" stroke="#C4582A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-        <!-- Pass markers (small mountain triangles at key passes) -->
+        <!-- === INTERACTIVE MARKERS === -->
+
         <!-- Donohue Pass -->
-        <polygon points="221,115 215,128 227,128" fill="#3D6B55" filter="url(#mkShadow)"/>
+        <g class="map-marker m-pass" data-marker="donohue">
+          <circle cx="221" cy="122" r="16" fill="transparent"/>
+          <polygon class="m-shape" points="221,115 215,128 227,128" fill="#3D6B55" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Island Pass (new) -->
+        <g class="map-marker m-pass" data-marker="island-pass">
+          <circle cx="250" cy="128" r="13" fill="transparent"/>
+          <polygon class="m-shape" points="250,122 244,134 256,134" fill="#4E7D65" filter="url(#mkShadow)"/>
+        </g>
+
         <!-- Silver Pass -->
-        <polygon points="339,169 333,182 345,182" fill="#3D6B55" filter="url(#mkShadow)"/>
+        <g class="map-marker m-pass" data-marker="silver-pass">
+          <circle cx="339" cy="175" r="16" fill="transparent"/>
+          <polygon class="m-shape" points="339,169 333,182 345,182" fill="#3D6B55" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Selden Pass (new) -->
+        <g class="map-marker m-pass" data-marker="selden-pass">
+          <circle cx="370" cy="215" r="13" fill="transparent"/>
+          <polygon class="m-shape" points="370,210 364,222 376,222" fill="#4E7D65" filter="url(#mkShadow)"/>
+        </g>
+
         <!-- Muir Pass -->
-        <polygon points="481,273 475,286 487,286" fill="#3D6B55" filter="url(#mkShadow)"/>
+        <g class="map-marker m-pass" data-marker="muir-pass">
+          <circle cx="481" cy="279" r="16" fill="transparent"/>
+          <polygon class="m-shape" points="481,273 475,286 487,286" fill="#3D6B55" filter="url(#mkShadow)"/>
+        </g>
+
         <!-- Mather Pass -->
-        <polygon points="575,282 569,295 581,295" fill="#3D6B55" filter="url(#mkShadow)"/>
-        <!-- Forester Pass (highest PCT/JMT point) -->
-        <polygon points="571,337 565,350 577,350" fill="#1A3128" filter="url(#mkShadow)"/>
-        <!-- Whitney summit triangle -->
-        <polygon points="632,384 625,400 639,400" fill="#D4A033" filter="url(#mkShadow)"/>
+        <g class="map-marker m-pass" data-marker="mather-pass">
+          <circle cx="575" cy="288" r="16" fill="transparent"/>
+          <polygon class="m-shape" points="575,282 569,295 581,295" fill="#3D6B55" filter="url(#mkShadow)"/>
+        </g>
 
-        <!-- Resupply point diamonds -->
-        <!-- Reds Meadow -->
-        <rect x="288" y="129" width="9" height="9" rx="1.5" fill="#C4582A" stroke="white" stroke-width="1.5" transform="rotate(45 292.5 133.5)" filter="url(#mkShadow)"/>
-        <!-- Muir Trail Ranch -->
-        <rect x="411" y="256" width="9" height="9" rx="1.5" fill="#C4582A" stroke="white" stroke-width="1.5" transform="rotate(45 415.5 260.5)" filter="url(#mkShadow)"/>
+        <!-- Pinchot Pass (new) -->
+        <g class="map-marker m-pass" data-marker="pinchot-pass">
+          <circle cx="582" cy="311" r="13" fill="transparent"/>
+          <polygon class="m-shape" points="582,305 576,317 588,317" fill="#4E7D65" filter="url(#mkShadow)"/>
+        </g>
 
-        <!-- N trailhead marker — Happy Isles -->
-        <circle cx="83" cy="106" r="7.5" fill="#1A3128" stroke="white" stroke-width="2.5" filter="url(#mkShadow)"/>
-        <!-- S terminus marker — Whitney Portal -->
-        <circle cx="655" cy="395" r="7.5" fill="#1A3128" stroke="white" stroke-width="2.5" filter="url(#mkShadow)"/>
+        <!-- Glen Pass (new) -->
+        <g class="map-marker m-pass" data-marker="glen-pass">
+          <circle cx="570" cy="327" r="13" fill="transparent"/>
+          <polygon class="m-shape" points="570,321 564,333 576,333" fill="#4E7D65" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Forester Pass (highest) -->
+        <g class="map-marker m-pass" data-marker="forester-pass">
+          <circle cx="571" cy="343" r="16" fill="transparent"/>
+          <polygon class="m-shape" points="571,337 565,350 577,350" fill="#1A3128" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Whitney summit -->
+        <g class="map-marker m-summit" data-marker="whitney">
+          <circle cx="632" cy="392" r="17" fill="transparent"/>
+          <polygon class="m-shape" points="632,384 625,400 639,400" fill="#D4A033" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Reds Meadow resupply -->
+        <g class="map-marker m-resupply" data-marker="reds-meadow">
+          <circle cx="292" cy="134" r="14" fill="transparent"/>
+          <rect class="m-shape" x="288" y="129" width="9" height="9" rx="1.5" fill="#C4582A" stroke="white" stroke-width="1.5" transform="rotate(45 292.5 133.5)" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Muir Trail Ranch resupply -->
+        <g class="map-marker m-resupply" data-marker="mtr">
+          <circle cx="415" cy="260" r="14" fill="transparent"/>
+          <rect class="m-shape" x="411" y="256" width="9" height="9" rx="1.5" fill="#C4582A" stroke="white" stroke-width="1.5" transform="rotate(45 415.5 260.5)" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Happy Isles trailhead -->
+        <g class="map-marker m-trailhead" data-marker="happy-isles">
+          <circle cx="83" cy="106" r="16" fill="transparent"/>
+          <circle class="m-shape" cx="83" cy="106" r="7.5" fill="#1A3128" stroke="white" stroke-width="2.5" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Whitney Portal terminus -->
+        <g class="map-marker m-trailhead" data-marker="portal">
+          <circle cx="655" cy="395" r="16" fill="transparent"/>
+          <circle class="m-shape" cx="655" cy="395" r="7.5" fill="#1A3128" stroke="white" stroke-width="2.5" filter="url(#mkShadow)"/>
+        </g>
+
+        <!-- Tuolumne Meadows (label hit area) -->
+        <g class="map-marker m-waypoint" data-marker="tuolumne">
+          <rect x="126" y="42" width="90" height="18" rx="3" fill="transparent"/>
+        </g>
 
         <!-- === LABELS === -->
 
-        <!-- Happy Isles / Yosemite Valley -->
+        <!-- Happy Isles -->
         <text x="93" y="100" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="700" fill="#1A3128" letter-spacing="0.4">HAPPY ISLES</text>
         <text x="93" y="112" font-family="DM Sans,sans-serif" font-size="8.5" fill="#3D6B55">Yosemite Valley · N Trailhead</text>
 
@@ -3298,17 +3519,23 @@
         <text x="170" y="51" font-family="DM Sans,sans-serif" font-size="8.5" fill="#3D6B55" text-anchor="middle">Tuolumne Meadows</text>
 
         <!-- Donohue Pass -->
-        <text x="229" y="121" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55">Donohue Pass</text>
-        <text x="229" y="130" font-family="DM Sans,sans-serif" font-size="7.5" fill="#6B9B7A">11,056'</text>
+        <text x="229" y="113" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55">Donohue Pass</text>
+        <text x="229" y="122" font-family="DM Sans,sans-serif" font-size="7.5" fill="#6B9B7A">11,056'</text>
 
-        <!-- Reds Meadow (resupply) -->
+        <!-- Island Pass -->
+        <text x="248" y="142" font-family="DM Sans,sans-serif" font-size="7.5" fill="#4E7D65" text-anchor="middle">Island Pass</text>
+
+        <!-- Reds Meadow -->
         <text x="281" y="121" font-family="DM Sans,sans-serif" font-size="8.5" fill="#C4582A" text-anchor="end">Reds Meadow</text>
         <text x="281" y="131" font-family="DM Sans,sans-serif" font-size="7.5" fill="#888" text-anchor="end">resupply</text>
 
-        <!-- Silver Pass label -->
+        <!-- Silver Pass -->
         <text x="347" y="174" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55">Silver Pass</text>
 
-        <!-- Muir Trail Ranch (resupply) -->
+        <!-- Selden Pass -->
+        <text x="378" y="208" font-family="DM Sans,sans-serif" font-size="7.5" fill="#4E7D65">Selden Pass</text>
+
+        <!-- Muir Trail Ranch -->
         <text x="404" y="253" font-family="DM Sans,sans-serif" font-size="8.5" fill="#C4582A" text-anchor="end">Muir Trail Ranch</text>
         <text x="404" y="263" font-family="DM Sans,sans-serif" font-size="7.5" fill="#888" text-anchor="end">resupply</text>
 
@@ -3318,7 +3545,13 @@
         <!-- Mather Pass -->
         <text x="563" y="280" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55" text-anchor="end">Mather Pass</text>
 
-        <!-- Forester Pass (highest) -->
+        <!-- Pinchot Pass -->
+        <text x="590" y="309" font-family="DM Sans,sans-serif" font-size="7.5" fill="#4E7D65">Pinchot Pass</text>
+
+        <!-- Glen Pass -->
+        <text x="558" y="320" font-family="DM Sans,sans-serif" font-size="7.5" fill="#4E7D65" text-anchor="end">Glen Pass</text>
+
+        <!-- Forester Pass -->
         <text x="558" y="335" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="600" fill="#1A3128" text-anchor="end">Forester Pass</text>
         <text x="558" y="346" font-family="DM Sans,sans-serif" font-size="7.5" fill="#3D6B55" text-anchor="end">13,153' · Highest PCT/JMT</text>
 
@@ -3326,16 +3559,16 @@
         <text x="643" y="382" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#D4A033">MT. WHITNEY</text>
         <text x="643" y="394" font-family="DM Sans,sans-serif" font-size="8.5" fill="#1A3128">14,505' · Summit</text>
 
-        <!-- Whitney Portal (south terminus) -->
+        <!-- Whitney Portal -->
         <text x="663" y="393" font-family="DM Sans,sans-serif" font-size="7.5" fill="#1A3128">Whitney Portal</text>
         <text x="663" y="403" font-family="DM Sans,sans-serif" font-size="7" fill="#3D6B55">S Trailhead</text>
 
-        <!-- National park region labels (subtle, rotated) -->
+        <!-- National park region labels -->
         <text transform="rotate(-14 80 200)" x="80" y="200" font-family="DM Sans,sans-serif" font-size="8.5" fill="#3D6B55" opacity="0.55" letter-spacing="1.5">YOSEMITE N.P.</text>
         <text transform="rotate(-14 360 360)" x="360" y="360" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55" opacity="0.5" letter-spacing="1">KINGS CANYON N.P.</text>
         <text transform="rotate(-14 560 438)" x="560" y="438" font-family="DM Sans,sans-serif" font-size="8" fill="#3D6B55" opacity="0.5" letter-spacing="1">SEQUOIA N.P.</text>
 
-        <!-- Compass rose (upper right) -->
+        <!-- Compass rose -->
         <g transform="translate(736,38)">
           <circle cx="0" cy="0" r="20" fill="white" opacity="0.82" stroke="#c8c0b0" stroke-width="1"/>
           <polygon points="0,-16 -5,0 0,-4 5,0" fill="#1A3128"/>
@@ -3345,7 +3578,7 @@
           <text x="0" y="-19" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="#1A3128">N</text>
         </g>
 
-        <!-- Scale bar (lower left) -->
+        <!-- Scale bar -->
         <g transform="translate(22,458)">
           <rect x="0" y="-3" width="74" height="6" rx="1" fill="#1A3128" opacity="0.15"/>
           <rect x="0" y="-3" width="37" height="6" rx="1" fill="#1A3128" opacity="0.22"/>
@@ -3357,29 +3590,28 @@
           <text x="74" y="-9" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#555">50 mi</text>
         </g>
 
-        <!-- Map legend (lower right) -->
-        <g transform="translate(560,432)">
-          <rect x="-8" y="-10" width="222" height="56" rx="6" fill="white" opacity="0.82" stroke="#d0c8b8" stroke-width="1"/>
-          <!-- Trail line -->
+        <!-- Map legend -->
+        <g transform="translate(560,424)">
+          <rect x="-8" y="-10" width="222" height="68" rx="6" fill="white" opacity="0.82" stroke="#d0c8b8" stroke-width="1"/>
           <line x1="0" y1="4" x2="28" y2="4" stroke="#C4582A" stroke-width="3" stroke-linecap="round"/>
           <text x="34" y="8" font-family="DM Sans,sans-serif" font-size="8.5" fill="#333">JMT Route (211 mi)</text>
-          <!-- N trailhead -->
           <circle cx="10" cy="22" r="5" fill="#1A3128" stroke="white" stroke-width="1.5"/>
           <text x="20" y="26" font-family="DM Sans,sans-serif" font-size="8.5" fill="#333">Trailhead / terminus</text>
-          <!-- Resupply diamond -->
           <rect x="6.5" y="36" width="7" height="7" rx="1" fill="#C4582A" stroke="white" stroke-width="1" transform="rotate(45 10 39.5)"/>
           <text x="20" y="43" font-family="DM Sans,sans-serif" font-size="8.5" fill="#333">Resupply point</text>
-          <!-- Pass triangle -->
           <polygon points="120,22 115,33 125,33" fill="#3D6B55"/>
           <text x="130" y="30" font-family="DM Sans,sans-serif" font-size="8.5" fill="#333">Mountain pass</text>
-          <!-- Whitney marker -->
           <polygon points="120,40 115,51 125,51" fill="#D4A033"/>
           <text x="130" y="48" font-family="DM Sans,sans-serif" font-size="8.5" fill="#333">Whitney summit</text>
+          <text x="107" y="61" font-family="DM Sans,sans-serif" font-size="7" fill="#aaa" text-anchor="middle">hover markers for details</text>
         </g>
 
         <!-- Map title -->
         <text x="390" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="13.5" font-weight="700" fill="#1A3128" opacity="0.88">John Muir Trail · Sierra Nevada · California</text>
       </svg>
+      <!-- Interactive tooltip -->
+      <div id="jmt-map-tooltip" class="jmt-tooltip"></div>
+
       <p class="jmt-map-caption">
         JMT corridor · Yosemite Valley (north) to Mt. Whitney (south) ·
         <a href="https://www.openstreetmap.org/relation/1244744" target="_blank" rel="noopener">View full route on OpenStreetMap ↗</a>
@@ -7080,6 +7312,154 @@
   }
 
   refreshCaptcha();
+
+  // JMT Map: animate route length, then interactive tooltips
+  (function() {
+    var route = document.getElementById('jmt-route');
+    var shadow = document.getElementById('jmt-shadow');
+    if (route) {
+      var len = route.getTotalLength();
+      route.style.strokeDasharray = len;
+      route.style.strokeDashoffset = len;
+      if (shadow) { shadow.style.strokeDasharray = len; shadow.style.strokeDashoffset = len; }
+      // Trigger reflow then start animation
+      route.getBoundingClientRect();
+      route.style.animation = 'drawRoute 2.4s ease-out 0.3s forwards';
+      if (shadow) shadow.style.animation = 'drawRoute 2.4s ease-out 0.3s forwards';
+    }
+
+    var MARKERS = {
+      'happy-isles': {
+        type: 'trailhead', title: 'Happy Isles', sub: 'N Trailhead · Yosemite Valley',
+        elev: '4,035 ft', mile: '0.0 mi',
+        info: 'The JMT begins at Happy Isles in Yosemite Valley. The trail climbs the Merced River gorge past Vernal and Nevada Falls into the high Sierra.'
+      },
+      'tuolumne': {
+        type: 'waypoint', title: 'Tuolumne Meadows', sub: 'Yosemite National Park',
+        elev: '8,600 ft', mile: '21.4 mi',
+        info: 'The largest subalpine meadow in the Sierra Nevada. Resupply at the village store. Often the first or second camp for southbound thru-hikers.'
+      },
+      'donohue': {
+        type: 'pass', title: 'Donohue Pass', sub: 'Yosemite / Ansel Adams Wilderness',
+        elev: '11,056 ft', mile: '28.8 mi',
+        info: 'The southern boundary of Yosemite NP. Sweeping views of the Cathedral Range to the north and the volcanic Ritter Range ahead to the south.'
+      },
+      'island-pass': {
+        type: 'pass', title: 'Island Pass', sub: 'Ansel Adams Wilderness',
+        elev: '10,205 ft', mile: '32.1 mi',
+        info: 'A relatively gentle crossing near the headwaters of the San Joaquin River. Thousand Island Lake and its stunning view of Mt. Ritter stretches just below.'
+      },
+      'reds-meadow': {
+        type: 'resupply', title: 'Reds Meadow', sub: 'Resupply · Mammoth Lakes area',
+        elev: '7,600 ft', mile: '49.5 mi',
+        info: 'Hot springs, a café, and bus access to Mammoth Lakes. Near the dramatic Rainbow Falls and Devils Postpile National Monument lava columns.'
+      },
+      'silver-pass': {
+        type: 'pass', title: 'Silver Pass', sub: 'John Muir Wilderness',
+        elev: '10,745 ft', mile: '60.1 mi',
+        info: 'A dramatic pass with views down to Silver Pass Lake. The trail winds through boulder fields past a cluster of pristine alpine lakes.'
+      },
+      'selden-pass': {
+        type: 'pass', title: 'Selden Pass', sub: 'Sierra National Forest',
+        elev: '10,912 ft', mile: '79.2 mi',
+        info: 'Gateway to the Evolution region. Heart Lake and the Marie Lakes basin spread out below. A long descent into the magic of Evolution Valley follows.'
+      },
+      'mtr': {
+        type: 'resupply', title: 'Muir Trail Ranch', sub: 'Resupply · Kings Canyon area',
+        elev: '7,620 ft', mile: '91.7 mi',
+        info: 'Accessible by ferry from Florence or Edison Lake. Offers hot springs, food, and bucket resupply pickup. The approximate halfway point of the trail.'
+      },
+      'muir-pass': {
+        type: 'pass', title: 'Muir Pass', sub: 'Kings Canyon National Park',
+        elev: '11,955 ft', mile: '105.0 mi',
+        info: 'Home to the historic Muir Hut, a stone emergency shelter built in 1931. Often snow-covered into July. Named for conservationist John Muir.'
+      },
+      'mather-pass': {
+        type: 'pass', title: 'Mather Pass', sub: 'Kings Canyon National Park',
+        elev: '12,100 ft', mile: '126.8 mi',
+        info: 'Named for Stephen T. Mather, first director of the NPS. Steep switchbacks on both sides. The vast Upper Basin stretches grandly to the south.'
+      },
+      'pinchot-pass': {
+        type: 'pass', title: 'Pinchot Pass', sub: 'Kings Canyon National Park',
+        elev: '12,130 ft', mile: '134.2 mi',
+        info: 'Named for conservationist Gifford Pinchot. A remote crossing in the upper South Fork Kings River drainage, surrounded by towering granite peaks.'
+      },
+      'glen-pass': {
+        type: 'pass', title: 'Glen Pass', sub: 'Kings Canyon National Park',
+        elev: '11,978 ft', mile: '145.3 mi',
+        info: 'Gateway to the stunning Rae Lakes Loop. Turquoise lakes spread below on the south side, with the Painted Lady peak presiding to the east.'
+      },
+      'forester-pass': {
+        type: 'pass', title: 'Forester Pass', sub: 'Kings Canyon / Sequoia NP border',
+        elev: '13,153 ft', mile: '168.3 mi',
+        info: 'The highest point on the entire JMT and PCT. Snow lingers on the north face well into summer. Switchbacks are literally carved into the cliff face.'
+      },
+      'whitney': {
+        type: 'summit', title: 'Mt. Whitney Summit', sub: 'Sequoia National Park',
+        elev: '14,505 ft', mile: '196.5 mi',
+        info: 'The highest peak in the contiguous United States. A stone shelter crowns the summit plateau. Most JMT thru-hikers arrive here on day 14–21.'
+      },
+      'portal': {
+        type: 'trailhead', title: 'Whitney Portal', sub: 'S Terminus · Lone Pine, CA',
+        elev: '8,374 ft', mile: '211.0 mi',
+        info: 'The official southern terminus of the JMT. A 4,000 ft descent from Whitney summit through dramatic Alabama Hills terrain ends the journey here.'
+      }
+    };
+
+    var TYPE_LABEL = {
+      pass: 'Mountain Pass', resupply: 'Resupply Point',
+      trailhead: 'Trailhead', summit: 'Summit', waypoint: 'Waypoint'
+    };
+
+    var tooltip = document.getElementById('jmt-map-tooltip');
+    if (!tooltip) return;
+
+    var hideTimer = null;
+
+    document.querySelectorAll('.map-marker').forEach(function(el) {
+      el.addEventListener('mouseenter', function(e) {
+        clearTimeout(hideTimer);
+        var key = el.getAttribute('data-marker');
+        var d = MARKERS[key];
+        if (!d) return;
+        tooltip.innerHTML =
+          '<div class="jmt-tooltip-type ' + d.type + '">' + (TYPE_LABEL[d.type] || d.type) + '</div>' +
+          '<div class="jmt-tooltip-title">' + d.title + '</div>' +
+          '<div class="jmt-tooltip-sub">' + d.sub + '</div>' +
+          '<div class="jmt-tooltip-meta">' +
+            '<div class="jmt-tooltip-meta-item">' +
+              '<span class="jmt-tooltip-meta-label">Elevation</span>' +
+              '<span class="jmt-tooltip-meta-value">' + d.elev + '</span>' +
+            '</div>' +
+            '<div class="jmt-tooltip-meta-item">' +
+              '<span class="jmt-tooltip-meta-label">Mile Marker</span>' +
+              '<span class="jmt-tooltip-meta-value">' + d.mile + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="jmt-tooltip-info">' + d.info + '</div>';
+        tooltip.classList.add('visible');
+        positionTooltip(e);
+      });
+      el.addEventListener('mousemove', positionTooltip);
+      el.addEventListener('mouseleave', function() {
+        hideTimer = setTimeout(function() { tooltip.classList.remove('visible'); }, 120);
+      });
+    });
+
+    function positionTooltip(e) {
+      var margin = 18;
+      var tw = tooltip.offsetWidth || 240;
+      var th = tooltip.offsetHeight || 160;
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var x = e.clientX + margin;
+      var y = e.clientY + margin;
+      if (x + tw > vw - margin) x = e.clientX - tw - margin;
+      if (y + th > vh - margin) y = e.clientY - th - margin;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+  })();
 </script>
 </body>
 </html>
