@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>John Muir Trail Guide – 211-Mile Sierra Nevada Thru-Hike | TrailPack</title>
+  <title>TrailPack | Backcountry Planner</title>
   <meta name="description" content="Complete guide to the John Muir Trail: 211 miles from Yosemite Valley to Mt. Whitney through the Sierra Nevada. Permits, gear lists, route breakdown, key passes, and best seasons.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" id="canonical-url" href="https://trailpack.snurray.com/#jmt">
@@ -305,17 +305,17 @@
     }
     .hero-headline {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 5.5vw, 60px);
-      font-weight: 900;
-      font-style: italic;
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 600;
+      font-style: normal;
       color: #fff;
-      line-height: 1.1;
-      letter-spacing: -0.3px;
-      max-width: 700px;
-      margin: 0 auto 20px;
-      text-shadow: 0 3px 24px rgba(0,0,0,0.5);
+      line-height: 1.2;
+      letter-spacing: -0.2px;
+      max-width: 600px;
+      margin: 0 auto 16px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.4);
     }
-    .hero-headline span { color: var(--gold); font-style: normal; }
+    .hero-headline span { color: var(--gold); }
     .hero-sub {
       font-size: 16px;
       color: rgba(245,240,232,0.8);
@@ -323,6 +323,59 @@
       margin: 0 auto 48px;
       line-height: 1.8;
       font-weight: 300;
+    }
+
+    /* Plan steps */
+    .plan-steps {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin: 0 auto 40px;
+      position: relative;
+      z-index: 2;
+    }
+    .plan-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+      flex: 1;
+      min-width: 180px;
+      text-align: left;
+    }
+    .plan-step-num {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #1A3128;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .plan-step-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .plan-step-text strong {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .plan-step-text span {
+      font-size: 12px;
+      color: rgba(245,240,232,0.65);
+      line-height: 1.5;
     }
 
     /* Tool cards on hero */
@@ -2876,8 +2929,32 @@
 
   <!-- Hero -->
   <section class="home-hero">
-    <h1 class="hero-headline">The Trail Doesn't Wait.<br><span>Neither Should Your Gear.</span></h1>
-    <p class="hero-sub">Tell us your terrain, weather, and trip length. We'll build your list.</p>
+    <h1 class="hero-headline">Plan Your Backcountry Trip</h1>
+    <p class="hero-sub">Answer a few questions about your route, conditions, and group — we'll handle the rest.</p>
+
+    <div class="plan-steps">
+      <div class="plan-step">
+        <div class="plan-step-num">1</div>
+        <div class="plan-step-text">
+          <strong>Describe your trip</strong>
+          <span>Terrain, duration, group size, and expected conditions</span>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="plan-step-num">2</div>
+        <div class="plan-step-text">
+          <strong>Get a tailored list</strong>
+          <span>Gear and food recommendations optimized for your specific trip</span>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="plan-step-num">3</div>
+        <div class="plan-step-text">
+          <strong>Refine and save</strong>
+          <span>Edit items, check them off as you pack, and save for next time</span>
+        </div>
+      </div>
+    </div>
 
     <div class="tool-cards">
       <div class="tool-card" onclick="startNewPackList()">
@@ -3247,7 +3324,7 @@
 
   <!-- Hero -->
   <div class="jmt-hero">
-    <button class="jmt-hero-back" onclick="history.back(); showPage('trips')">
+    <button class="jmt-hero-back" onclick="showPage('trips')">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       Back to Trips
     </button>
@@ -3991,7 +4068,7 @@
 
   <!-- Hero -->
   <div class="jmt-hero" style="background: linear-gradient(to bottom, rgba(26,49,40,0.55) 0%, rgba(26,49,40,0.92) 100%), url('https://images.pexels.com/photos/4457408/pexels-photo-4457408.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop') center / cover no-repeat;">
-    <button class="jmt-hero-back" onclick="history.back(); showPage('trips')">
+    <button class="jmt-hero-back" onclick="showPage('trips')">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       Back to Trips
     </button>
