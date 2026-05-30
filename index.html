@@ -9066,45 +9066,70 @@ function initTruths() {
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  async function doSearch(e) {
+  function doSearch(e) {
     e.preventDefault();
     const q = document.getElementById('navSearchInput').value.trim();
     if (!q) return;
     const resultsEl = document.getElementById('navSearchResults');
-    resultsEl.innerHTML = '<div class="search-loading">Searching trails…</div>';
-    if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') {
-      resultsEl.innerHTML = '<div class="search-error">Search unavailable in local mode.</div>';
+
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const diffColors = { easy:'#6B9B7A', moderate:'#D4A033', strenuous:'#C4582A', expert:'#a09080' };
+    const fieldWeights = [10, 8, 8, 6, 5, 7, 4];
+
+    function scoreTrip(trip) {
+      const stateName = (STATE_NAMES[trip.state] || trip.state).toLowerCase();
+      const fields = [
+        trip.name.toLowerCase(),
+        stateName,
+        trip.state.toLowerCase(),
+        trip.region.toLowerCase(),
+        trip.terrain.toLowerCase(),
+        trip.difficulty.toLowerCase(),
+        trip.highlights.toLowerCase(),
+      ];
+      let score = 0;
+      for (const token of tokens) {
+        for (let i = 0; i < fields.length; i++) {
+          if (fields[i].includes(token)) score += fieldWeights[i];
+        }
+      }
+      return score;
+    }
+
+    const scored = TRIPS_DATA
+      .map(t => ({ trip: t, score: scoreTrip(t) }))
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+
+    if (!scored.length) {
+      resultsEl.innerHTML = '<div class="search-no-results">No trails found. Try a different search.</div>';
       return;
     }
-    try {
-      const res = await fetch(API_ENDPOINT + '/search?q=' + encodeURIComponent(q));
-      if (!res.ok) throw new Error('Search failed (' + res.status + ')');
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      let html = '';
-      if (data.summary) html += `<div class="search-summary">${_escHtml(data.summary)}</div>`;
-      if (data.results && data.results.length) {
-        const diffColors = { easy:'#6B9B7A', moderate:'#D4A033', strenuous:'#C4582A', expert:'#a09080' };
-        data.results.forEach(r => {
-          const dc = diffColors[(r.difficulty||'').toLowerCase()] || '#a09080';
-          html += `<div class="search-result-item" style="cursor:pointer" onclick="closeNavSearch();showPage('explore')">
-            <div class="search-result-name">${_escHtml(r.name||'')}</div>
-            <div class="search-result-meta">
-              ${r.state ? `<span>${_escHtml(r.state)}</span>` : ''}
-              ${r.miles ? `<span>${Number(r.miles).toFixed(0)} mi</span>` : ''}
-              ${r.days ? `<span>${_escHtml(String(r.days))} days</span>` : ''}
-              ${r.difficulty ? `<span style="color:${dc}">${_escHtml(r.difficulty)}</span>` : ''}
-            </div>
-            ${r.description ? `<div class="search-result-desc">${_escHtml(r.description)}</div>` : ''}
-          </div>`;
-        });
-      } else {
-        html += '<div class="search-no-results">No trails found. Try a different search.</div>';
-      }
-      resultsEl.innerHTML = html;
-    } catch (err) {
-      resultsEl.innerHTML = `<div class="search-error">${_escHtml(err.message||'Search failed. Try again.')}</div>`;
+
+    let html = `<div class="search-summary">Found ${scored.length} trail${scored.length !== 1 ? 's' : ''} matching "${_escHtml(q)}"</div>`;
+
+    for (const { trip: r } of scored) {
+      const dc = diffColors[r.difficulty] || '#a09080';
+      const stateName = STATE_NAMES[r.state] || r.state;
+      const days = r.minDays === r.maxDays ? `${r.minDays} days` : `${r.minDays}–${r.maxDays} days`;
+      const page = r.id === 1 ? 'jmt' : r.id === 2 ? 'lost-coast' : null;
+      const clickAction = page
+        ? `closeNavSearch();showPage('${page}')`
+        : `closeNavSearch();openStateTrips('${r.state}')`;
+      html += `<div class="search-result-item" style="cursor:pointer" onclick="${clickAction}">
+        <div class="search-result-name">${_escHtml(r.name)}</div>
+        <div class="search-result-meta">
+          <span>${_escHtml(stateName)}</span>
+          <span>${Number(r.miles).toFixed(0)} mi</span>
+          <span>${_escHtml(days)}</span>
+          <span style="color:${dc}">${_escHtml(r.difficulty)}</span>
+        </div>
+        <div class="search-result-desc">${_escHtml(r.highlights)}</div>
+      </div>`;
     }
+
+    resultsEl.innerHTML = html;
   }
 
   // Restore page from URL hash on load (keeps position after refresh)
