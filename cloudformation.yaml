@@ -130,6 +130,14 @@ Resources:
                   - dynamodb:GetItem
                   - dynamodb:PutItem
                 Resource: !GetAtt UsersTable.Arn
+        - PolicyName: BedrockAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                Resource: !Sub 'arn:aws:bedrock:${AWS::Region}::foundation-model/anthropic.claude-3-haiku-20240307-v1:0'
 
   RegisterFunction:
     Type: AWS::Lambda::Function
@@ -198,6 +206,34 @@ Resources:
           return{statusCode:200,headers:hd,body:JSON.stringify({token:J({userId:r.Item.userId.S,email:em,exp:Math.floor(Date.now()/1000)+2592000}),email:em})};
           }catch(e){return{statusCode:500,headers:hd,body:JSON.stringify({error:'Server error'})}}};
 
+  SearchFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-search'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 15
+      Code:
+        ZipFile: |
+          'use strict';
+          const{BedrockRuntimeClient,InvokeModelCommand}=require('@aws-sdk/client-bedrock-runtime');
+          const cl=new BedrockRuntimeClient({region:process.env.AWS_REGION||'us-east-1'});
+          const hd={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type','Content-Type':'application/json'};
+          exports.handler=async ev=>{
+          try{
+          const q=((ev.queryStringParameters&&ev.queryStringParameters.q)||'').trim();
+          if(!q)return{statusCode:400,headers:hd,body:JSON.stringify({error:'Query required'})};
+          const prompt=`You are TrailPack, a backcountry hiking assistant. The user is searching for backpacking trails. Given their query, recommend 3-5 relevant trails.\nQuery: "${q.slice(0,300)}"\nRespond ONLY with valid JSON in this exact format:\n{"summary":"one sentence intro about these results","results":[{"name":"Trail Name","state":"CA","miles":25,"days":"3-5","difficulty":"moderate","description":"One sentence about the trail."}]}`;
+          const body=JSON.stringify({anthropic_version:'bedrock-2023-05-31',max_tokens:900,messages:[{role:'user',content:prompt}]});
+          const r=await cl.send(new InvokeModelCommand({modelId:'anthropic.claude-3-haiku-20240307-v1:0',contentType:'application/json',accept:'application/json',body:Buffer.from(body)}));
+          const text=JSON.parse(Buffer.from(r.body).toString()).content[0].text.trim();
+          const start=text.indexOf('{');const end=text.lastIndexOf('}');
+          let parsed;
+          try{parsed=JSON.parse(start>=0?text.slice(start,end+1):text);}catch(e){parsed={summary:text,results:[]};}
+          return{statusCode:200,headers:hd,body:JSON.stringify(parsed)};
+          }catch(e){console.error(e);return{statusCode:500,headers:hd,body:JSON.stringify({error:'Search failed. Please try again.'})}}};
+
   AuthApi:
     Type: AWS::ApiGatewayV2::Api
     Properties:
@@ -207,6 +243,7 @@ Resources:
         AllowOrigins:
           - '*'
         AllowMethods:
+          - GET
           - POST
           - OPTIONS
         AllowHeaders:
@@ -265,6 +302,29 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/auth/login'
+
+  SearchIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AuthApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchFunction.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+
+  SearchRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'GET /search'
+      Target: !Sub 'integrations/${SearchIntegration}'
+
+  SearchLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SearchFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/search'
 
 Outputs:
   BucketName:
