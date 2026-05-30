@@ -60,6 +60,16 @@ jobs:
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
           echo "auth_api_endpoint=$AUTH_API_ENDPOINT" >> $GITHUB_OUTPUT
 
+      - name: Seed trail catalog to DynamoDB
+        run: |
+          jq '{trails: .}' trails.json > /tmp/seed-payload.json
+          aws lambda invoke \
+            --function-name ${{ env.STACK_NAME }}-seed-trails \
+            --payload file:///tmp/seed-payload.json \
+            --cli-binary-format raw-in-base64-out \
+            /tmp/seed-response.json
+          cat /tmp/seed-response.json
+
       - name: Inject API endpoint into HTML
         run: |
           sed -i "s|__API_ENDPOINT__|${{ steps.stack.outputs.auth_api_endpoint }}|g" index.html
@@ -74,6 +84,7 @@ jobs:
             --exclude "cloudformation.yaml" \
             --exclude "CNAME" \
             --exclude "*.html" \
+            --exclude "*.json" \
             --cache-control "public, max-age=31536000, immutable"
 
           # HTML files: always revalidate

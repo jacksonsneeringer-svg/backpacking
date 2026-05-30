@@ -9071,7 +9071,7 @@ function initTruths() {
     const q = document.getElementById('navSearchInput').value.trim();
     if (!q) return;
     const resultsEl = document.getElementById('navSearchResults');
-    resultsEl.innerHTML = '<div class="search-loading">Finding trails…</div>';
+    resultsEl.innerHTML = '<div class="search-loading">Searching trails…</div>';
     if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') {
       resultsEl.innerHTML = '<div class="search-error">Search unavailable in local mode.</div>';
       return;
@@ -9087,7 +9087,7 @@ function initTruths() {
         const diffColors = { easy:'#6B9B7A', moderate:'#D4A033', strenuous:'#C4582A', expert:'#a09080' };
         data.results.forEach(r => {
           const dc = diffColors[(r.difficulty||'').toLowerCase()] || '#a09080';
-          html += `<div class="search-result-item">
+          html += `<div class="search-result-item" style="cursor:pointer" onclick="closeNavSearch();showPage('explore')">
             <div class="search-result-name">${_escHtml(r.name||'')}</div>
             <div class="search-result-meta">
               ${r.state ? `<span>${_escHtml(r.state)}</span>` : ''}
