@@ -1461,6 +1461,204 @@
     .nav-dropdown-item:hover { background: rgba(255,255,255,0.08); color: var(--gold); }
     .nav-dropdown-item + .nav-dropdown-item { border-top: 1px solid rgba(255,255,255,0.06); }
 
+    /* Auth nav button */
+    .nav-auth-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .nav-auth-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid rgba(212,160,51,0.4);
+      background: rgba(212,160,51,0.07);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-auth-btn:hover { background: rgba(212,160,51,0.15); border-color: var(--gold); }
+    .nav-auth-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #0d1f15;
+      border: 1px solid rgba(212,160,51,0.2);
+      border-radius: 8px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+      min-width: 190px;
+      display: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .nav-auth-dropdown.open { display: block; }
+    .nav-auth-dropdown-email {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .nav-auth-dropdown button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #d0c8b8;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .nav-auth-dropdown button:hover { background: rgba(255,255,255,0.07); color: var(--gold); }
+
+    /* Auth modal */
+    .auth-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      padding: 16px;
+    }
+    .auth-modal-overlay.show { opacity: 1; pointer-events: all; }
+    .auth-modal-box {
+      position: relative;
+      background: var(--pine);
+      border: 1px solid rgba(212,160,51,0.2);
+      border-radius: 14px;
+      padding: 28px 28px 24px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: translateY(8px);
+      transition: transform 0.2s;
+    }
+    .auth-modal-overlay.show .auth-modal-box { transform: translateY(0); }
+    .auth-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      font-size: 22px;
+      cursor: pointer;
+      padding: 4px 8px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .auth-modal-close:hover { color: rgba(255,255,255,0.75); }
+    .auth-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .auth-tab {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.4);
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+    .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .auth-tab:hover:not(.active) { color: rgba(255,255,255,0.65); }
+    .auth-modal-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin: 0 0 18px;
+      line-height: 1.5;
+    }
+    .auth-field { margin-bottom: 13px; }
+    .auth-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 5px;
+    }
+    .auth-input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: #fff;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .auth-input:focus { outline: none; border-color: rgba(212,160,51,0.55); }
+    .auth-input::placeholder { color: rgba(255,255,255,0.28); }
+    .auth-error {
+      font-size: 12px;
+      color: #e07575;
+      margin: -4px 0 10px;
+      min-height: 16px;
+    }
+    .auth-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--pine);
+      border: none;
+      border-radius: 7px;
+      padding: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 2px;
+    }
+    .auth-submit:hover { background: #e0b03a; }
+    .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Saved page auth gate */
+    .saved-auth-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px 60px;
+      text-align: center;
+      gap: 14px;
+    }
+    .saved-auth-gate .gate-icon { opacity: 0.35; margin-bottom: 6px; }
+    .saved-auth-gate p { font-size: 16px; color: rgba(255,255,255,0.55); margin: 0; }
+    .saved-auth-gate .btn-generate { margin-top: 6px; }
+
     /* Mobile nav open state */
     @media (max-width: 680px) {
       .hamburger-btn { display: flex; }
@@ -1483,6 +1681,11 @@
       .nav-dropdown { position: static; border: none; box-shadow: none; background: rgba(255,255,255,0.05); border-radius: 0; }
       .nav-dropdown-wrap.open .nav-dropdown { display: block; }
       .nav-link { width: 100%; justify-content: flex-start; padding: 13px 22px; border-radius: 0; }
+      .nav-auth-wrap { width: 100%; margin-left: 0; }
+      .nav-auth-btn { width: 100%; border: none; border-radius: 0; border-top: 1px solid rgba(255,255,255,0.07); background: none; padding: 13px 22px; font-size: 14px; letter-spacing: 0.5px; justify-content: flex-start; }
+      .nav-auth-dropdown { position: static; border: none; box-shadow: none; background: rgba(255,255,255,0.05); border-radius: 0; }
+      .nav-auth-dropdown.open { display: block; }
+      .nav-auth-dropdown button { padding: 11px 22px 11px 32px; }
     }
 
     /* ══════════════════════════════════════
@@ -2814,8 +3017,18 @@
     </div>
     <button class="nav-link" id="nav-explore" onclick="showPage('explore')"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 20 L9 7.5 L13 14 L17 4.5 L22 20 Z" stroke="rgba(212,160,51,0.55)" stroke-width="1.5" stroke-linejoin="round" fill="rgba(255,255,255,0.04)"/><path d="M15 4.5 L17 8.5 L19 4.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linejoin="round" fill="rgba(255,255,255,0.12)"/><line x1="2" y1="20" x2="22" y2="20" stroke="rgba(212,160,51,0.25)" stroke-width="1"/></svg> Explore Trips</button>
     <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
-      <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips
+      <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips <span class="nav-badge" id="listBadge"></span>
     </button>
+    <div class="nav-auth-wrap" id="navAuthWrap">
+      <button class="nav-auth-btn" id="navAuthBtn" onclick="handleAuthBtnClick()">
+        <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span id="navAuthLabel">Log In</span>
+      </button>
+      <div class="nav-auth-dropdown" id="navAuthDropdown">
+        <div class="nav-auth-dropdown-email" id="navAuthEmail"></div>
+        <button onclick="logout()">Log Out</button>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -2830,6 +3043,30 @@
       <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-modal-save"   onclick="confirmSave()">Save List</button>
     </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-modal-overlay" id="authModal" onclick="if(event.target===this)closeAuthModal()">
+  <div class="auth-modal-box">
+    <button class="auth-modal-close" onclick="closeAuthModal()">&#215;</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Log In</button>
+      <button class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Create Account</button>
+    </div>
+    <p class="auth-modal-subtitle" id="authModalSubtitle"></p>
+    <div class="auth-field">
+      <label class="auth-label" for="authEmail">Email</label>
+      <input class="auth-input" id="authEmail" type="email" placeholder="you@example.com" autocomplete="email"
+        onkeydown="if(event.key==='Enter')submitAuth()">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label" for="authPassword">Password</label>
+      <input class="auth-input" id="authPassword" type="password" placeholder="Min. 8 characters" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')submitAuth()">
+    </div>
+    <div class="auth-error" id="authError"></div>
+    <button class="auth-submit" id="authSubmitBtn" onclick="submitAuth()">Log In</button>
   </div>
 </div>
 
@@ -5270,6 +5507,8 @@
   document.addEventListener('click', function(e) {
     const wrap = document.getElementById('navPlanWrap');
     if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+    const authWrap = document.getElementById('navAuthWrap');
+    if (authWrap && !authWrap.contains(e.target)) closeAuthDropdown();
   });
 
   const SEO_META = {
@@ -5768,6 +6007,135 @@
   }
 
   // ══════════════════════════════════════
+  // AUTH
+  // ══════════════════════════════════════
+  const AUTH_KEY = 'trailpack_auth';
+  const API_ENDPOINT = '__API_ENDPOINT__';
+  let authPendingAction = null;
+  let authCurrentTab = 'login';
+
+  function getAuthUser() {
+    const token = localStorage.getItem(AUTH_KEY);
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+      if (payload.exp && payload.exp < Date.now() / 1000) { localStorage.removeItem(AUTH_KEY); return null; }
+      return { email: payload.email, userId: payload.userId };
+    } catch(e) { return null; }
+  }
+  function isLoggedIn() { return getAuthUser() !== null; }
+
+  function setAuth(token) {
+    localStorage.setItem(AUTH_KEY, token);
+    updateAuthNav();
+    updateBadge();
+  }
+
+  function logout() {
+    localStorage.removeItem(AUTH_KEY);
+    updateAuthNav();
+    updateBadge();
+    closeAuthDropdown();
+    if (document.getElementById('pg-saved').classList.contains('active')) renderSavedLists();
+  }
+
+  function updateAuthNav() {
+    const user = getAuthUser();
+    const label = document.getElementById('navAuthLabel');
+    const email = document.getElementById('navAuthEmail');
+    if (!label) return;
+    if (user) {
+      label.textContent = user.email.split('@')[0];
+      if (email) email.textContent = user.email;
+    } else {
+      label.textContent = 'Log In';
+      if (email) email.textContent = '';
+    }
+  }
+
+  function handleAuthBtnClick() {
+    if (isLoggedIn()) {
+      document.getElementById('navAuthDropdown').classList.toggle('open');
+    } else {
+      openAuthModal('login', null);
+    }
+  }
+
+  function closeAuthDropdown() {
+    const d = document.getElementById('navAuthDropdown');
+    if (d) d.classList.remove('open');
+  }
+
+  function openAuthModal(tab, pendingAction) {
+    authPendingAction = pendingAction || null;
+    switchAuthTab(tab || 'login');
+    document.getElementById('authEmail').value = '';
+    document.getElementById('authPassword').value = '';
+    document.getElementById('authError').textContent = '';
+    const subtitle = document.getElementById('authModalSubtitle');
+    if (pendingAction === 'save') {
+      subtitle.textContent = 'Log in or create a free account to save your trip lists.';
+    } else {
+      subtitle.textContent = '';
+    }
+    document.getElementById('authModal').classList.add('show');
+    setTimeout(() => document.getElementById('authEmail').focus(), 80);
+  }
+
+  function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('show');
+    authPendingAction = null;
+  }
+
+  function switchAuthTab(tab) {
+    authCurrentTab = tab;
+    document.getElementById('authTabLogin').classList.toggle('active', tab === 'login');
+    document.getElementById('authTabRegister').classList.toggle('active', tab === 'register');
+    document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Log In' : 'Create Account';
+    const pw = document.getElementById('authPassword');
+    if (pw) pw.autocomplete = tab === 'login' ? 'current-password' : 'new-password';
+    document.getElementById('authError').textContent = '';
+  }
+
+  async function submitAuth() {
+    const email = document.getElementById('authEmail').value.trim();
+    const password = document.getElementById('authPassword').value;
+    const errEl = document.getElementById('authError');
+    const btn = document.getElementById('authSubmitBtn');
+    errEl.textContent = '';
+    if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; return; }
+    if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') {
+      errEl.textContent = 'Auth service not configured. Please check deployment settings.';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = authCurrentTab === 'login' ? 'Logging in…' : 'Creating account…';
+    try {
+      const path = authCurrentTab === 'login' ? '/auth/login' : '/auth/register';
+      const res = await fetch(API_ENDPOINT + path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) { errEl.textContent = data.error || 'Something went wrong.'; return; }
+      const pending = authPendingAction;
+      setAuth(data.token);
+      closeAuthModal();
+      showToast(`✓ Welcome${authCurrentTab === 'register' ? ' — account created!' : ' back!'}`);
+      if (pending === 'save') openSaveModal();
+      else if (pending === 'saveSplit') confirmSaveSplit();
+      else if (pending === 'saveGrocery') openGroceryModal();
+      else if (document.getElementById('pg-saved').classList.contains('active')) renderSavedLists();
+    } catch(e) {
+      errEl.textContent = 'Network error. Please try again.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = authCurrentTab === 'login' ? 'Log In' : 'Create Account';
+    }
+  }
+
+  // ══════════════════════════════════════
   // SAVE / LOAD
   // ══════════════════════════════════════
   const LS_KEY = 'trailpack_saved_lists';
@@ -5781,15 +6149,16 @@
   function putSavedSplitLists(lists) { localStorage.setItem(LS_SPLIT_KEY, JSON.stringify(lists)); }
 
   function updateBadge() {
-    const count = getSavedLists().length;
     const badge = document.getElementById('listBadge');
-    if (badge) {
-      badge.textContent = count;
-      badge.classList.toggle('show', count > 0);
-    }
+    if (!badge) return;
+    if (!isLoggedIn()) { badge.classList.remove('show'); return; }
+    const count = getSavedLists().length;
+    badge.textContent = count;
+    badge.classList.toggle('show', count > 0);
   }
 
   function openSaveModal() {
+    if (!isLoggedIn()) { openAuthModal('login', 'save'); return; }
     document.getElementById('listNameInput').value = '';
     document.getElementById('saveModal').classList.add('show');
     setTimeout(() => document.getElementById('listNameInput').focus(), 80);
@@ -5815,8 +6184,8 @@
       return;
     }
     closeMealDaysModal();
-    // Auto-save pack list silently if not already saved
-    if (currentSavedListId === null) {
+    // Auto-save pack list silently if not already saved and user is logged in
+    if (currentSavedListId === null && isLoggedIn()) {
       const tL = { mountain:'Mountain', desert:'Desert', forest:'Forest', coastal:'Coastal', mixed:'Mixed' };
       const autoName = (tL[inputs.terrain] || 'Backcountry') + ' Trip';
       const lists = getSavedLists();
@@ -5879,6 +6248,7 @@
 
   function confirmSaveSplit() {
     if (!lastCalculatedPacks) return;
+    if (!isLoggedIn()) { openAuthModal('login', 'saveSplit'); return; }
     const lists = getSavedSplitLists();
     const totalWt = lastCalculatedPacks.reduce((s, p) => s + p.currentWeight, 0);
     const personNames = splitPersonData.map(p => p.name).join(' · ');
@@ -5917,10 +6287,18 @@
   }
 
   function renderSavedLists() {
+    const el = document.getElementById('savedListsContent');
+    if (!isLoggedIn()) {
+      el.innerHTML = `<div class="saved-auth-gate">
+        <div class="gate-icon">${icon('map','',56)}</div>
+        <p>Log in to see your saved lists.</p>
+        <button class="btn-generate" onclick="openAuthModal('login',null)">${icon('pack','',18)} Log In / Create Account</button>
+      </div>`;
+      return;
+    }
     const lists = getSavedLists();
     const splitLists = getSavedSplitLists();
     const groceryLists = getSavedGroceryLists();
-    const el = document.getElementById('savedListsContent');
     if (!lists.length && !splitLists.length && !groceryLists.length) {
       el.innerHTML = `<div class="saved-empty">
         <span class="empty-icon">${icon('map','',56)}</span>
@@ -6786,6 +7164,7 @@
   function putSavedGroceryLists(lists) { localStorage.setItem(GLS_KEY, JSON.stringify(lists)); }
 
   function openGroceryModal() {
+    if (!isLoggedIn()) { openAuthModal('login', 'saveGrocery'); return; }
     if (currentSavedListId) {
       // Auto-save linked to the active trip, no name prompt
       const packList = getSavedLists().find(l => l.id === currentSavedListId);
@@ -8543,6 +8922,10 @@
       tooltip.style.top = y + 'px';
     }
   })();
+
+  // Initialize auth state on load
+  updateAuthNav();
+  updateBadge();
 
   // Restore page from URL hash on load (keeps position after refresh)
   initFromHash();
