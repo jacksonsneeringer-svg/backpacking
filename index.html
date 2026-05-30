@@ -3035,6 +3035,7 @@
     .admin-nav-hint.show { display: flex; }
     .admin-nav-hint:hover { transform: scale(1.04); }
   </style>
+  <script src="api-config.js"></script>
 </head>
 <body>
 
@@ -6105,7 +6106,7 @@ function initTruths() {
   // AUTH
   // ══════════════════════════════════════
   const AUTH_KEY = 'trailpack_auth';
-  const API_ENDPOINT = '__API_ENDPOINT__';
+  const API_ENDPOINT = (typeof TRAILPACK_API_ENDPOINT !== 'undefined' ? TRAILPACK_API_ENDPOINT : '');
   let authPendingAction = null;
   let authCurrentTab = 'login';
 
