@@ -33,9 +33,11 @@ jobs:
           aws cloudformation deploy \
             --template-file cloudformation.yaml \
             --stack-name ${{ env.STACK_NAME }} \
+            --capabilities CAPABILITY_IAM \
             --parameter-overrides \
               DomainName="${{ vars.DOMAIN_NAME || 'trailpack.snurray.com' }}" \
               AcmCertificateArn="${{ secrets.ACM_CERTIFICATE_ARN }}" \
+              JWTSecret="${{ secrets.JWT_SECRET || 'trailpack-change-me-before-prod' }}" \
             --region ${{ env.AWS_REGION }} \
             --no-fail-on-empty-changeset
 
@@ -50,8 +52,17 @@ jobs:
             --stack-name ${{ env.STACK_NAME }} \
             --query 'Stacks[0].Outputs[?OutputKey==`CloudFrontDistributionId`].OutputValue' \
             --output text)
+          AUTH_API_ENDPOINT=$(aws cloudformation describe-stacks \
+            --stack-name ${{ env.STACK_NAME }} \
+            --query 'Stacks[0].Outputs[?OutputKey==`AuthApiEndpoint`].OutputValue' \
+            --output text)
           echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+          echo "auth_api_endpoint=$AUTH_API_ENDPOINT" >> $GITHUB_OUTPUT
+
+      - name: Inject API endpoint into HTML
+        run: |
+          sed -i "s|__API_ENDPOINT__|${{ steps.stack.outputs.auth_api_endpoint }}|g" index.html
 
       - name: Sync website files to S3
         run: |

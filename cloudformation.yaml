@@ -14,6 +14,12 @@ Parameters:
       ARN of an ACM certificate in us-east-1 for HTTPS with the custom domain.
       Leave empty to use the default *.cloudfront.net domain.
 
+  JWTSecret:
+    Type: String
+    Default: 'trailpack-change-me-before-prod'
+    NoEcho: true
+    Description: Secret key for signing JWT auth tokens. Override via JWT_SECRET GitHub secret.
+
 Conditions:
   HasCustomDomain: !Not [!Equals [!Ref AcmCertificateArn, '']]
 
@@ -90,6 +96,176 @@ Resources:
             ResponseCode: 200
             ResponsePagePath: /index.html
 
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub '${AWS::StackName}-users'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                Resource: !GetAtt UsersTable.Arn
+
+  RegisterFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-register'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 10
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref UsersTable
+          JWT_SECRET: !Ref JWTSecret
+      Code:
+        ZipFile: |
+          'use strict';
+          const {DynamoDBClient,PutItemCommand,GetItemCommand}=require('@aws-sdk/client-dynamodb');
+          const c=require('crypto'),db=new DynamoDBClient({});
+          const T=process.env.USERS_TABLE,S=process.env.JWT_SECRET;
+          const H=(p,s)=>new Promise((ok,er)=>c.pbkdf2(p,s,100000,32,'sha256',(e,k)=>e?er(e):ok(k.toString('hex'))));
+          const J=d=>{const h=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url');const b=Buffer.from(JSON.stringify(d)).toString('base64url');return h+'.'+b+'.'+c.createHmac('sha256',S).update(h+'.'+b).digest('base64url');};
+          const hd={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type','Content-Type':'application/json'};
+          exports.handler=async ev=>{
+          try{
+          const{email,password}=JSON.parse(ev.body||'{}');
+          if(!email||!password)return{statusCode:400,headers:hd,body:JSON.stringify({error:'Email and password required'})};
+          if(password.length<8)return{statusCode:400,headers:hd,body:JSON.stringify({error:'Password must be at least 8 characters'})};
+          const em=email.toLowerCase().trim();
+          const ex=await db.send(new GetItemCommand({TableName:T,Key:{email:{S:em}}}));
+          if(ex.Item)return{statusCode:409,headers:hd,body:JSON.stringify({error:'Account already exists'})};
+          const salt=c.randomBytes(16).toString('hex'),hash=await H(password,salt),uid=c.randomUUID();
+          await db.send(new PutItemCommand({TableName:T,Item:{email:{S:em},userId:{S:uid},passwordHash:{S:hash},salt:{S:salt},createdAt:{S:new Date().toISOString()}}}));
+          return{statusCode:201,headers:hd,body:JSON.stringify({token:J({userId:uid,email:em,exp:Math.floor(Date.now()/1000)+2592000}),email:em})};
+          }catch(e){return{statusCode:500,headers:hd,body:JSON.stringify({error:'Server error'})}}};
+
+  LoginFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-login'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 10
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref UsersTable
+          JWT_SECRET: !Ref JWTSecret
+      Code:
+        ZipFile: |
+          'use strict';
+          const {DynamoDBClient,GetItemCommand}=require('@aws-sdk/client-dynamodb');
+          const c=require('crypto'),db=new DynamoDBClient({});
+          const T=process.env.USERS_TABLE,S=process.env.JWT_SECRET;
+          const H=(p,s)=>new Promise((ok,er)=>c.pbkdf2(p,s,100000,32,'sha256',(e,k)=>e?er(e):ok(k.toString('hex'))));
+          const J=d=>{const h=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url');const b=Buffer.from(JSON.stringify(d)).toString('base64url');return h+'.'+b+'.'+c.createHmac('sha256',S).update(h+'.'+b).digest('base64url');};
+          const hd={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type','Content-Type':'application/json'};
+          exports.handler=async ev=>{
+          try{
+          const{email,password}=JSON.parse(ev.body||'{}');
+          if(!email||!password)return{statusCode:400,headers:hd,body:JSON.stringify({error:'Email and password required'})};
+          const em=email.toLowerCase().trim();
+          const r=await db.send(new GetItemCommand({TableName:T,Key:{email:{S:em}}}));
+          if(!r.Item)return{statusCode:401,headers:hd,body:JSON.stringify({error:'Invalid email or password'})};
+          const hash=await H(password,r.Item.salt.S);
+          if(hash!==r.Item.passwordHash.S)return{statusCode:401,headers:hd,body:JSON.stringify({error:'Invalid email or password'})};
+          return{statusCode:200,headers:hd,body:JSON.stringify({token:J({userId:r.Item.userId.S,email:em,exp:Math.floor(Date.now()/1000)+2592000}),email:em})};
+          }catch(e){return{statusCode:500,headers:hd,body:JSON.stringify({error:'Server error'})}}};
+
+  AuthApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub '${AWS::StackName}-auth-api'
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+        MaxAge: 300
+
+  AuthApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref AuthApi
+      StageName: prod
+      AutoDeploy: true
+
+  RegisterIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AuthApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RegisterFunction.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+
+  LoginIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AuthApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LoginFunction.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+
+  RegisterRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'POST /auth/register'
+      Target: !Sub 'integrations/${RegisterIntegration}'
+
+  LoginRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'POST /auth/login'
+      Target: !Sub 'integrations/${LoginIntegration}'
+
+  RegisterLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref RegisterFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/auth/register'
+
+  LoginLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref LoginFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/auth/login'
+
 Outputs:
   BucketName:
     Value: !Ref WebsiteBucket
@@ -109,3 +285,7 @@ Outputs:
       - !Sub 'https://${DomainName}'
       - !Sub 'https://${CloudFrontDistribution.DomainName}'
     Description: Live website URL
+
+  AuthApiEndpoint:
+    Value: !Sub 'https://${AuthApi}.execute-api.${AWS::Region}.amazonaws.com/prod'
+    Description: Authentication API endpoint URL
