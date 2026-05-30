@@ -5734,8 +5734,9 @@
   let truthIdx = 0;
   let truthTimer;
 
-  function initTruths() {
+function initTruths() {
     const dotsEl = document.getElementById('truthDots');
+    if (!dotsEl) return;
     TRUTHS.forEach((_, i) => {
       const d = document.createElement('div');
       d.className = 'truth-dot' + (i === 0 ? ' active' : '');
