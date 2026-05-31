@@ -3034,6 +3034,111 @@
     }
     .admin-nav-hint.show { display: flex; }
     .admin-nav-hint:hover { transform: scale(1.04); }
+
+    /* ══════════════════════════════════════
+       PROFILE MODAL
+    ══════════════════════════════════════ */
+    .profile-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 300;
+      align-items: center; justify-content: center;
+    }
+    .profile-modal-overlay.show { display: flex; }
+    .profile-modal-box {
+      background: var(--cream); border-radius: 16px;
+      padding: 36px 32px; max-width: 520px; width: 94%;
+      box-shadow: var(--shadow-lg); max-height: 90vh; overflow-y: auto;
+    }
+    .profile-modal-box h2 {
+      font-family: 'Playfair Display', serif; font-size: 26px;
+      font-weight: 700; color: var(--pine); margin-bottom: 6px;
+    }
+    .profile-modal-box .pm-sub {
+      font-size: 14px; color: var(--text-light); margin-bottom: 24px; line-height: 1.6;
+    }
+    .pm-section { margin-bottom: 24px; }
+    .pm-section-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--forest); margin-bottom: 12px;
+    }
+    .pm-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .pm-field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 140px; }
+    .pm-label { font-size: 12px; font-weight: 600; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.8px; }
+    .pm-input {
+      width: 100%; border: 2px solid var(--cream-dark); border-radius: 8px;
+      padding: 10px 13px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text-dark); background: #fff; outline: none;
+      transition: border-color 0.2s;
+    }
+    .pm-input:focus { border-color: var(--forest); }
+    .pm-select {
+      width: 100%; border: 2px solid var(--cream-dark); border-radius: 8px;
+      padding: 10px 13px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text-dark); background: #fff; outline: none; cursor: pointer;
+      transition: border-color 0.2s; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%233D6B55' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      padding-right: 34px;
+    }
+    .pm-select:focus { border-color: var(--forest); }
+    .pm-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+    .pm-skip { background: transparent; border: 2px solid #ccc; color: var(--text-mid); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+    .pm-skip:hover { background: var(--cream-dark); }
+    .pm-save { background: var(--forest); border: none; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 11px 28px; border-radius: 50px; cursor: pointer; transition: background 0.2s; }
+    .pm-save:hover { background: var(--sage); }
+
+    /* ══════════════════════════════════════
+       MY LISTS TABS
+    ══════════════════════════════════════ */
+    .my-lists-tabs {
+      display: flex; gap: 0; border-bottom: 2px solid var(--cream-dark);
+      margin-bottom: 28px;
+    }
+    .my-lists-tab {
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      letter-spacing: 0.5px; color: var(--text-light); padding: 10px 22px;
+      border: none; background: transparent; cursor: pointer; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: all 0.2s; display: flex; align-items: center; gap: 7px;
+    }
+    .my-lists-tab:hover { color: var(--forest); }
+    .my-lists-tab.active { color: var(--pine); border-bottom-color: var(--gold); }
+    .my-lists-tab-count { background: var(--cream-dark); color: var(--text-mid); font-size: 11px; font-weight: 700; border-radius: 10px; padding: 2px 7px; }
+    .my-lists-tab.active .my-lists-tab-count { background: var(--gold); color: #fff; }
+
+    /* ══════════════════════════════════════
+       FAVORITE BUTTON ON TRIP CARDS
+    ══════════════════════════════════════ */
+    .fav-btn {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(26,49,40,0.7); border: none; border-radius: 50%;
+      width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); z-index: 5;
+    }
+    .fav-btn:hover { background: rgba(196,88,42,0.85); transform: scale(1.1); }
+    .fav-btn.active { background: var(--rust); }
+    .fav-btn svg { width: 16px; height: 16px; color: #fff; flex-shrink: 0; transition: fill 0.2s; }
+    .fav-btn.active svg { fill: #fff; }
+
+    /* ══════════════════════════════════════
+       FAVORITES PAGE CARDS
+    ══════════════════════════════════════ */
+    .favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .fav-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, transform 0.15s; }
+    .fav-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .fav-card-banner { height: 120px; position: relative; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; }
+    .fav-card-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: #fff; line-height: 1.2; }
+    .fav-card-region { font-size: 11px; color: rgba(255,255,255,0.75); letter-spacing: 0.5px; margin-top: 2px; }
+    .fav-card-body { padding: 12px 14px 14px; }
+    .fav-card-stats { display: flex; gap: 14px; margin-bottom: 10px; }
+    .fav-card-stat { font-size: 13px; color: var(--text-mid); }
+    .fav-card-stat strong { color: var(--pine); font-size: 15px; }
+    .fav-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .fav-card-tag { font-size: 11px; color: var(--text-light); border: 1px solid var(--cream-dark); border-radius: 10px; padding: 2px 9px; }
+    .fav-remove-btn { background: transparent; border: none; font-size: 12px; color: var(--rust); cursor: pointer; padding: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fav-remove-btn:hover { text-decoration: underline; }
+    .favs-empty { text-align: center; padding: 60px 20px; color: var(--forest); }
+    .favs-empty .empty-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+    .favs-empty p { font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
   </style>
   <script src="api-config.js"></script>
 </head>
@@ -3087,7 +3192,7 @@
     </div>
     <button class="nav-link" id="nav-explore" onclick="showPage('explore')"><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L9 7l4 6 3-4 6 11H2z"/><path d="M13 7l-2 2"/><path d="M2 20h20" stroke-width="1" opacity="0.65"/><path d="M9 12.5l-1.5 4.5M16 14.5l-1 3.5" stroke-width="1" opacity="0.45"/></svg> Explore Trips</button>
     <button class="nav-link" id="nav-saved"   onclick="showPage('saved')">
-      <svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Saved Trips <span class="nav-badge" id="listBadge"></span>
+      <svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> My Lists <span class="nav-badge" id="listBadge"></span>
     </button>
     <div class="nav-search-wrap" id="navSearchWrap">
       <button class="nav-search-icon-btn" onclick="toggleNavSearch(event)" aria-label="Search trails">
@@ -3111,6 +3216,8 @@
       </button>
       <div class="nav-auth-dropdown" id="navAuthDropdown">
         <div class="nav-auth-dropdown-email" id="navAuthEmail"></div>
+        <button onclick="openProfileModal(); closeAuthDropdown()">My Profile</button>
+        <button onclick="showPage('saved'); closeAuthDropdown()">My Lists</button>
         <button onclick="logout()">Log Out</button>
       </div>
     </div>
@@ -3152,6 +3259,136 @@
     </div>
     <div class="auth-error" id="authError"></div>
     <button class="auth-submit" id="authSubmitBtn" onclick="submitAuth()">Log In</button>
+  </div>
+</div>
+
+<!-- PROFILE SETUP MODAL (shown after first registration) -->
+<div class="profile-modal-overlay" id="profileSetupModal" onclick="if(event.target===this)closeProfileSetupModal()">
+  <div class="profile-modal-box">
+    <h2>Set Up Your Profile</h2>
+    <p class="pm-sub">Help us personalize your pack lists and gear splits. You can always update this later from your account menu.</p>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Account</div>
+      <div class="pm-row">
+        <div class="pm-field">
+          <label class="pm-label">Username</label>
+          <input class="pm-input" id="pmUsername" type="text" placeholder="e.g. trailblazer42" maxlength="40">
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Personal Details</div>
+      <div class="pm-row">
+        <div class="pm-field">
+          <label class="pm-label">Age</label>
+          <input class="pm-input" id="pmAge" type="number" min="5" max="100" placeholder="e.g. 28">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Weight (lbs)</label>
+          <input class="pm-input" id="pmWeight" type="number" min="50" max="400" placeholder="e.g. 160">
+        </div>
+      </div>
+      <div class="pm-row" style="margin-top:12px">
+        <div class="pm-field">
+          <label class="pm-label">Height (ft)</label>
+          <input class="pm-input" id="pmHeightFt" type="number" min="3" max="8" placeholder="e.g. 5">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Height (in)</label>
+          <input class="pm-input" id="pmHeightIn" type="number" min="0" max="11" placeholder="e.g. 10">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Pack Capacity (L)</label>
+          <input class="pm-input" id="pmBagCapacity" type="number" min="20" max="120" placeholder="e.g. 65">
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Hiking Experience</div>
+      <div class="pm-field">
+        <label class="pm-label">Skill Level</label>
+        <select class="pm-select" id="pmHikingSkill">
+          <option value="">— Select your level —</option>
+          <option value="beginner">Beginner – day hikes, short overnights</option>
+          <option value="intermediate">Intermediate – multi-day trips, moderate terrain</option>
+          <option value="advanced">Advanced – strenuous routes, remote conditions</option>
+          <option value="expert">Expert – technical terrain, off-trail navigation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pm-actions">
+      <button class="pm-skip" onclick="closeProfileSetupModal()">Skip for now</button>
+      <button class="pm-save" onclick="saveProfileSetup()">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE EDIT MODAL -->
+<div class="profile-modal-overlay" id="profileEditModal" onclick="if(event.target===this)closeProfileModal()">
+  <div class="profile-modal-box">
+    <h2>My Profile</h2>
+    <p class="pm-sub">Update your personal details — used to autofill lists and split gear accurately.</p>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Account</div>
+      <div class="pm-row">
+        <div class="pm-field">
+          <label class="pm-label">Username</label>
+          <input class="pm-input" id="editUsername" type="text" placeholder="e.g. trailblazer42" maxlength="40">
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Personal Details</div>
+      <div class="pm-row">
+        <div class="pm-field">
+          <label class="pm-label">Age</label>
+          <input class="pm-input" id="editAge" type="number" min="5" max="100" placeholder="e.g. 28">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Weight (lbs)</label>
+          <input class="pm-input" id="editWeight" type="number" min="50" max="400" placeholder="e.g. 160">
+        </div>
+      </div>
+      <div class="pm-row" style="margin-top:12px">
+        <div class="pm-field">
+          <label class="pm-label">Height (ft)</label>
+          <input class="pm-input" id="editHeightFt" type="number" min="3" max="8" placeholder="e.g. 5">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Height (in)</label>
+          <input class="pm-input" id="editHeightIn" type="number" min="0" max="11" placeholder="e.g. 10">
+        </div>
+        <div class="pm-field">
+          <label class="pm-label">Pack Capacity (L)</label>
+          <input class="pm-input" id="editBagCapacity" type="number" min="20" max="120" placeholder="e.g. 65">
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Hiking Experience</div>
+      <div class="pm-field">
+        <label class="pm-label">Skill Level</label>
+        <select class="pm-select" id="editHikingSkill">
+          <option value="">— Select your level —</option>
+          <option value="beginner">Beginner – day hikes, short overnights</option>
+          <option value="intermediate">Intermediate – multi-day trips, moderate terrain</option>
+          <option value="advanced">Advanced – strenuous routes, remote conditions</option>
+          <option value="expert">Expert – technical terrain, off-trail navigation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pm-actions">
+      <button class="pm-skip" onclick="closeProfileModal()">Cancel</button>
+      <button class="pm-save" onclick="saveProfileEdit()">Save Changes</button>
+    </div>
   </div>
 </div>
 
@@ -3221,7 +3458,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -3316,7 +3553,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -3346,7 +3583,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -3425,7 +3662,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -3620,7 +3857,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -4365,7 +4602,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -4930,7 +5167,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5092,7 +5329,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5319,7 +5556,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5333,11 +5570,22 @@
 ════════════════════════════════════════════ -->
 <div class="page" id="pg-saved">
   <div class="saved-page-header">
-    <h1>My Saved Trips</h1>
-    <p>All your saved pack lists and meal plans in one place.</p>
+    <h1>My Lists</h1>
+    <p>Your saved pack lists, meal plans, and favorite trips — all in one place.</p>
   </div>
   <div class="saved-container">
+    <div class="my-lists-tabs" id="myListsTabs">
+      <button class="my-lists-tab active" id="tabMyLists" onclick="switchMyListsTab('lists')">
+        <svg width="15" height="15" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        My Lists <span class="my-lists-tab-count" id="tabCountLists">0</span>
+      </button>
+      <button class="my-lists-tab" id="tabFavorites" onclick="switchMyListsTab('favorites')">
+        <svg width="15" height="15" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Favorites <span class="my-lists-tab-count" id="tabCountFavs">0</span>
+      </button>
+    </div>
     <div id="savedListsContent"></div>
+    <div id="favoritesContent" style="display:none"></div>
   </div>
   <footer class="site-footer">
     <div class="footer-inner">
@@ -5348,7 +5596,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5425,7 +5673,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5488,7 +5736,7 @@
       <nav class="footer-links">
         <a href="#" onclick="showPage('plan'); return false;">Plan a Trip</a>
         <a href="#" onclick="showPage('explore'); return false;">Explore Routes</a>
-        <a href="#" onclick="showPage('saved'); return false;">Saved Trips</a>
+        <a href="#" onclick="showPage('saved'); return false;">My Lists</a>
         <a href="#" onclick="showPage('contact'); return false;">Contact</a>
         <a href="#" onclick="openAuthModal('login',null); return false;">Log In</a>
       </nav>
@@ -5560,6 +5808,7 @@
     pig:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4a4 4 0 0 1 0 8"/><circle cx="9" cy="10" r="6"/><path d="M9 4a2 2 0 0 1 4 0"/><circle cx="7.5" cy="9.5" r=".5" fill="currentColor"/><circle cx="10.5" cy="9.5" r=".5" fill="currentColor"/><path d="M8 13c.5.5 2 .5 2 0"/></svg>`,
     bean:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4 0-8-3-8-8a8 8 0 0 1 15-4 8 8 0 0 1-7 12z"/><path d="M12 12c-2 2-2 5 0 7"/></svg>`,
     timer:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 3h6"/><path d="M12 3v2"/></svg>`,
+    heart:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
   };
 
   function icon(name, cls='', size=16) {
@@ -5623,8 +5872,8 @@
       description: 'Build a custom backpacking gear list and meal plan with TrailPack\'s interactive planner. Optimized for multi-day wilderness trips.'
     },
     saved: {
-      title: 'Saved Trips | TrailPack',
-      description: 'View and manage your saved backpacking trip plans on TrailPack.'
+      title: 'My Lists | TrailPack',
+      description: 'View and manage your saved backpacking pack lists, meal plans, and favorite trips on TrailPack.'
     }
   };
 
@@ -5670,7 +5919,7 @@
     if (splitEl) splitEl.classList.toggle('active', name === 'split');
     activePage = name;
     updateSEOMeta(name);
-    if (name === 'saved') renderSavedLists();
+    if (name === 'saved') { renderSavedLists(); updateFavCount(); }
     if (name === 'explore') renderStateGrid();
     // Update URL hash so page survives refresh and back/forward works
     if (!_handlingPopState) {
@@ -6132,7 +6381,11 @@ function initTruths() {
     updateAuthNav();
     updateBadge();
     closeAuthDropdown();
-    if (document.getElementById('pg-saved').classList.contains('active')) renderSavedLists();
+    activeMyListsTab = 'lists';
+    if (document.getElementById('pg-saved').classList.contains('active')) {
+      renderSavedLists();
+      switchMyListsTab('lists');
+    }
   }
 
   function updateAuthNav() {
@@ -6141,12 +6394,255 @@ function initTruths() {
     const email = document.getElementById('navAuthEmail');
     if (!label) return;
     if (user) {
-      label.textContent = user.email.split('@')[0];
+      const profile = getProfile();
+      label.textContent = (profile && profile.username) ? profile.username : user.email.split('@')[0];
       if (email) email.textContent = user.email;
     } else {
       label.textContent = 'Log In';
       if (email) email.textContent = '';
     }
+  }
+
+  // ══════════════════════════════════════
+  // USER PROFILE
+  // ══════════════════════════════════════
+  function profileKey(userId) { return 'trailpack_profile_' + userId; }
+
+  function getProfile() {
+    const user = getAuthUser();
+    if (!user) return null;
+    try { return JSON.parse(localStorage.getItem(profileKey(user.userId))) || null; } catch(e) { return null; }
+  }
+
+  function saveProfileLocally(data) {
+    const user = getAuthUser();
+    if (!user) return;
+    const existing = getProfile() || {};
+    const updated = Object.assign({}, existing, data);
+    localStorage.setItem(profileKey(user.userId), JSON.stringify(updated));
+  }
+
+  async function syncProfileToServer(data) {
+    if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') return;
+    const token = localStorage.getItem(AUTH_KEY);
+    if (!token) return;
+    try {
+      await fetch(API_ENDPOINT + '/user/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {}
+  }
+
+  function openProfileSetupModal() {
+    document.getElementById('pmUsername').value = '';
+    document.getElementById('pmAge').value = '';
+    document.getElementById('pmWeight').value = '';
+    document.getElementById('pmHeightFt').value = '';
+    document.getElementById('pmHeightIn').value = '';
+    document.getElementById('pmBagCapacity').value = '';
+    document.getElementById('pmHikingSkill').value = '';
+    document.getElementById('profileSetupModal').classList.add('show');
+  }
+
+  function closeProfileSetupModal() {
+    document.getElementById('profileSetupModal').classList.remove('show');
+  }
+
+  function saveProfileSetup() {
+    const data = {
+      username: document.getElementById('pmUsername').value.trim(),
+      age: parseInt(document.getElementById('pmAge').value) || '',
+      weight: parseInt(document.getElementById('pmWeight').value) || '',
+      heightFt: parseInt(document.getElementById('pmHeightFt').value) || '',
+      heightIn: parseInt(document.getElementById('pmHeightIn').value) || '',
+      bagCapacity: parseInt(document.getElementById('pmBagCapacity').value) || '',
+      hikingSkill: document.getElementById('pmHikingSkill').value,
+    };
+    saveProfileLocally(data);
+    syncProfileToServer(data);
+    closeProfileSetupModal();
+    updateAuthNav();
+    showToast('Profile saved!');
+  }
+
+  function openProfileModal() {
+    if (!isLoggedIn()) { openAuthModal('login', null); return; }
+    const p = getProfile() || {};
+    document.getElementById('editUsername').value = p.username || '';
+    document.getElementById('editAge').value = p.age || '';
+    document.getElementById('editWeight').value = p.weight || '';
+    document.getElementById('editHeightFt').value = p.heightFt || '';
+    document.getElementById('editHeightIn').value = p.heightIn || '';
+    document.getElementById('editBagCapacity').value = p.bagCapacity || '';
+    document.getElementById('editHikingSkill').value = p.hikingSkill || '';
+    document.getElementById('profileEditModal').classList.add('show');
+  }
+
+  function closeProfileModal() {
+    document.getElementById('profileEditModal').classList.remove('show');
+  }
+
+  function saveProfileEdit() {
+    const data = {
+      username: document.getElementById('editUsername').value.trim(),
+      age: parseInt(document.getElementById('editAge').value) || '',
+      weight: parseInt(document.getElementById('editWeight').value) || '',
+      heightFt: parseInt(document.getElementById('editHeightFt').value) || '',
+      heightIn: parseInt(document.getElementById('editHeightIn').value) || '',
+      bagCapacity: parseInt(document.getElementById('editBagCapacity').value) || '',
+      hikingSkill: document.getElementById('editHikingSkill').value,
+    };
+    saveProfileLocally(data);
+    syncProfileToServer(data);
+    closeProfileModal();
+    updateAuthNav();
+    showToast('Profile updated!');
+  }
+
+  // ══════════════════════════════════════
+  // FAVORITES
+  // ══════════════════════════════════════
+  function favKey(userId) { return 'trailpack_favorites_' + userId; }
+
+  function getFavorites() {
+    const user = getAuthUser();
+    if (!user) return [];
+    try { return JSON.parse(localStorage.getItem(favKey(user.userId))) || []; } catch(e) { return []; }
+  }
+
+  function saveFavoritesLocally(favs) {
+    const user = getAuthUser();
+    if (!user) return;
+    localStorage.setItem(favKey(user.userId), JSON.stringify(favs));
+  }
+
+  function isFavorited(tripId) {
+    return getFavorites().some(f => f.id === tripId);
+  }
+
+  async function syncFavoriteToServer(tripId, action) {
+    if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') return;
+    const token = localStorage.getItem(AUTH_KEY);
+    if (!token) return;
+    try {
+      await fetch(API_ENDPOINT + '/user/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ trailId: tripId, action })
+      });
+    } catch(e) {}
+  }
+
+  function toggleFavorite(tripId, event) {
+    if (event) event.stopPropagation();
+    if (!isLoggedIn()) { openAuthModal('login', null); return; }
+    const trip = TRIPS_DATA.find(t => t.id === tripId);
+    if (!trip) return;
+    let favs = getFavorites();
+    const idx = favs.findIndex(f => f.id === tripId);
+    if (idx >= 0) {
+      favs.splice(idx, 1);
+      syncFavoriteToServer(tripId, 'remove');
+    } else {
+      favs.unshift(Object.assign({}, trip, { savedAt: new Date().toISOString() }));
+      syncFavoriteToServer(tripId, 'add');
+    }
+    saveFavoritesLocally(favs);
+    updateFavCount();
+    // Update the button state in-place
+    const btn = document.getElementById('fav-btn-' + tripId);
+    if (btn) {
+      const favored = idx < 0;
+      btn.classList.toggle('active', favored);
+      btn.title = favored ? 'Remove from Favorites' : 'Add to Favorites';
+    }
+  }
+
+  function updateFavCount() {
+    const el = document.getElementById('tabCountFavs');
+    if (!el) return;
+    const count = isLoggedIn() ? getFavorites().length : 0;
+    el.textContent = count;
+  }
+
+  // ══════════════════════════════════════
+  // MY LISTS TABS
+  // ══════════════════════════════════════
+  let activeMyListsTab = 'lists';
+
+  function switchMyListsTab(tab) {
+    activeMyListsTab = tab;
+    document.getElementById('tabMyLists').classList.toggle('active', tab === 'lists');
+    document.getElementById('tabFavorites').classList.toggle('active', tab === 'favorites');
+    document.getElementById('savedListsContent').style.display = tab === 'lists' ? '' : 'none';
+    document.getElementById('favoritesContent').style.display = tab === 'favorites' ? '' : 'none';
+    if (tab === 'favorites') renderFavorites();
+  }
+
+  function renderFavorites() {
+    const el = document.getElementById('favoritesContent');
+    if (!el) return;
+    if (!isLoggedIn()) {
+      el.innerHTML = `<div class="saved-auth-gate">
+        <div class="gate-icon">${icon('heart','',56)}</div>
+        <p>Log in to see your favorited trips.</p>
+        <button class="btn-generate" onclick="openAuthModal('login',null)">${icon('person','',18)} Log In / Create Account</button>
+      </div>`;
+      return;
+    }
+    const favs = getFavorites();
+    if (!favs.length) {
+      el.innerHTML = `<div class="favs-empty">
+        <span class="empty-icon">♡</span>
+        <p>No favorites yet.<br>Browse <strong>Explore Trips</strong> and tap the heart icon on any trail to save it here.</p>
+        <button class="btn-generate" onclick="showPage('explore')">${icon('mountain','',18)} Explore Trips</button>
+      </div>`;
+      return;
+    }
+    const diffLabel = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
+    const terrainLabel = { alpine:'Alpine', canyon:'Canyon', coastal:'Coastal', forest:'Forest', desert:'Desert', mixed:'Mixed' };
+    const html = `<div class="favs-grid">${favs.map(t => {
+      const photoId = TRIP_PHOTOS[t.id];
+      const photoUrl = photoId
+        ? `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop`
+        : null;
+      const photo = photoUrl || generateTripCover(t);
+      const bannerStyle = `background-image: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(26,49,40,0.75) 50%, #1A3128 100%), url('${photo}'); background-size: cover; background-position: center;`;
+      return `
+        <div class="fav-card">
+          <div class="fav-card-banner" style="${bannerStyle}">
+            <div class="fav-card-name">${t.name}</div>
+            <div class="fav-card-region">${t.region}, ${t.state}</div>
+          </div>
+          <div class="fav-card-body">
+            <div class="fav-card-stats">
+              <div class="fav-card-stat"><strong>${t.miles}</strong> mi</div>
+              <div class="fav-card-stat"><strong>${t.minDays === t.maxDays ? t.minDays : t.minDays+'–'+t.maxDays}</strong> days</div>
+              <div class="fav-card-stat"><strong>${t.gain ? (t.gain/1000).toFixed(0)+'k' : '—'}</strong>${t.gain ? ' ft gain' : ''}</div>
+            </div>
+            <div class="fav-card-tags">
+              <span class="fav-card-tag diff-${t.difficulty}" style="border-radius:10px;padding:2px 9px;font-size:11px;color:inherit">${diffLabel[t.difficulty] || t.difficulty}</span>
+              <span class="fav-card-tag">${terrainLabel[t.terrain] || t.terrain}</span>
+              ${t.permit ? '<span class="fav-card-tag">Permit</span>' : ''}
+            </div>
+            <button class="fav-remove-btn" onclick="removeFavorite(${t.id})">✕ Remove</button>
+          </div>
+        </div>`;
+    }).join('')}</div>`;
+    el.innerHTML = html;
+  }
+
+  function removeFavorite(tripId) {
+    let favs = getFavorites();
+    favs = favs.filter(f => f.id !== tripId);
+    saveFavoritesLocally(favs);
+    syncFavoriteToServer(tripId, 'remove');
+    updateFavCount();
+    renderFavorites();
+    const btn = document.getElementById('fav-btn-' + tripId);
+    if (btn) { btn.classList.remove('active'); btn.title = 'Add to Favorites'; }
   }
 
   function handleAuthBtnClick() {
@@ -6216,9 +6712,13 @@ function initTruths() {
       const data = await res.json();
       if (!res.ok) { errEl.textContent = data.error || 'Something went wrong.'; return; }
       const pending = authPendingAction;
+      const isRegister = authCurrentTab === 'register';
       setAuth(data.token);
       closeAuthModal();
-      showToast(`✓ Welcome${authCurrentTab === 'register' ? ' — account created!' : ' back!'}`);
+      showToast(`✓ Welcome${isRegister ? ' — account created!' : ' back!'}`);
+      if (isRegister) {
+        setTimeout(() => openProfileSetupModal(), 400);
+      }
       if (pending === 'save') openSaveModal();
       else if (pending === 'saveSplit') confirmSaveSplit();
       else if (pending === 'saveGrocery') openGroceryModal();
@@ -6383,6 +6883,14 @@ function initTruths() {
   }
 
   function renderSavedLists() {
+    // Update tab counts
+    const listsCount = isLoggedIn() ? getSavedLists().length + getSavedSplitLists().length + getSavedGroceryLists().length : 0;
+    const favsCount = isLoggedIn() ? getFavorites().length : 0;
+    const countEl = document.getElementById('tabCountLists');
+    const favCountEl = document.getElementById('tabCountFavs');
+    if (countEl) countEl.textContent = listsCount;
+    if (favCountEl) favCountEl.textContent = favsCount;
+
     const el = document.getElementById('savedListsContent');
     if (!isLoggedIn()) {
       el.innerHTML = `<div class="saved-auth-gate">
@@ -7483,9 +7991,23 @@ function initTruths() {
   function renderPersonForms() {
     const grid = document.getElementById('personFormsGrid');
     const saved = splitPersonData;
+    // Autofill first person from profile if logged in and no data yet
+    const profile = getProfile();
+    const profileUser = getAuthUser();
     grid.innerHTML = '';
     for (let i = 0; i < splitPeople; i++) {
-      const s = saved[i] || {};
+      // For person 0, merge profile data as defaults if not already filled
+      let s = saved[i] || {};
+      if (i === 0 && profile && !s.name && isLoggedIn()) {
+        const skillToFitness = { beginner:'low', intermediate:'mid', advanced:'high', expert:'high' };
+        s = {
+          name: profile.username || (profileUser ? profileUser.email.split('@')[0] : ''),
+          age: profile.age || '',
+          weight: profile.weight || '',
+          bagL: profile.bagCapacity || '',
+          fitness: skillToFitness[profile.hikingSkill] || 'mid',
+        };
+      }
       const color = PERSON_COLORS[i % PERSON_COLORS.length];
       const el = document.createElement('div');
       el.className = 'person-form-card';
@@ -7908,6 +8430,69 @@ function initTruths() {
     { id:136, state:'WV', name:'Dolly Sods Wilderness',      region:'Monongahela NF',           difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:4000,  terrain:'alpine',  permit:false, icon:'🫐', highlights:'High-elevation heath bogs, wind-sculpted red spruce, rhododendron ocean at 4,000 ft' },
     { id:137, state:'WV', name:'Otter Creek Wilderness',     region:'Monongahela NF',           difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3500,  terrain:'forest',  permit:false, icon:'🦦', highlights:"WV's most popular wilderness, Otter Creek gorge, spruce-hemlock forest, streamside camps" },
     { id:138, state:'WV', name:'Spruce Knob / Seneca Rocks', region:'Spruce Knob-Seneca Rocks NRA', difficulty:'strenuous', miles:25, minDays:2, maxDays:4,  gain:5000,  terrain:'alpine',  permit:false, icon:'🪨', highlights:"WV's highest point at 4,863 ft, quartzite fins of Seneca Rocks, high-altitude spruce bogs" },
+    // New trails added
+    { id:139, state:'CA', name:'Pacific Crest Trail - High Sierra',   region:'Sierra Nevada',            difficulty:'strenuous', miles:170, minDays:14, maxDays:21, gain:30000, terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'PCT through Kings Canyon and Sequoia, Forester Pass at 13,153 ft, Muir Pass, pristine alpine Sierra scenery' },
+    { id:140, state:'CA', name:'Trinity Alps Traverse',               region:'Klamath Mountains',        difficulty:'strenuous', miles:40,  minDays:4,  maxDays:6,  gain:8000,  terrain:'alpine',  permit:false, icon:'💎', highlights:"Northern California's Alps, granite peaks, emerald lakes, remote old-growth forest with zero crowds" },
+    { id:141, state:'CA', name:'Ventana Wilderness',                  region:'Los Padres NF',            difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:6000,  terrain:'mixed',   permit:false, icon:'🌊', highlights:'Rugged Santa Lucia Range, swimming holes, hot springs, fog-shrouded redwood canyons near Big Sur' },
+    { id:142, state:'CA', name:'Ansel Adams Wilderness',              region:'Inyo NF',                  difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:true,  icon:'📷', highlights:'Ritter Range, Banner Peak, Thousand Island Lake, a Sierra classic away from JMT crowds' },
+    { id:143, state:'CA', name:'Marble Mountain Wilderness',          region:'Klamath NF',               difficulty:'moderate',  miles:45,  minDays:4,  maxDays:6,  gain:7000,  terrain:'alpine',  permit:false, icon:'⛏️', highlights:'Marble and limestone outcrops, wildflower-filled meadows, uncrowded Northern California backcountry' },
+    { id:144, state:'CA', name:'Mineral King Area',                   region:'Sequoia NP',               difficulty:'strenuous', miles:25,  minDays:2,  maxDays:4,  gain:5500,  terrain:'alpine',  permit:true,  icon:'💎', highlights:'Dramatic bowl surrounded by 12,000+ ft peaks, no crowds, curious marmots, classic Sierra day hikes' },
+    { id:145, state:'CA', name:'Hoover Wilderness',                   region:'Toiyabe NF',               difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:5000,  terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'Twin Lakes gateway, cirque lakes, close to Yosemite but far from JMT permit constraints' },
+    { id:146, state:'CA', name:'Tahoe Rim Trail',                     region:'Lake Tahoe Basin',         difficulty:'strenuous', miles:165, minDays:10, maxDays:15, gain:28000, terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Complete 165-mile loop around Lake Tahoe, cobalt-blue lake views from every ridge, PCT junction' },
+    { id:147, state:'CA', name:'Lassen Volcanic Loop',                region:'Lassen Volcanic NP',       difficulty:'moderate',  miles:18,  minDays:2,  maxDays:3,  gain:4000,  terrain:'alpine',  permit:false, icon:'🌋', highlights:'Active volcanic hydrothermal areas, Bumpass Hell, lupine meadows, Lassen Peak volcanic dome' },
+    { id:148, state:'CA', name:'Sequoia High Route',                  region:'Kings Canyon NP',          difficulty:'expert',    miles:80,  minDays:10, maxDays:14, gain:24000, terrain:'alpine',  permit:true,  icon:'🦁', highlights:"Steve Roper's off-trail route through the grandest high Sierra, high passes, lakes, granite forever" },
+    { id:149, state:'CA', name:'Santa Cruz Mountains Redwood Loop',   region:'Big Basin / Henry Cowell SP',difficulty:'easy',   miles:28,  minDays:2,  maxDays:4,  gain:3500,  terrain:'forest',  permit:false, icon:'🌲', highlights:'Old-growth coastal redwoods, Berry Creek Falls, Santa Cruz Mountains traverse, banana slugs' },
+    { id:150, state:'CO', name:'Chicago Basin 14ers',                 region:'San Juan Mountains',       difficulty:'strenuous', miles:25,  minDays:2,  maxDays:4,  gain:7000,  terrain:'alpine',  permit:false, icon:'🚂', highlights:'Silverton train access, Needle Mountains, Sunlight-Windom-Eolus 14ers, one of Colorado\'s finest circuits' },
+    { id:151, state:'CO', name:'Continental Divide Trail - Colorado', region:'Rocky Mountains',          difficulty:'expert',    miles:500, minDays:30, maxDays:45, gain:80000, terrain:'alpine',  permit:false, icon:'🗺️', highlights:'High-altitude CDT route across Colorado, 100+ miles above treeline, iconic mountain passes' },
+    { id:152, state:'CO', name:'Flat Tops Wilderness',                region:'White River NF',           difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:4000,  terrain:'alpine',  permit:false, icon:'🦌', highlights:"Colorado's largest wilderness plateau, rolling tundra, Trappers Lake, elk and mule deer herds" },
+    { id:153, state:'CO', name:'Hunter-Fryingpan Wilderness',         region:'White River NF',           difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:4500,  terrain:'alpine',  permit:false, icon:'🎣', highlights:'Pristine alpine lakes, granite cirques near Aspen, world-class fishing, meadows at 12,000 ft' },
+    { id:154, state:'CO', name:'Lizard Head Wilderness',              region:'Uncompahgre NF',           difficulty:'strenuous', miles:20,  minDays:2,  maxDays:3,  gain:5000,  terrain:'alpine',  permit:false, icon:'🦎', highlights:'Dramatic 13,113 ft volcanic plug, Wilson Peak and El Diente 14ers, remote San Juan solitude' },
+    { id:155, state:'CO', name:'Rainbow Lakes-Indian Peaks Loop',     region:'Indian Peaks Wilderness',  difficulty:'moderate',  miles:15,  minDays:1,  maxDays:2,  gain:2500,  terrain:'alpine',  permit:true,  icon:'🌈', highlights:'Front Range alpine lakes, tundra wildflowers, easy access from Boulder, Indian Peaks backdrop' },
+    { id:156, state:'WA', name:'Pacific Crest Trail - Washington',    region:'North Cascades',           difficulty:'strenuous', miles:505, minDays:30, maxDays:45, gain:90000, terrain:'alpine',  permit:false, icon:'🏔️', highlights:"Washington's PCT from Oregon border to Canada, the most dramatic and iconic section of the entire 2,650-mile trail" },
+    { id:157, state:'WA', name:'Hoh River Trail',                     region:'Olympic NP',               difficulty:'moderate',  miles:17,  minDays:2,  maxDays:3,  gain:1000,  terrain:'forest',  permit:true,  icon:'🌧️', highlights:'Temperate rainforest cathedral, 12 ft of annual rainfall, giant Sitka spruce, Quinault Roosevelt elk' },
+    { id:158, state:'WA', name:'Spray Park - Carbon Glacier',         region:'Mt. Rainier NP',           difficulty:'moderate',  miles:16,  minDays:2,  maxDays:3,  gain:3500,  terrain:'alpine',  permit:true,  icon:'🌋', highlights:'Wildflower meadows above treeline, active Carbon Glacier snout at 3,500 ft, solitude vs. Paradise crowds' },
+    { id:159, state:'WA', name:'Larch Lakes Loop',                    region:'Okanogan-Wenatchee NF',    difficulty:'moderate',  miles:18,  minDays:2,  maxDays:3,  gain:3200,  terrain:'alpine',  permit:false, icon:'🍂', highlights:'October larch show turns mountainside gold, twin alpine lakes, Icicle Creek watershed, brilliant fall color' },
+    { id:160, state:'WA', name:'Enchanted Valley',                    region:'Olympic NP',               difficulty:'moderate',  miles:26,  minDays:2,  maxDays:4,  gain:2500,  terrain:'forest',  permit:true,  icon:'🏰', highlights:'Cathedral valley with 3,000 ft walls streaming with waterfalls, black bears, elk, historic 1930s chalet' },
+    { id:161, state:'WA', name:'Ptarmigan Traverse',                  region:'North Cascades NP',        difficulty:'expert',    miles:35,  minDays:5,  maxDays:7,  gain:15000, terrain:'alpine',  permit:false, icon:'🧊', highlights:'Classic Cascades glacier traverse, crevasse navigation, exposed ridges, technical alpine mountaineering route' },
+    { id:162, state:'WA', name:'Glacier Peak Napeequa Valley',        region:'Glacier Peak Wilderness',  difficulty:'expert',    miles:40,  minDays:5,  maxDays:7,  gain:12000, terrain:'alpine',  permit:false, icon:'🌋', highlights:'Remote valley in the heart of the Cascades, Glacier Peak north circuit, wildflower avalanche slopes' },
+    { id:163, state:'WA', name:'Teanaway River Country',              region:'Okanogan-Wenatchee NF',    difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3500,  terrain:'alpine',  permit:false, icon:'🍁', highlights:'Copper-colored larches in fall, wildflower meadows above Teanaway ridge, accessible from Cle Elum' },
+    { id:164, state:'WA', name:'Olympic High Route',                  region:'Olympic NP',               difficulty:'expert',    miles:40,  minDays:5,  maxDays:7,  gain:12000, terrain:'alpine',  permit:true,  icon:'⛰️', highlights:'Exposed off-trail traverse across the Olympic Mountains, snow travel required, breathtaking isolation' },
+    { id:165, state:'OR', name:'Timberline Trail',                    region:'Mt. Hood NF',              difficulty:'strenuous', miles:40,  minDays:3,  maxDays:5,  gain:9000,  terrain:'alpine',  permit:false, icon:'🌋', highlights:'Complete circumnavigation of Mt. Hood, glacier stream crossings, Paradise Park wildflower fields' },
+    { id:166, state:'OR', name:'Rogue River National Recreation Trail',region:'Rogue River-Siskiyou NF',difficulty:'moderate',  miles:40,  minDays:3,  maxDays:5,  gain:4000,  terrain:'forest',  permit:false, icon:'🐻', highlights:'Wild and Scenic Rogue River canyon, black bears watching rafters, lush riparian corridor' },
+    { id:167, state:'OR', name:'Hells Canyon Oregon',                 region:'Wallowa-Whitman NF',       difficulty:'strenuous', miles:35,  minDays:3,  maxDays:5,  gain:7000,  terrain:'canyon',  permit:false, icon:'🏜️', highlights:"Oregon side of North America's deepest gorge, spring wildflowers, remote Snake River beaches" },
+    { id:168, state:'OR', name:'Steens Mountain Wilderness',          region:'Malheur NF',               difficulty:'moderate',  miles:28,  minDays:2,  maxDays:4,  gain:4000,  terrain:'mixed',   permit:false, icon:'🐎', highlights:'Fault-block mountain in the Oregon outback, glacial gorges, wild mustangs, Alvord Desert views' },
+    { id:169, state:'MT', name:'Cabinet Mountains Wilderness',        region:'Kootenai NF',              difficulty:'moderate',  miles:30,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:false, icon:'🐻', highlights:"Northwest Montana's hidden gem, hanging cirque lakes, core grizzly bear habitat, total solitude" },
+    { id:170, state:'MT', name:'Mission Mountains Wilderness',        region:'Flathead NF',              difficulty:'moderate',  miles:25,  minDays:2,  maxDays:4,  gain:5500,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'Dramatic Mission Range scarp above Flathead Valley, mountain goat and grizzly bear country' },
+    { id:171, state:'MT', name:'Gates of the Mountains',              region:'Helena NF',                difficulty:'moderate',  miles:20,  minDays:2,  maxDays:3,  gain:3000,  terrain:'mixed',   permit:false, icon:'⛰️', highlights:"Lewis and Clark's dramatic limestone canyon on the Missouri River, bighorn sheep, prairie falcons" },
+    { id:172, state:'ID', name:'Gospel Hump Wilderness',              region:'Nez Perce NF',             difficulty:'moderate',  miles:35,  minDays:3,  maxDays:5,  gain:7000,  terrain:'alpine',  permit:false, icon:'🌄', highlights:'Isolated wilderness between Salmon River and Clearwater, remote subalpine lakes, zero crowds' },
+    { id:173, state:'ID', name:'Hells Canyon NRA',                    region:'Wallowa-Whitman NF',       difficulty:'strenuous', miles:30,  minDays:3,  maxDays:5,  gain:6000,  terrain:'canyon',  permit:false, icon:'🏜️', highlights:"North America's deepest river gorge at 8,000 ft, Snake River, petroglyphs, bighorn sheep" },
+    { id:174, state:'ID', name:'Selkirk Crest Loop',                  region:'Kaniksu NF',               difficulty:'strenuous', miles:35,  minDays:3,  maxDays:5,  gain:8000,  terrain:'alpine',  permit:false, icon:'🦌', highlights:'Rocky Mountain caribou habitat, exposed granite ridgelines, remote Northern Panhandle Idaho' },
+    { id:175, state:'AZ', name:'Superstition Wilderness',             region:'Tonto NF',                 difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:4500,  terrain:'desert',  permit:false, icon:'💰', highlights:'Lost Dutchman Gold Mine legend, saguaro cactus, volcanic rock formations, spring wildflowers' },
+    { id:176, state:'AZ', name:'Mt. Wrightson Loop',                  region:'Coronado NF',              difficulty:'strenuous', miles:18,  minDays:1,  maxDays:2,  gain:4000,  terrain:'alpine',  permit:false, icon:'🦅', highlights:'Sky island peak at 9,453 ft, Mexican spotted owls, coatis, sweeping views across the Mexican border' },
+    { id:177, state:'AZ', name:'Chiricahua Wilderness',               region:'Coronado NF',              difficulty:'moderate',  miles:25,  minDays:2,  maxDays:3,  gain:4000,  terrain:'mixed',   permit:false, icon:'🦜', highlights:'Sky island range, rare Chiricahua leopard frog, Cochise stronghold, extraordinary bird diversity' },
+    { id:178, state:'NM', name:'Sandia Mountains Wilderness',         region:'Cibola NF',                difficulty:'moderate',  miles:20,  minDays:1,  maxDays:3,  gain:4000,  terrain:'alpine',  permit:false, icon:'🌵', highlights:"Albuquerque's 10,678 ft backyard peak, limestone crags, old-growth spruce-fir forest, city to summit" },
+    { id:179, state:'NM', name:'White Sands Backcountry',             region:'White Sands NP',           difficulty:'easy',      miles:6,   minDays:1,  maxDays:1,  gain:100,   terrain:'desert',  permit:true,  icon:'⬜', highlights:'World\'s largest gypsum dune field, camping in pure white sand, alien moonscape at sunset' },
+    { id:180, state:'NM', name:'Jemez Mountains Loop',                region:'Santa Fe NF',              difficulty:'moderate',  miles:25,  minDays:2,  maxDays:3,  gain:3500,  terrain:'mixed',   permit:false, icon:'🌋', highlights:'Valles Caldera volcanic landscape, ponderosa forest, Jemez River canyon, hot springs nearby' },
+    { id:181, state:'WY', name:'Bridger Wilderness North',            region:'Bridger-Teton NF',         difficulty:'strenuous', miles:55,  minDays:5,  maxDays:8,  gain:10000, terrain:'alpine',  permit:false, icon:'🏔️', highlights:"Elkhart Park to Big Sandy Lodge, Titcomb Basin, Wind River Range's pristine lake-studded north end" },
+    { id:182, state:'WY', name:'Shoshone Lake Loop',                  region:'Yellowstone NP',           difficulty:'moderate',  miles:27,  minDays:2,  maxDays:4,  gain:2000,  terrain:'alpine',  permit:true,  icon:'♨️', highlights:'Largest backcountry lake in the lower 48, Shoshone Geyser Basin, thermal features, true solitude' },
+    { id:183, state:'WY', name:'Absaroka Wilderness',                 region:'Shoshone NF',              difficulty:'strenuous', miles:50,  minDays:5,  maxDays:8,  gain:10000, terrain:'alpine',  permit:false, icon:'🐻', highlights:'Grizzly bear wilderness adjacent to Yellowstone, remote volcanic peaks, exceptional brown trout fishing' },
+    { id:184, state:'AK', name:'Denali Backcountry',                  region:'Denali NP',                difficulty:'expert',    miles:20,  minDays:3,  maxDays:7,  gain:5000,  terrain:'alpine',  permit:true,  icon:'🏔️', highlights:'No trails, glacier travel, true wilderness, grizzly bears, caribou migration, Denali at 20,310 ft' },
+    { id:185, state:'AK', name:'Wrangell-St. Elias Backcountry',      region:'Wrangell-St. Elias NP',    difficulty:'expert',    miles:30,  minDays:5,  maxDays:10, gain:8000,  terrain:'alpine',  permit:false, icon:'🌋', highlights:"America's largest national park, Kennecott Glacier, volcanic peaks, true frontier wilderness" },
+    { id:186, state:'AK', name:'Resurrection Pass Trail',             region:'Chugach NF',               difficulty:'moderate',  miles:39,  minDays:3,  maxDays:5,  gain:5000,  terrain:'alpine',  permit:false, icon:'🪙', highlights:'Classic Kenai Peninsula backpack, alpine pass, moose and beaver ponds, historic gold rush cabins' },
+    { id:187, state:'HI', name:'Alakai Swamp Trail',                  region:'Kokee State Park',         difficulty:'moderate',  miles:8,   minDays:1,  maxDays:2,  gain:1500,  terrain:'forest',  permit:false, icon:'🌺', highlights:"World's highest swamp on Kauai, endemic honeycreepers, cloud forest mystery, Waimea Canyon views" },
+    { id:188, state:'UT', name:'Escalante River Canyon',              region:'Grand Staircase-Escalante', difficulty:'strenuous',miles:50,  minDays:5,  maxDays:8,  gain:4000,  terrain:'canyon',  permit:false, icon:'🌵', highlights:"Remote slot canyons, natural arches, 50+ miles of wilderness in America's last mapped region" },
+    { id:189, state:'NV', name:'Ruby-East Humboldt Wilderness',       region:'Humboldt-Toiyabe NF',      difficulty:'moderate',  miles:30,  minDays:2,  maxDays:4,  gain:5000,  terrain:'alpine',  permit:false, icon:'💎', highlights:"Nevada's forgotten alpine range, hidden cirque lakes, total Great Basin solitude, mountain goats" },
+    { id:190, state:'NV', name:'Arc Dome Wilderness',                 region:'Humboldt-Toiyabe NF',      difficulty:'strenuous', miles:30,  minDays:3,  maxDays:5,  gain:6000,  terrain:'alpine',  permit:false, icon:'⛰️', highlights:'Remote Nevada high point circuit at 11,773 ft, endless Basin and Range panorama, zero hikers' },
+    { id:191, state:'NC', name:'Roan Highlands Traverse',             region:'Pisgah NF / Cherokee NF',  difficulty:'moderate',  miles:25,  minDays:2,  maxDays:3,  gain:4000,  terrain:'alpine',  permit:false, icon:'🌸', highlights:'Largest natural rhododendron gardens in the world, open grass balds, AT traverse, June bloom' },
+    { id:192, state:'VA', name:'McAfee Knob via AT',                  region:'Jefferson NF',             difficulty:'moderate',  miles:15,  minDays:1,  maxDays:2,  gain:2000,  terrain:'forest',  permit:false, icon:'🧗', highlights:'Most photographed spot on the AT, dramatic rock slab over the Catawba Valley, ridgeline camping' },
+    { id:193, state:'VA', name:'Priest Wilderness',                   region:'George Washington NF',     difficulty:'strenuous', miles:20,  minDays:2,  maxDays:3,  gain:4500,  terrain:'forest',  permit:false, icon:'⛪', highlights:'The Priest summit, Tye River valley views, secluded backpacking on the Appalachian Trail spine' },
+    { id:194, state:'NH', name:'Kinsman Ridge Trail',                 region:'White Mountain NF',        difficulty:'strenuous', miles:18,  minDays:1,  maxDays:2,  gain:4000,  terrain:'alpine',  permit:false, icon:'🏔️', highlights:'North and South Kinsman peaks, Lonesome Lake hut, Franconia Notch views, classic NH ridge walk' },
+    { id:195, state:'ME', name:'Katahdin Wilderness Traverse',        region:'Baxter State Park',        difficulty:'expert',    miles:20,  minDays:2,  maxDays:4,  gain:6000,  terrain:'alpine',  permit:true,  icon:'🗺️', highlights:"AT's northern terminus, Knife Edge ridge, Chimney Pond, Pamola Peak, remote Maine alpine wilderness" },
+    { id:196, state:'NY', name:'Northville-Placid Trail',             region:'Adirondack Park',          difficulty:'strenuous', miles:133, minDays:10, maxDays:16, gain:25000, terrain:'forest',  permit:false, icon:'🦌', highlights:'Longest trail through the Adirondacks, remote ponds and lakes, black bear and loon country' },
+    { id:197, state:'TX', name:'Guadalupe Mountains Backcountry',     region:'Guadalupe Mountains NP',   difficulty:'strenuous', miles:20,  minDays:2,  maxDays:3,  gain:4000,  terrain:'desert',  permit:true,  icon:'🌵', highlights:'Pine Springs backcountry, Bush Mountain, hunter cabin ruins, remote Chihuahuan Desert high point' },
+    { id:198, state:'WI', name:'North Country Trail - Wisconsin',     region:'Chequamegon NF',           difficulty:'moderate',  miles:60,  minDays:4,  maxDays:6,  gain:3000,  terrain:'forest',  permit:false, icon:'🦢', highlights:'Northern Wisconsin lake country, old-growth hemlocks, loons, part of 4,600-mile North Country Trail' },
+    { id:199, state:'MN', name:'Kekekabic Trail',                     region:'Boundary Waters Canoe Area',difficulty:'strenuous',miles:40,  minDays:4,  maxDays:6,  gain:3000,  terrain:'forest',  permit:true,  icon:'🐺', highlights:'Hike-in only wilderness trail through the BWCA, pristine lakes, ancient boreal forest, wolves' },
+    { id:200, state:'GA', name:'Springer Mountain Approach',          region:'Chattahoochee NF',         difficulty:'moderate',  miles:8,   minDays:1,  maxDays:2,  gain:1800,  terrain:'forest',  permit:false, icon:'🏁', highlights:"Appalachian Trail's southern terminus on Springer Mountain, granite outcrop, beginning of 2,190-mile journey" },
 ];
 
   const TRIP_PHOTOS = {
@@ -8336,14 +8921,18 @@ function initTruths() {
       const clickAttr = isJMT ? 'onclick="showJMTDetail()" style="cursor:pointer"'
                        : isLostCoast ? 'onclick="showLostCoastDetail()" style="cursor:pointer"'
                        : isUserTrip ? `onclick="showUserTripDetail('${t.id}')" style="cursor:pointer"` : '';
+      const numericId = typeof t.id === 'number' ? t.id : null;
+      const favored = numericId ? isFavorited(numericId) : false;
+      const favBtnHtml = numericId ? `<button class="fav-btn${favored ? ' active' : ''}" id="fav-btn-${numericId}" onclick="toggleFavorite(${numericId}, event)" title="${favored ? 'Remove from Favorites' : 'Add to Favorites'}"><svg viewBox="0 0 24 24" fill="${favored ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>` : '';
       return `
-        <div class="trip-card" ${clickAttr}>
+        <div class="trip-card" ${clickAttr} style="position:relative">
           <div class="trip-card-banner" style="${bannerBg}">
             <div class="trip-card-name">${t.name}</div>
             <div class="trip-card-region">${t.region}</div>
             <span class="diff-badge diff-${t.difficulty}">${diffLabel[t.difficulty]}</span>
             ${(isJMT || isLostCoast || isUserTrip) ? '<div class="trip-card-cta">View Full Details →</div>' : ''}
           </div>
+          ${favBtnHtml}
           <div class="trip-card-body">
             <div class="trip-stats-row">
               <div class="trip-stat">

@@ -120,6 +120,22 @@ Resources:
         - AttributeName: id
           KeyType: HASH
 
+  FavoritesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub '${AWS::StackName}-favorites'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: trailId
+          AttributeType: N
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: trailId
+          KeyType: RANGE
+
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -141,12 +157,20 @@ Resources:
                 Action:
                   - dynamodb:GetItem
                   - dynamodb:PutItem
+                  - dynamodb:UpdateItem
                 Resource: !GetAtt UsersTable.Arn
               - Effect: Allow
                 Action:
                   - dynamodb:Scan
                   - dynamodb:BatchWriteItem
                 Resource: !GetAtt TrailsTable.Arn
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                Resource: !GetAtt FavoritesTable.Arn
         - PolicyName: BedrockAccess
           PolicyDocument:
             Version: '2012-10-17'
@@ -249,6 +273,99 @@ Resources:
           await db.send(new BatchWriteItemCommand({RequestItems:{[T]:reqs}}));
           }
           return{seeded:trails.length};};
+
+  ProfileFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-profile'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 10
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref UsersTable
+          JWT_SECRET: !Ref JWTSecret
+      Code:
+        ZipFile: |
+          'use strict';
+          const {DynamoDBClient,GetItemCommand,UpdateItemCommand}=require('@aws-sdk/client-dynamodb');
+          const c=require('crypto'),db=new DynamoDBClient({});
+          const T=process.env.USERS_TABLE,S=process.env.JWT_SECRET;
+          const hd={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type,Authorization','Content-Type':'application/json'};
+          function verifyJWT(token){try{const[h,b,sig]=token.split('.');const expected=c.createHmac('sha256',S).update(h+'.'+b).digest('base64url');if(sig!==expected)return null;const p=JSON.parse(Buffer.from(b.replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString());if(p.exp<Date.now()/1000)return null;return p;}catch(e){return null;}}
+          exports.handler=async ev=>{
+          try{
+          const auth=(ev.headers&&(ev.headers.Authorization||ev.headers.authorization))||'';
+          const token=auth.replace(/^Bearer\s+/i,'');
+          const user=verifyJWT(token);
+          if(!user)return{statusCode:401,headers:hd,body:JSON.stringify({error:'Unauthorized'})};
+          if(ev.requestContext&&ev.requestContext.http&&ev.requestContext.http.method==='GET'){
+          const r=await db.send(new GetItemCommand({TableName:T,Key:{email:{S:user.email}}}));
+          if(!r.Item)return{statusCode:404,headers:hd,body:JSON.stringify({error:'User not found'})};
+          const profile={username:r.Item.username&&r.Item.username.S||'',age:r.Item.age&&r.Item.age.N||'',heightFt:r.Item.heightFt&&r.Item.heightFt.N||'',heightIn:r.Item.heightIn&&r.Item.heightIn.N||'',weight:r.Item.weight&&r.Item.weight.N||'',hikingSkill:r.Item.hikingSkill&&r.Item.hikingSkill.S||'',bagCapacity:r.Item.bagCapacity&&r.Item.bagCapacity.N||''};
+          return{statusCode:200,headers:hd,body:JSON.stringify(profile)};
+          }else{
+          const body=JSON.parse(ev.body||'{}');
+          const expr=[];const names={};const vals={};
+          if(body.username!==undefined){expr.push('#u=:u');names['#u']='username';vals[':u']={S:String(body.username).slice(0,40)};}
+          if(body.age!==undefined){expr.push('#a=:a');names['#a']='age';vals[':a']={N:String(parseInt(body.age)||0)};}
+          if(body.heightFt!==undefined){expr.push('#hf=:hf');names['#hf']='heightFt';vals[':hf']={N:String(parseInt(body.heightFt)||0)};}
+          if(body.heightIn!==undefined){expr.push('#hi=:hi');names['#hi']='heightIn';vals[':hi']={N:String(parseInt(body.heightIn)||0)};}
+          if(body.weight!==undefined){expr.push('#w=:w');names['#w']='weight';vals[':w']={N:String(parseInt(body.weight)||0)};}
+          if(body.hikingSkill!==undefined){expr.push('#hs=:hs');names['#hs']='hikingSkill';vals[':hs']={S:String(body.hikingSkill).slice(0,20)};}
+          if(body.bagCapacity!==undefined){expr.push('#bc=:bc');names['#bc']='bagCapacity';vals[':bc']={N:String(parseInt(body.bagCapacity)||0)};}
+          if(!expr.length)return{statusCode:400,headers:hd,body:JSON.stringify({error:'No fields to update'})};
+          await db.send(new UpdateItemCommand({TableName:T,Key:{email:{S:user.email}},UpdateExpression:'SET '+expr.join(', '),ExpressionAttributeNames:names,ExpressionAttributeValues:vals}));
+          return{statusCode:200,headers:hd,body:JSON.stringify({ok:true})};
+          }
+          }catch(e){console.error(e);return{statusCode:500,headers:hd,body:JSON.stringify({error:'Server error'})}}};
+
+  FavoritesFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-favorites'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 10
+      Environment:
+        Variables:
+          FAVORITES_TABLE: !Ref FavoritesTable
+          JWT_SECRET: !Ref JWTSecret
+      Code:
+        ZipFile: |
+          'use strict';
+          const {DynamoDBClient,QueryCommand,PutItemCommand,DeleteItemCommand}=require('@aws-sdk/client-dynamodb');
+          const c=require('crypto'),db=new DynamoDBClient({});
+          const T=process.env.FAVORITES_TABLE,S=process.env.JWT_SECRET;
+          const hd={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type,Authorization','Content-Type':'application/json'};
+          function verifyJWT(token){try{const[h,b,sig]=token.split('.');const expected=c.createHmac('sha256',S).update(h+'.'+b).digest('base64url');if(sig!==expected)return null;const p=JSON.parse(Buffer.from(b.replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString());if(p.exp<Date.now()/1000)return null;return p;}catch(e){return null;}}
+          exports.handler=async ev=>{
+          try{
+          const auth=(ev.headers&&(ev.headers.Authorization||ev.headers.authorization))||'';
+          const token=auth.replace(/^Bearer\s+/i,'');
+          const user=verifyJWT(token);
+          if(!user)return{statusCode:401,headers:hd,body:JSON.stringify({error:'Unauthorized'})};
+          const method=ev.requestContext&&ev.requestContext.http&&ev.requestContext.http.method;
+          if(method==='GET'){
+          const r=await db.send(new QueryCommand({TableName:T,KeyConditionExpression:'userId=:uid',ExpressionAttributeValues:{':uid':{S:user.userId}}}));
+          const ids=(r.Items||[]).map(i=>Number(i.trailId.N));
+          return{statusCode:200,headers:hd,body:JSON.stringify({favorites:ids})};
+          }else if(method==='POST'){
+          const body=JSON.parse(ev.body||'{}');
+          const trailId=parseInt(body.trailId);
+          if(!trailId)return{statusCode:400,headers:hd,body:JSON.stringify({error:'trailId required'})};
+          if(body.action==='remove'){
+          await db.send(new DeleteItemCommand({TableName:T,Key:{userId:{S:user.userId},trailId:{N:String(trailId)}}}));
+          return{statusCode:200,headers:hd,body:JSON.stringify({ok:true,action:'removed'})};
+          }else{
+          await db.send(new PutItemCommand({TableName:T,Item:{userId:{S:user.userId},trailId:{N:String(trailId)},savedAt:{S:new Date().toISOString()}}}));
+          return{statusCode:200,headers:hd,body:JSON.stringify({ok:true,action:'added'})};
+          }
+          }
+          return{statusCode:405,headers:hd,body:JSON.stringify({error:'Method not allowed'})};
+          }catch(e){console.error(e);return{statusCode:500,headers:hd,body:JSON.stringify({error:'Server error'})}}};
 
   SearchFunction:
     Type: AWS::Lambda::Function
@@ -363,6 +480,66 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/auth/login'
 
+  ProfileIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AuthApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProfileFunction.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+
+  ProfileGetRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'GET /user/profile'
+      Target: !Sub 'integrations/${ProfileIntegration}'
+
+  ProfilePostRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'POST /user/profile'
+      Target: !Sub 'integrations/${ProfileIntegration}'
+
+  ProfileLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ProfileFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/*'
+
+  FavoritesIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AuthApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FavoritesFunction.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+
+  FavoritesGetRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'GET /user/favorites'
+      Target: !Sub 'integrations/${FavoritesIntegration}'
+
+  FavoritesPostRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AuthApi
+      RouteKey: 'POST /user/favorites'
+      Target: !Sub 'integrations/${FavoritesIntegration}'
+
+  FavoritesLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref FavoritesFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AuthApi}/*/*/*'
+
   SearchIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
@@ -413,3 +590,7 @@ Outputs:
   TrailsTableName:
     Value: !Ref TrailsTable
     Description: DynamoDB table name for trail catalog data
+
+  FavoritesTableName:
+    Value: !Ref FavoritesTable
+    Description: DynamoDB table name for user favorites
