@@ -3170,6 +3170,72 @@
     .favs-empty { text-align: center; padding: 60px 20px; color: var(--forest); }
     .favs-empty .empty-icon { font-size: 56px; margin-bottom: 16px; display: block; }
     .favs-empty p { font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+
+    /* ─── PACK LIST CHOICE STEP ─── */
+    .choice-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 28px 0; }
+    .choice-card { background: #fff; border: 2px solid var(--cream-dark); border-radius: var(--radius); padding: 28px 24px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 10px; }
+    .choice-card:hover { border-color: var(--sage); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .choice-card-icon { color: var(--forest); }
+    .choice-card-title { font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 700; color: var(--pine); }
+    .choice-card-desc { font-size: 14px; color: var(--text-light); line-height: 1.55; flex: 1; }
+    .btn-choice { margin-top: 6px; padding: 10px 20px; background: var(--forest); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; text-align: center; display: block; width: 100%; }
+    .btn-choice:hover { background: var(--pine); }
+    .btn-choice-secondary { background: transparent; color: var(--forest); border: 2px solid var(--forest); }
+    .btn-choice-secondary:hover { background: var(--cream-dark); color: var(--pine); border-color: var(--pine); }
+
+    /* ─── ROUTE SEARCH ─── */
+    .route-search-wrap { position: relative; margin-bottom: 28px; }
+    .route-search-input { width: 100%; padding: 14px 18px; font-size: 16px; border: 2px solid var(--cream-dark); border-radius: var(--radius); background: #fff; color: var(--text-dark); font-family: 'DM Sans', sans-serif; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; }
+    .route-search-input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(61,107,85,0.15); }
+    .route-search-results { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 2px solid var(--sage); border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 100; max-height: 320px; overflow-y: auto; display: none; }
+    .route-search-results.open { display: block; }
+    .route-result-item { padding: 12px 18px; cursor: pointer; border-bottom: 1px solid var(--cream-dark); transition: background 0.15s; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .route-result-item:last-child { border-bottom: none; }
+    .route-result-item:hover { background: rgba(107,155,122,0.1); }
+    .route-result-name { font-weight: 600; color: var(--pine); font-size: 15px; }
+    .route-result-meta { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+    .route-result-badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .route-search-error { color: #c0392b; font-size: 13px; margin-top: 8px; display: none; }
+    .route-search-error.show { display: block; }
+    .route-search-error a { color: var(--forest); font-weight: 600; }
+
+    /* ─── BROWSE BY STATE ─── */
+    .browse-by-state { margin-top: 4px; }
+    .browse-header { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+    .state-group { border: 1px solid var(--cream-dark); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+    .state-group-header { padding: 11px 16px; background: var(--cream); cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 600; color: var(--pine); font-size: 14px; transition: background 0.15s; user-select: none; }
+    .state-group-header:hover { background: var(--cream-dark); }
+    .state-count { font-size: 12px; font-weight: 400; color: var(--text-light); }
+    .state-chev { font-size: 10px; color: var(--text-light); transition: transform 0.2s; display: inline-block; }
+    .state-group.open .state-chev { transform: rotate(180deg); }
+    .state-trail-list { display: none; border-top: 1px solid var(--cream-dark); }
+    .state-group.open .state-trail-list { display: block; }
+    .state-trail-item { padding: 10px 16px 10px 24px; cursor: pointer; border-bottom: 1px solid var(--cream-dark); transition: background 0.15s; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .state-trail-item:last-child { border-bottom: none; }
+    .state-trail-item:hover { background: rgba(107,155,122,0.1); }
+    .state-trail-name { font-size: 14px; color: var(--pine); font-weight: 500; }
+    .state-trail-meta { font-size: 12px; color: var(--text-light); text-align: right; flex-shrink: 0; }
+
+    /* ─── DATE PICKER ─── */
+    .selected-route-card { background: linear-gradient(135deg, var(--pine) 0%, var(--forest) 100%); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; color: #fff; }
+    .selected-route-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; font-family: 'DM Sans', sans-serif; }
+    .selected-route-meta { font-size: 13px; opacity: 0.78; }
+    .date-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .date-field { display: flex; flex-direction: column; gap: 7px; }
+    .date-label { font-size: 13px; font-weight: 600; color: var(--pine); }
+    .date-input { padding: 12px 14px; font-size: 15px; border: 2px solid var(--cream-dark); border-radius: 8px; background: #fff; color: var(--text-dark); font-family: 'DM Sans', sans-serif; width: 100%; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; }
+    .date-input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(61,107,85,0.15); }
+    .date-loading { display: flex; align-items: center; gap: 12px; padding: 14px 0; color: var(--forest); font-size: 14px; }
+    .loading-spinner { width: 20px; height: 20px; border: 3px solid var(--cream-dark); border-top-color: var(--forest); border-radius: 50%; animation: tp-spin 0.8s linear infinite; flex-shrink: 0; }
+    @keyframes tp-spin { to { transform: rotate(360deg); } }
+    .date-picker-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; gap: 12px; }
+    .btn-back-plain { background: none; border: none; color: var(--forest); font-size: 14px; font-weight: 600; cursor: pointer; padding: 8px 0; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+    .btn-back-plain:hover { color: var(--pine); }
+    .step-nav-back { margin-top: 24px; }
+    @media (max-width: 640px) {
+      .choice-cards { grid-template-columns: 1fr; }
+      .date-picker-grid { grid-template-columns: 1fr; }
+    }
   </style>
   <script src="api-config.js"></script>
 </head>
@@ -5207,7 +5273,7 @@
 <div class="page" id="pg-pack">
   <div class="page-header">
     <h1>Pack List Builder</h1>
-    <p>Answer four questions — get a gear list built for your exact conditions.</p>
+    <p>Search a known route or enter details manually to get a gear list built for your exact conditions.</p>
   </div>
 
   <div class="container">
@@ -5218,8 +5284,77 @@
       <span id="tripPackBannerText">Trip details pre-loaded — just pick your season below.</span>
     </div>
 
+    <!-- STEP 0: Entry Choice -->
+    <div class="step-panel visible" id="step-choice">
+      <div class="step-question">How would you like to build your pack list?</div>
+      <div class="step-sub">Find a trail already in our database and we'll look up the details automatically, or enter your own terrain and conditions.</div>
+      <div class="choice-cards">
+        <div class="choice-card" onclick="showRouteSearch()">
+          <div class="choice-card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8a3 3 0 0 1 3 3"/></svg></div>
+          <div class="choice-card-title">Search Known Routes</div>
+          <div class="choice-card-desc">Browse trails already in our database organized by state, or search by name. We'll automatically look up terrain, difficulty, and weather for your trip dates.</div>
+          <button class="btn-choice" onclick="showRouteSearch(); event.stopPropagation()">Browse Routes &rarr;</button>
+        </div>
+        <div class="choice-card" onclick="showManualEntry()">
+          <div class="choice-card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="choice-card-title">Enter Manually</div>
+          <div class="choice-card-desc">Choose your terrain type, expected weather conditions, trip length, and difficulty level yourself. Best for trails not yet in our database.</div>
+          <button class="btn-choice btn-choice-secondary" onclick="showManualEntry(); event.stopPropagation()">Enter Details &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP: Route Search -->
+    <div class="step-panel" id="step-route-search">
+      <div class="step-question">Search for your trail</div>
+      <div class="step-sub">Type a trail name below — we'll suggest matches as you type. Or browse all routes by state.</div>
+      <div class="route-search-wrap">
+        <input type="text" id="routeSearchInput" class="route-search-input"
+               placeholder="e.g. John Muir Trail, Enchantments, Teton Crest..."
+               oninput="onRouteSearchInput(this.value)"
+               autocomplete="off" maxlength="100">
+        <div class="route-search-results" id="routeSearchResults"></div>
+        <div class="route-search-error" id="routeSearchError">
+          Trail not found. <a href="#" onclick="showManualEntry(); return false;">Enter details manually</a> instead.
+        </div>
+      </div>
+      <div class="browse-by-state">
+        <div class="browse-header">Or browse by state</div>
+        <div id="stateAccordion"></div>
+      </div>
+      <div class="step-nav-back">
+        <button class="btn-back-plain" onclick="showChoicePanel()">&larr; Back</button>
+      </div>
+    </div>
+
+    <!-- STEP: Date Picker -->
+    <div class="step-panel" id="step-date-picker">
+      <div class="selected-route-card" id="selectedRouteCard"></div>
+      <div class="step-question">When are you going?</div>
+      <div class="step-sub">Enter your trip dates and we'll look up the expected weather for your route and time of year.</div>
+      <div class="date-picker-grid">
+        <div class="date-field">
+          <label class="date-label" for="routeStartDate">Start Date</label>
+          <input type="date" id="routeStartDate" class="date-input">
+        </div>
+        <div class="date-field">
+          <label class="date-label" for="routeEndDate">End Date</label>
+          <input type="date" id="routeEndDate" class="date-input">
+        </div>
+      </div>
+      <div class="error-msg" id="errDates">Please select valid start and end dates.</div>
+      <div class="date-loading" id="dateLoading" style="display:none">
+        <div class="loading-spinner"></div>
+        <span>Looking up weather for your route and dates&hellip;</span>
+      </div>
+      <div class="date-picker-actions">
+        <button class="btn-back-plain" onclick="backToRouteSearch()">&larr; Back</button>
+        <button class="btn-next" id="btnGetPackList" onclick="proceedWithKnownRoute()">Get My Pack List <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
+    </div>
+
     <!-- Progress -->
-    <div class="progress-wrap" id="progressBar">
+    <div class="progress-wrap" id="progressBar" style="display:none">
       <div class="step-dot active" id="dot1"><div class="step-circle">1</div><div class="step-label">Terrain</div></div>
       <div class="step-line" id="line1"></div>
       <div class="step-dot" id="dot2"><div class="step-circle">2</div><div class="step-label">Weather</div></div>
@@ -5230,7 +5365,7 @@
     </div>
 
     <!-- STEP 1 -->
-    <div class="step-panel visible" id="step1">
+    <div class="step-panel" id="step1">
       <div class="step-question">Where are you headed?</div>
       <div class="step-sub">Choose the terrain that best matches your destination.</div>
       <div class="cards-grid">
@@ -6103,6 +6238,9 @@ function initTruths() {
   let currentStep = 1;
   let tripPackingMode = false;
   let jmtPackingMode = false;
+  let routeSearchMode = false;
+  let selectedTrailData = null;
+  const TRAIL_TERRAIN_MAP = { alpine:'mountain', canyon:'desert', coastal:'coastal', desert:'desert', forest:'forest', mixed:'mixed' };
 
   function selectSingle(el, field, val) {
     el.closest('.cards-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
@@ -6167,6 +6305,8 @@ function initTruths() {
     isViewMode = false;
     tripPackingMode = false;
     jmtPackingMode = false;
+    routeSearchMode = false;
+    selectedTrailData = null;
     currentStep = 1;
     const tripBanner = document.getElementById('tripPackBanner');
     if (tripBanner) tripBanner.classList.remove('show');
@@ -6181,9 +6321,267 @@ function initTruths() {
       const dot = document.getElementById('dot'+s);
       dot.classList.remove('active','done');
     });
+    // Hide route search panels
+    document.getElementById('step-route-search').classList.remove('visible');
+    document.getElementById('step-date-picker').classList.remove('visible');
+    document.getElementById('progressBar').style.display = 'none';
+    // Return to choice panel
+    document.getElementById('step-choice').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ══════════════════════════════════════
+  // ROUTE SEARCH FUNCTIONS
+  // ══════════════════════════════════════
+
+  function showChoicePanel() {
+    document.getElementById('step-choice').classList.add('visible');
+    document.getElementById('step-route-search').classList.remove('visible');
+    document.getElementById('step-date-picker').classList.remove('visible');
+    [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('results').style.display = 'none';
+    routeSearchMode = false;
+    selectedTrailData = null;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showRouteSearch() {
+    routeSearchMode = true;
+    document.getElementById('step-choice').classList.remove('visible');
+    document.getElementById('step-route-search').classList.add('visible');
+    const inp = document.getElementById('routeSearchInput');
+    inp.value = '';
+    document.getElementById('routeSearchResults').classList.remove('open');
+    document.getElementById('routeSearchError').classList.remove('show');
+    buildStateAccordion();
+    inp.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showManualEntry() {
+    routeSearchMode = false;
+    document.getElementById('step-choice').classList.remove('visible');
+    document.getElementById('step-route-search').classList.remove('visible');
+    document.getElementById('step-date-picker').classList.remove('visible');
+    document.getElementById('progressBar').style.display = 'flex';
     document.getElementById('step1').classList.add('visible');
     document.getElementById('dot1').classList.add('active');
-    document.getElementById('progressBar').style.display = 'flex';
+    currentStep = 1;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function editDistance(a, b) {
+    const m = a.length, n = b.length;
+    const dp = [];
+    for (let i = 0; i <= m; i++) {
+      dp[i] = [i];
+      for (let j = 1; j <= n; j++) dp[i][j] = (i === 0) ? j : 0;
+    }
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+      }
+    }
+    return dp[m][n];
+  }
+
+  function fuzzySearchTrails(query) {
+    const q = query.toLowerCase().trim();
+    if (q.length < 2) return [];
+    const words = q.split(/\s+/);
+    const scored = TRIPS_DATA.map(trail => {
+      const name = trail.name.toLowerCase();
+      const state = (trail.state || '').toLowerCase();
+      const region = (trail.region || '').toLowerCase();
+      const combined = name + ' ' + state + ' ' + region;
+      let score = 0;
+      if (name.includes(q)) score += 200;
+      const allPresent = words.every(w => combined.includes(w));
+      if (allPresent) score += 80;
+      words.forEach(w => { if (combined.includes(w)) score += 15; });
+      if (score === 0 && q.length >= 3) {
+        const nameWords = name.split(/\s+/);
+        words.forEach(qw => {
+          if (qw.length >= 3) {
+            nameWords.forEach(nw => {
+              if (nw.length >= qw.length && editDistance(qw, nw.slice(0, qw.length)) <= 1) score += 30;
+            });
+          }
+        });
+      }
+      return { trail, score };
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).slice(0, 8).map(x => x.trail);
+    return scored;
+  }
+
+  function onRouteSearchInput(val) {
+    const resultsEl = document.getElementById('routeSearchResults');
+    const errorEl = document.getElementById('routeSearchError');
+    if (val.trim().length < 2) {
+      resultsEl.classList.remove('open');
+      errorEl.classList.remove('show');
+      return;
+    }
+    const matches = fuzzySearchTrails(val);
+    const diffColors = { easy:'#6B9B7A', moderate:'#D4A033', strenuous:'#C4582A', expert:'#1A3128' };
+    if (matches.length === 0) {
+      resultsEl.classList.remove('open');
+      errorEl.classList.add('show');
+    } else {
+      errorEl.classList.remove('show');
+      resultsEl.innerHTML = matches.map(t =>
+        `<div class="route-result-item" onclick="selectKnownRoute(${t.id})">
+          <span>
+            <div class="route-result-name">${t.name}</div>
+            <div class="route-result-meta">${t.region}, ${t.state} &middot; ${t.miles} mi &middot; ${t.minDays}&ndash;${t.maxDays} days</div>
+          </span>
+          <span class="route-result-badge" style="background:${diffColors[t.difficulty]||'#888'};color:#fff">${t.difficulty}</span>
+        </div>`
+      ).join('');
+      resultsEl.classList.add('open');
+    }
+  }
+
+  function buildStateAccordion() {
+    const accordion = document.getElementById('stateAccordion');
+    if (accordion.children.length > 0) return;
+    const STATE_NAMES = {
+      AK:'Alaska', AL:'Alabama', AR:'Arkansas', AZ:'Arizona', CA:'California',
+      CO:'Colorado', CT:'Connecticut', DE:'Delaware', FL:'Florida', GA:'Georgia',
+      ID:'Idaho', IL:'Illinois', IN:'Indiana', KY:'Kentucky', ME:'Maine',
+      MI:'Michigan', MN:'Minnesota', MT:'Montana', NC:'North Carolina',
+      NH:'New Hampshire', NJ:'New Jersey', NM:'New Mexico', NV:'Nevada',
+      NY:'New York', OH:'Ohio', OR:'Oregon', PA:'Pennsylvania', SC:'South Carolina',
+      TN:'Tennessee', TX:'Texas', UT:'Utah', VA:'Virginia', VT:'Vermont',
+      WA:'Washington', WI:'Wisconsin', WY:'Wyoming'
+    };
+    const byState = {};
+    TRIPS_DATA.forEach(t => { if (!byState[t.state]) byState[t.state] = []; byState[t.state].push(t); });
+    Object.keys(byState).sort().forEach(state => {
+      const trails = byState[state].sort((a, b) => a.name.localeCompare(b.name));
+      const stateName = STATE_NAMES[state] || state;
+      const grp = document.createElement('div');
+      grp.className = 'state-group';
+      grp.innerHTML = `<div class="state-group-header" onclick="this.parentElement.classList.toggle('open')">
+        <span>${stateName}</span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span class="state-count">${trails.length} trail${trails.length !== 1 ? 's' : ''}</span>
+          <span class="state-chev">&#9660;</span>
+        </span>
+      </div>
+      <div class="state-trail-list">${trails.map(t =>
+        `<div class="state-trail-item" onclick="selectKnownRoute(${t.id})">
+          <span class="state-trail-name">${t.name}</span>
+          <span class="state-trail-meta">${t.miles} mi &middot; ${t.region} &middot; ${t.difficulty}</span>
+        </div>`
+      ).join('')}</div>`;
+      accordion.appendChild(grp);
+    });
+  }
+
+  function selectKnownRoute(trailId) {
+    selectedTrailData = TRIPS_DATA.find(t => t.id === trailId);
+    if (!selectedTrailData) return;
+    document.getElementById('step-route-search').classList.remove('visible');
+    document.getElementById('step-date-picker').classList.add('visible');
+    const today = new Date().toISOString().slice(0, 10);
+    const startEl = document.getElementById('routeStartDate');
+    const endEl = document.getElementById('routeEndDate');
+    startEl.min = today;
+    endEl.min = today;
+    startEl.value = '';
+    endEl.value = '';
+    document.getElementById('errDates').classList.remove('show');
+    document.getElementById('dateLoading').style.display = 'none';
+    document.getElementById('btnGetPackList').disabled = false;
+    const diffLabels = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert / Technical' };
+    document.getElementById('selectedRouteCard').innerHTML =
+      `<div class="selected-route-name">${selectedTrailData.name}</div>
+       <div class="selected-route-meta">${selectedTrailData.region}, ${selectedTrailData.state} &middot; ${selectedTrailData.miles} miles &middot; ${selectedTrailData.minDays}&ndash;${selectedTrailData.maxDays} days &middot; ${diffLabels[selectedTrailData.difficulty] || selectedTrailData.difficulty}</div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function backToRouteSearch() {
+    document.getElementById('step-date-picker').classList.remove('visible');
+    document.getElementById('step-route-search').classList.add('visible');
+    selectedTrailData = null;
+  }
+
+  function estimateWeatherFallback(trail, startDate) {
+    const month = new Date(startDate + 'T12:00:00').getMonth() + 1;
+    const t = trail.terrain;
+    if (t === 'desert' || t === 'canyon') {
+      if (month >= 3 && month <= 5) return ['mild'];
+      if (month >= 6 && month <= 9) return ['hot'];
+      return ['cold', 'mild'];
+    }
+    if (t === 'coastal') {
+      if (month >= 6 && month <= 9) return ['mild'];
+      return ['mild', 'wet'];
+    }
+    if (t === 'alpine') {
+      if (month <= 5 || month >= 10) return ['cold', 'snow'];
+      if (month >= 7 && month <= 8) return ['mild'];
+      return ['mild', 'cold'];
+    }
+    if (t === 'forest') {
+      if (month >= 12 || month <= 2) return ['cold', 'wet'];
+      if (month >= 6 && month <= 8) return ['mild'];
+      return ['mild', 'wet'];
+    }
+    return month >= 6 && month <= 8 ? ['mild'] : ['mild', 'cold'];
+  }
+
+  async function proceedWithKnownRoute() {
+    const startVal = document.getElementById('routeStartDate').value;
+    const endVal = document.getElementById('routeEndDate').value;
+    const errEl = document.getElementById('errDates');
+    errEl.classList.remove('show');
+    if (!startVal || !endVal) {
+      errEl.textContent = 'Please select both a start and end date.';
+      errEl.classList.add('show');
+      return;
+    }
+    if (new Date(endVal) <= new Date(startVal)) {
+      errEl.textContent = 'End date must be after start date.';
+      errEl.classList.add('show');
+      return;
+    }
+    const daysDiff = Math.ceil((new Date(endVal) - new Date(startVal)) / 86400000);
+    let daysRange;
+    if (daysDiff <= 2) daysRange = '1-2';
+    else if (daysDiff <= 5) daysRange = '3-5';
+    else if (daysDiff <= 10) daysRange = '6-10';
+    else daysRange = '10+';
+    inputs.terrain = TRAIL_TERRAIN_MAP[selectedTrailData.terrain] || 'mixed';
+    inputs.difficulty = selectedTrailData.difficulty;
+    inputs.days = daysRange;
+    const loadingEl = document.getElementById('dateLoading');
+    const btn = document.getElementById('btnGetPackList');
+    loadingEl.style.display = 'flex';
+    btn.disabled = true;
+    try {
+      let weather = null;
+      if (API_ENDPOINT) {
+        try {
+          const resp = await fetch(`${API_ENDPOINT}/trail/weather?trailId=${selectedTrailData.id}&startDate=${startVal}&endDate=${endVal}`);
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.weather && data.weather.length > 0) weather = data.weather;
+          }
+        } catch (_) { /* fall through to fallback */ }
+      }
+      inputs.weather = weather || estimateWeatherFallback(selectedTrailData, startVal);
+    } finally {
+      loadingEl.style.display = 'none';
+      btn.disabled = false;
+    }
+    routeSearchMode = false;
+    document.getElementById('step-date-picker').classList.remove('visible');
+    document.getElementById('progressBar').style.display = 'none';
+    buildResults();
+    document.getElementById('results').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -9445,6 +9843,7 @@ function initTruths() {
       // JMT-specific flow: hide progress bar, show season picker
       jmtPackingMode = true;
       showPage('pack');
+      document.getElementById('step-choice').classList.remove('visible');
       document.getElementById('progressBar').style.display = 'none';
       document.getElementById('step1').classList.remove('visible');
       document.getElementById('step-jmt-season').classList.add('visible');
@@ -9457,12 +9856,14 @@ function initTruths() {
     } else {
       tripPackingMode = true;
       showPage('pack');
+      document.getElementById('step-choice').classList.remove('visible');
       const banner = document.getElementById('tripPackBanner');
       const bannerText = document.getElementById('tripPackBannerText');
       if (banner && bannerText) {
         bannerText.textContent = `Planning for ${trip.name} — terrain, duration & difficulty are pre-loaded. Just pick your forecast below.`;
         banner.classList.add('show');
       }
+      document.getElementById('progressBar').style.display = 'flex';
       document.getElementById('dot1').classList.replace('active', 'done');
       document.getElementById('line1').classList.add('done');
       document.getElementById('step1').classList.remove('visible');
