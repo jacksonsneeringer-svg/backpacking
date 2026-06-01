@@ -718,14 +718,15 @@
     .trip-summary h2 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--gold); width: 100%; margin-bottom: 4px; }
     .trip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: #e8e0d0; display: flex; align-items: center; gap: 6px; }
 
-    .results-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
-    .toolbar-top-btns { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .results-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
+    .toolbar-btn-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .item-count { font-family: 'DM Sans', sans-serif; font-size: 18px; color: var(--forest); margin-right: auto; }
     .item-count span { color: var(--pine); font-size: 22px; }
     .btn-outline {
       background: transparent; border: 2px solid var(--forest); color: var(--pine);
-      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase; padding: 9px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 5px;
     }
     .btn-outline:hover { background: rgba(107,155,122,0.15); }
     .btn-muted {
@@ -779,10 +780,10 @@
     .btn-amazon:hover { background: #f5a623; transform: scale(1.04); }
     .btn-meal-plan { display: inline-flex; align-items: center; gap: 5px; background: var(--forest); color: #fff; font-size: 11px; font-weight: 700; border: none; padding: 5px 12px; border-radius: 20px; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.15); margin-top: 2px; cursor: pointer; }
     .btn-meal-plan:hover { background: var(--pine); transform: scale(1.04); }
-    .btn-optimize { background: var(--forest); border: none; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-optimize { background: var(--forest); border: none; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 7px 14px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
     .btn-optimize:hover { background: var(--pine); }
     .btn-optimize.active { background: var(--pine); }
-    .btn-revert { background: transparent; border: 2px solid var(--forest); color: var(--forest); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 7px 18px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-revert { background: transparent; border: 2px solid var(--forest); color: var(--forest); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .btn-revert:hover { background: var(--forest); color: #fff; }
 
     /* ══════════════════════════════════════
@@ -1252,8 +1253,8 @@
       .btn-back, .btn-next, .btn-generate { width: 100%; text-align: center; }
 
       .results-toolbar { gap: 8px; flex-direction: column; align-items: flex-start; }
-      .toolbar-top-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-      .btn-outline, .btn-muted { font-size: 12px; padding: 8px 14px; }
+      .toolbar-btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+      .btn-outline, .btn-muted { font-size: 10px; padding: 6px 10px; }
 
       .trip-summary { padding: 18px 16px; }
 
@@ -1334,7 +1335,7 @@
     .person-form-card h4 { font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700; color:var(--pine); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
     .person-num-badge { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; color:#fff; }
 
-    .btn-split { background:linear-gradient(135deg,#4a3090,#2a1060); border:none; color:#fff; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 18px; border-radius:50px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .btn-split { background:linear-gradient(135deg,#4a3090,#2a1060); border:none; color:#fff; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; padding:7px 14px; border-radius:50px; cursor:pointer; transition:all 0.2s; white-space:nowrap; display:inline-flex; align-items:center; gap:5px; }
     .btn-split:hover { background:linear-gradient(135deg,#5a40a0,#3a2070); transform:translateY(-1px); }
 
     .btn-calc-split { background:linear-gradient(135deg,#4a3090,#2a1060); border:none; color:#fff; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:14px 32px; border-radius:10px; cursor:pointer; transition:all 0.25s; box-shadow:var(--shadow-sm); width:100%; }
@@ -1387,13 +1388,12 @@
     }
 
     /* ══════════════════════════════════════
-       TOOLBAR ACTION ROW (split + save)
+       TOOLBAR BTN ROW
     ══════════════════════════════════════ */
-    .toolbar-action-row { display:flex; gap:10px; flex-wrap:wrap; }
     @media (max-width:768px) {
-      .toolbar-action-row { width:100%; }
-      .toolbar-action-row .btn-split,
-      .toolbar-action-row .btn-outline { flex:1; font-size:11px; padding:8px 8px; letter-spacing:0.3px; white-space:normal; text-align:center; }
+      .toolbar-btn-row { width:100%; }
+      .toolbar-btn-row .btn-split,
+      .toolbar-btn-row .btn-outline { flex:1; font-size:10px; padding:6px 6px; letter-spacing:0.3px; white-space:normal; text-align:center; justify-content:center; }
     }
 
     /* ══════════════════════════════════════
@@ -3319,12 +3319,23 @@
 <div class="modal-overlay" id="saveModal">
   <div class="modal-box">
     <h3><svg width="18" height="18" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save This Pack List</h3>
-    <p>Give this list a name so you can find it later — like "JMT 2026" or "Cascade Loop".</p>
     <input class="modal-input" id="listNameInput" type="text" placeholder="Trip name…" maxlength="60"
       onkeydown="if(event.key==='Enter') confirmSave()">
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-modal-save"   onclick="confirmSave()">Save List</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEAVE WITHOUT SAVING MODAL -->
+<div class="modal-overlay" id="leaveModal">
+  <div class="modal-box">
+    <h3>Leave without saving?</h3>
+    <p style="margin:12px 0 20px; color:var(--text-mid); font-size:14px; line-height:1.6;">Your list hasn't been saved. If you leave now your changes will be lost.</p>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="cancelLeave()">Stay</button>
+      <button class="btn-modal-save" style="background:#c33;" onclick="confirmLeave()">Leave Without Saving</button>
     </div>
   </div>
 </div>
@@ -5466,14 +5477,11 @@
       <div class="trip-summary" id="tripSummary"></div>
       <div class="results-toolbar">
         <div class="item-count" id="itemCount"></div>
-        <div class="toolbar-top-btns" id="toolbarTopBtns">
-          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L3 8m0 0v-5m0 5h5M3.51 15a9 9 0 0 0 14.85 3.36L21 16m0 0v5m0-5h-5"/></svg> Optimize</button>
+        <div class="toolbar-btn-row" id="toolbarBtnRow">
+          <button class="btn-optimize" id="btnOptimize" onclick="toggleOptimize()"><svg width="13" height="13" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L3 8m0 0v-5m0 5h5M3.51 15a9 9 0 0 0 14.85 3.36L21 16m0 0v5m0-5h-5"/></svg> Optimize</button>
           <button class="btn-revert"   id="btnRevert"   onclick="revertOptimize()" style="display:none">&#8617; Revert</button>
-          <button class="btn-muted"    id="btnNewList"  onclick="resetWizard()">&#8635; New List</button>
-        </div>
-        <div class="toolbar-action-row" id="toolbarActionRow">
-          <button class="btn-split"   id="btnSplit"    onclick="initSplitPage()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><path d="M7 22l1-7H4l3-6h4l1 3 4-1"/><path d="M17 22l-1-7h4l-3-6h-4l-.5 2"/></svg> Split for Multiple People</button>
-          <button class="btn-outline" id="btnSaveList" onclick="openSaveModal()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save List</button>
+          <button class="btn-split"    id="btnSplit"    onclick="initSplitPage()"><svg width="13" height="13" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><path d="M7 22l1-7H4l3-6h4l1 3 4-1"/><path d="M17 22l-1-7h4l-3-6h-4l-.5 2"/></svg> Split for Multiple People</button>
+          <button class="btn-outline"  id="btnSaveList" onclick="openSaveModal()"><svg width="13" height="13" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save List</button>
         </div>
       </div>
       <div id="packList"></div>
@@ -6120,7 +6128,44 @@
     if (ogUrl) ogUrl.setAttribute('content', url);
   }
 
+  let _pendingPageNav = null;
+
+  function cancelLeave() {
+    _pendingPageNav = null;
+    document.getElementById('leaveModal').classList.remove('show');
+  }
+
+  function confirmLeave() {
+    document.getElementById('leaveModal').classList.remove('show');
+    const dest = _pendingPageNav;
+    _pendingPageNav = null;
+    _doShowPage(dest);
+  }
+
   function showPage(name) {
+    // Check for unsaved changes when leaving pack or grocery pages
+    if (isLoggedIn() && activePage !== name) {
+      if (activePage === 'pack') {
+        const resultsVisible = document.getElementById('results') && document.getElementById('results').style.display === 'block';
+        if (resultsVisible && currentSavedListId === null) {
+          _pendingPageNav = name;
+          document.getElementById('leaveModal').classList.add('show');
+          return;
+        }
+      }
+      if (activePage === 'grocery') {
+        const groceryVisible = document.getElementById('groceryResults') && document.getElementById('groceryResults').style.display === 'block';
+        if (groceryVisible && currentSavedGroceryId === null) {
+          _pendingPageNav = name;
+          document.getElementById('leaveModal').classList.add('show');
+          return;
+        }
+      }
+    }
+    _doShowPage(name);
+  }
+
+  function _doShowPage(name) {
     PAGES.forEach(p => {
       const el = document.getElementById('pg-'+p);
       if (el) el.classList.toggle('active', p === name);
@@ -6240,6 +6285,11 @@ function initTruths() {
   let jmtPackingMode = false;
   let routeSearchMode = false;
   let selectedTrailData = null;
+  let activeRouteName = null;
+  let activeRouteStartDate = null;
+  let exactTripDays = null;
+  let pendingMealBuildAfterSave = false;
+  let currentSavedGroceryId = null;
   const TRAIL_TERRAIN_MAP = { alpine:'mountain', canyon:'desert', coastal:'coastal', desert:'desert', forest:'forest', mixed:'mixed' };
 
   function selectSingle(el, field, val) {
@@ -6307,6 +6357,11 @@ function initTruths() {
     jmtPackingMode = false;
     routeSearchMode = false;
     selectedTrailData = null;
+    activeRouteName = null;
+    activeRouteStartDate = null;
+    exactTripDays = null;
+    pendingMealBuildAfterSave = false;
+    currentSavedListId = null;
     currentStep = 1;
     const tripBanner = document.getElementById('tripPackBanner');
     if (tripBanner) tripBanner.classList.remove('show');
@@ -6557,6 +6612,9 @@ function initTruths() {
     inputs.terrain = TRAIL_TERRAIN_MAP[selectedTrailData.terrain] || 'mixed';
     inputs.difficulty = selectedTrailData.difficulty;
     inputs.days = daysRange;
+    activeRouteName = selectedTrailData.name;
+    activeRouteStartDate = startVal;
+    exactTripDays = daysDiff;
     const loadingEl = document.getElementById('dateLoading');
     const btn = document.getElementById('btnGetPackList');
     loadingEl.style.display = 'flex';
@@ -6620,7 +6678,7 @@ function initTruths() {
     { id:'sleep_bag',      cat:'shelter',  name:'Sleeping Bag (temp-rated)',            note: () => { if (inputs.weather.includes('snow')) return '15°F or lower rated bag for freezing conditions.'; if (inputs.weather.includes('cold')) return '20–30°F rated bag for cold nights.'; return '30–45°F rated bag is sufficient for mild conditions.'; }, amazon:'backpacking+sleeping+bag+mummy', essential:true },
     { id:'sleep_pad',      cat:'shelter',  name:'Sleeping Pad',                        note:'Insulates from ground — inflatable pads are lighter, foam pads more durable.',      amazon:'backpacking+sleeping+pad+inflatable', essential:true },
     { id:'pillow',         cat:'shelter',  name:'Inflatable Camp Pillow',              note:'Ultralight and compressible for a better night\'s sleep.',                          amazon:'inflatable+camp+pillow+backpacking' },
-    { id:'topo_map',       cat:'nav',      name:'Topographic Map (printed)',            note:'Always carry a paper map — never rely solely on your phone or GPS.',                amazon:'topographic+map+waterproof+hiking', essential:true },
+    { id:'topo_map',       cat:'nav',      name:'Topographic Map (printed)',            note:'Always carry a paper map — never rely solely on your phone or GPS.',                noAmazon:true, essential:true },
     { id:'compass',        cat:'nav',      name:'Baseplate Compass',                   note:'Learn to use it with your topo map before you go.',                                  amazon:'baseplate+compass+backpacking', essential:true },
     { id:'gps_device',     cat:'nav',      name:'Handheld GPS Device',                 note:'Useful for off-trail navigation and recording waypoints.',                           amazon:'handheld+GPS+hiking+device', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.terrain === 'mixed' },
     { id:'sat_comm',       cat:'nav',      name:'Satellite Communicator (e.g. Garmin inReach)', note:'Two-way messaging and SOS capability when out of cell range.',            amazon:'garmin+inReach+satellite+communicator', cond: i => i.difficulty === 'strenuous' || i.difficulty === 'expert' || i.days === '6-10' || i.days === '10+' },
@@ -6687,13 +6745,13 @@ function initTruths() {
     { id:'wet_wipes',      cat:'hygiene',  name:'Biodegradable Wet Wipes',             note:'A backcountry "shower" — use for body and face wipe-downs.',                        amazon:'biodegradable+wet+wipes+camping' },
     { id:'lnt_card',       cat:'hygiene',  name:'Leave No Trace Reference Card',       note:'7 LNT principles — plan ahead, travel on durable surfaces, pack it out.',           amazon:'leave+no+trace+principles+card' },
     { id:'notebook',       cat:'extras',   name:'Waterproof Notebook + Pencil',        note:'Log campsites, weather, permits, and emergency contacts.',                          amazon:'waterproof+notebook+outdoor+writing' },
-    { id:'permits',        cat:'extras',   name:'Permits and Park Passes',               note:'Physical copy — many wilderness permits must be carried and shown on request.',     amazon:'waterproof+document+holder+hiking' },
+    { id:'permits',        cat:'extras',   name:'Permits and Park Passes',               note:'Physical copy — many wilderness permits must be carried and shown on request.',     noAmazon:true },
     { id:'stakes',         cat:'extras',   name:'Extra Tent Stakes',                   note:'Carry 2–4 extra — they bend, get lost, or break in rocky soil.',                    amazon:'tent+stakes+titanium+backpacking' },
     { id:'cord',           cat:'extras',   name:'Paracord (30ft)',                     note:'Hang food, make clothesline, rig tarp, repair gear — endlessly useful.',            amazon:'paracord+550+backpacking' },
     { id:'sit_pad',        cat:'extras',   name:'Foam Sit Pad',                        note:'Insulated seat for breaks — doubles as hip belt padding.',                          amazon:'foam+sit+pad+backpacking+lightweight' },
     { id:'bug_net',        cat:'extras',   name:'Head Net (mosquito)',                 note:'A lifesaver in buggy conditions — weighs almost nothing.',                           amazon:'head+net+mosquito+backpacking', cond: i => i.terrain === 'forest' || i.terrain === 'coastal' },
     { id:'camp_towel',     cat:'extras',   name:'Quick-Dry Camp Towel',                note:'Microfiber towel dries in minutes — doubles as a pot pad.',                         amazon:'quick+dry+microfiber+camp+towel', cond: i => i.days !== '1-2' },
-    { id:'id_docs',        cat:'extras',   name:'ID, Emergency Contacts, and Insurance Card', note:'Laminate or store in waterproof bag. Leave trip itinerary with someone at home.', amazon:'waterproof+wallet+hiking', essential:true },
+    { id:'id_docs',        cat:'extras',   name:'ID, Emergency Contacts, and Insurance Card', note:'Laminate or store in waterproof bag. Leave trip itinerary with someone at home.', noAmazon:true, essential:true },
   ];
 
   const CATS = {
@@ -6732,14 +6790,11 @@ function initTruths() {
     const list = optimizeMode ? allItems.filter(item => !OPTIMIZE_CUT.has(item.id)) : allItems;
     const btnO = document.getElementById('btnOptimize');
     const btnR = document.getElementById('btnRevert');
-    const topBtns = document.getElementById('toolbarTopBtns');
-    const actionRow = document.getElementById('toolbarActionRow');
+    const btnRow = document.getElementById('toolbarBtnRow');
     if (isViewMode) {
-      if (topBtns) topBtns.style.display = 'none';
-      if (actionRow) actionRow.style.display = 'none';
+      if (btnRow) btnRow.style.display = 'none';
     } else {
-      if (topBtns) topBtns.style.display = '';
-      if (actionRow) actionRow.style.display = '';
+      if (btnRow) btnRow.style.display = '';
       if (btnO) btnO.style.display = optimizeMode ? 'none' : '';
       if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
     }
@@ -6751,8 +6806,9 @@ function initTruths() {
     const dfL = { easy:'Easy', moderate:'Moderate', strenuous:'Strenuous', expert:'Expert' };
     const dfIKey = { easy:'easy', moderate:'moderate', strenuous:'strenuous', expert:'expert' };
 
+    const packListTitle = activeRouteName ? `${activeRouteName} Pack List` : `Your ${tL[inputs.terrain]} Pack List`;
     document.getElementById('tripSummary').innerHTML = `
-      <h2>${icon(tIKey[inputs.terrain],'',20)} Your ${tL[inputs.terrain]} Pack List</h2>
+      <h2>${icon(tIKey[inputs.terrain],'',20)} ${packListTitle}</h2>
       <span class="trip-badge">${icon(tIKey[inputs.terrain],'',14)} ${tL[inputs.terrain]}</span>
       <span class="trip-badge">${inputs.weather.map(w => icon(wIKey[w],'',14) + ' ' + wL[w]).join(' · ')}</span>
       <span class="trip-badge">${icon('boot','',14)} ${dL[inputs.days]}</span>
@@ -6776,15 +6832,18 @@ function initTruths() {
           <span class="cat-chevron"></span>
         </div><div class="category-body">`;
       items.forEach(item => {
-        const note = typeof item.note === 'function' ? item.note() : item.note;
-        const actionBtn = item.mealPlan
-          ? `<button class="btn-meal-plan" onclick="buildMealFromPackList()">${icon('food','',12)} Build My Meal Plan</button>`
-          : `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Amazon</a>`;
+        let actionBtn;
+        if (item.mealPlan) {
+          actionBtn = `<button class="btn-meal-plan" onclick="buildMealFromPackList()">${icon('food','',12)} Build My Meal Plan</button>`;
+        } else if (item.noAmazon) {
+          actionBtn = '';
+        } else {
+          actionBtn = `<a href="https://www.amazon.com/s?k=${item.amazon}" target="_blank" rel="noopener" class="btn-amazon"><svg width="12" height="12" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Amazon</a>`;
+        }
         html += `<div class="gear-item" id="gi-${item.id}">
           <div class="gear-checkbox" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
           <div class="gear-info">
             <div class="item-name">${item.name}${item.essential ? '<span class="item-essential">Essential</span>' : ''}</div>
-            <div class="item-note">${note}</div>
           </div>
           ${actionBtn}
         </div>`;
@@ -7276,15 +7335,44 @@ function initTruths() {
     // Badge removed from nav — kept as no-op for compatibility
   }
 
+  function formatMonthYear(dateStr) {
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
   function openSaveModal() {
     if (!isLoggedIn()) { openAuthModal('login', 'save'); return; }
-    document.getElementById('listNameInput').value = '';
+    let autoName = '';
+    if (activeRouteName) {
+      autoName = activeRouteStartDate
+        ? `${activeRouteName} -- ${formatMonthYear(activeRouteStartDate)}`
+        : activeRouteName;
+    }
+    document.getElementById('listNameInput').value = autoName;
     document.getElementById('saveModal').classList.add('show');
-    setTimeout(() => document.getElementById('listNameInput').focus(), 80);
+    setTimeout(() => {
+      const inp = document.getElementById('listNameInput');
+      inp.focus();
+      inp.select();
+    }, 80);
   }
-  function closeModal() { document.getElementById('saveModal').classList.remove('show'); }
+  function closeModal() {
+    document.getElementById('saveModal').classList.remove('show');
+    pendingMealBuildAfterSave = false;
+  }
 
   function buildMealFromPackList() {
+    // Require pack list to be saved first
+    if (!currentSavedListId) {
+      pendingMealBuildAfterSave = true;
+      openSaveModal();
+      return;
+    }
+    // If exact trip days are known from automatic search, skip the modal
+    if (exactTripDays) {
+      navigateToMealBuilder(exactTripDays);
+      return;
+    }
     const defaultDays = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
     document.getElementById('mealDaysInput').value = defaultDays[inputs.days] || '';
     document.getElementById('mealDaysModal').classList.add('show');
@@ -7339,6 +7427,7 @@ function initTruths() {
     GS.gender = null; GS.heightFt = null; GS.heightIn = null;
     GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
     GS.restrictions = []; GS.mealPlan = null; GS.standardMeal = null; GS.fancyMode = false;
+    currentSavedGroceryId = null;
     document.getElementById('gstep2').classList.add('visible');
     showPage('grocery');
   }
@@ -7363,6 +7452,19 @@ function initTruths() {
     currentSavedListId = newEntry.id;
     closeModal();
     showToast(`✓ "${name}" saved!`);
+    if (pendingMealBuildAfterSave) {
+      pendingMealBuildAfterSave = false;
+      setTimeout(() => {
+        if (exactTripDays) {
+          navigateToMealBuilder(exactTripDays);
+        } else {
+          const defaultDays = { '1-2':2, '3-5':4, '6-10':7, '10+':10 };
+          document.getElementById('mealDaysInput').value = defaultDays[inputs.days] || '';
+          document.getElementById('mealDaysModal').classList.add('show');
+          setTimeout(() => document.getElementById('mealDaysInput').focus(), 80);
+        }
+      }, 300);
+    }
   }
 
   function confirmSaveSplit() {
@@ -8272,6 +8374,7 @@ function initTruths() {
     GS.gender = null; GS.heightFt = null; GS.heightIn = null;
     GS.age = null; GS.bodyWeight = null; GS.useDefault = false;
     GS.restrictions = []; GS.mealPlan = null; GS.standardMeal = null; GS.fancyMode = false;
+    currentSavedGroceryId = null;
     // reset UI
     document.getElementById('groceryResults').style.display = 'none';
     ['importOpt','manualOpt'].forEach(id => document.getElementById(id).classList.remove('selected'));
@@ -8317,7 +8420,7 @@ function initTruths() {
 
   function saveGroceryWithName(name) {
     const lists = getSavedGroceryLists();
-    lists.unshift({
+    const newEntry = {
       id: Date.now(),
       name,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
@@ -8328,8 +8431,10 @@ function initTruths() {
       restrictions: [...GS.restrictions],
       mealPlan: JSON.parse(JSON.stringify(GS.mealPlan)),
       standardMeal: GS.standardMeal ? JSON.parse(JSON.stringify(GS.standardMeal)) : null,
-    });
+    };
+    lists.unshift(newEntry);
     putSavedGroceryLists(lists);
+    currentSavedGroceryId = newEntry.id;
     closeGroceryModal();
     showToast(`✓ "${name}" saved!`);
   }
@@ -8371,6 +8476,7 @@ function initTruths() {
     GS.standardMeal = rec.standardMeal || null;
     GS.fancyMode = false;
     GS.useDefault = false;
+    currentSavedGroceryId = id;
     [1,2,3].forEach(s => document.getElementById('gstep'+s).classList.remove('visible'));
     renderGroceryResults(rec.mealPlan, rec.dailyCal);
     document.getElementById('groceryResults').style.display = 'block';
@@ -9830,6 +9936,7 @@ function initTruths() {
 
   function startTripPacking(trip) {
     resetWizard();
+    activeRouteName = trip.name;
     const terrainMap = { alpine:'mountain', canyon:'desert', coastal:'coastal', forest:'forest', desert:'desert', mixed:'mixed' };
     inputs.terrain = terrainMap[trip.terrain] || 'mountain';
     const avg = (trip.minDays + trip.maxDays) / 2;
@@ -9883,6 +9990,10 @@ function initTruths() {
 
   document.getElementById('saveModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
+  });
+
+  document.getElementById('leaveModal').addEventListener('click', function(e) {
+    if (e.target === this) cancelLeave();
   });
 
   document.getElementById('submitTripModal').addEventListener('click', function(e) {
