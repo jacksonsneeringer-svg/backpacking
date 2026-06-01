@@ -1421,8 +1421,17 @@
     .standard-plan-header p { font-size:12px; color:#8aaa72; margin:4px 0 0; }
     .btn-fancy { display:flex; align-items:center; justify-content:center; gap:8px; margin:20px auto 8px; background:linear-gradient(135deg,#7030b0,#3a1080); border:none; color:#fff; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:13px 28px; border-radius:50px; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 16px rgba(80,30,160,0.35); }
     .btn-fancy:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(80,30,160,0.55); }
+    .btn-fancy-sm { display:inline-flex !important; margin:0 0 0 10px !important; font-size:11px !important; padding:5px 14px !important; letter-spacing:0.5px !important; vertical-align:middle; }
     @keyframes fancyPop { 0%{transform:scale(1)} 40%{transform:scale(1.1);box-shadow:0 8px 32px rgba(80,30,160,0.7)} 100%{transform:scale(1)} }
     .btn-fancy.animating { animation:fancyPop 0.45s ease forwards; }
+    /* Profile dietary restriction chips */
+    .pm-diet-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .pm-diet-chip { background:#fff; border:2px solid var(--cream-dark); border-radius:20px; padding:6px 14px; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--text-dark); user-select:none; }
+    .pm-diet-chip:hover { border-color:var(--sage); }
+    .pm-diet-chip.selected { border-color:var(--forest); background:rgba(107,155,122,0.15); color:var(--pine); }
+    /* Account dietary restriction display */
+    .ac-diet-chips { display:flex; flex-wrap:wrap; gap:6px; }
+    .ac-diet-chip { background:rgba(107,155,122,0.12); border:1.5px solid var(--sage); border-radius:14px; padding:2px 10px; font-size:12px; font-weight:600; color:var(--pine); font-family:'DM Sans',sans-serif; }
     .btn-revert-fancy { display:inline-flex; align-items:center; gap:8px; background:transparent; border:2px solid var(--sage); color:var(--forest); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:8px 18px; border-radius:50px; cursor:pointer; transition:all 0.2s; margin-bottom:16px; }
     .btn-revert-fancy:hover { background:var(--forest); color:#fff; }
     .fancy-plan-wrap { animation:fadeIn 0.4s ease; }
@@ -3384,6 +3393,17 @@
       <div class="pm-section-title">Personal Details</div>
       <div class="pm-row">
         <div class="pm-field">
+          <label class="pm-label">Gender</label>
+          <select class="pm-select" id="pmGender">
+            <option value="">— Prefer not to say —</option>
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+            <option value="nonbinary">Non-binary</option>
+          </select>
+        </div>
+      </div>
+      <div class="pm-row" style="margin-top:12px">
+        <div class="pm-field">
           <label class="pm-label">Age</label>
           <input class="pm-input" id="pmAge" type="number" min="5" max="100" placeholder="e.g. 28">
         </div>
@@ -3405,6 +3425,21 @@
           <label class="pm-label">Pack Capacity (L)</label>
           <input class="pm-input" id="pmBagCapacity" type="number" min="20" max="120" placeholder="e.g. 65">
         </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Dietary Restrictions & Allergies</div>
+      <p style="font-size:13px; color:var(--text-light); margin:4px 0 0;">Select any that apply — used to pre-fill your meal plan.</p>
+      <div class="pm-diet-grid" id="pmDietGrid">
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'vegetarian')">Vegetarian</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'vegan')">Vegan</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'gf')">Gluten-Free</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'df')">Dairy-Free</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'nutfree')">Nut Allergy</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'porkfree')">No Pork</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'soyfree')">Soy-Free</div>
+        <div class="pm-diet-chip" onclick="pmToggleDiet(this,'eggfree')">No Eggs</div>
       </div>
     </div>
 
@@ -3449,6 +3484,17 @@
       <div class="pm-section-title">Personal Details</div>
       <div class="pm-row">
         <div class="pm-field">
+          <label class="pm-label">Gender</label>
+          <select class="pm-select" id="editGender">
+            <option value="">— Prefer not to say —</option>
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+            <option value="nonbinary">Non-binary</option>
+          </select>
+        </div>
+      </div>
+      <div class="pm-row" style="margin-top:12px">
+        <div class="pm-field">
           <label class="pm-label">Age</label>
           <input class="pm-input" id="editAge" type="number" min="5" max="100" placeholder="e.g. 28">
         </div>
@@ -3470,6 +3516,21 @@
           <label class="pm-label">Pack Capacity (L)</label>
           <input class="pm-input" id="editBagCapacity" type="number" min="20" max="120" placeholder="e.g. 65">
         </div>
+      </div>
+    </div>
+
+    <div class="pm-section">
+      <div class="pm-section-title">Dietary Restrictions & Allergies</div>
+      <p style="font-size:13px; color:var(--text-light); margin:4px 0 0;">Select any that apply — used to pre-fill your meal plan.</p>
+      <div class="pm-diet-grid" id="editDietGrid">
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'vegetarian')">Vegetarian</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'vegan')">Vegan</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'gf')">Gluten-Free</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'df')">Dairy-Free</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'nutfree')">Nut Allergy</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'porkfree')">No Pork</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'soyfree')">Soy-Free</div>
+        <div class="pm-diet-chip" onclick="editToggleDiet(this,'eggfree')">No Eggs</div>
       </div>
     </div>
 
@@ -5677,7 +5738,6 @@
       <div class="g-results-toolbar">
         <div class="g-item-count" id="gItemCount"></div>
         <button class="btn-outline" onclick="openGroceryModal()"><svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Plan</button>
-        <button class="btn-muted"   onclick="resetGroceryWizard()">&#8635; Start Over</button>
       </div>
 
       <!-- Nutrition summary -->
@@ -5693,7 +5753,6 @@
       <!-- Shopping list -->
       <div style="margin:32px 0 8px;">
         <div class="step-question" style="margin-bottom:4px;"><svg width="20" height="20" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Master Shopping List</div>
-        <div class="step-sub">Everything you need for the whole trip, grouped by section. Check items off as you shop.</div>
       </div>
       <div class="shop-section">
         <div class="shop-header">
@@ -5794,6 +5853,7 @@
       <div class="account-section-title">Personal Details</div>
       <div class="account-details-grid" id="accountDetailsGrid">
         <div class="account-detail"><span class="account-detail-lbl">Username</span><span class="account-detail-val" id="acUsername">—</span></div>
+        <div class="account-detail"><span class="account-detail-lbl">Gender</span><span class="account-detail-val" id="acGender">—</span></div>
         <div class="account-detail"><span class="account-detail-lbl">Age</span><span class="account-detail-val" id="acAge">—</span></div>
         <div class="account-detail"><span class="account-detail-lbl">Weight</span><span class="account-detail-val" id="acWeight">—</span></div>
         <div class="account-detail"><span class="account-detail-lbl">Height</span><span class="account-detail-val" id="acHeight">—</span></div>
@@ -5803,6 +5863,15 @@
       <button class="account-edit-btn" onclick="openProfileModal()">
         <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         Edit Profile
+      </button>
+    </div>
+
+    <div class="account-section">
+      <div class="account-section-title">Dietary Restrictions & Allergies</div>
+      <div id="acDiet" style="margin-top:8px; color:var(--text-light); font-size:14px;">—</div>
+      <button class="account-edit-btn" style="margin-top:14px;" onclick="openProfileModal()">
+        <svg width="14" height="14" class="tp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Restrictions
       </button>
     </div>
 
@@ -6964,8 +7033,10 @@ function initTruths() {
     const emailEl = document.getElementById('accountEmail');
     if (emailEl) emailEl.textContent = user.email;
     const skillLabels = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', expert: 'Expert' };
+    const genderLabels = { man: 'Man', woman: 'Woman', nonbinary: 'Non-binary', prefer_not: 'Prefer not to say' };
     const fields = {
       acUsername: profile.username || '—',
+      acGender:   genderLabels[profile.gender] || '—',
       acAge:      profile.age      ? profile.age + ' yrs'       : '—',
       acWeight:   profile.weight   ? profile.weight + ' lbs'    : '—',
       acHeight:   (profile.heightFt || profile.heightIn) ? ((profile.heightFt || 0) + "'" + (profile.heightIn || 0) + '"') : '—',
@@ -6976,6 +7047,16 @@ function initTruths() {
       const el = document.getElementById(id);
       if (el) el.textContent = fields[id];
     });
+    const dietEl = document.getElementById('acDiet');
+    if (dietEl) {
+      const diets = Array.isArray(profile.dietaryRestrictions) ? profile.dietaryRestrictions : [];
+      const dietLabels = { vegetarian: 'Vegetarian', vegan: 'Vegan', gf: 'Gluten-Free', df: 'Dairy-Free', nutfree: 'Nut Allergy', porkfree: 'No Pork', soyfree: 'Soy-Free', eggfree: 'No Eggs' };
+      if (diets.length) {
+        dietEl.innerHTML = `<div class="ac-diet-chips">${diets.map(d => `<span class="ac-diet-chip">${dietLabels[d]||d}</span>`).join('')}</div>`;
+      } else {
+        dietEl.textContent = '—';
+      }
+    }
   }
 
   function logoutFromAccount() {
@@ -7015,14 +7096,20 @@ function initTruths() {
     } catch(e) {}
   }
 
+  let _pmDietRestrictions = [];
+  let _editDietRestrictions = [];
+
   function openProfileSetupModal() {
+    _pmDietRestrictions = [];
     document.getElementById('pmUsername').value = '';
+    document.getElementById('pmGender').value = '';
     document.getElementById('pmAge').value = '';
     document.getElementById('pmWeight').value = '';
     document.getElementById('pmHeightFt').value = '';
     document.getElementById('pmHeightIn').value = '';
     document.getElementById('pmBagCapacity').value = '';
     document.getElementById('pmHikingSkill').value = '';
+    document.querySelectorAll('#pmDietGrid .pm-diet-chip').forEach(c => c.classList.remove('selected'));
     document.getElementById('profileSetupModal').classList.add('show');
   }
 
@@ -7033,12 +7120,14 @@ function initTruths() {
   function saveProfileSetup() {
     const data = {
       username: document.getElementById('pmUsername').value.trim(),
+      gender: document.getElementById('pmGender').value,
       age: parseInt(document.getElementById('pmAge').value) || '',
       weight: parseInt(document.getElementById('pmWeight').value) || '',
       heightFt: parseInt(document.getElementById('pmHeightFt').value) || '',
       heightIn: parseInt(document.getElementById('pmHeightIn').value) || '',
       bagCapacity: parseInt(document.getElementById('pmBagCapacity').value) || '',
       hikingSkill: document.getElementById('pmHikingSkill').value,
+      dietaryRestrictions: _pmDietRestrictions,
     };
     saveProfileLocally(data);
     syncProfileToServer(data);
@@ -7051,12 +7140,18 @@ function initTruths() {
     if (!isLoggedIn()) { openAuthModal('login', null); return; }
     const p = getProfile() || {};
     document.getElementById('editUsername').value = p.username || '';
+    document.getElementById('editGender').value = p.gender || '';
     document.getElementById('editAge').value = p.age || '';
     document.getElementById('editWeight').value = p.weight || '';
     document.getElementById('editHeightFt').value = p.heightFt || '';
     document.getElementById('editHeightIn').value = p.heightIn || '';
     document.getElementById('editBagCapacity').value = p.bagCapacity || '';
     document.getElementById('editHikingSkill').value = p.hikingSkill || '';
+    _editDietRestrictions = Array.isArray(p.dietaryRestrictions) ? [...p.dietaryRestrictions] : [];
+    document.querySelectorAll('#editDietGrid .pm-diet-chip').forEach(c => {
+      const m = c.getAttribute('onclick').match(/'([^']+)'/);
+      c.classList.toggle('selected', !!(m && _editDietRestrictions.includes(m[1])));
+    });
     document.getElementById('profileEditModal').classList.add('show');
   }
 
@@ -7067,12 +7162,14 @@ function initTruths() {
   function saveProfileEdit() {
     const data = {
       username: document.getElementById('editUsername').value.trim(),
+      gender: document.getElementById('editGender').value,
       age: parseInt(document.getElementById('editAge').value) || '',
       weight: parseInt(document.getElementById('editWeight').value) || '',
       heightFt: parseInt(document.getElementById('editHeightFt').value) || '',
       heightIn: parseInt(document.getElementById('editHeightIn').value) || '',
       bagCapacity: parseInt(document.getElementById('editBagCapacity').value) || '',
       hikingSkill: document.getElementById('editHikingSkill').value,
+      dietaryRestrictions: _editDietRestrictions,
     };
     saveProfileLocally(data);
     syncProfileToServer(data);
@@ -7830,6 +7927,13 @@ function initTruths() {
         GS.packWeight = pw;
         GS.tripDifficulty = document.getElementById('gDiffManual').value || 'moderate';
       }
+      if (isLoggedIn()) { const p = getProfile(); if (p) autofillGroceryStep2(p); }
+    }
+    if (from === 2 && isLoggedIn()) {
+      const p = getProfile();
+      if (p && Array.isArray(p.dietaryRestrictions) && p.dietaryRestrictions.length) {
+        autofillGroceryStep3(p.dietaryRestrictions);
+      }
     }
     document.getElementById('gstep'+from).classList.remove('visible');
     document.getElementById('gstep'+(from+1)).classList.add('visible');
@@ -7862,6 +7966,51 @@ function initTruths() {
     if (tag === 'vegan' && el.classList.contains('selected') && !GS.restrictions.includes('vegetarian')) {
       GS.restrictions.push('vegetarian');
     }
+  }
+
+  function pmToggleDiet(el, tag) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) { if (!_pmDietRestrictions.includes(tag)) _pmDietRestrictions.push(tag); }
+    else { _pmDietRestrictions = _pmDietRestrictions.filter(r => r !== tag); }
+    if (tag === 'vegan' && el.classList.contains('selected') && !_pmDietRestrictions.includes('vegetarian')) {
+      _pmDietRestrictions.push('vegetarian');
+      const vegChip = document.querySelector('#pmDietGrid .pm-diet-chip[onclick*="\'vegetarian\'"]');
+      if (vegChip) vegChip.classList.add('selected');
+    }
+  }
+
+  function editToggleDiet(el, tag) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) { if (!_editDietRestrictions.includes(tag)) _editDietRestrictions.push(tag); }
+    else { _editDietRestrictions = _editDietRestrictions.filter(r => r !== tag); }
+    if (tag === 'vegan' && el.classList.contains('selected') && !_editDietRestrictions.includes('vegetarian')) {
+      _editDietRestrictions.push('vegetarian');
+      const vegChip = document.querySelector('#editDietGrid .pm-diet-chip[onclick*="\'vegetarian\'"]');
+      if (vegChip) vegChip.classList.add('selected');
+    }
+  }
+
+  function autofillGroceryStep2(p) {
+    if (p.gender) {
+      const card = document.querySelector(`.gender-card[onclick*="'${p.gender}'"]`);
+      if (card) gSelectGender(card, p.gender);
+    }
+    if (p.heightFt) document.getElementById('gHeightFt').value = p.heightFt;
+    if (p.heightIn !== undefined && p.heightIn !== '') document.getElementById('gHeightIn').value = p.heightIn;
+    if (p.age) document.getElementById('gAge').value = p.age;
+    if (p.weight) document.getElementById('gBodyWeight').value = p.weight;
+  }
+
+  function autofillGroceryStep3(restrictions) {
+    document.querySelectorAll('.restrict-card').forEach(c => c.classList.remove('selected'));
+    GS.restrictions = [];
+    restrictions.forEach(tag => {
+      const card = document.querySelector(`.restrict-card[onclick*="'${tag}'"]`);
+      if (card) {
+        card.classList.add('selected');
+        if (!GS.restrictions.includes(tag)) GS.restrictions.push(tag);
+      }
+    });
   }
 
   function skipPersonalInfo() {
@@ -8167,7 +8316,7 @@ function initTruths() {
       if (subEl) subEl.textContent = 'Tap any day to expand. All meals use ingredients from a regular grocery store.';
       renderFancyDayPlan(GS.mealPlan);
     } else {
-      if (headingEl) headingEl.textContent = 'Standard Plan';
+      if (headingEl) headingEl.innerHTML = `Standard Plan <button class="btn-fancy btn-fancy-sm" id="btnFancy" onclick="enableFancyMode()">${icon('star','',12)} Make it Fancy</button>`;
       if (subEl) subEl.textContent = 'The same meals every day — simple, repeatable, easy to prep.';
       renderStandardPlan();
     }
@@ -8177,11 +8326,9 @@ function initTruths() {
     if (!GS.standardMeal) return;
     const { bf, lu, di, snacks, totalCal } = GS.standardMeal;
     let html = `
-    <button class="btn-fancy" id="btnFancy" onclick="enableFancyMode()">${icon('star','',14)} Make it Fancy</button>
     <div class="standard-plan-card">
       <div class="standard-plan-header">
         <h3>Daily Repeating Meals</h3>
-        <p>Same plan every day — no decision fatigue. Shopping list covers all ${GS.tripDays} days.</p>
       </div>
       ${renderStdMealBlock('Breakfast', bf, 'breakfast')}
       ${renderStdMealBlock('Lunch', lu, 'lunch')}
