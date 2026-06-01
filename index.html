@@ -1126,7 +1126,7 @@
       border-radius:var(--radius); padding:24px 28px; margin-bottom:28px; color:#fff;
     }
     .nutrition-card h3 { font-family:'DM Sans',sans-serif; font-size:20px; font-weight:700; color:var(--gold); margin-bottom:16px; }
-    .nutrition-info-tooltip { position:relative; display:inline-block; vertical-align:middle; margin-left:6px; }
+    .nutrition-info-tooltip { position:relative; display:inline-block; vertical-align:middle; margin-left:6px; top:-1px; }
     .nutrition-info-icon { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:rgba(255,255,255,0.2); color:#fff; font-size:11px; font-weight:700; font-style:normal; cursor:default; font-family:'DM Sans',sans-serif; line-height:1; }
     .nutrition-info-text { display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:var(--pine); color:#e8f0e8; font-size:12px; font-weight:400; font-family:'DM Sans',sans-serif; line-height:1.5; padding:10px 14px; border-radius:8px; width:260px; box-shadow:0 4px 16px rgba(0,0,0,0.3); z-index:100; pointer-events:none; }
     .nutrition-info-text::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:var(--pine); }
@@ -1422,7 +1422,7 @@
     ══════════════════════════════════════ */
     .standard-plan-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow-sm); overflow:hidden; margin-bottom:16px; }
     .standard-plan-header { background:linear-gradient(90deg,var(--pine),#1a4a10); padding:14px 20px; }
-    .standard-plan-header h3 { font-family:'DM Sans',sans-serif; font-size:18px; font-weight:700; color:var(--gold); margin:0; }
+    .standard-plan-header h3 { font-family:'DM Sans',sans-serif; font-size:18px; font-weight:700; color:#fff; margin:0; }
     .standard-plan-header p { font-size:12px; color:#8aaa72; margin:4px 0 0; }
     .btn-fancy { display:flex; align-items:center; justify-content:center; gap:8px; margin:20px auto 8px; background:linear-gradient(135deg,#7030b0,#3a1080); border:none; color:#fff; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:13px 28px; border-radius:50px; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 16px rgba(80,30,160,0.35); }
     .btn-fancy:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(80,30,160,0.55); }
@@ -6867,11 +6867,17 @@ function initTruths() {
     const btnR = document.getElementById('btnRevert');
     const btnRow = document.getElementById('toolbarBtnRow');
     if (isViewMode) {
-      if (btnRow) btnRow.style.display = 'none';
+      if (btnRow) btnRow.style.display = '';
+      if (btnO) btnO.style.display = 'none';
+      if (btnR) btnR.style.display = 'none';
+      const btnSave = document.getElementById('btnSaveList');
+      if (btnSave) btnSave.style.display = 'none';
     } else {
       if (btnRow) btnRow.style.display = '';
       if (btnO) btnO.style.display = optimizeMode ? 'none' : '';
       if (btnR) btnR.style.display = optimizeMode ? '' : 'none';
+      const btnSave = document.getElementById('btnSaveList');
+      if (btnSave) btnSave.style.display = '';
     }
     const tL = { mountain:'Mountain / Alpine', desert:'Desert / Canyon', forest:'Forest / Woodland', coastal:'Coastal / Rainforest', mixed:'Mixed Terrain' };
     const tIKey = { mountain:'mountain', desert:'desert', forest:'forest', coastal:'coastal', mixed:'mixed' };
@@ -7546,6 +7552,7 @@ function initTruths() {
     const newEntry = {
       id: Date.now(),
       name,
+      routeName: activeRouteName || null,
       date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }),
       inputs: JSON.parse(JSON.stringify(inputs)),
       itemCount: ITEMS.filter(item => item.cond ? item.cond(inputs) : true).length
@@ -7811,10 +7818,12 @@ function initTruths() {
     const rec = getSavedLists().find(l => l.id === id);
     if (!rec) return;
     Object.assign(inputs, JSON.parse(JSON.stringify(rec.inputs)));
+    activeRouteName = rec.routeName || rec.name;
     currentSavedListId = id;
     isViewMode = true;
     optimizeMode = false;
     showPage('pack');
+    document.getElementById('step-choice').classList.remove('visible');
     document.getElementById('progressBar').style.display = 'none';
     [1,2,3,4].forEach(s => document.getElementById('step'+s).classList.remove('visible'));
     buildResults();
